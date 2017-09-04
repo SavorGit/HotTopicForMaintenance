@@ -7,7 +7,6 @@
 //
 
 #import "BaseViewController.h"
-#import "Masonry.h"
 
 @interface BaseViewController ()
 
@@ -17,7 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = VCBackgroundColor;
     // Do any additional setup after loading the view.
 }

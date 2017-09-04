@@ -9,17 +9,19 @@
 #import "NetworkConfiguration.h"
 #import "DesUtil.h"
 #import "BGUtilFunction.h"
+#import "Helper.h"
 
 @implementation NetworkConfiguration
 
 -(NSString *)baseURLString {
-    return @"";
+    return HOSTURL;
 }
 
 - (NSDictionary *)requestCommonHTTPHeaderFields {
     return @{
              @"Content-Type":@"application/json",
-             @"User-Agent":@"HotSpot"
+             @"User-Agent":@"HotSpot",
+             @"traceinfo":[Helper getHTTPHeaderValue]
              };
 }
 

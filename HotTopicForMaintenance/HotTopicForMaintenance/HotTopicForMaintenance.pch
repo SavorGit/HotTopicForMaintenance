@@ -14,6 +14,30 @@
 #import "SystemMacro.h"
 #import "Masonry.h"
 
+
+#define TEST_DEV_TYPE 0 //测试环境切换宏，1代表线上环境，0代表测试环境
+
+#if TEST_DEV_TYPE
+#define AliyunBucketName @"redian-produce"
+#define HOSTURL @"http://mobile.littlehotspot.com/" //正式地址
+#define AliynEndPoint @"http://oss.littlehotspot.com/"
+#define NSLog(...) {}
+
+#else
+#define AliyunBucketName @"redian-development"
+#define HOSTURL @"http://devp.mobile.littlehotspot.com/"  //测试地址
+#define AliynEndPoint @"http://devp.oss.littlehotspot.com/"
+#define NSLog(...) NSLog(__VA_ARGS__)
+#endif
+
+#define kVersionCode 2017090401
+
+#define keychainID @"HotTopicsForMaintenanceKeychainID"
+
+#define DocumentPath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+#define FileCachePath [NSString stringWithFormat:@"%@/FileCache", DocumentPath]
+#define UserInfoCachePath [NSString stringWithFormat:@"%@/FileCache/userInfo.plist", DocumentPath]
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

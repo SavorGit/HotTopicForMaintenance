@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD+Custom.h"
 
 @interface BaseViewController : UIViewController
 
