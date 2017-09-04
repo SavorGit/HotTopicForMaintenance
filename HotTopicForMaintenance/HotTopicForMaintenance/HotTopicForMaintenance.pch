@@ -1,0 +1,20 @@
+//
+//  HotTopicForMaintenance.pch
+//  HotTopicForMaintenance
+//
+//  Created by 郭春城 on 2017/9/1.
+//  Copyright © 2017年 郭春城. All rights reserved.
+//
+
+#ifndef HotTopicForMaintenance_pch
+#define HotTopicForMaintenance_pch
+
+#import "ColorMacro.h"
+#import "LayoutMacro.h"
+#import "SystemMacro.h"
+#import "Masonry.h"
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* HotTopicForMaintenance_pch */
