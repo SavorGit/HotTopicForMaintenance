@@ -9,15 +9,21 @@
 #import "RepairRecordViewController.h"
 #import "UserManager.h"
 #import "GetAllUserRequest.h"
+#import "GetRepairRecordListRequest.h"
+#import "RepairRecordTableViewCell.h"
+#import "RepairRecordModel.h"
+#import "RepairRecordDetailModel.h"
 
-@interface RepairRecordViewController ()
+@interface RepairRecordViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UserModel * user;
 @property (nonatomic, assign) BOOL isChooseUser;
 @property (nonatomic, strong) UITableView * userTableView;
 @property (nonatomic, strong) NSMutableArray * allUsers;
-@property (nonatomic, strong) NSMutableArray * tableView;
+@property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+
+@property (nonatomic, assign) NSInteger pageNumber;
 
 @end
 
@@ -34,49 +40,127 @@
     }else{
         [self getAllUsers];
     }
-    // Do any additional setup after loading the view.
 }
 
 - (void)setupViews
 {
+    self.pageNumber = 1;
     [self createTitleButton];
+    [self requestRecordList];
     [self createUserTableView];
+}
+
+- (void)requestRecordList
+{
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载维修记录" inView:self.view];
+    
+    self.dataSource = [NSMutableArray new];
+    
+    [self requestRedordWithPageNumber:self.pageNumber success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        if ([dataDict objectForKey:@"list"]) {
+            
+            NSArray * array = [dataDict objectForKey:@"list"];
+            for (NSInteger i = 0; i < array.count; i++) {
+                NSDictionary * dict = [array objectAtIndex:i];
+                RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
+                
+                NSArray * listArray = [dict objectForKey:@"repair_list"];
+                
+                model.recordList = [NSMutableArray new];
+                for (NSInteger i = 0; i < listArray.count; i++) {
+                    RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
+                    [model.recordList addObject:detailModel];
+                }
+                [self.dataSource addObject:model];
+            }
+            
+            self.pageNumber++;
+            [self createTableView];
+            [hud hideAnimated:NO];
+            
+        }else{
+            
+            [hud hideAnimated:NO];
+            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+            
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        
+    }];
+    
+}
+
+- (void)createTableView
+{
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView registerClass:[RepairRecordTableViewCell class] forCellReuseIdentifier:@"RepairRecordCell"];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
 }
 
 - (void)createUserTableView
 {
-//    self.allUsers = [NSMutableArray arrayWithArray:[UserManager manager].allUsers];
-//    
-//    self.userTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-//    self.userTableView.delegate = self;
-//    self.userTableView.dataSource = self;
-//    [self.userTableView setSeparatorInset:UIEdgeInsetsZero];
-//    [self.userTableView setLayoutMargins:UIEdgeInsetsZero];
-//    [self.view addSubview:self.userTableView];
-//    [self.userTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.height.mas_equalTo(self.view.frame.size.height / 2);
-//        make.left.mas_equalTo(20);
-//        make.top.mas_equalTo(-self.view.frame.size.height / 2);
-//        make.right.mas_equalTo(-20);
-//    }];
-//    self.userTableView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    self.allUsers = [NSMutableArray arrayWithArray:[UserManager manager].allUsers];
+    
+    self.userTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.userTableView.backgroundColor = [UIColor clearColor];
+    self.userTableView.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
+    self.userTableView.layer.borderWidth = .5f;
+    self.userTableView.delegate = self;
+    self.userTableView.dataSource = self;
+    [self.userTableView setSeparatorInset:UIEdgeInsetsZero];
+    [self.userTableView setLayoutMargins:UIEdgeInsetsZero];
+    [self.userTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"userTableViewCell"];
+    [self.view addSubview:self.userTableView];
+    [self.userTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(280);
+        make.left.mas_equalTo(20);
+        make.top.mas_equalTo(-280);
+        make.right.mas_equalTo(-20);
+    }];
 }
 
 - (void)getAllUsers
 {
-    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载配置信息" inView:self.view];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载用户信息" inView:self.view];
     
     GetAllUserRequest * request = [[GetAllUserRequest alloc] init];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        [hud hideAnimated:NO];
         if ([response objectForKey:@"result"]) {
-            [UserManager manager].allUsers = [NSMutableArray arrayWithArray:[response objectForKey:@"result"]];
+            
+            [UserManager manager].allUsers = [NSMutableArray new];
+            NSArray * array = [response objectForKey:@"result"];
+            for (NSInteger i = 0; i < array.count; i++) {
+                UserModel * model = [[UserModel alloc] initWithDictionary:[array objectAtIndex:i]];
+                [[UserManager manager].allUsers addObject:model];
+            }
             [self createTitleButton];
+            [hud hideAnimated:NO];
+            [self setupViews];
+            
         }else{
+            
+            [hud hideAnimated:NO];
             [MBProgressHUD showTextHUDWithText:@"信息加载失败" inView:self.view];
+            
         }
-        [self setupViews];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -97,7 +181,7 @@
     
     UIButton * titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [titleButton setImage:[UIImage imageNamed:@"xlxz"] forState:UIControlStateNormal];
-    titleButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    titleButton.titleLabel.font = kPingFangRegular(16);
     [titleButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
     [titleButton addTarget:self action:@selector(titleButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     titleButton.imageView.contentMode = UIViewContentModeCenter;
@@ -121,20 +205,120 @@
 {
     self.isChooseUser = !self.isChooseUser;
     if (self.isChooseUser) {
-        
+        [self stratChooseUser];
     }else{
-        
+        [self endChooseUser];
     }
 }
 
 - (void)stratChooseUser
 {
+    UIButton * button = (UIButton *)self.navigationItem.titleView;
+    button.userInteractionEnabled = NO;
     
+    self.isChooseUser = YES;
+    [self.userTableView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(0);
+    }];
+    
+    [UIView animateWithDuration:.2f animations:^{
+        [self.view layoutIfNeeded];
+        button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+    } completion:^(BOOL finished) {
+        button.userInteractionEnabled = YES;
+    }];
 }
 
 - (void)endChooseUser
 {
+    UIButton * button = (UIButton *)self.navigationItem.titleView;
+    button.userInteractionEnabled = NO;
     
+    self.isChooseUser = NO;
+    [self.userTableView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(-280);
+    }];
+    [UIView animateWithDuration:.2f animations:^{
+        [self.view layoutIfNeeded];
+        button.imageView.transform = CGAffineTransformMakeRotation(0);
+    } completion:^(BOOL finished) {
+        button.userInteractionEnabled = YES;
+    }];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if (tableView == self.userTableView) {
+        return 1;
+    }
+    return self.dataSource.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (tableView == self.userTableView) {
+        return self.allUsers.count;
+    }
+    return self.dataSource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.userTableView) {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"userTableViewCell" forIndexPath:indexPath];
+        
+        UserModel * user = [self.allUsers objectAtIndex:indexPath.row];
+        cell.textLabel.text = user.nickname;
+        cell.textLabel.font = kPingFangRegular(15);
+        cell.textLabel.textColor = UIColorFromRGB(0x333333);
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+    
+    RepairRecordTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"RepairRecordCell" forIndexPath:indexPath];
+    RepairRecordModel * model = [self.dataSource objectAtIndex:indexPath.section];
+    [cell configWithModel:model.recordList];
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.userTableView) {
+        return 40;
+    }
+    return 120.f;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.userTableView) {
+        self.user = [self.allUsers objectAtIndex:indexPath.row];
+        [self createTitleButton];
+        UIButton * button = (UIButton *)self.navigationItem.titleView;
+        button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+        [self endChooseUser];
+    }
+}
+
+- (void)requestRedordWithPageNumber:(NSInteger)pageNumber success:(BGSuccessCompletionBlock)successCompletionBlock businessFailure:(BGBusinessFailureBlock)businessFailureBlock networkFailure:(BGNetworkFailureBlock)networkFailureBlock
+{
+    GetRepairRecordListRequest * request = [[GetRepairRecordListRequest alloc] initWithUserID:self.user.userid pageNum:[NSString stringWithFormat:@"%ld", pageNumber]];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        successCompletionBlock(request, response);
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        businessFailureBlock(request, response);
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        networkFailureBlock(request, error);
+        
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated

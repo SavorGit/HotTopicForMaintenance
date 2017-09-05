@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEBD1F5E754600686790 /* RepairRecordViewController.m */; };
 		0626DEC11F5E860800686790 /* GetAllUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC01F5E860800686790 /* GetAllUserRequest.m */; };
+		0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC31F5EACED00686790 /* GetRepairRecordListRequest.m */; };
+		0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC61F5EBC6E00686790 /* RepairRecordTableViewCell.m */; };
+		0626DECA1F5EC14500686790 /* RepairRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC91F5EC14500686790 /* RepairRecordModel.m */; };
+		0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DECC1F5EC99F00686790 /* RepairRecordDetailModel.m */; };
 		06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D321F5D7B2400242940 /* RDAlertAction.m */; };
 		06356D381F5D7B2400242940 /* RDAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D341F5D7B2400242940 /* RDAlertView.m */; };
 		06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D361F5D7B2400242940 /* RDTextAlertView.m */; };
@@ -65,6 +69,14 @@
 		0626DEBD1F5E754600686790 /* RepairRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordViewController.m; sourceTree = "<group>"; };
 		0626DEBF1F5E860800686790 /* GetAllUserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAllUserRequest.h; sourceTree = "<group>"; };
 		0626DEC01F5E860800686790 /* GetAllUserRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAllUserRequest.m; sourceTree = "<group>"; };
+		0626DEC21F5EACED00686790 /* GetRepairRecordListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetRepairRecordListRequest.h; sourceTree = "<group>"; };
+		0626DEC31F5EACED00686790 /* GetRepairRecordListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetRepairRecordListRequest.m; sourceTree = "<group>"; };
+		0626DEC51F5EBC6E00686790 /* RepairRecordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordTableViewCell.h; sourceTree = "<group>"; };
+		0626DEC61F5EBC6E00686790 /* RepairRecordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordTableViewCell.m; sourceTree = "<group>"; };
+		0626DEC81F5EC14500686790 /* RepairRecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordModel.h; sourceTree = "<group>"; };
+		0626DEC91F5EC14500686790 /* RepairRecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordModel.m; sourceTree = "<group>"; };
+		0626DECB1F5EC99F00686790 /* RepairRecordDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordDetailModel.h; sourceTree = "<group>"; };
+		0626DECC1F5EC99F00686790 /* RepairRecordDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordDetailModel.m; sourceTree = "<group>"; };
 		06356D311F5D7B2400242940 /* RDAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAlertAction.h; sourceTree = "<group>"; };
 		06356D321F5D7B2400242940 /* RDAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAlertAction.m; sourceTree = "<group>"; };
 		06356D331F5D7B2400242940 /* RDAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAlertView.h; sourceTree = "<group>"; };
@@ -192,6 +204,8 @@
 			children = (
 				06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */,
 				06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */,
+				0626DEC51F5EBC6E00686790 /* RepairRecordTableViewCell.h */,
+				0626DEC61F5EBC6E00686790 /* RepairRecordTableViewCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -241,6 +255,8 @@
 				06B055D01F5D46BF00A9CE68 /* UserLoginRequest.m */,
 				0626DEBF1F5E860800686790 /* GetAllUserRequest.h */,
 				0626DEC01F5E860800686790 /* GetAllUserRequest.m */,
+				0626DEC21F5EACED00686790 /* GetRepairRecordListRequest.h */,
+				0626DEC31F5EACED00686790 /* GetRepairRecordListRequest.m */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -265,6 +281,10 @@
 			children = (
 				06B055E81F5D4AAC00A9CE68 /* UserModel.h */,
 				06B055E91F5D4AAC00A9CE68 /* UserModel.m */,
+				0626DEC81F5EC14500686790 /* RepairRecordModel.h */,
+				0626DEC91F5EC14500686790 /* RepairRecordModel.m */,
+				0626DECB1F5EC99F00686790 /* RepairRecordDetailModel.h */,
+				0626DECC1F5EC99F00686790 /* RepairRecordDetailModel.m */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -658,11 +678,13 @@
 			files = (
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
+				0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */,
 				06B055DE1F5D498000A9CE68 /* UserManager.m in Sources */,
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
 				06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */,
 				06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */,
 				06B055F31F5D572500A9CE68 /* UIImage+Additional.m in Sources */,
+				0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */,
 				06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
@@ -682,7 +704,9 @@
 				0626DEC11F5E860800686790 /* GetAllUserRequest.m in Sources */,
 				06B055D81F5D486800A9CE68 /* GCCGetInfo.m in Sources */,
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,
+				0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */,
 				06B055DB1F5D48D800A9CE68 /* GCCKeyChain.m in Sources */,
+				0626DECA1F5EC14500686790 /* RepairRecordModel.m in Sources */,
 				06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */,
 				06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */,
 				06B055D51F5D47EC00A9CE68 /* Helper.m in Sources */,
