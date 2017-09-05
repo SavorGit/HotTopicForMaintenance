@@ -97,7 +97,7 @@
 {
     if ([UserManager manager].user) {
         self.logoutButton.alpha = 1.f;
-        self.nameLabel.text = [@" 登录账号：" stringByAppendingString:[UserManager manager].user.username];
+        self.nameLabel.text = [@" 登录账号：" stringByAppendingString:[UserManager manager].user.nickname];
     }else{
         self.logoutButton.alpha = 0.f;
         self.nameLabel.text = @" 登录账号：无";

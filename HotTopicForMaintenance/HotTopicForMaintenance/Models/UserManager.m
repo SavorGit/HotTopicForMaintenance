@@ -22,17 +22,15 @@ NSString * const RDUserLoginStatusDidChange = @"RDUserLoginStatusDidChange";
     return manager;
 }
 
+- (BOOL)isUserLoginStatusEnable
+{
+    return _user != nil;
+}
+
 - (void)setUser:(UserModel *)user
 {
     if (_user != user) {
         _user = user;
-        
-        if (user) {
-            _isUserLoginStatusEnable = YES;
-        }else{
-            _isUserLoginStatusEnable = NO;
-        }
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:RDUserLoginStatusDidChange object:nil];
     }
 }

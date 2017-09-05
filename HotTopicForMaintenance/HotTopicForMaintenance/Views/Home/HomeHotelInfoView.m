@@ -70,7 +70,8 @@
     refreshButton.layer.masksToBounds = YES;
     [refreshButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
     [refreshButton setTitle:@"刷新" forState:UIControlStateNormal];
-    refreshButton.titleLabel.font = kPingFangRegular(14);
+    [refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+    refreshButton.titleLabel.font = kPingFangRegular(13);
     [self addSubview:refreshButton];
     [refreshButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
@@ -78,6 +79,7 @@
         make.right.mas_equalTo(-10);
         make.width.mas_equalTo(70);
     }];
+    [refreshButton setImageEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 10)];
     [refreshButton addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventTouchUpInside];
     
     self.bottomLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -130,14 +132,21 @@
         
         self.bottomLabel.text = [dataDict objectForKey:@"remark"];
         [self.tableView reloadData];
+        [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取失败，小热点正在休息~" inView:self];
+        }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
         [hud hideAnimated:NO];
+        [MBProgressHUD showTextHUDWithText:@"获取失败，网络出现问题了~" inView:self];
         
     }];
 }
@@ -162,11 +171,7 @@
     NSString * str = [self.dataSource objectAtIndex:indexPath.row];
     CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 50 title:str font:kPingFangRegular(13)];
     
-    if (height > 30) {
-        return 42;
-    }else{
-        return 23;
-    }
+    return height + (height / 18 * 5);
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "UserLoginViewController.h"
 #import "HomeUserInfoView.h"
 #import "HomeHotelInfoView.h"
+#import "RepairRecordViewController.h"
 
 @interface HomeViewController ()
 
@@ -52,6 +53,15 @@
         make.height.mas_equalTo(50);
     }];
     
+    self.hotelInfoView = [[HomeHotelInfoView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:self.hotelInfoView];
+    [self.hotelInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(10);
+        make.bottom.equalTo(self.userInfoView.mas_top).offset(-20);
+        make.right.mas_equalTo(-10);
+        make.height.mas_equalTo(300);
+    }];
+    
     UILabel * searchLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     searchLabel.font = kPingFangRegular(15);
     searchLabel.userInteractionEnabled = YES;
@@ -66,19 +76,58 @@
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(30);
     }];
-    
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchTextFieldDidBeClicked)];
     tap.numberOfTapsRequired = 1;
     [searchLabel addGestureRecognizer:tap];
     
-    self.hotelInfoView = [[HomeHotelInfoView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:self.hotelInfoView];
-    [self.hotelInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(10);
-        make.bottom.equalTo(self.userInfoView.mas_top).offset(-20);
-        make.right.mas_equalTo(-10);
-        make.height.mas_equalTo(300);
+    UIView * handleView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:handleView];
+    [handleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(searchLabel.mas_bottom);
+        make.left.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(self.hotelInfoView.mas_top);
     }];
+    
+    UIButton * leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftButton setImage:[UIImage imageNamed:@"weixiujilu"] forState:UIControlStateNormal];
+    [leftButton setTitle:@"维修记录" forState:UIControlStateNormal];
+    leftButton.titleLabel.font = kPingFangRegular(15);
+    [leftButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+    [leftButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
+    [leftButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -50, 0, 0)];
+    [handleView addSubview:leftButton];
+    [leftButton addTarget:self action:@selector(leftButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
+    [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(100, 120));
+        make.centerX.mas_equalTo(-kMainBoundsWidth /  5);
+        make.centerY.mas_equalTo(0);
+    }];
+    
+    UIButton * rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightButton setImage:[UIImage imageNamed:@"yichangbaogao"] forState:UIControlStateNormal];
+    [rightButton setTitle:@"异常报告" forState:UIControlStateNormal];
+    rightButton.titleLabel.font = kPingFangRegular(15);
+    [rightButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+    [rightButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
+    [rightButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -50, 0, 0)];
+    [handleView addSubview:rightButton];
+    [leftButton addTarget:self action:@selector(rightButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(100, 120));
+        make.centerX.mas_equalTo(kMainBoundsWidth /  5);
+        make.centerY.mas_equalTo(0);
+    }];
+}
+
+- (void)leftButtonDidBeClicked
+{
+    RepairRecordViewController * repair = [[RepairRecordViewController alloc] init];
+    [self.navigationController pushViewController:repair animated:YES];
+}
+
+- (void)rightButtonDidBeClicked
+{
+    
 }
 
 - (void)searchTextFieldDidBeClicked

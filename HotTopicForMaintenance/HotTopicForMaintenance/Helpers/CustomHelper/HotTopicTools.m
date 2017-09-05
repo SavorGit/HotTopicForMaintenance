@@ -10,6 +10,7 @@
 #import "BGNetWorkManager.h"
 #import "NetworkConfiguration.h"
 #import "UserManager.h"
+#import "GetAllUserRequest.h"
 
 @implementation HotTopicTools
 

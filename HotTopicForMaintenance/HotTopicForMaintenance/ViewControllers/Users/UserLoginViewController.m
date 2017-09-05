@@ -161,7 +161,11 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [hud hideAnimated:NO];
-        [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"登录失败，小热点正在休息~" inView:self.view];
+        }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         [hud hideAnimated:NO];
@@ -183,6 +187,18 @@
     if ([self.passwordTextFiled canResignFirstResponder]) {
         [self.passwordTextFiled resignFirstResponder];
     }
+}
+
+//允许屏幕旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+//返回当前屏幕旋转方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)didReceiveMemoryWarning {
