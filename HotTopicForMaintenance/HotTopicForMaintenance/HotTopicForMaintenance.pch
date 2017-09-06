@@ -13,6 +13,7 @@
 #import "LayoutMacro.h"
 #import "SystemMacro.h"
 #import "Masonry.h"
+#import "UIView+Additional.h"
 
 
 #define TEST_DEV_TYPE 0 //测试环境切换宏，1代表线上环境，0代表测试环境

@@ -12,6 +12,7 @@
 #import "HomeUserInfoView.h"
 #import "HomeHotelInfoView.h"
 #import "RepairRecordViewController.h"
+#import "SearchHotelViewController.h"
 
 @interface HomeViewController ()
 
@@ -132,6 +133,8 @@
 
 - (void)searchTextFieldDidBeClicked
 {
+    SearchHotelViewController *shVC = [[SearchHotelViewController alloc] init];
+    [self.navigationController pushViewController:shVC animated:YES];
     NSLog(@"在这里添加搜索代码");
 }
 
