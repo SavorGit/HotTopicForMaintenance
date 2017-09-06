@@ -68,7 +68,7 @@
 
 - (void)configWithModel:(RestaurantRankModel *)model{
     
-    self.reasonLabel.text = model.string1;
+    self.reasonLabel.text = model.reason;
     
 }
 

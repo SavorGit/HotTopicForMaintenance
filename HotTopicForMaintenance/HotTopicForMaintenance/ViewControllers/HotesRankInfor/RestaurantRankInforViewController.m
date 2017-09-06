@@ -157,8 +157,6 @@
     DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        [self.dataSource removeAllObjects];
-        
         NSDictionary * dataDict = [response objectForKey:@"result"];
         NSArray *listArray = [dataDict objectForKey:@"list"];
         
@@ -546,7 +544,7 @@
         flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.sourceData = self.dConfigData;
+    flVC.dataSource = self.dConfigData;
     [self presentViewController:flVC animated:YES completion:nil];
     flVC.backDatas = ^(NSString *str1) {
         NSLog(@"%@",str1);
