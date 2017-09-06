@@ -165,8 +165,6 @@
     DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        [self.dataSource removeAllObjects];
-        
         NSDictionary * dataDict = [response objectForKey:@"result"];
         NSArray *listArray = [dataDict objectForKey:@"list"];
         
@@ -456,13 +454,13 @@
     self.mReasonLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.mReasonLab.backgroundColor = [UIColor clearColor];
     self.mReasonLab.font = [UIFont systemFontOfSize:14];
-    self.mReasonLab.textColor = [UIColor blackColor];
+    self.mReasonLab.textColor = [UIColor grayColor];
     self.mReasonLab.layer.borderWidth = .5f;
     self.mReasonLab.layer.cornerRadius = 4.f;
     self.mReasonLab.layer.masksToBounds = YES;
     self.mReasonLab.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    self.mReasonLab.text = @"故障原因";
-    self.mReasonLab.textAlignment = NSTextAlignmentCenter;
+    self.mReasonLab.text = @"  故障说明与维修记录";
+    self.mReasonLab.textAlignment = NSTextAlignmentLeft;
     self.mReasonLab.userInteractionEnabled = YES;
     [self.sheetBgView addSubview:self.mReasonLab];
     [self.mReasonLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -473,7 +471,7 @@
     }];
     
     self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-    self.remarkTextView.text = @"限制100字以内";
+    self.remarkTextView.text = @"备注，限制100字";
     self.remarkTextView.font = [UIFont systemFontOfSize:14];
     self.remarkTextView.textColor = UIColorFromRGB(0xe0dad2);
     self.remarkTextView.textAlignment = NSTextAlignmentLeft;
@@ -537,6 +535,14 @@
     
 }
 
+- (void)ResolveClicked{
+    
+}
+
+- (void)unResolveClicked{
+    
+}
+
 #pragma mark - 点击提交按钮
 - (void)submitClicked{
     
@@ -554,11 +560,11 @@
         flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.sourceData = self.dConfigData;
+    flVC.dataSource = self.dConfigData;
     [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSString *str1) {
-        NSLog(@"%@",str1);
-        self.mReasonLab.text = str1;
+    flVC.backDatas = ^(NSArray *backArray) {
+        NSLog(@"%ld",backArray.count);
+        self.mReasonLab.text = [NSString stringWithFormat:@"  已选择%ld项",backArray.count];
     };
 }
 
@@ -617,7 +623,6 @@
 -(void)showViewWithAnimationDuration:(float)duration{
     
     [UIView animateWithDuration:duration animations:^{
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
         self.mListView.bottom = self.view.bottom;
     } completion:^(BOOL finished) {
     }];
@@ -626,8 +631,7 @@
 -(void)dismissViewWithAnimationDuration:(float)duration{
     
     [UIView animateWithDuration:duration animations:^{
-        
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+
         self.mListView.bottom = self.view.top;
         
     } completion:^(BOOL finished) {

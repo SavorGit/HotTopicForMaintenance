@@ -14,7 +14,7 @@
 @interface FaultListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
-@property (nonatomic, strong) NSMutableArray * dataSource; //数据源
+//@property (nonatomic, strong) NSMutableArray * dataSource; //数据源
 @property (nonatomic, strong) UIView *bgView;
 
 @end
@@ -27,37 +27,16 @@
 
     [self initInfo];
     [self creatSubViews];
-    [self initData];
-    
-}
-
-- (void)initData{
-    
-    for (int i = 0; i < 10; i ++) {
-        RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] init];
-        tmpModel.string1 = @"V1";
-        tmpModel.string2 = @"B9876545678";
-        tmpModel.string3 = @"V1机顶盒";
-        tmpModel.string4 = @"3分钟前";
-        tmpModel.string5 = @"2017-08-28 08：08";
-        tmpModel.string6 = @"08-28 17：39（郑伟）";
-        tmpModel.stateType = 0;
-        tmpModel.selectType = NO;
-        
-        [self.dataSource addObject:tmpModel];
-    }
-    [self.tableView reloadData];
 }
 
 - (void)initInfo{
     
     self.view.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.0];
-    _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
-    
-    
 }
 
 - (void)creatSubViews{
+    
+
     
     self.bgView = [[UIView alloc] initWithFrame:CGRectZero];
     self.bgView.backgroundColor = [UIColor whiteColor];
@@ -65,6 +44,20 @@
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 180));
         make.center.mas_equalTo(self.view);
+    }];
+    
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.backgroundColor = [UIColor whiteColor];
+    _tableView.backgroundView = nil;
+    _tableView.showsVerticalScrollIndicator = NO;
+    [self.bgView addSubview:_tableView];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 240));
+        make.top.mas_equalTo(10);
+        make.left.mas_equalTo(0);
     }];
     
     UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -102,6 +95,7 @@
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
+    
 }
 
 - (void)quitClicked{
@@ -112,33 +106,40 @@
 - (void)saveClicked{
     
     if (_backDatas) {
-        _backDatas(@"机顶盒故障");
+        NSMutableArray *backArray = [[NSMutableArray alloc ] initWithCapacity:100];
+        for (int i = 0; i < self.dataSource.count; i ++) {
+            RestaurantRankModel *tmpModel = self.dataSource[i];
+            if (tmpModel.selectType == 1) {
+                [backArray addObject:tmpModel];
+            }
+        }
+        _backDatas(backArray);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -- 懒加载
-- (UITableView *)tableView
-{
-    if (!_tableView) {
-        
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _tableView.dataSource = self;
-        _tableView.delegate = self;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.backgroundColor = [UIColor whiteColor];
-        _tableView.backgroundView = nil;
-        _tableView.showsVerticalScrollIndicator = NO;
-        [self.bgView addSubview:_tableView];
-        [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 240));
-            make.top.mas_equalTo(10);
-            make.left.mas_equalTo(0);
-        }];
-    }
-    
-    return _tableView;
-}
+//- (UITableView *)tableView
+//{
+//    if (!_tableView) {
+//        
+//        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+//        _tableView.dataSource = self;
+//        _tableView.delegate = self;
+//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//        _tableView.backgroundColor = [UIColor whiteColor];
+//        _tableView.backgroundView = nil;
+//        _tableView.showsVerticalScrollIndicator = NO;
+//        [self.bgView addSubview:_tableView];
+//        [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 240));
+//            make.top.mas_equalTo(10);
+//            make.left.mas_equalTo(0);
+//        }];
+//    }
+//    
+//    return _tableView;
+//}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
