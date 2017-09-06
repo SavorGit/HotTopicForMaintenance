@@ -66,7 +66,7 @@
     self.macLabel.text = @"Mac";
     [_bgView addSubview:self.macLabel];
     [self.macLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3, 20));
+        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3 + 50, 20));
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(self.versionLabel.mas_right);
     }];
@@ -93,7 +93,7 @@
     [self.dotImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
         make.top.mas_equalTo(15);
-        make.left.mas_equalTo(self.stbLabel.mas_right);
+        make.right.mas_equalTo(self.bgView.mas_right);
     }];
 
     
@@ -172,12 +172,18 @@
 - (void)configWithModel:(RestaurantRankModel *)model{
     self.restRankModel = model;
     
-    self.versionLabel.text = model.string1;
-    self.macLabel.text = model.string2;
-    self.stbLabel.text = model.string3;
-    self.lastTimeLabel.text = [NSString stringWithFormat:@"最后心跳时间:%@",model.string4];
-    self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后上传日志时间:%@",model.string5];
+    self.versionLabel.text = model.rname;
+    self.macLabel.text = model.mac;
+    self.stbLabel.text = model.boxname;
+    self.lastTimeLabel.text = [NSString stringWithFormat:@"最后心跳时间:%@",model.last_heart_time];
+    self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后上传日志时间:%@",model.last_heart_time];
     self.mReContentLabel.text = [NSString stringWithFormat:@"%@",model.string6];
+    //0 是红灯 1 是绿灯
+    if (model.ustate == 0) {
+        self.dotImageView.backgroundColor = [UIColor redColor];
+    }else{
+        self.dotImageView.backgroundColor = [UIColor greenColor];
+    }
     
 }
 

@@ -12,7 +12,7 @@
 
 -(NSDictionary *)attrMapDict{
     
-    return @{@"cid":@"id"};
+    return @{@"cid":@"id",@"neSmall":@"new_small"};
 }
 
 @end

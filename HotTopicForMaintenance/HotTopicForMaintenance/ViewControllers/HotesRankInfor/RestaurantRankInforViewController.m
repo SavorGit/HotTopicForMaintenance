@@ -23,7 +23,6 @@
 @property (nonatomic, copy) NSString * cachePath;
 
 @property (nonatomic, strong) UILabel *rePlatformVerLab;
-@property (nonatomic, strong) UILabel *reApkVerLab;
 @property (nonatomic, strong) UILabel *lastPlatformVerLab;
 @property (nonatomic, strong) UILabel *lastApkVerLab;
 @property (nonatomic, strong) UILabel *positionInforLab;
@@ -111,13 +110,13 @@
         NSDictionary * dataDict = [response objectForKey:@"result"];
         NSDictionary *listDict = [dataDict objectForKey:@"list"];
         
-        NSDictionary *versionDict = [dataDict objectForKey:@"version"];
+        NSDictionary *versionDict = [listDict objectForKey:@"version"];
         NSDictionary *lastHeartTimeDict = [versionDict objectForKey:@"last_heart_time"];
         NSDictionary *lastSmallDict = [versionDict objectForKey:@"last_small"];
         self.lastHeartTModel = [[RestaurantRankModel alloc] initWithDictionary:lastHeartTimeDict];
         self.lastSmallModel = [[RestaurantRankModel alloc] initWithDictionary:lastSmallDict];
         self.lastSmallModel.banwei = [listDict objectForKey:@"banwei"];
-//        self.lastSmallModel.new_small1 = [listDict objectForKey:@"new_small"];
+        self.lastSmallModel.neSmall = [versionDict objectForKey:@"new_small"];
         
         NSArray *boxInforArr = [listDict objectForKey:@"box_info"];
         
@@ -138,6 +137,8 @@
         
         
         [self.tableView reloadData];
+        [self setUpTableHeaderView];
+        
         [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self.view];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -189,7 +190,7 @@
     self.rePlatformVerLab.backgroundColor = [UIColor clearColor];
     self.rePlatformVerLab.font = [UIFont systemFontOfSize:14];
     self.rePlatformVerLab.textColor = [UIColor blackColor];
-    self.rePlatformVerLab.text = @"发布小平台版本号：1.2.1";
+    self.rePlatformVerLab.text = [NSString stringWithFormat:@"发布小平台版本号:%@",self.lastSmallModel.neSmall];
     [headView addSubview:self.rePlatformVerLab];
     [self.rePlatformVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15);
@@ -198,32 +199,20 @@
         make.height.mas_equalTo(20);
     }];
     
-    self.reApkVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
-    self.reApkVerLab.backgroundColor = [UIColor clearColor];
-    self.reApkVerLab.font = [UIFont systemFontOfSize:14];
-    self.reApkVerLab.textColor = [UIColor blackColor];
-    self.reApkVerLab.text = @"发布APK版本号：1.2.1";
-    [headView addSubview:self.reApkVerLab];
-    [self.reApkVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(15);
-        make.right.mas_equalTo(-15);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
-        make.height.mas_equalTo(20);
-    }];
-    
     self.lastPlatformVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
     self.lastPlatformVerLab.backgroundColor = [UIColor clearColor];
     self.lastPlatformVerLab.font = [UIFont systemFontOfSize:15];
     self.lastPlatformVerLab.textColor = [UIColor blackColor];
-    self.lastPlatformVerLab.text = @"最后小平台版本号：1.2.1";
+    self.lastPlatformVerLab.text = [NSString stringWithFormat:@"最后小平台版本号:%@",self.lastSmallModel.last_small_pla];
     [headView addSubview:self.lastPlatformVerLab];
     [self.lastPlatformVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.rePlatformVerLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.rePlatformVerLab.mas_bottom).offset(15);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(kMainBoundsWidth - 15 - 30);
         make.height.mas_equalTo(20);
     }];
     
+    //最后小平台版本号标识
     self.lastplatDotImg = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.lastplatDotImg.backgroundColor = [UIColor grayColor];
     self.lastplatDotImg.contentMode = UIViewContentModeScaleAspectFit;
@@ -236,12 +225,17 @@
         make.top.mas_equalTo(self.rePlatformVerLab.mas_bottom).offset(5);
         make.left.mas_equalTo(self.lastPlatformVerLab.mas_right);
     }];
+    if (self.lastSmallModel.last_small_state == 0) {
+        self.lastplatDotImg.backgroundColor = [UIColor redColor];
+    }else{
+        self.lastplatDotImg.backgroundColor = [UIColor greenColor];
+    }
     
     self.lastApkVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
     self.lastApkVerLab.backgroundColor = [UIColor clearColor];
     self.lastApkVerLab.font = [UIFont systemFontOfSize:15];
     self.lastApkVerLab.textColor = [UIColor blackColor];
-    self.lastApkVerLab.text = @"最后APK版本号：1.2.1";
+    self.lastApkVerLab.text = [NSString stringWithFormat:@"小平台最后心跳时间:%@",self.lastHeartTModel.ltime];;
     [headView addSubview:self.lastApkVerLab];
     [self.lastApkVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.lastPlatformVerLab.mas_bottom).offset(5);
@@ -250,6 +244,7 @@
         make.height.mas_equalTo(20);
     }];
     
+    //最后心跳时间
     self.lastApkDotImg = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.lastApkDotImg.backgroundColor = [UIColor grayColor];
     self.lastApkDotImg.contentMode = UIViewContentModeScaleAspectFit;
@@ -262,6 +257,11 @@
         make.top.mas_equalTo(self.lastPlatformVerLab.mas_bottom).offset(5);
         make.left.mas_equalTo(self.lastApkVerLab.mas_right);
     }];
+    if (self.lastHeartTModel.lstate == 0) {
+        self.lastApkDotImg.backgroundColor = [UIColor redColor];
+    }else{
+        self.lastApkDotImg.backgroundColor = [UIColor greenColor];
+    }
     
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"小平台维修" forState:UIControlStateNormal];
@@ -294,7 +294,7 @@
     self.positionInforLab.backgroundColor = [UIColor clearColor];
     self.positionInforLab.font = [UIFont boldSystemFontOfSize:16];
     self.positionInforLab.textColor = [UIColor blackColor];
-    self.positionInforLab.text = @"版位信息（共8个，失联24小时5个）";
+    self.positionInforLab.text = [NSString stringWithFormat:@"%@",self.lastSmallModel.banwei];
     [headView addSubview:self.positionInforLab];
     [self.positionInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(lineView.mas_bottom).offset(10);
