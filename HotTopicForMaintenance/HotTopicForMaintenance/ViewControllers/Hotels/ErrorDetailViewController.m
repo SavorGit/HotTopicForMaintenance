@@ -12,6 +12,7 @@
 #import "MJRefresh.h"
 #import "HotTopicTools.h"
 #import "RestaurantRankInforViewController.h"
+#import "UIView+LayerCurve.h"
 
 @interface ErrorDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -65,7 +66,7 @@
 
 - (void)createTableViewHeaderView
 {
-    CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 20 title:self.info font:kPingFangRegular(14)];
+    CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 20 title:self.info font:kPingFangRegular(15)];
     height += 71;
     
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, height)];
@@ -73,7 +74,7 @@
     UILabel * detailLabel = [[UILabel alloc] init];
     detailLabel.textColor = UIColorFromRGB(0x333333);
     detailLabel.textAlignment = NSTextAlignmentCenter;
-    detailLabel.font = kPingFangRegular(14);
+    detailLabel.font = kPingFangMedium(15);
     detailLabel.text = @"详细信息";
     [headerView addSubview:detailLabel];
     [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -82,13 +83,17 @@
         make.height.mas_equalTo(20);
     }];
     
-    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
-    lineView.backgroundColor = UIColorFromRGB(0x666666);
-    [headerView addSubview:lineView];
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.mas_equalTo(0);
-        make.height.mas_equalTo(.5f);
-    }];
+//    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
+//    lineView.backgroundColor = UIColorFromRGB(0x666666);
+//    [headerView addSubview:lineView];
+//    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(kMainBoundsWidth / 4);
+//        make.right.mas_equalTo(-kMainBoundsWidth / 4);
+//        make.bottom.mas_equalTo(0);
+//        make.height.mas_equalTo(.5f);
+//    }];
+    
+    [headerView layerDotteLinePoints:@[[NSValue valueWithCGPoint:CGPointMake(0, height)], [NSValue valueWithCGPoint:CGPointMake(kMainBoundsWidth, height)]] Color:[UIColor redColor] Width:.5f SolidLength:10 DotteLength:3];
     
     UILabel * dateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     dateLabel.textColor = UIColorFromRGB(0x333333);
@@ -106,7 +111,7 @@
     UILabel * infoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     infoLabel.textColor = UIColorFromRGB(0x333333);
     infoLabel.numberOfLines = 0;
-    infoLabel.font = kPingFangRegular(14);
+    infoLabel.font = kPingFangRegular(15);
     infoLabel.text = self.info;
     [headerView addSubview:infoLabel];
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {

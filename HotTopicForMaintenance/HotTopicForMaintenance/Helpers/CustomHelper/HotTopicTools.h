@@ -20,4 +20,6 @@
 
 + (CGFloat)getHeightByWidth:(CGFloat)width title:(NSString *)title font:(UIFont *)font;
 
++ (void)checkUpdate;
+
 @end
