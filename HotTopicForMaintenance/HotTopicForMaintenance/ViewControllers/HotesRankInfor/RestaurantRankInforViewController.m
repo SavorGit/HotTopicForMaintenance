@@ -42,11 +42,19 @@
 @property (nonatomic, strong) RestaurantRankModel *lastHeartTModel;
 @property (nonatomic, strong) RestaurantRankModel *lastSmallModel;
 
-
+@property (nonatomic , copy) NSString * cid;
 
 @end
 
 @implementation RestaurantRankInforViewController
+
+- (instancetype)initWithDetaiID:(NSString *)detailID
+{
+    if (self = [super init]) {
+        self.cid = detailID;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -94,7 +102,7 @@
 - (void)dataRequest
 {
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
-    RestRankInforRequest * request = [[RestRankInforRequest alloc] initWithId:[NSString stringWithFormat:@"%lu",self.cid]];
+    RestRankInforRequest * request = [[RestRankInforRequest alloc] initWithId:self.cid];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];
@@ -678,8 +686,7 @@
 #pragma mark - 点击查看酒楼信息
 - (void)titleButtonDidBeClicked{
     
-    lookRestaurInforViewController *lrVC = [[lookRestaurInforViewController alloc] init];
-    lrVC.cid = self.cid;
+    lookRestaurInforViewController *lrVC = [[lookRestaurInforViewController alloc] initWithDetaiID:self.cid];
     [self.navigationController pushViewController:lrVC animated:YES];
     
 }
