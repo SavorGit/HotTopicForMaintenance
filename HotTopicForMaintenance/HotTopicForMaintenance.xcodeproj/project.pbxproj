@@ -24,6 +24,10 @@
 		066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA54A1F5FEDDD0054264C /* ErrorReportTableViewCell.m */; };
 		066EA54E1F5FEE6B0054264C /* ErrorReportModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA54D1F5FEE6B0054264C /* ErrorReportModel.m */; };
 		066EA5511F5FEF310054264C /* ErrorReportRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5501F5FEF310054264C /* ErrorReportRequest.m */; };
+		066EA5541F6010830054264C /* ErrorDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5531F6010830054264C /* ErrorDetailViewController.m */; };
+		066EA5571F6010DF0054264C /* ErrorDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5561F6010DF0054264C /* ErrorDetailRequest.m */; };
+		066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */; };
+		066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA55C1F6012500054264C /* ErrorDetailModel.m */; };
 		06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C21F5D00D600A9CE68 /* BaseViewController.m */; };
 		06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C81F5D1C4E00A9CE68 /* UserLoginViewController.m */; };
 		06B055CD1F5D414200A9CE68 /* MBProgressHUD+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055CC1F5D414200A9CE68 /* MBProgressHUD+Custom.m */; };
@@ -119,6 +123,14 @@
 		066EA54D1F5FEE6B0054264C /* ErrorReportModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorReportModel.m; sourceTree = "<group>"; };
 		066EA54F1F5FEF310054264C /* ErrorReportRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorReportRequest.h; sourceTree = "<group>"; };
 		066EA5501F5FEF310054264C /* ErrorReportRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorReportRequest.m; sourceTree = "<group>"; };
+		066EA5521F6010830054264C /* ErrorDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorDetailViewController.h; sourceTree = "<group>"; };
+		066EA5531F6010830054264C /* ErrorDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailViewController.m; sourceTree = "<group>"; };
+		066EA5551F6010DF0054264C /* ErrorDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorDetailRequest.h; sourceTree = "<group>"; };
+		066EA5561F6010DF0054264C /* ErrorDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailRequest.m; sourceTree = "<group>"; };
+		066EA5581F6012270054264C /* ErrorDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorDetailTableViewCell.h; sourceTree = "<group>"; };
+		066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailTableViewCell.m; sourceTree = "<group>"; };
+		066EA55B1F6012500054264C /* ErrorDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorDetailModel.h; sourceTree = "<group>"; };
+		066EA55C1F6012500054264C /* ErrorDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailModel.m; sourceTree = "<group>"; };
 		06B055C11F5D00D600A9CE68 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		06B055C21F5D00D600A9CE68 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		06B055C71F5D1C4E00A9CE68 /* UserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLoginViewController.h; sourceTree = "<group>"; };
@@ -244,6 +256,8 @@
 				0626DEBD1F5E754600686790 /* RepairRecordViewController.m */,
 				066EA5421F5FE45B0054264C /* ErrorReportViewController.h */,
 				066EA5431F5FE45B0054264C /* ErrorReportViewController.m */,
+				066EA5521F6010830054264C /* ErrorDetailViewController.h */,
+				066EA5531F6010830054264C /* ErrorDetailViewController.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -272,6 +286,8 @@
 				066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */,
 				066EA5491F5FEDDD0054264C /* ErrorReportTableViewCell.h */,
 				066EA54A1F5FEDDD0054264C /* ErrorReportTableViewCell.m */,
+				066EA5581F6012270054264C /* ErrorDetailTableViewCell.h */,
+				066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -283,6 +299,8 @@
 				06356D431F5D964900242940 /* HotelIndexRequest.m */,
 				066EA54F1F5FEF310054264C /* ErrorReportRequest.h */,
 				066EA5501F5FEF310054264C /* ErrorReportRequest.m */,
+				066EA5551F6010DF0054264C /* ErrorDetailRequest.h */,
+				066EA5561F6010DF0054264C /* ErrorDetailRequest.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -585,6 +603,8 @@
 				96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */,
 				066EA54C1F5FEE6B0054264C /* ErrorReportModel.h */,
 				066EA54D1F5FEE6B0054264C /* ErrorReportModel.m */,
+				066EA55B1F6012500054264C /* ErrorDetailModel.h */,
+				066EA55C1F6012500054264C /* ErrorDetailModel.m */,
 				96AA19B11F600C8A00C06CE8 /* LookHotelInforModel.h */,
 				96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */,
 			);
@@ -809,6 +829,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96AA19A71F5FD03A00C06CE8 /* RestRankInforRequest.m in Sources */,
+				066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */,
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
 				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
@@ -822,6 +843,7 @@
 				96AA199A1F5FC38C00C06CE8 /* lookRestTableViewCell.m in Sources */,
 				0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */,
 				06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */,
+				066EA5571F6010DF0054264C /* ErrorDetailRequest.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
@@ -845,6 +867,7 @@
 				06ECDC851F596C47007FBD83 /* NetworkConfiguration.m in Sources */,
 				06B055E71F5D4A7D00A9CE68 /* JastorRuntimeHelper.m in Sources */,
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
+				066EA5541F6010830054264C /* ErrorDetailViewController.m in Sources */,
 				06B055ED1F5D56CF00A9CE68 /* BaseNavigationController.m in Sources */,
 				96AA19A01F5FC39700C06CE8 /* RestaurantRankModel.m in Sources */,
 				066EA5511F5FEF310054264C /* ErrorReportRequest.m in Sources */,
@@ -854,6 +877,7 @@
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,
 				0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */,
 				06B055DB1F5D48D800A9CE68 /* GCCKeyChain.m in Sources */,
+				066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */,
 				96AA199B1F5FC38C00C06CE8 /* RestaurantRankCell.m in Sources */,
 				0626DECA1F5EC14500686790 /* RepairRecordModel.m in Sources */,
 				96AA198F1F5FC38100C06CE8 /* SearchHotelViewController.m in Sources */,

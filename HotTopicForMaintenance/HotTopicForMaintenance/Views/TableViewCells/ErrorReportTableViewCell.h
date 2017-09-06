@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ErrorReportModel.h"
 
 @interface ErrorReportTableViewCell : UITableViewCell
+
+- (void)configWithModel:(ErrorReportModel *)model;
 
 @end

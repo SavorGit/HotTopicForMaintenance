@@ -24,21 +24,23 @@
         self.timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.timeLabel.textColor = UIColorFromRGB(0x333333);
         self.timeLabel.textAlignment = NSTextAlignmentLeft;
-        self.timeLabel.font = kPingFangRegular(14);
+        self.timeLabel.font = kPingFangMedium(15);
         [self.contentView addSubview:self.timeLabel];
         [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.mas_equalTo(0);
+            make.top.mas_equalTo(0);
+            make.bottom.mas_equalTo(0);
             make.left.mas_equalTo(10);
-            make.width.mas_lessThanOrEqualTo(150);
+            make.width.mas_equalTo(90);
         }];
         
         self.hotelLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.hotelLabel.textColor = UIColorFromRGB(0x333333);
         self.hotelLabel.textAlignment = NSTextAlignmentLeft;
-        self.hotelLabel.font = kPingFangRegular(14);
+        self.hotelLabel.font = kPingFangMedium(15);
         [self.contentView addSubview:self.hotelLabel];
         [self.hotelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.mas_equalTo(0);
+            make.top.mas_equalTo(0);
+            make.bottom.mas_equalTo(0);
             make.left.equalTo(self.timeLabel.mas_right).offset(5);
             make.right.mas_equalTo(-10);
         }];

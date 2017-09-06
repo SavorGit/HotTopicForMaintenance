@@ -1,21 +1,21 @@
 //
-//  ErrorReportTableViewCell.m
+//  ErrorDetailTableViewCell.m
 //  HotTopicForMaintenance
 //
 //  Created by 郭春城 on 2017/9/6.
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "ErrorReportTableViewCell.h"
+#import "ErrorDetailTableViewCell.h"
 
-@interface ErrorReportTableViewCell ()
+@interface ErrorDetailTableViewCell ()
 
-@property (nonatomic, strong) UILabel * detailLabel;
-@property (nonatomic, strong) UILabel * timeLabel;
+@property (nonatomic, strong) UILabel * hotelLabel;
+@property (nonatomic, strong) UILabel * InfoLabel;
 
 @end
 
-@implementation ErrorReportTableViewCell
+@implementation ErrorDetailTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -27,28 +27,28 @@
 
 - (void)initWithSubView
 {
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.timeLabel.textColor = UIColorFromRGB(0x333333);
-    self.timeLabel.textAlignment = NSTextAlignmentRight;
-    self.timeLabel.font = kPingFangRegular(14);
-    [self.contentView addSubview:self.timeLabel];
-    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.hotelLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.hotelLabel.textColor = UIColorFromRGB(0x333333);
+    self.hotelLabel.textAlignment = NSTextAlignmentLeft;
+    self.hotelLabel.font = kPingFangRegular(14);
+    [self.contentView addSubview:self.hotelLabel];
+    [self.hotelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(10);
         make.left.mas_equalTo(10);
-        make.bottom.mas_equalTo(-5);
         make.right.mas_equalTo(-40);
         make.height.mas_equalTo(20);
     }];
     
-    self.detailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.detailLabel.textColor = UIColorFromRGB(0x333333);
-    self.detailLabel.textAlignment = NSTextAlignmentLeft;
-    self.detailLabel.font = kPingFangRegular(14);
-    self.detailLabel.numberOfLines = 0;
-    [self.contentView addSubview:self.detailLabel];
-    [self.detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
+    self.InfoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.InfoLabel.textColor = UIColorFromRGB(0x333333);
+    self.InfoLabel.textAlignment = NSTextAlignmentLeft;
+    self.InfoLabel.font = kPingFangRegular(14);
+    self.InfoLabel.numberOfLines = 0;
+    [self.contentView addSubview:self.InfoLabel];
+    [self.InfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.hotelLabel.mas_bottom).mas_equalTo(5);
         make.left.mas_equalTo(10);
-        make.bottom.equalTo(self.timeLabel.mas_top).offset(-5);
+        make.bottom.mas_equalTo(-5);
         make.right.mas_equalTo(-40);
     }];
     
@@ -66,10 +66,10 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
-- (void)configWithModel:(ErrorReportModel *)model
+- (void)configWithModel:(ErrorDetailModel *)model
 {
-    self.detailLabel.text = model.info;
-    self.timeLabel.text = model.date;
+    self.hotelLabel.text = model.hotel_info;
+    self.InfoLabel.text = [NSString stringWithFormat:@"%@\n%@", model.small_palt_info, model.box_info];
 }
 
 - (void)awakeFromNib {
