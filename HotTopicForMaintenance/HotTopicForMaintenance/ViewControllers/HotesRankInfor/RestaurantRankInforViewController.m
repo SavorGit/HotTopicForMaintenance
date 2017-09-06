@@ -60,13 +60,6 @@
 
 }
 
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    // 判断要显示的控制器是否是自己
-    BOOL isShowHomePage = [viewController isKindOfClass:[self class]];
-    
-    [self.navigationController setNavigationBarHidden:isShowHomePage animated:YES];
-}
-
 - (void)initData{
     
     for (int i = 0; i < 10; i ++) {
@@ -688,6 +681,11 @@
     lookRestaurInforViewController *lrVC = [[lookRestaurInforViewController alloc] init];
     [self.navigationController pushViewController:lrVC animated:YES];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
 #pragma mark - 点击刷新页面

@@ -140,7 +140,7 @@
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self];
         }else{
-            [MBProgressHUD showTextHUDWithText:@"获取失败，小热点正在休息~" inView:self];
+            [MBProgressHUD showTextHUDWithText:@"获取失败" inView:self];
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {

@@ -14,7 +14,7 @@
 - (instancetype)initWithID:(NSString *)errorID pageSize:(NSString *)pageSize
 {
     if (self = [super init]) {
-        self.methodName = [@"Opclient/hotel/searchHotel?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Opclient/ErrorReport/getList?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         if (!isEmptyString(errorID)) {
             [self setValue:errorID forParamKey:@"id"];

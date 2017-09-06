@@ -60,13 +60,27 @@
 
 - (void)creatSubViews{
 
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.exclusiveTouch = YES;
+    [button setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, 30, 33);
+    [button addTarget:self action:@selector(navBackButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    button.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(27.5);
+        make.left.mas_equalTo(3);
+        make.size.mas_equalTo(CGSizeMake(30, 33));
+    }];
+    
+    
     self.searchBgView = [[UIView alloc] initWithFrame:CGRectZero];
     self.searchBgView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.searchBgView];
     [self.searchBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15);
-        make.left.right.mas_equalTo(0);
-        make.width.mas_equalTo(kMainBoundsWidth);
+        make.left.equalTo(button.mas_right).offset(0);
+        make.right.mas_equalTo(0);
         make.height.mas_equalTo(60);
     }];
     
@@ -83,6 +97,11 @@
         make.width.mas_equalTo(kMainBoundsWidth - 40);
         make.height.mas_equalTo(30);
     }];
+}
+
+- (void)navBackButtonClicked
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

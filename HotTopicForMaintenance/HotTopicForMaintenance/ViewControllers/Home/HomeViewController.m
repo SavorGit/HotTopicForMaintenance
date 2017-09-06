@@ -64,23 +64,41 @@
         make.height.mas_equalTo(300);
     }];
     
-    UILabel * searchLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    searchLabel.font = kPingFangRegular(15);
-    searchLabel.userInteractionEnabled = YES;
-    searchLabel.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
-    searchLabel.layer.borderWidth = .5f;
-    searchLabel.text = @" 搜索酒楼";
-    searchLabel.textColor = UIColorFromRGB(0x666666);
-    [self.view addSubview:searchLabel];
-    [searchLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIView * searchView = [[UIView alloc] initWithFrame:CGRectZero];
+    searchView.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
+    searchView.layer.borderWidth = .5f;
+    [self.view addSubview:searchView];
+    [searchView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(30);
         make.left.mas_equalTo(20);
         make.right.mas_equalTo(-20);
         make.height.mas_equalTo(30);
     }];
+    
+    UIImageView * searchImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    searchImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [searchImageView setImage:[UIImage imageNamed:@"sousuo"]];
+    [searchView addSubview:searchImageView];
+    [searchImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(0);
+        make.bottom.mas_equalTo(0);
+        make.left.mas_equalTo(5);
+        make.width.mas_equalTo(17);
+    }];
+    
+    UILabel * searchLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    searchLabel.font = kPingFangRegular(15);
+    searchLabel.text = @" 搜索酒楼";
+    searchLabel.textColor = UIColorFromRGB(0x666666);
+    [searchView addSubview:searchLabel];
+    [searchLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(0);
+        make.left.equalTo(searchImageView.mas_right).offset(0);
+        make.right.mas_equalTo(-20);
+    }];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchTextFieldDidBeClicked)];
     tap.numberOfTapsRequired = 1;
-    [searchLabel addGestureRecognizer:tap];
+    [searchView addGestureRecognizer:tap];
     
     UIView * handleView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:handleView];
@@ -96,7 +114,7 @@
     leftButton.titleLabel.font = kPingFangRegular(15);
     [leftButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
     [leftButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
-    [leftButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -50, 0, 0)];
+    [leftButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -68, 0, 0)];
     [handleView addSubview:leftButton];
     [leftButton addTarget:self action:@selector(leftButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -111,7 +129,7 @@
     rightButton.titleLabel.font = kPingFangRegular(15);
     [rightButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
     [rightButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
-    [rightButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -50, 0, 0)];
+    [rightButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -68, 0, 0)];
     [handleView addSubview:rightButton];
     [rightButton addTarget:self action:@selector(rightButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     [rightButton mas_makeConstraints:^(MASConstraintMaker *make) {

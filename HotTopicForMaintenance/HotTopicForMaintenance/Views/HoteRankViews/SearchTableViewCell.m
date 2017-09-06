@@ -50,7 +50,7 @@
     
     self.nextImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.nextImgView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.nextImgView setImage:[UIImage imageNamed:@"xiangce_more"]];
+    [self.nextImgView setImage:[UIImage imageNamed:@"more"]];
     [_bgView addSubview:self.nextImgView];
     [self.nextImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(8, 14));

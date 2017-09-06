@@ -257,7 +257,6 @@
     
     RepairRecordModel * model = [self.dataSource objectAtIndex:indexPath.section];
     RepairRecordDetailModel * detailModel = [model.recordList objectAtIndex:indexPath.row];
-    
     CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 30 title:[@"维修记录：" stringByAppendingString:detailModel.repair_error] font:kPingFangRegular(14)];
     
     return 61 + height;
@@ -304,19 +303,7 @@
 - (void)requestRedordWithPageNumber:(NSInteger)pageNumber success:(BGSuccessCompletionBlock)successCompletionBlock businessFailure:(BGBusinessFailureBlock)businessFailureBlock networkFailure:(BGNetworkFailureBlock)networkFailureBlock
 {
     GetRepairRecordListRequest * request = [[GetRepairRecordListRequest alloc] initWithUserID:self.user.userid pageNum:[NSString stringWithFormat:@"%ld", pageNumber]];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        successCompletionBlock(request, response);
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        businessFailureBlock(request, response);
-        
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
-        networkFailureBlock(request, error);
-        
-    }];
+    [request sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:networkFailureBlock];
 }
 
 - (void)requestRecordList
@@ -453,10 +440,6 @@
                 [MBProgressHUD showTextHUDWithText:@"没有更多数据了~" inView:self.view];
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
             }
-        }else{
-            
-            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
-            
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
