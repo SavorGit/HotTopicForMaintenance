@@ -11,6 +11,7 @@
 #import "NetworkConfiguration.h"
 #import "UserManager.h"
 #import "GetAllUserRequest.h"
+#import "GCCKeyChain.h"
 
 @implementation HotTopicTools
 
@@ -21,6 +22,17 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:UserInfoCachePath]) {
         NSDictionary * userInfo = [NSDictionary dictionaryWithContentsOfFile:UserInfoCachePath];
         [UserManager manager].user = [[UserModel alloc] initWithDictionary:userInfo];
+    }
+    
+    //item字体大小
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x333333), NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
+    
+    //设置标题颜色和字体
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x333333), NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
+    
+    NSString* identifierNumber = [[UIDevice currentDevice].identifierForVendor UUIDString];
+    if (![GCCKeyChain load:keychainID]) {
+        [GCCKeyChain save:keychainID data:identifierNumber];
     }
 }
 
