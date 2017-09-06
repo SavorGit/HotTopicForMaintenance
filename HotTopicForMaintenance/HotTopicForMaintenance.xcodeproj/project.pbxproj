@@ -64,6 +64,7 @@
 		96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */; };
 		96AA19B01F5FF0C800C06CE8 /* LookHotelInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */; };
 		96AA19B31F600C8A00C06CE8 /* LookHotelInforModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */; };
+		96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B51F6025A200C06CE8 /* DamageConfigRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +207,8 @@
 		96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookHotelInforRequest.m; sourceTree = "<group>"; };
 		96AA19B11F600C8A00C06CE8 /* LookHotelInforModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookHotelInforModel.h; sourceTree = "<group>"; };
 		96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookHotelInforModel.m; sourceTree = "<group>"; };
+		96AA19B41F6025A200C06CE8 /* DamageConfigRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DamageConfigRequest.h; sourceTree = "<group>"; };
+		96AA19B51F6025A200C06CE8 /* DamageConfigRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageConfigRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -597,6 +600,8 @@
 				96AA19A61F5FD03A00C06CE8 /* RestRankInforRequest.m */,
 				96AA19AE1F5FF0C800C06CE8 /* LookHotelInforRequest.h */,
 				96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */,
+				96AA19B41F6025A200C06CE8 /* DamageConfigRequest.h */,
+				96AA19B51F6025A200C06CE8 /* DamageConfigRequest.m */,
 			);
 			path = HotelRankNet;
 			sourceTree = "<group>";
@@ -805,6 +810,7 @@
 			files = (
 				96AA19A71F5FD03A00C06CE8 /* RestRankInforRequest.m in Sources */,
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
+				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
 				0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */,
 				06B055DE1F5D498000A9CE68 /* UserManager.m in Sources */,

@@ -12,6 +12,8 @@ typedef void (^backData)(NSString *str1);
 
 @interface FaultListViewController : BaseViewController
 
+@property (nonatomic, strong) NSArray *sourceData;
+
 @property(nonatomic, copy) backData backDatas;
 
 @end
