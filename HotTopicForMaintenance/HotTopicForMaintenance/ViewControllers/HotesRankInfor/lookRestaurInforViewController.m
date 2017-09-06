@@ -7,8 +7,9 @@
 //
 
 #import "lookRestaurInforViewController.h"
-#import "RestaurantRankModel.h"
+#import "LookHotelInforModel.h"
 #import "lookRestTableViewCell.h"
+#import "LookHotelInforRequest.h"
 
 @interface lookRestaurInforViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -17,11 +18,14 @@
 @property (nonatomic, copy) NSString * cachePath;
 
 @property (nonatomic, strong) UILabel *baseInforLab;
-@property (nonatomic, strong) UILabel *contactLab;
-@property (nonatomic, strong) UILabel *conPhoneLab;
-@property (nonatomic, strong) UILabel *maintenanceLab;
-@property (nonatomic, strong) UILabel *mPhoneLab;
+@property (nonatomic, strong) UILabel *hotelNameLab;
 @property (nonatomic, strong) UILabel *locationLab;
+@property (nonatomic, strong) UILabel *wifiNameLab;
+@property (nonatomic, strong) UILabel *listNameLab;
+@property (nonatomic, strong) UILabel *macNameLab;
+@property (nonatomic, strong) UILabel *wifiPsNameLab;
+@property (nonatomic, strong) UILabel *stbInforLab;
+
 @property (nonatomic, strong) UILabel *loPlatformLab;
 
 @property (nonatomic, strong) UILabel *platInforLab;
@@ -31,6 +35,8 @@
 @property (nonatomic, strong) UILabel *volLab;
 @property (nonatomic, strong) UILabel *tvTimeLab;
 
+@property (nonatomic, strong) LookHotelInforModel *topHeaderModel;
+
 @end
 
 @implementation lookRestaurInforViewController
@@ -39,20 +45,14 @@
     [super viewDidLoad];
     
     [self initInfo];
-    [self initData];
+//    [self initData];
+    [self dataRequest];
 }
 
 - (void)initData{
     
     for (int i = 0; i < 10; i ++) {
-        RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] init];
-        tmpModel.string1 = @"V1";
-        tmpModel.string2 = @"B9876545678";
-        tmpModel.string3 = @"V1机顶盒";
-        tmpModel.string4 = @"3分钟前";
-        tmpModel.string5 = @"2017-08-28 08：08";
-        tmpModel.string6 = @"08-28 17：39（郑伟）";
-        tmpModel.stateType = 0;
+        LookHotelInforModel *tmpModel = [[LookHotelInforModel alloc] init];
         
         [self.dataSource addObject:tmpModel];
     }
@@ -64,6 +64,50 @@
     
     _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
+}
+
+- (void)dataRequest
+{
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
+    LookHotelInforRequest * request = [[LookHotelInforRequest alloc] initWithId:[NSString stringWithFormat:@"%lu",self.cid]];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:NO];
+        [self.dataSource removeAllObjects];
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        NSDictionary *listDict = [dataDict objectForKey:@"list"];
+        NSArray *hotelInfoArr = [listDict objectForKey:@"hotel_info"];
+        if (hotelInfoArr.count > 0) {
+            self.topHeaderModel = [[LookHotelInforModel alloc] initWithDictionary:hotelInfoArr[0]];
+        }
+        
+        NSArray *posionArr = [listDict objectForKey:@"position"];
+        for (int i = 0; i < posionArr.count; i ++) {
+            LookHotelInforModel *tmpModel = [[LookHotelInforModel alloc] initWithDictionary:posionArr[i]];
+            [self.dataSource addObject:tmpModel];
+        }
+        
+        [self.tableView reloadData];
+        [self setUpTableHeaderView];
+        
+        [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self.view];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:NO];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取失败，小热点正在休息~" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:NO];
+        [MBProgressHUD showTextHUDWithText:@"获取失败，网络出现问题了~" inView:self.view];
+        
+    }];
 }
 
 #pragma mark -- 懒加载
@@ -92,7 +136,7 @@
 
 -(void)setUpTableHeaderView{
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 455)];
     
     self.baseInforLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.baseInforLab.backgroundColor = [UIColor clearColor];
@@ -101,61 +145,22 @@
     self.baseInforLab.text = @"基本信息";
     [headView addSubview:self.baseInforLab];
     [self.baseInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(15);
+        make.top.mas_equalTo(5);
         make.left.mas_equalTo(5);
         make.width.mas_equalTo(kMainBoundsWidth - 5);
         make.height.mas_equalTo(20);
     }];
     
-    self.contactLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.contactLab.backgroundColor = [UIColor clearColor];
-    self.contactLab.font = [UIFont systemFontOfSize:14];
-    self.contactLab.textColor = [UIColor blackColor];
-    self.contactLab.text = @"联系人：赵小二";
-    [headView addSubview:self.contactLab];
-    [self.contactLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.baseInforLab.mas_bottom).offset(10);
+    self.hotelNameLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.hotelNameLab.backgroundColor = [UIColor clearColor];
+    self.hotelNameLab.font = [UIFont systemFontOfSize:14];
+    self.hotelNameLab.textColor = [UIColor blackColor];
+    self.hotelNameLab.text = [NSString stringWithFormat:@"酒店名称:%@",self.topHeaderModel.hotel_name ];
+    [headView addSubview:self.hotelNameLab];
+    [self.hotelNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.baseInforLab.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.conPhoneLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.conPhoneLab.backgroundColor = [UIColor clearColor];
-    self.conPhoneLab.font = [UIFont systemFontOfSize:14];
-    self.conPhoneLab.textColor = [UIColor blackColor];
-    self.conPhoneLab.text = @"联系电话：18666667678";
-    [headView addSubview:self.conPhoneLab];
-    [self.conPhoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.baseInforLab.mas_bottom).offset(10);
-        make.left.mas_equalTo(self.contactLab.mas_right);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.maintenanceLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.maintenanceLab.backgroundColor = [UIColor clearColor];
-    self.maintenanceLab.font = [UIFont systemFontOfSize:14];
-    self.maintenanceLab.textColor = [UIColor blackColor];
-    self.maintenanceLab.text = @"维护人：小张";
-    [headView addSubview:self.maintenanceLab];
-    [self.maintenanceLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contactLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.mPhoneLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.mPhoneLab.backgroundColor = [UIColor clearColor];
-    self.mPhoneLab.font = [UIFont systemFontOfSize:14];
-    self.mPhoneLab.textColor = [UIColor blackColor];
-    self.mPhoneLab.text = @"联系电话：18510378890";
-    [headView addSubview:self.mPhoneLab];
-    [self.mPhoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contactLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(self.maintenanceLab.mas_right);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
         make.height.mas_equalTo(20);
     }];
     
@@ -163,139 +168,131 @@
     self.locationLab.backgroundColor = [UIColor clearColor];
     self.locationLab.font = [UIFont systemFontOfSize:14];
     self.locationLab.textColor = [UIColor blackColor];
-    self.locationLab.text = @"位置：北京市朝阳区永峰写字楼六楼601";
+    self.locationLab.text = [NSString stringWithFormat:@"酒店地址:%@",self.topHeaderModel.hotel_addr];
     [headView addSubview:self.locationLab];
     [self.locationLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.maintenanceLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.hotelNameLab.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(kMainBoundsWidth - 15);
         make.height.mas_equalTo(20);
     }];
     
-    self.pLocationLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.pLocationLab.backgroundColor = [UIColor clearColor];
-    self.pLocationLab.font = [UIFont systemFontOfSize:14];
-    self.pLocationLab.textColor = [UIColor blackColor];
-    self.pLocationLab.text = @"小平台位置：前台";
-    [headView addSubview:self.pLocationLab];
-    [self.pLocationLab mas_makeConstraints:^(MASConstraintMaker *make) {
+    CGFloat topHeight = 75.0;
+    NSArray *leftArr = [NSArray arrayWithObjects:@"所属区域：",@"酒楼级别：",@"安装日期：",@"酒楼联系人：",@"合作维护人：",@"座机：",@"手机：",nil];
+    NSArray *leftValueArr = [NSArray arrayWithObjects:self.topHeaderModel.area_name,self.topHeaderModel.level,self.topHeaderModel.install_date,self.topHeaderModel.contractor,self.topHeaderModel.maintainer,self.topHeaderModel.tel,self.topHeaderModel.mobile,nil];
+    for (int i = 0; i < leftValueArr.count; i ++) {
+        
+        UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        tmpLabel.backgroundColor = [UIColor clearColor];
+        tmpLabel.tag = 10086 + i;
+        tmpLabel.font = [UIFont systemFontOfSize:14];
+        tmpLabel.textColor = [UIColor blackColor];
+        tmpLabel.text = @"";
+        [headView addSubview:tmpLabel];
+        tmpLabel.frame = CGRectMake(15, (topHeight + i *20 + (5 + i *5)), kMainBoundsWidth/2 - 15 - 10, 20);
+        tmpLabel.text = [NSString stringWithFormat:@"%@%@",leftArr[i],leftValueArr[i]];
+    }
+    
+    NSArray *rightArr = [NSArray arrayWithObjects:@"是否重点：",@"变更说明：",@"酒楼状态：",@"机顶盒类型：",@"小平台存放地址：",@"小平台远程ID：",@"技术运维人：",nil];
+    NSArray *rightValueArr = [NSArray arrayWithObjects:self.topHeaderModel.is_key,self.topHeaderModel.state_change_reason,self.topHeaderModel.hotel_state,self.topHeaderModel.hotel_box_type,self.topHeaderModel.server_location,self.topHeaderModel.remote_id,self.topHeaderModel.tech_maintainer,nil];
+    for (int i = 0; i < rightValueArr.count; i ++) {
+        
+        UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        tmpLabel.backgroundColor = [UIColor clearColor];
+        tmpLabel.tag = 20086 + i;
+        tmpLabel.font = [UIFont systemFontOfSize:14];
+        tmpLabel.textColor = [UIColor blackColor];
+        tmpLabel.text = @"";
+        [headView addSubview:tmpLabel];
+        tmpLabel.frame = CGRectMake(kMainBoundsWidth/2 - 5, (topHeight + i *20 + (5 + i *5)), kMainBoundsWidth/2 - 15 + 10, 20);
+        tmpLabel.text = [NSString stringWithFormat:@"%@%@",rightArr[i],rightValueArr[i]];
+    }
+    
+    self.macNameLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.macNameLab.backgroundColor = [UIColor clearColor];
+    self.macNameLab.font = [UIFont systemFontOfSize:14];
+    self.macNameLab.textColor = [UIColor blackColor];
+    self.macNameLab.text = [NSString stringWithFormat:@"小平台MAC地址:%@",self.topHeaderModel.mac_addr];
+    [headView addSubview:self.macNameLab];
+    [self.macNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(250 + 5);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
+        make.height.mas_equalTo(20);
+    }];
+    
+    self.wifiPsNameLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.wifiPsNameLab.backgroundColor = [UIColor clearColor];
+    self.wifiPsNameLab.font = [UIFont systemFontOfSize:14];
+    self.wifiPsNameLab.textColor = [UIColor blackColor];
+    self.wifiPsNameLab.text = [NSString stringWithFormat:@"酒楼wifi密码:%@",self.topHeaderModel.hotel_wifi_pas];
+    [headView addSubview:self.wifiPsNameLab];
+    [self.wifiPsNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.macNameLab.mas_bottom).offset(5);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
+        make.height.mas_equalTo(20);
+    }];
+    
+    self.locationLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.locationLab.backgroundColor = [UIColor clearColor];
+    self.locationLab.font = [UIFont systemFontOfSize:14];
+    self.locationLab.textColor = [UIColor blackColor];
+    self.locationLab.text = [NSString stringWithFormat:@"酒楼位置坐标:%@",self.topHeaderModel.gps];
+    [headView addSubview:self.locationLab];
+    [self.locationLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.wifiPsNameLab.mas_bottom).offset(5);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
+        make.height.mas_equalTo(20);
+    }];
+
+    self.wifiNameLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.wifiNameLab.backgroundColor = [UIColor clearColor];
+    self.wifiNameLab.font = [UIFont systemFontOfSize:14];
+    self.wifiNameLab.textColor = [UIColor blackColor];
+    self.wifiNameLab.text = [NSString stringWithFormat:@"酒楼wifi名称:%@",self.topHeaderModel.hotel_wifi];
+    [headView addSubview:self.wifiNameLab];
+    [self.wifiNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.locationLab.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth - 15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
         make.height.mas_equalTo(20);
     }];
     
-    //小平台
-    self.platInforLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.platInforLab.backgroundColor = [UIColor clearColor];
-    self.platInforLab.font = [UIFont boldSystemFontOfSize:14];
-    self.platInforLab.textColor = [UIColor lightGrayColor];
-    self.platInforLab.text = @"小平台";
-    [headView addSubview:self.platInforLab];
-    [self.platInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.pLocationLab.mas_bottom).offset(10);
-        make.left.mas_equalTo(5);
-        make.width.mas_equalTo(kMainBoundsWidth - 5);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.pIpLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.pIpLab.backgroundColor = [UIColor clearColor];
-    self.pIpLab.font = [UIFont systemFontOfSize:14];
-    self.pIpLab.textColor = [UIColor blackColor];
-    self.pIpLab.text = @"IP:192.168.0.1";
-    [headView addSubview:self.pIpLab];
-    [self.pIpLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.platInforLab.mas_bottom).offset(10);
+    self.listNameLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.listNameLab.backgroundColor = [UIColor clearColor];
+    self.listNameLab.font = [UIFont systemFontOfSize:14];
+    self.listNameLab.textColor = [UIColor blackColor];
+    self.listNameLab.text = [NSString stringWithFormat:@"节目单:%@",self.topHeaderModel.menu_name];
+    [headView addSubview:self.listNameLab];
+    [self.listNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.wifiNameLab.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.pIpLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.pIpLab.backgroundColor = [UIColor clearColor];
-    self.pIpLab.font = [UIFont systemFontOfSize:14];
-    self.pIpLab.textColor = [UIColor blackColor];
-    self.pIpLab.text = @"IP:192.168.0.1";
-    [headView addSubview:self.pIpLab];
-    [self.pIpLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.platInforLab.mas_bottom).offset(10);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo((kMainBoundsWidth - 30)/3);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.pMacLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.pMacLab.backgroundColor = [UIColor clearColor];
-    self.pMacLab.font = [UIFont systemFontOfSize:14];
-    self.pMacLab.textColor = [UIColor blackColor];
-    self.pMacLab.text = @"mac 192.168.0.1";
-    [headView addSubview:self.pMacLab];
-    [self.pMacLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.platInforLab.mas_bottom).offset(10);
-        make.left.mas_equalTo(self.pIpLab.mas_right);
-        make.width.mas_equalTo((kMainBoundsWidth - 30)/3);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.pLocationLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.pLocationLab.backgroundColor = [UIColor clearColor];
-    self.pLocationLab.font = [UIFont systemFontOfSize:14];
-    self.pLocationLab.textColor = [UIColor blackColor];
-    self.pLocationLab.text = @"位置：楼梯间";
-    [headView addSubview:self.pLocationLab];
-    [self.pLocationLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.platInforLab.mas_bottom).offset(10);
-        make.left.mas_equalTo(self.pMacLab.mas_right);
-        make.width.mas_equalTo((kMainBoundsWidth - 30)/3);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.volLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.volLab.backgroundColor = [UIColor clearColor];
-    self.volLab.font = [UIFont systemFontOfSize:14];
-    self.volLab.textColor = [UIColor blackColor];
-    self.volLab.text = @"音量 50";
-    [headView addSubview:self.volLab];
-    [self.volLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.pIpLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.tvTimeLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.tvTimeLab.backgroundColor = [UIColor clearColor];
-    self.tvTimeLab.font = [UIFont systemFontOfSize:14];
-    self.tvTimeLab.textColor = [UIColor blackColor];
-    self.tvTimeLab.text = @"电视切换时间 30S";
-    [headView addSubview:self.tvTimeLab];
-    [self.tvTimeLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.pIpLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(self.volLab.mas_right);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
         make.height.mas_equalTo(20);
     }];
     
     //机顶盒
-    UILabel *stbInforLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    stbInforLab.backgroundColor = [UIColor clearColor];
-    stbInforLab.font = [UIFont boldSystemFontOfSize:14];
-    stbInforLab.textColor = [UIColor lightGrayColor];
-    stbInforLab.text = @"机顶盒";
-    [headView addSubview:stbInforLab];
-    [stbInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.volLab.mas_bottom).offset(10);
+    self.stbInforLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.stbInforLab.backgroundColor = [UIColor clearColor];
+    self.stbInforLab.font = [UIFont boldSystemFontOfSize:14];
+    self.stbInforLab.textColor = [UIColor lightGrayColor];
+    self.stbInforLab.text = [NSString stringWithFormat:@"版位信息（包间：%@机顶盒：%@电视：%@）",self.topHeaderModel.room_num,self.topHeaderModel.box_num,self.topHeaderModel.tv_num];
+    [headView addSubview:self.stbInforLab];
+    [self.stbInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.listNameLab.mas_bottom).offset(10);
         make.left.mas_equalTo(5);
         make.width.mas_equalTo(kMainBoundsWidth - 5);
         make.height.mas_equalTo(20);
     }];
+
     
     UIView *stbBgView = [[UIView alloc] initWithFrame:CGRectZero];
     stbBgView.backgroundColor = [UIColor colorWithRed:231.0/255.0 green:231.0/255.0 blue:231.0/255.0 alpha:1.0];
     [headView addSubview:stbBgView];
     [stbBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(stbInforLab.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.stbInforLab.mas_bottom).offset(10);
         make.left.mas_equalTo(5);
         make.width.mas_equalTo(kMainBoundsWidth - 10);
         make.height.mas_equalTo(40);
@@ -355,7 +352,7 @@
         make.width.mas_equalTo((kMainBoundsWidth - 10)/4 - 15);
         make.height.mas_equalTo(20);
     }];
-
+    
     _tableView.tableHeaderView = headView;
 }
 
@@ -372,7 +369,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    LookHotelInforModel * model = [self.dataSource objectAtIndex:indexPath.row];
     static NSString *cellID = @"RestaurantRankCell";
     lookRestTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {

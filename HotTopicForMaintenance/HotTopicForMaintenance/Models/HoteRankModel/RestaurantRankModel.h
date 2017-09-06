@@ -41,4 +41,6 @@
 
 @property (nonatomic, strong) NSMutableArray * recordList;
 
+//酒楼版位信息
+
 @end

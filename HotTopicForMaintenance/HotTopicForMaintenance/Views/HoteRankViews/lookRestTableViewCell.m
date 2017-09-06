@@ -78,7 +78,12 @@
     
 }
 
-- (void)configWithModel:(RestaurantRankModel *)model{
+- (void)configWithModel:(LookHotelInforModel *)model{
+    
+    self.serialNumLab.text = model.room_name;
+    self.stbLocationLab.text = model.bmac_name;
+    self.stbMacLab.text = model.bmac_addr;
+    self.stbMacLab.text = model.bstate;
     
 }
 - (void)awakeFromNib {

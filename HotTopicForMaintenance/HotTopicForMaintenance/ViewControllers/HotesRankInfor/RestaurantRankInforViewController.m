@@ -679,6 +679,7 @@
 - (void)titleButtonDidBeClicked{
     
     lookRestaurInforViewController *lrVC = [[lookRestaurInforViewController alloc] init];
+    lrVC.cid = self.cid;
     [self.navigationController pushViewController:lrVC animated:YES];
     
 }
