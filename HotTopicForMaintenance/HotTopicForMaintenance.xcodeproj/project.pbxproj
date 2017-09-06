@@ -54,6 +54,7 @@
 		96AA199B1F5FC38C00C06CE8 /* RestaurantRankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19961F5FC38C00C06CE8 /* RestaurantRankCell.m */; };
 		96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19981F5FC38C00C06CE8 /* SearchTableViewCell.m */; };
 		96AA19A01F5FC39700C06CE8 /* RestaurantRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA199F1F5FC39700C06CE8 /* RestaurantRankModel.m */; };
+		96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19A31F5FC9A700C06CE8 /* SearchHotelRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +177,8 @@
 		96AA19981F5FC38C00C06CE8 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		96AA199E1F5FC39700C06CE8 /* RestaurantRankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantRankModel.h; sourceTree = "<group>"; };
 		96AA199F1F5FC39700C06CE8 /* RestaurantRankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantRankModel.m; sourceTree = "<group>"; };
+		96AA19A21F5FC9A700C06CE8 /* SearchHotelRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchHotelRequest.h; sourceTree = "<group>"; };
+		96AA19A31F5FC9A700C06CE8 /* SearchHotelRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchHotelRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,6 +468,7 @@
 		06ECDC821F596C1E007FBD83 /* Networks */ = {
 			isa = PBXGroup;
 			children = (
+				96AA19A11F5FC97900C06CE8 /* HotelRankNet */,
 				06356D411F5D962300242940 /* Hotels */,
 				06B055CE1F5D466400A9CE68 /* Users */,
 				06ECDC831F596C47007FBD83 /* NetworkConfiguration.h */,
@@ -541,6 +545,15 @@
 				96AA199F1F5FC39700C06CE8 /* RestaurantRankModel.m */,
 			);
 			path = HoteRankModel;
+			sourceTree = "<group>";
+		};
+		96AA19A11F5FC97900C06CE8 /* HotelRankNet */ = {
+			isa = PBXGroup;
+			children = (
+				96AA19A21F5FC9A700C06CE8 /* SearchHotelRequest.h */,
+				96AA19A31F5FC9A700C06CE8 /* SearchHotelRequest.m */,
+			);
+			path = HotelRankNet;
 			sourceTree = "<group>";
 		};
 		CD3841AC6AE5D8A0785CF0D8 /* Pods */ = {
@@ -759,6 +772,7 @@
 				06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
+				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
 				06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */,
 				06ECDC911F596DCD007FBD83 /* DesUtil.m in Sources */,

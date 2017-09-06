@@ -10,6 +10,7 @@
 #import "RestaurantRankModel.h"
 #import "SearchTableViewCell.h"
 #import "RestaurantRankInforViewController.h"
+#import "SearchHotelRequest.h"
 
 @interface SearchHotelViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -98,6 +99,40 @@
     if ([self.searchField canResignFirstResponder]) {
         [self.searchField resignFirstResponder];
     }
+}
+
+- (void)refreshData
+{
+//    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self];
+//    HotelIndexRequest * request = [[HotelIndexRequest alloc] init];
+//    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+//        
+//        [hud hideAnimated:NO];
+//        [self.dataSource removeAllObjects];
+//        NSDictionary * dataDict = [response objectForKey:@"result"];
+//        if ([dataDict objectForKey:@"list"]) {
+//            self.dataSource = [NSMutableArray arrayWithArray:[dataDict objectForKey:@"list"]];
+//        }
+//        
+//        self.bottomLabel.text = [dataDict objectForKey:@"remark"];
+//        [self.tableView reloadData];
+//        [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self];
+//        
+//    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+//        
+//        [hud hideAnimated:NO];
+//        if ([response objectForKey:@"msg"]) {
+//            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self];
+//        }else{
+//            [MBProgressHUD showTextHUDWithText:@"获取失败，小热点正在休息~" inView:self];
+//        }
+//        
+//    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+//        
+//        [hud hideAnimated:NO];
+//        [MBProgressHUD showTextHUDWithText:@"获取失败，网络出现问题了~" inView:self];
+//        
+//    }];
 }
 
 #pragma mark -- 懒加载

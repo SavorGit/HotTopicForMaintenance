@@ -269,8 +269,8 @@
         [_topView addSubview:_backButton];
         
         UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [shareBtn setImage:[UIImage imageNamed:@"icon_share"] forState:UIControlStateNormal];
-        [shareBtn setImage:[UIImage imageNamed:@"icon_collect_yes"] forState:UIControlStateSelected];
+        [shareBtn setImage:[UIImage imageNamed:@"shuaxin"] forState:UIControlStateNormal];
+        [shareBtn setImage:[UIImage imageNamed:@"shuaxin"] forState:UIControlStateSelected];
         shareBtn.tag = 101;
         [shareBtn addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
         [_topView addSubview:shareBtn];

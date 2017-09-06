@@ -27,7 +27,7 @@
 - (void)initWithSubView
 {
     _bgView = [[UIView alloc] init];
-    _bgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    _bgView.backgroundColor = [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:242.0/255.0];;
     [self.contentView addSubview:_bgView];
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(kMainBoundsWidth - 30);
@@ -49,15 +49,12 @@
     }];
     
     self.nextImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.nextImgView.backgroundColor = [UIColor grayColor];
     self.nextImgView.contentMode = UIViewContentModeScaleAspectFit;
-    self.nextImgView.layer.cornerRadius = 20/2.0;
-    self.nextImgView.layer.masksToBounds = YES;
-    [self.nextImgView setImage:[UIImage imageNamed:@""]];
+    [self.nextImgView setImage:[UIImage imageNamed:@"xiangce_more"]];
     [_bgView addSubview:self.nextImgView];
     [self.nextImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(20, 20));
-        make.top.mas_equalTo(13);
+        make.size.mas_equalTo(CGSizeMake(8, 14));
+        make.top.mas_equalTo(16);
         make.right.mas_equalTo(- 15);
     }];
     
