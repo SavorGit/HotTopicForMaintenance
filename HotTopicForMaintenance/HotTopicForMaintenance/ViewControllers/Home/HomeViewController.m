@@ -13,6 +13,7 @@
 #import "HomeHotelInfoView.h"
 #import "RepairRecordViewController.h"
 #import "SearchHotelViewController.h"
+#import "ErrorReportViewController.h"
 
 @interface HomeViewController ()
 
@@ -112,7 +113,7 @@
     [rightButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
     [rightButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -50, 0, 0)];
     [handleView addSubview:rightButton];
-    [leftButton addTarget:self action:@selector(rightButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton addTarget:self action:@selector(rightButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     [rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 120));
         make.centerX.mas_equalTo(kMainBoundsWidth /  5);
@@ -128,7 +129,8 @@
 
 - (void)rightButtonDidBeClicked
 {
-    
+    ErrorReportViewController * error = [[ErrorReportViewController alloc] init];
+    [self.navigationController pushViewController:error animated:YES];
 }
 
 - (void)searchTextFieldDidBeClicked
@@ -147,6 +149,19 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    //开启iOS7的滑动返回效果
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+}
+- (void)viewDidAppear:(BOOL)animated {
+    //关闭iOS7的滑动返回效果
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
 }
 
 - (void)dealloc
