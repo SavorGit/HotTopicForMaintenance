@@ -15,11 +15,13 @@
 #import "SearchHotelViewController.h"
 #import "Helper.h"
 #import "RestRankInforRequest.h"
+#import "DamageConfigRequest.h"
 
 @interface RestaurantRankInforViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
+@property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 @property (nonatomic, copy) NSString * cachePath;
 
 @property (nonatomic, strong) UILabel *rePlatformVerLab;
@@ -61,6 +63,7 @@
     
     [self initInfo];
     [self dataRequest];
+    [self demageConfigRequest];
 //    [self initData];
     
     // 设置导航控制器的代理为self
@@ -89,6 +92,7 @@
 - (void)initInfo{
     
     _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
+    _dConfigData = [[NSMutableArray alloc] initWithCapacity:100];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
     
     [self.view addSubview:self.topView];
@@ -134,9 +138,6 @@
             [self.dataSource addObject:tmpModel];
         }
         
-        
-        
-        
         [self.tableView reloadData];
         [self setUpTableHeaderView];
         
@@ -156,6 +157,26 @@
         [hud hideAnimated:NO];
         [MBProgressHUD showTextHUDWithText:@"获取失败，网络出现问题了~" inView:self.view];
         
+    }];
+}
+
+- (void)demageConfigRequest
+{
+    DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self.dataSource removeAllObjects];
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        NSArray *listArray = [dataDict objectForKey:@"list"];
+        
+        for (int i = 0; i < listArray.count; i ++) {
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
+            [self.dConfigData addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
     }];
 }
 
@@ -533,6 +554,7 @@
         flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    flVC.sourceData = self.dConfigData;
     [self presentViewController:flVC animated:YES completion:nil];
     flVC.backDatas = ^(NSString *str1) {
         NSLog(@"%@",str1);
