@@ -13,6 +13,8 @@
 #import "RepairRecordTableViewCell.h"
 #import "RepairRecordModel.h"
 #import "RepairRecordDetailModel.h"
+#import "HotTopicTools.h"
+#import "MJRefresh.h"
 
 @interface RepairRecordViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -46,15 +48,17 @@
 {
     self.pageNumber = 1;
     [self createTitleButton];
-    [self requestRecordList];
+    [self createTableView];
     [self createUserTableView];
+    [self requestRecordList];
 }
 
 - (void)requestRecordList
 {
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载维修记录" inView:self.view];
     
-    self.dataSource = [NSMutableArray new];
+    self.pageNumber = 1;
+    [self.dataSource removeAllObjects];
     
     [self requestRedordWithPageNumber:self.pageNumber success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -75,24 +79,25 @@
                 }
                 [self.dataSource addObject:model];
             }
-            
+            [self.tableView reloadData];
             self.pageNumber++;
-            [self createTableView];
-            [hud hideAnimated:NO];
+            [hud hideAnimated:YES];
             
         }else{
             
-            [hud hideAnimated:NO];
+            [hud hideAnimated:YES];
             [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
             
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [hud hideAnimated:YES];
         [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
+        [hud hideAnimated:YES];
         [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
         
     }];
@@ -101,10 +106,11 @@
 
 - (void)createTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 20, 0, 20)];
+    [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, 20, 0, 20)];
     [self.tableView registerClass:[RepairRecordTableViewCell class] forCellReuseIdentifier:@"RepairRecordCell"];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -119,7 +125,7 @@
     self.allUsers = [NSMutableArray arrayWithArray:[UserManager manager].allUsers];
     
     self.userTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.userTableView.backgroundColor = [UIColor clearColor];
+    self.userTableView.backgroundColor = VCBackgroundColor;
     self.userTableView.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
     self.userTableView.layer.borderWidth = .5f;
     self.userTableView.delegate = self;
@@ -259,7 +265,9 @@
     if (tableView == self.userTableView) {
         return self.allUsers.count;
     }
-    return self.dataSource.count;
+    
+    RepairRecordModel * model = [self.dataSource objectAtIndex:section];
+    return model.recordList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -279,7 +287,8 @@
     
     RepairRecordTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"RepairRecordCell" forIndexPath:indexPath];
     RepairRecordModel * model = [self.dataSource objectAtIndex:indexPath.section];
-    [cell configWithModel:model.recordList];
+    [cell configWithModel:[model.recordList objectAtIndex:indexPath.row]];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
@@ -289,7 +298,13 @@
     if (tableView == self.userTableView) {
         return 40;
     }
-    return 120.f;
+    
+    RepairRecordModel * model = [self.dataSource objectAtIndex:indexPath.section];
+    RepairRecordDetailModel * detailModel = [model.recordList objectAtIndex:indexPath.row];
+    
+    CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 30 title:[@"维修记录：" stringByAppendingString:detailModel.repair_error] font:kPingFangRegular(14)];
+    
+    return 61 + height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -300,6 +315,7 @@
         UIButton * button = (UIButton *)self.navigationItem.titleView;
         button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
         [self endChooseUser];
+        [self requestRecordList];
     }
 }
 
@@ -325,6 +341,14 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+- (NSMutableArray *)dataSource
+{
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray new];
+    }
+    return _dataSource;
 }
 
 - (void)didReceiveMemoryWarning {

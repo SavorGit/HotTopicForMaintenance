@@ -19,6 +19,7 @@
 		06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */; };
 		06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D431F5D964900242940 /* HotelIndexRequest.m */; };
 		06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */; };
+		066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */; };
 		06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C21F5D00D600A9CE68 /* BaseViewController.m */; };
 		06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C81F5D1C4E00A9CE68 /* UserLoginViewController.m */; };
 		06B055CD1F5D414200A9CE68 /* MBProgressHUD+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055CC1F5D414200A9CE68 /* MBProgressHUD+Custom.m */; };
@@ -99,6 +100,8 @@
 		06356D431F5D964900242940 /* HotelIndexRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelIndexRequest.m; sourceTree = "<group>"; };
 		06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelInfoTableViewCell.h; sourceTree = "<group>"; };
 		06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelInfoTableViewCell.m; sourceTree = "<group>"; };
+		066EA53F1F5FCB500054264C /* RepairRecordHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordHeaderView.h; sourceTree = "<group>"; };
+		066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordHeaderView.m; sourceTree = "<group>"; };
 		06B055C11F5D00D600A9CE68 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		06B055C21F5D00D600A9CE68 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		06B055C71F5D1C4E00A9CE68 /* UserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLoginViewController.h; sourceTree = "<group>"; };
@@ -236,6 +239,8 @@
 				06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */,
 				0626DEC51F5EBC6E00686790 /* RepairRecordTableViewCell.h */,
 				0626DEC61F5EBC6E00686790 /* RepairRecordTableViewCell.m */,
+				066EA53F1F5FCB500054264C /* RepairRecordHeaderView.h */,
+				066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -789,6 +794,7 @@
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
 				06B055ED1F5D56CF00A9CE68 /* BaseNavigationController.m in Sources */,
 				96AA19A01F5FC39700C06CE8 /* RestaurantRankModel.m in Sources */,
+				066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */,
 				0626DEC11F5E860800686790 /* GetAllUserRequest.m in Sources */,
 				06B055D81F5D486800A9CE68 /* GCCGetInfo.m in Sources */,
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,

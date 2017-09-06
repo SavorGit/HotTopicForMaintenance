@@ -55,28 +55,29 @@
         make.width.mas_lessThanOrEqualTo(kMainBoundsWidth / 2);
     }];
     
-    self.recordLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.recordLabel.textColor = UIColorFromRGB(0x333333);
-    self.recordLabel.textAlignment = NSTextAlignmentLeft;
-    self.recordLabel.font = kPingFangRegular(14);
-    [self.contentView addSubview:self.recordLabel];
-    [self.recordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.statusLabel.mas_bottom).offset(15);
-        make.left.mas_equalTo(10);
-        make.right.mas_equalTo(-10);
-        make.height.mas_lessThanOrEqualTo(200);
-    }];
-    
     self.remarkLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.remarkLabel.textColor = UIColorFromRGB(0x333333);
     self.remarkLabel.textAlignment = NSTextAlignmentLeft;
     self.remarkLabel.font = kPingFangRegular(14);
     [self.contentView addSubview:self.remarkLabel];
     [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.recordLabel.mas_bottom).offset(15);
         make.left.mas_equalTo(10);
-        make.height.mas_equalTo(20);
+        make.bottom.mas_equalTo(-5);
         make.right.mas_equalTo(-10);
+        make.height.mas_equalTo(20);
+    }];
+    
+    self.recordLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.recordLabel.textColor = UIColorFromRGB(0x333333);
+    self.recordLabel.textAlignment = NSTextAlignmentLeft;
+    self.recordLabel.numberOfLines = 0;
+    self.recordLabel.font = kPingFangRegular(14);
+    [self.contentView addSubview:self.recordLabel];
+    [self.recordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.statusLabel.mas_bottom).offset(5);
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(-10);
+        make.bottom.equalTo(self.remarkLabel.mas_top).offset(-5);
     }];
 }
 
@@ -84,8 +85,18 @@
 {
     self.statusLabel.text = model.state;
     self.timeLabel.text = model.create_time;
-    self.recordLabel.text = model.repair_error;
-    self.remarkLabel.text = model.remark;
+    
+    if (isEmptyString(model.repair_error)) {
+        self.recordLabel.text = @"维修记录：无";
+    }else{
+        self.recordLabel.text = [@"维修记录：" stringByAppendingString:model.repair_error];
+    }
+    
+    if (isEmptyString(model.remark)) {
+        self.remarkLabel.text = @"备注：无";
+    }else{
+        self.remarkLabel.text = [@"备注：" stringByAppendingString:model.remark];
+    }
 }
 
 @end
