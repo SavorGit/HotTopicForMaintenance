@@ -21,7 +21,7 @@
 @property (nonatomic, assign) BOOL  selectType;
 
 //搜索酒楼
-@property (nonatomic, assign) NSInteger cid;//非服务器返回
+@property (nonatomic, copy) NSString * cid;//非服务器返回
 @property(nonatomic, copy) NSString *name;
 
 //酒楼版位信息

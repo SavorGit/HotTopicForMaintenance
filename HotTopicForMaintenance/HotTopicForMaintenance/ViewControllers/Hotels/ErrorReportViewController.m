@@ -87,7 +87,7 @@
 
 - (void)getErrorReportList
 {
-    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"" inView:self.view];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取异常报告" inView:self.view];
     
     [self requestWithID:@"0" success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         

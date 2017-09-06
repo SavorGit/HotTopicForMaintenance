@@ -1030,6 +1030,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2f98c2f0-8290-456f-863d-b48fdbd084b6";
 				PROVISIONING_PROFILE_SPECIFIER = HotTopicsTest;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1049,6 +1050,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.apptest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

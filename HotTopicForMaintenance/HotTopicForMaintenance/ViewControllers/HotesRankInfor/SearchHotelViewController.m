@@ -222,8 +222,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RestaurantRankModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
-    RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] init];
-    riVC.cid = tmpModel.cid;
+    RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] initWithDetaiID:tmpModel.cid];
     [self.navigationController pushViewController:riVC animated:YES];
     
 }

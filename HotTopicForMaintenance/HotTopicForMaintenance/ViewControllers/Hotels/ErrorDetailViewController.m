@@ -11,6 +11,7 @@
 #import "ErrorDetailTableViewCell.h"
 #import "MJRefresh.h"
 #import "HotTopicTools.h"
+#import "RestaurantRankInforViewController.h"
 
 @interface ErrorDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -37,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"异常报告";
+    self.title = @"异常详细信息";
     
     [self requestErrorDetail];
 }
@@ -139,6 +140,13 @@
     NSString * info = [NSString stringWithFormat:@"%@\n%@", model.small_palt_info, model.box_info];
     CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 50 title:info font:kPingFangRegular(14)];
     return 41 + height;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ErrorDetailModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    RestaurantRankInforViewController * vc = [[RestaurantRankInforViewController alloc] initWithDetaiID:model.detail_id];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)getMore

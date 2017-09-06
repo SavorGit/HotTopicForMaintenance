@@ -37,9 +37,19 @@
 
 @property (nonatomic, strong) LookHotelInforModel *topHeaderModel;
 
+@property (nonatomic , copy) NSString * cid;
+
 @end
 
 @implementation lookRestaurInforViewController
+
+- (instancetype)initWithDetaiID:(NSString *)detailID
+{
+    if (self = [super init]) {
+        self.cid = detailID;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,7 +79,7 @@
 - (void)dataRequest
 {
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
-    LookHotelInforRequest * request = [[LookHotelInforRequest alloc] initWithId:[NSString stringWithFormat:@"%lu",self.cid]];
+    LookHotelInforRequest * request = [[LookHotelInforRequest alloc] initWithId:self.cid];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];
