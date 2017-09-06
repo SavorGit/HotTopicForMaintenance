@@ -8,11 +8,13 @@
 
 #import "RestaurantRankInforViewController.h"
 #import "RestaurantRankModel.h"
+#import "RepairRecordRankModel.h"
 #import "RestaurantRankCell.h"
 #import "lookRestaurInforViewController.h"
 #import "FaultListViewController.h"
 #import "SearchHotelViewController.h"
 #import "Helper.h"
+#import "RestRankInforRequest.h"
 
 @interface RestaurantRankInforViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UINavigationControllerDelegate>
 
@@ -38,6 +40,11 @@
 @property (nonatomic, strong) UIButton *collectBtn;
 @property (nonatomic, strong) UIButton *backButton;
 
+@property (nonatomic, strong) RestaurantRankModel *lastHeartTModel;
+@property (nonatomic, strong) RestaurantRankModel *lastSmallModel;
+
+
+
 @end
 
 @implementation RestaurantRankInforViewController
@@ -46,7 +53,8 @@
     [super viewDidLoad];
     
     [self initInfo];
-    [self initData];
+    [self dataRequest];
+//    [self initData];
     
     // 设置导航控制器的代理为self
     self.navigationController.delegate = self;
@@ -89,6 +97,64 @@
         make.height.mas_equalTo(64);
     }];
     [self autoTitleButtonWith:@"淮阳府(安定门)"];
+}
+
+- (void)dataRequest
+{
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
+    RestRankInforRequest * request = [[RestRankInforRequest alloc] initWithId:[NSString stringWithFormat:@"%lu",self.cid]];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:NO];
+        [self.dataSource removeAllObjects];
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        NSDictionary *listDict = [dataDict objectForKey:@"list"];
+        
+        NSDictionary *versionDict = [dataDict objectForKey:@"version"];
+        NSDictionary *lastHeartTimeDict = [versionDict objectForKey:@"last_heart_time"];
+        NSDictionary *lastSmallDict = [versionDict objectForKey:@"last_small"];
+        self.lastHeartTModel = [[RestaurantRankModel alloc] initWithDictionary:lastHeartTimeDict];
+        self.lastSmallModel = [[RestaurantRankModel alloc] initWithDictionary:lastSmallDict];
+        self.lastSmallModel.banwei = [listDict objectForKey:@"banwei"];
+//        self.lastSmallModel.new_small1 = [listDict objectForKey:@"new_small"];
+        
+        NSArray *boxInforArr = [listDict objectForKey:@"box_info"];
+        
+        for (int i = 0; i < boxInforArr.count; i ++) {
+            
+            NSDictionary *tmpDic = boxInforArr[i];
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:tmpDic];
+            NSArray * listArray = [tmpDic objectForKey:@"repair_record"];
+            tmpModel.recordList = [NSMutableArray new];
+            for (NSInteger i = 0; i < listArray.count; i++) {
+                 RepairRecordRankModel * detailModel = [[RepairRecordRankModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
+                [tmpModel.recordList addObject:detailModel];
+            }
+            [self.dataSource addObject:tmpModel];
+        }
+        
+        
+        
+        
+        [self.tableView reloadData];
+        [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self.view];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:NO];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取失败，小热点正在休息~" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:NO];
+        [MBProgressHUD showTextHUDWithText:@"获取失败，网络出现问题了~" inView:self.view];
+        
+    }];
 }
 
 #pragma mark -- 懒加载

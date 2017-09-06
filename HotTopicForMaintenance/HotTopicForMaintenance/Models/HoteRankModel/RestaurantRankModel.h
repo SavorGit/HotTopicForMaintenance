@@ -24,4 +24,21 @@
 @property (nonatomic, assign) NSInteger cid;//非服务器返回
 @property(nonatomic, copy) NSString *name;
 
+//酒楼版位信息
+@property(nonatomic, copy) NSString *boxname;
+@property(nonatomic, copy) NSString *last_heart_time;
+@property(nonatomic, copy) NSString *mac;
+@property(nonatomic, copy) NSString *rname;
+@property(nonatomic, copy) NSString *ustate;
+//酒楼版位信息(version)
+@property(nonatomic, copy) NSString *lstate;
+@property(nonatomic, copy) NSString *ltime;
+@property(nonatomic, copy) NSString *last_small_pla;
+@property(nonatomic, copy) NSString *last_small_state;
+//酒楼版位信息(其他)
+//@property(nonatomic, copy) NSString *new_small1;
+@property(nonatomic, copy) NSString *banwei;
+
+@property (nonatomic, strong) NSMutableArray * recordList;
+
 @end

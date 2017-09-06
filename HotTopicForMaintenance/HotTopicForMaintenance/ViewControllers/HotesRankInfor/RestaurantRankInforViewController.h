@@ -10,4 +10,6 @@
 
 @interface RestaurantRankInforViewController : BaseViewController
 
+@property (nonatomic , assign) NSInteger cid;
+
 @end

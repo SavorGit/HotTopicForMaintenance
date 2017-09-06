@@ -56,6 +56,8 @@
 		96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19981F5FC38C00C06CE8 /* SearchTableViewCell.m */; };
 		96AA19A01F5FC39700C06CE8 /* RestaurantRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA199F1F5FC39700C06CE8 /* RestaurantRankModel.m */; };
 		96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19A31F5FC9A700C06CE8 /* SearchHotelRequest.m */; };
+		96AA19A71F5FD03A00C06CE8 /* RestRankInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19A61F5FD03A00C06CE8 /* RestRankInforRequest.m */; };
+		96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +184,10 @@
 		96AA199F1F5FC39700C06CE8 /* RestaurantRankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantRankModel.m; sourceTree = "<group>"; };
 		96AA19A21F5FC9A700C06CE8 /* SearchHotelRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchHotelRequest.h; sourceTree = "<group>"; };
 		96AA19A31F5FC9A700C06CE8 /* SearchHotelRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchHotelRequest.m; sourceTree = "<group>"; };
+		96AA19A51F5FD03A00C06CE8 /* RestRankInforRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestRankInforRequest.h; sourceTree = "<group>"; };
+		96AA19A61F5FD03A00C06CE8 /* RestRankInforRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestRankInforRequest.m; sourceTree = "<group>"; };
+		96AA19AB1F5FDFDC00C06CE8 /* RepairRecordRankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordRankModel.h; sourceTree = "<group>"; };
+		96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordRankModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -548,6 +554,8 @@
 			children = (
 				96AA199E1F5FC39700C06CE8 /* RestaurantRankModel.h */,
 				96AA199F1F5FC39700C06CE8 /* RestaurantRankModel.m */,
+				96AA19AB1F5FDFDC00C06CE8 /* RepairRecordRankModel.h */,
+				96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */,
 			);
 			path = HoteRankModel;
 			sourceTree = "<group>";
@@ -557,6 +565,8 @@
 			children = (
 				96AA19A21F5FC9A700C06CE8 /* SearchHotelRequest.h */,
 				96AA19A31F5FC9A700C06CE8 /* SearchHotelRequest.m */,
+				96AA19A51F5FD03A00C06CE8 /* RestRankInforRequest.h */,
+				96AA19A61F5FD03A00C06CE8 /* RestRankInforRequest.m */,
 			);
 			path = HotelRankNet;
 			sourceTree = "<group>";
@@ -763,6 +773,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96AA19A71F5FD03A00C06CE8 /* RestRankInforRequest.m in Sources */,
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
 				0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */,
@@ -782,6 +793,7 @@
 				06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */,
 				06ECDC911F596DCD007FBD83 /* DesUtil.m in Sources */,
 				06B055F41F5D572500A9CE68 /* UIView+Additional.m in Sources */,
+				96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */,
 				06356D381F5D7B2400242940 /* RDAlertView.m in Sources */,
 				06B055D11F5D46BF00A9CE68 /* UserLoginRequest.m in Sources */,
 				06ECDC4E1F5969AB007FBD83 /* main.m in Sources */,
