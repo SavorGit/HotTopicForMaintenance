@@ -584,21 +584,17 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    
     [self.sheetBgView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.mListView.centerY).offset(- 50);
     }];
-    
-    if ([textView.text isEqualToString:@"限制100字以内"]) {
-        self.remarkTextView.textColor = [UIColor blackColor];
+    if ([textView.text isEqualToString:@"备注，限制100字"]) {
+        self.remarkTextView.textColor = [UIColor lightGrayColor];
         textView.text = @"";
-        
     }
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    
     if (range.location < 100)
     {
         return  YES;
