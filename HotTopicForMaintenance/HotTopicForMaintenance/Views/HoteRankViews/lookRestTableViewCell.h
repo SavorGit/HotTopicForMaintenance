@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RestaurantRankModel.h"
+#import "LookHotelInforModel.h"
 
 @interface lookRestTableViewCell : UITableViewCell
 
-- (void)configWithModel:(RestaurantRankModel *)model;
+- (void)configWithModel:(LookHotelInforModel *)model;
 
 @end

@@ -10,4 +10,6 @@
 
 @interface lookRestaurInforViewController : BaseViewController
 
+@property (nonatomic , assign) NSInteger cid;
+
 @end

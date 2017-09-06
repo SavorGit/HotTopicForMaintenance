@@ -62,6 +62,8 @@
 		96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19A31F5FC9A700C06CE8 /* SearchHotelRequest.m */; };
 		96AA19A71F5FD03A00C06CE8 /* RestRankInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19A61F5FD03A00C06CE8 /* RestRankInforRequest.m */; };
 		96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */; };
+		96AA19B01F5FF0C800C06CE8 /* LookHotelInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */; };
+		96AA19B31F600C8A00C06CE8 /* LookHotelInforModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,6 +202,10 @@
 		96AA19A61F5FD03A00C06CE8 /* RestRankInforRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestRankInforRequest.m; sourceTree = "<group>"; };
 		96AA19AB1F5FDFDC00C06CE8 /* RepairRecordRankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordRankModel.h; sourceTree = "<group>"; };
 		96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordRankModel.m; sourceTree = "<group>"; };
+		96AA19AE1F5FF0C800C06CE8 /* LookHotelInforRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookHotelInforRequest.h; sourceTree = "<group>"; };
+		96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookHotelInforRequest.m; sourceTree = "<group>"; };
+		96AA19B11F600C8A00C06CE8 /* LookHotelInforModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookHotelInforModel.h; sourceTree = "<group>"; };
+		96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookHotelInforModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -576,6 +582,8 @@
 				96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */,
 				066EA54C1F5FEE6B0054264C /* ErrorReportModel.h */,
 				066EA54D1F5FEE6B0054264C /* ErrorReportModel.m */,
+				96AA19B11F600C8A00C06CE8 /* LookHotelInforModel.h */,
+				96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */,
 			);
 			path = HoteRankModel;
 			sourceTree = "<group>";
@@ -587,6 +595,8 @@
 				96AA19A31F5FC9A700C06CE8 /* SearchHotelRequest.m */,
 				96AA19A51F5FD03A00C06CE8 /* RestRankInforRequest.h */,
 				96AA19A61F5FD03A00C06CE8 /* RestRankInforRequest.m */,
+				96AA19AE1F5FF0C800C06CE8 /* LookHotelInforRequest.h */,
+				96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */,
 			);
 			path = HotelRankNet;
 			sourceTree = "<group>";
@@ -810,7 +820,9 @@
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
+				96AA19B31F600C8A00C06CE8 /* LookHotelInforModel.m in Sources */,
 				06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */,
+				96AA19B01F5FF0C800C06CE8 /* LookHotelInforRequest.m in Sources */,
 				06ECDC911F596DCD007FBD83 /* DesUtil.m in Sources */,
 				06B055F41F5D572500A9CE68 /* UIView+Additional.m in Sources */,
 				066EA54E1F5FEE6B0054264C /* ErrorReportModel.m in Sources */,
