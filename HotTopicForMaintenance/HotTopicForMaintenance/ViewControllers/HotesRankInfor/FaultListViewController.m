@@ -106,7 +106,14 @@
 - (void)saveClicked{
     
     if (_backDatas) {
-        _backDatas(@"机顶盒故障");
+        NSMutableArray *backArray = [[NSMutableArray alloc ] initWithCapacity:100];
+        for (int i = 0; i < self.dataSource.count; i ++) {
+            RestaurantRankModel *tmpModel = self.dataSource[i];
+            if (tmpModel.selectType == 1) {
+                [backArray addObject:tmpModel];
+            }
+        }
+        _backDatas(backArray);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
