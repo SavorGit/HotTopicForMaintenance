@@ -15,6 +15,7 @@
 #import "RepairRecordDetailModel.h"
 #import "HotTopicTools.h"
 #import "MJRefresh.h"
+#import "RepairRecordHeaderView.h"
 
 @interface RepairRecordViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -53,57 +54,6 @@
     [self requestRecordList];
 }
 
-- (void)requestRecordList
-{
-    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载维修记录" inView:self.view];
-    
-    self.pageNumber = 1;
-    [self.dataSource removeAllObjects];
-    
-    [self requestRedordWithPageNumber:self.pageNumber success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        NSDictionary * dataDict = [response objectForKey:@"result"];
-        if ([dataDict objectForKey:@"list"]) {
-            
-            NSArray * array = [dataDict objectForKey:@"list"];
-            for (NSInteger i = 0; i < array.count; i++) {
-                NSDictionary * dict = [array objectAtIndex:i];
-                RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
-                
-                NSArray * listArray = [dict objectForKey:@"repair_list"];
-                
-                model.recordList = [NSMutableArray new];
-                for (NSInteger i = 0; i < listArray.count; i++) {
-                    RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
-                    [model.recordList addObject:detailModel];
-                }
-                [self.dataSource addObject:model];
-            }
-            [self.tableView reloadData];
-            self.pageNumber++;
-            [hud hideAnimated:YES];
-            
-        }else{
-            
-            [hud hideAnimated:YES];
-            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
-            
-        }
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        [hud hideAnimated:YES];
-        [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
-        
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
-        [hud hideAnimated:YES];
-        [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
-        
-    }];
-    
-}
-
 - (void)createTableView
 {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -112,12 +62,18 @@
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 20, 0, 20)];
     [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, 20, 0, 20)];
     [self.tableView registerClass:[RepairRecordTableViewCell class] forCellReuseIdentifier:@"RepairRecordCell"];
+    [self.tableView registerClass:[RepairRecordHeaderView class] forHeaderFooterViewReuseIdentifier:@"RepairRecordHeader"];
+    self.tableView.sectionFooterHeight = 20.f;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMore)];
+    self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 20.f)];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, .1f)];
 }
 
 - (void)createUserTableView
@@ -319,6 +275,32 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (tableView == self.tableView) {
+        return 20;
+    }
+    return .1f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (tableView == self.tableView) {
+        
+        RepairRecordHeaderView * view = (RepairRecordHeaderView *)[tableView dequeueReusableCellWithIdentifier:@"RepairRecordHeader"];
+        
+        if (!view) {
+            view = [[RepairRecordHeaderView alloc] initWithReuseIdentifier:@"RepairRecordHeader"];
+        }
+        
+        [view configWithModel:[self.dataSource objectAtIndex:section]];
+        
+        return view;
+        
+    }
+    return [UIView new];
+}
+
 - (void)requestRedordWithPageNumber:(NSInteger)pageNumber success:(BGSuccessCompletionBlock)successCompletionBlock businessFailure:(BGBusinessFailureBlock)businessFailureBlock networkFailure:(BGNetworkFailureBlock)networkFailureBlock
 {
     GetRepairRecordListRequest * request = [[GetRepairRecordListRequest alloc] initWithUserID:self.user.userid pageNum:[NSString stringWithFormat:@"%ld", pageNumber]];
@@ -333,6 +315,159 @@
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
         networkFailureBlock(request, error);
+        
+    }];
+}
+
+- (void)requestRecordList
+{
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载维修记录" inView:self.view];
+    
+    [self requestRedordWithPageNumber:1 success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        if ([dataDict objectForKey:@"list"]) {
+            [self.dataSource removeAllObjects];
+            NSArray * array = [dataDict objectForKey:@"list"];
+            for (NSInteger i = 0; i < array.count; i++) {
+                NSDictionary * dict = [array objectAtIndex:i];
+                RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
+                
+                NSArray * listArray = [dict objectForKey:@"repair_list"];
+                
+                model.recordList = [NSMutableArray new];
+                for (NSInteger i = 0; i < listArray.count; i++) {
+                    RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
+                    [model.recordList addObject:detailModel];
+                }
+                [self.dataSource addObject:model];
+            }
+            [self.tableView reloadData];
+            [self.tableView.mj_footer resetNoMoreData];
+            self.pageNumber = 2;
+            [hud hideAnimated:YES];
+            
+        }else{
+            
+            [hud hideAnimated:YES];
+            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+            
+        }
+        
+        if (self.dataSource.count == 0) {
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        
+    }];
+    
+}
+
+- (void)refreshData
+{
+    [self requestRedordWithPageNumber:1 success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self.tableView.mj_header endRefreshing];
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        if ([dataDict objectForKey:@"list"]) {
+            [self.dataSource removeAllObjects];
+            NSArray * array = [dataDict objectForKey:@"list"];
+            for (NSInteger i = 0; i < array.count; i++) {
+                NSDictionary * dict = [array objectAtIndex:i];
+                RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
+                
+                NSArray * listArray = [dict objectForKey:@"repair_list"];
+                
+                model.recordList = [NSMutableArray new];
+                for (NSInteger i = 0; i < listArray.count; i++) {
+                    RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
+                    [model.recordList addObject:detailModel];
+                }
+                [self.dataSource addObject:model];
+            }
+            [self.tableView reloadData];
+            self.pageNumber = 2;
+            [self.tableView.mj_footer resetNoMoreData];
+            
+            [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
+        }else{
+            
+            [MBProgressHUD showTextHUDWithText:@"刷新失败" inView:self.view];
+            
+        }
+        
+        if (self.dataSource.count == 0) {
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+        }
+        
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self.tableView.mj_header endRefreshing];
+        [MBProgressHUD showTextHUDWithText:@"刷新失败" inView:self.view];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [self.tableView.mj_header endRefreshing];
+        [MBProgressHUD showTextHUDWithText:@"刷新失败" inView:self.view];
+        
+    }];
+}
+
+- (void)getMore
+{
+    [self requestRedordWithPageNumber:self.pageNumber success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self.tableView.mj_footer endRefreshing];
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        if ([dataDict objectForKey:@"list"]) {
+            NSArray * array = [dataDict objectForKey:@"list"];
+            if (array && array.count > 0) {
+                for (NSInteger i = 0; i < array.count; i++) {
+                    NSDictionary * dict = [array objectAtIndex:i];
+                    RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
+                    
+                    NSArray * listArray = [dict objectForKey:@"repair_list"];
+                    
+                    model.recordList = [NSMutableArray new];
+                    for (NSInteger i = 0; i < listArray.count; i++) {
+                        RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
+                        [model.recordList addObject:detailModel];
+                    }
+                    [self.dataSource addObject:model];
+                }
+                [self.tableView reloadData];
+                self.pageNumber++;
+            }else{
+                [MBProgressHUD showTextHUDWithText:@"没有更多数据了~" inView:self.view];
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }
+        }else{
+            
+            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+            
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self.tableView.mj_footer endRefreshing];
+        [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [self.tableView.mj_footer endRefreshing];
+        [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
         
     }];
 }

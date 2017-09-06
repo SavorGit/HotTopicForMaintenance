@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RepairRecordModel.h"
 
-@interface RepairRecordHeaderView : UIView
+@interface RepairRecordHeaderView : UITableViewHeaderFooterView
+
+- (void)configWithModel:(RepairRecordModel *)model;
 
 @end
