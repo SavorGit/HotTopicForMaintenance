@@ -62,7 +62,7 @@
 
 - (void)configWithModel:(RestaurantRankModel *)model{
     
-    self.hotelLabel.text = model.string1;
+    self.hotelLabel.text = model.name;
     
 }
 
