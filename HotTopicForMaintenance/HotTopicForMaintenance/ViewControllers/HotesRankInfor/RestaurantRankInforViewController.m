@@ -50,16 +50,17 @@
 @property (nonatomic, strong) DamageUploadModel *dUploadModel;
 
 @property (nonatomic , copy) NSString * cid;
-@property (nonatomic , copy) NSString * isSolveString;//是否解决
+@property (nonatomic , copy) NSString * hotelName;//酒店名称
 
 @end
 
 @implementation RestaurantRankInforViewController
 
-- (instancetype)initWithDetaiID:(NSString *)detailID
+- (instancetype)initWithDetaiID:(NSString *)detailID WithHotelNam:(NSString *)hotelName
 {
     if (self = [super init]) {
         self.cid = detailID;
+        self.hotelName = hotelName;
     }
     return self;
 }
@@ -100,7 +101,6 @@
     _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
     _dConfigData = [[NSMutableArray alloc] initWithCapacity:100];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
-    self.isSolveString = [[NSString alloc] init];
     self.dUploadModel = [[DamageUploadModel alloc] init];
     
     [self.view addSubview:self.topView];
@@ -108,7 +108,7 @@
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(64);
     }];
-    [self autoTitleButtonWith:@"淮阳府(安定门)"];
+    [self autoTitleButtonWith:self.hotelName];
 }
 
 - (void)dataRequest
@@ -390,14 +390,14 @@
         [_topView addSubview:_backButton];
         
         UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [shareBtn setImage:[UIImage imageNamed:@"shuaxin"] forState:UIControlStateNormal];
-        [shareBtn setImage:[UIImage imageNamed:@"shuaxin"] forState:UIControlStateSelected];
+        [shareBtn setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+        [shareBtn setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateSelected];
         shareBtn.tag = 101;
         [shareBtn addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
         [_topView addSubview:shareBtn];
         [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(40, 44));
-            make.top.mas_equalTo(20);
+            make.size.mas_equalTo(CGSizeMake(15, 15));
+            make.top.mas_equalTo(20 + 14.5);
             make.right.mas_equalTo(- 15);
         }];
     }
@@ -554,7 +554,7 @@
     [self.sheetBgView addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
-        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 45);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
@@ -571,7 +571,7 @@
     [self.sheetBgView addSubview:submitBtn];
     [submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
-        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(45);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
@@ -781,6 +781,8 @@
 
 #pragma mark - 点击刷新页面
 - (void)refreshAction{
+    
+    [self dataRequest];
     
 }
 

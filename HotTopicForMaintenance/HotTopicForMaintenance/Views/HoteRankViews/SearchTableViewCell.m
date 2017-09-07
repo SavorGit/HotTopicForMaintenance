@@ -53,8 +53,8 @@
     [self.nextImgView setImage:[UIImage imageNamed:@"more"]];
     [_bgView addSubview:self.nextImgView];
     [self.nextImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(8, 14));
-        make.top.mas_equalTo(16);
+        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.top.mas_equalTo(15);
         make.right.mas_equalTo(- 15);
     }];
     

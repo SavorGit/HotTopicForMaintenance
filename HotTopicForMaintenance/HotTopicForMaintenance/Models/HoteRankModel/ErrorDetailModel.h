@@ -15,5 +15,6 @@
 @property (nonatomic, copy) NSString * hotel_info;
 @property (nonatomic, copy) NSString * small_palt_info;
 @property (nonatomic, copy) NSString * box_info;
+@property (nonatomic, copy) NSString * hotel_name;
 
 @end
