@@ -34,7 +34,7 @@
 //-------------------友盟-------------------------
 #define UmengAppkey @"59b1260a734be41803000022"
 
-#define kVersionCode 2017090401
+#define kVersionCode 2017090701
 
 #define keychainID @"HotTopicsForMaintenanceKeychainID"
 

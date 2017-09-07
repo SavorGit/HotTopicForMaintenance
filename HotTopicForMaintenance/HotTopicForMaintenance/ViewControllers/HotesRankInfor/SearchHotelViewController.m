@@ -29,7 +29,6 @@
     
     [self initInfo];
     [self creatSubViews];
-    [self dataRequest];
 }
 
 - (void)initInfo{
@@ -104,7 +103,7 @@
 
 - (void)dataRequest
 {
-    self.searchField.text = @"永峰";
+//    self.searchField.text = @"永峰";
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
     SearchHotelRequest * request = [[SearchHotelRequest alloc] initWithHotelName:self.searchField.text];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

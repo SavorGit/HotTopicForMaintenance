@@ -1090,6 +1090,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_ENTITLEMENTS = HotTopicForMaintenance/HotTopicForMaintenance.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 922V2U92Z9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HotTopicForMaintenance/HotTopicForMaintenance.pch;
@@ -1102,8 +1103,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.apptest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f175b491-3c0b-4389-b8de-d446aad4a0f5";
-				PROVISIONING_PROFILE_SPECIFIER = "HotTopicTestAD-Hoc";
+				PROVISIONING_PROFILE = "2f98c2f0-8290-456f-863d-b48fdbd084b6";
+				PROVISIONING_PROFILE_SPECIFIER = HotTopicsTest;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
