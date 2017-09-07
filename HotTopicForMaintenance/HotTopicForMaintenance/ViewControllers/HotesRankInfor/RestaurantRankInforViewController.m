@@ -9,6 +9,7 @@
 #import "RestaurantRankInforViewController.h"
 #import "RestaurantRankModel.h"
 #import "RepairRecordRankModel.h"
+#import "DamageUploadModel.h"
 #import "RestaurantRankCell.h"
 #import "lookRestaurInforViewController.h"
 #import "FaultListViewController.h"
@@ -16,6 +17,8 @@
 #import "Helper.h"
 #import "RestRankInforRequest.h"
 #import "DamageConfigRequest.h"
+#import "DamageUploadRequest.h"
+#import "UserManager.h"
 
 @interface RestaurantRankInforViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UINavigationControllerDelegate>
 
@@ -44,7 +47,10 @@
 @property (nonatomic, strong) RestaurantRankModel *lastHeartTModel;
 @property (nonatomic, strong) RestaurantRankModel *lastSmallModel;
 
+@property (nonatomic, strong) DamageUploadModel *dUploadModel;
+
 @property (nonatomic , copy) NSString * cid;
+@property (nonatomic , copy) NSString * isSolveString;//是否解决
 
 @end
 
@@ -94,6 +100,8 @@
     _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
     _dConfigData = [[NSMutableArray alloc] initWithCapacity:100];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
+    self.isSolveString = [[NSString alloc] init];
+    self.dUploadModel = [[DamageUploadModel alloc] init];
     
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -122,6 +130,7 @@
         self.lastSmallModel = [[RestaurantRankModel alloc] initWithDictionary:lastSmallDict];
         self.lastSmallModel.banwei = [listDict objectForKey:@"banwei"];
         self.lastSmallModel.neSmall = [versionDict objectForKey:@"new_small"];
+        self.lastSmallModel.small_mac = [versionDict objectForKey:@"small_mac"];
         
         NSArray *boxInforArr = [listDict objectForKey:@"box_info"];
         
@@ -175,6 +184,27 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    }];
+}
+
+#pragma mark -- 上传错误日志
+- (void)damageUploadRequest
+{
+    DamageUploadRequest * request = [[DamageUploadRequest alloc] initWithModel:self.dUploadModel];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSInteger code = [response[@"code"] integerValue];
+        NSString *msg = response[@"msg"];
+        if (code == 10000) {
+            [self dismissViewWithAnimationDuration:.3f];
+            NSLog(@"---上传成功");
+        }
+        [MBProgressHUD showTextHUDWithText:msg inView:self.view];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
     }];
 }
 
@@ -328,6 +358,11 @@
 
 #pragma mark - 点击小平台维修
 - (void)mPlatformClicked{
+    
+    self.dUploadModel.userid = [UserManager manager].user.userid;
+    self.dUploadModel.hotel_id = self.cid;
+    self.dUploadModel.type = @"1";
+    self.dUploadModel.box_mac = self.lastSmallModel.small_mac;;
     
     [self creatMListView];
 }
@@ -507,6 +542,22 @@
         make.height.mas_equalTo(20);
     }];
     
+    UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    cancelBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [cancelBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    cancelBtn.layer.borderWidth = .5f;
+    cancelBtn.layer.cornerRadius = 2.f;
+    cancelBtn.layer.masksToBounds = YES;
+    [cancelBtn addTarget:self action:@selector(cancelClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:cancelBtn];
+    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 45);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(30);
+    }];
     
     UIButton * submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
@@ -520,7 +571,7 @@
     [self.sheetBgView addSubview:submitBtn];
     [submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
-        make.centerX.mas_equalTo(self.sheetBgView.centerX);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(45);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
@@ -536,17 +587,22 @@
 }
 
 - (void)ResolveClicked{
-    
+    self.dUploadModel.state = @"1";
 }
 
 - (void)unResolveClicked{
-    
+    self.dUploadModel.state = @"2";
 }
 
 #pragma mark - 点击提交按钮
 - (void)submitClicked{
-    
-      [self dismissViewWithAnimationDuration:.3f];
+    self.dUploadModel.remakr = self.remarkTextView.text;
+    [self damageUploadRequest];
+}
+
+#pragma mark - 点击取消按钮
+- (void)cancelClicked{
+    [self dismissViewWithAnimationDuration:.3f];
 }
 
 #pragma mark - 点击故障选择
@@ -562,9 +618,10 @@
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     flVC.dataSource = self.dConfigData;
     [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSArray *backArray) {
+    flVC.backDatas = ^(NSArray *backArray,NSString *damageIdString) {
         NSLog(@"%ld",backArray.count);
         self.mReasonLab.text = [NSString stringWithFormat:@"  已选择%ld项",backArray.count];
+        self.dUploadModel.repair_num_str = damageIdString;
     };
 }
 
@@ -605,7 +662,6 @@
     if (textView.text.length == 100) {
         return NO;
     }
-    
     return YES;
 }
 
@@ -663,6 +719,11 @@
     [cell configWithModel:model];
     
     cell.btnClick = ^(RestaurantRankModel *tmpModel){
+        
+        self.dUploadModel.userid = [UserManager manager].user.userid;
+        self.dUploadModel.hotel_id = self.cid;
+        self.dUploadModel.type = @"2";
+        self.dUploadModel.box_mac = tmpModel.mac;
         
         [self creatMListView];
         NSLog(@"---维修---");
