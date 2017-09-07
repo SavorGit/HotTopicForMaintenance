@@ -51,6 +51,7 @@
 
 @property (nonatomic, strong) UIButton * unResolvedBtn;
 @property (nonatomic, strong) UIButton * resolvedBtn;
+@property (nonatomic, assign) BOOL isRefreh;
 
 
 @property (nonatomic , copy) NSString * cid;
@@ -87,6 +88,7 @@
     _dConfigData = [[NSMutableArray alloc] initWithCapacity:100];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
     self.dUploadModel = [[DamageUploadModel alloc] init];
+    self.isRefreh = NO;
     
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -135,7 +137,9 @@
         [self.tableView reloadData];
         [self setUpTableHeaderView];
         
-        [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
+        if (self.isRefreh == YES) {
+            [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
+        }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -182,16 +186,15 @@
         NSString *msg = response[@"msg"];
         if (code == 10000) {
             [self dismissViewWithAnimationDuration:.3f];
+            self.isRefreh = NO;
+            [self dataRequest];
             NSLog(@"---上传成功");
         }else{
             [MBProgressHUD showTextHUDWithText:msg inView:self.view];
         }
-        [self dataRequest];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
     }];
 }
 
@@ -378,22 +381,24 @@
         [_topView addSubview:_backButton];
         
         UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        refreshButton.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
-        refreshButton.layer.borderWidth = .5f;
-        refreshButton.layer.cornerRadius = 5;
-        refreshButton.layer.masksToBounds = YES;
-        [refreshButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
-        [refreshButton setTitle:@"刷新" forState:UIControlStateNormal];
-        [refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-        refreshButton.titleLabel.font = kPingFangRegular(13);
+        [refreshButton setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
         [_topView addSubview:refreshButton];
         [refreshButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(20 + 11);
-            make.right.mas_equalTo(-15);
-            make.width.mas_equalTo(70);
+            make.top.mas_equalTo(20 + 8.5);
+            make.right.mas_equalTo(-18);
+            make.width.height.mas_equalTo(23);
         }];
-        [refreshButton setImageEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 10)];
         [refreshButton addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
+        lineView.backgroundColor = [UIColor lightGrayColor];
+        [_topView addSubview:lineView];
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.mas_equalTo(_topView.mas_bottom).offset(-0.5);
+            make.left.mas_equalTo(0);
+            make.width.mas_equalTo(kMainBoundsWidth);
+            make.height.mas_equalTo(0.5);
+        }];
     }
     return _topView;
 }
@@ -777,22 +782,32 @@
         size.width = maxWidth;
     }
     [titleButton setImageEdgeInsets:UIEdgeInsetsMake(0, size.width + 15, 0, 0)];
-    [titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10 + 10)];
+    [titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     
     [titleButton setTitle:title forState:UIControlStateNormal];
     [self.topView addSubview:titleButton];
     [titleButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(20);
+        make.top.mas_equalTo(20 + 9);
         make.centerX.mas_equalTo(self.topView.centerX);
         make.width.mas_equalTo(size.width + 30);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(26);
+    }];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor = [UIColor lightGrayColor];
+    [titleButton addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(titleButton.mas_bottom).offset(-0.5);
+        make.centerX.mas_equalTo(titleButton.centerX);
+        make.width.mas_equalTo(size.width);
+        make.height.mas_equalTo(0.5);
     }];
 }
 
 #pragma mark - 点击查看酒楼信息
 - (void)titleButtonDidBeClicked{
     
-    lookRestaurInforViewController *lrVC = [[lookRestaurInforViewController alloc] initWithDetaiID:self.cid];
+    lookRestaurInforViewController *lrVC = [[lookRestaurInforViewController alloc] initWithDetaiID:self.cid WithHotelNam:self.hotelName];
     [self.navigationController pushViewController:lrVC animated:YES];
     
 }
@@ -805,6 +820,7 @@
 #pragma mark - 点击刷新页面
 - (void)refreshAction{
     
+    self.isRefreh = YES;
     [self dataRequest];
     
 }

@@ -119,7 +119,7 @@
         }
         
         [self.tableView reloadData];
-        [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self.view];
+        [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
