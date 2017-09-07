@@ -43,7 +43,7 @@
     self.dataSource = [NSMutableArray new];
     
     UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    titleLabel.font = kPingFangRegular(15);
+    titleLabel.font = kPingFangMedium(15);
     titleLabel.textColor = UIColorFromRGB(0x333333);
     titleLabel.text = @"小热点最新状态";
     [self addSubview:titleLabel];
