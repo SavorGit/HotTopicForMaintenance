@@ -135,7 +135,7 @@
         [self.tableView reloadData];
         [self setUpTableHeaderView];
         
-        [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self.view];
+        [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -186,6 +186,7 @@
         }else{
             [MBProgressHUD showTextHUDWithText:msg inView:self.view];
         }
+        [self dataRequest];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -353,6 +354,7 @@
     [self creatMListView];
 }
 
+#pragma mark - 自定义导航栏视图
 - (UIView *)topView
 {
     if (_topView == nil) {
@@ -375,17 +377,23 @@
         [_backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [_topView addSubview:_backButton];
         
-        UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [shareBtn setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-        [shareBtn setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateSelected];
-        shareBtn.tag = 101;
-        [shareBtn addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
-        [_topView addSubview:shareBtn];
-        [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(15, 15));
-            make.top.mas_equalTo(20 + 14.5);
-            make.right.mas_equalTo(- 15);
+        UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        refreshButton.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
+        refreshButton.layer.borderWidth = .5f;
+        refreshButton.layer.cornerRadius = 5;
+        refreshButton.layer.masksToBounds = YES;
+        [refreshButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+        [refreshButton setTitle:@"刷新" forState:UIControlStateNormal];
+        [refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+        refreshButton.titleLabel.font = kPingFangRegular(13);
+        [_topView addSubview:refreshButton];
+        [refreshButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(20 + 11);
+            make.right.mas_equalTo(-15);
+            make.width.mas_equalTo(70);
         }];
+        [refreshButton setImageEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 10)];
+        [refreshButton addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _topView;
 }

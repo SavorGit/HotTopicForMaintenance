@@ -117,7 +117,7 @@
     self.lastUploadTimeLabel.text = @"最后上传时间";
     [_bgView addSubview:self.lastUploadTimeLabel];
     [self.lastUploadTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 40, 20));//40为按钮虚拟触发范围
         make.top.mas_equalTo(self.lastTimeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
     }];
@@ -147,21 +147,32 @@
         make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
     }];
     
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"维修" forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:14];
-    button.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    button.layer.borderWidth = .5f;
-    button.layer.cornerRadius = 5.f;
-    button.layer.masksToBounds = YES;
-    [button addTarget:self action:@selector(mPlatformClicked) forControlEvents:UIControlEventTouchUpInside];
-    [_bgView addSubview:button];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel * clickLabel = [[UILabel alloc] init];
+    clickLabel.text = @"维修" ;
+    clickLabel.font = [UIFont systemFontOfSize:14];
+    clickLabel.textColor = UIColorFromRGB(0x434343);
+    clickLabel.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    clickLabel.layer.borderWidth = .5f;
+    clickLabel.layer.cornerRadius = 5.f;
+    clickLabel.layer.masksToBounds = YES;
+    clickLabel.textAlignment = NSTextAlignmentCenter;
+    [_bgView addSubview:clickLabel];
+    [clickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom);
         make.right.mas_equalTo(-15);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(20);
+    }];
+    
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.backgroundColor = [UIColor clearColor];
+    [button addTarget:self action:@selector(mPlatformClicked) forControlEvents:UIControlEventTouchUpInside];
+    [_bgView addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(clickLabel.mas_bottom);
+        make.right.mas_equalTo(0);
+        make.width.mas_equalTo(75);
+        make.height.mas_equalTo(40);
     }];
 }
 
