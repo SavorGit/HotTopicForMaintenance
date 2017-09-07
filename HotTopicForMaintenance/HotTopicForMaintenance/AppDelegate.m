@@ -10,8 +10,10 @@
 #import "HomeViewController.h"
 #import "BaseNavigationController.h"
 #import "HotTopicTools.h"
+#import "UMessage.h"
+#import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate ()
+@interface AppDelegate ()<UNUserNotificationCenterDelegate>
 
 @end
 
@@ -29,9 +31,64 @@
     BaseNavigationController * homeRoot = [[BaseNavigationController alloc] initWithRootViewController:home];
     self.window.rootViewController = homeRoot;
     
+    
+    //处理启动时候的相关事务
+    [self handleLaunchWorkWithOptions:launchOptions];
+    
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+//处理启动时候的相关事务
+- (void)handleLaunchWorkWithOptions:(NSDictionary *)launchOptions
+{
+    //友盟推送
+    [UMessage startWithAppkey:UmengAppkey launchOptions:launchOptions];
+    [UMessage setAutoAlert:NO];
+    [UMessage registerForRemoteNotifications];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10")) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate=self;
+        UNAuthorizationOptions types10 = UNAuthorizationOptionBadge|	UNAuthorizationOptionAlert|UNAuthorizationOptionSound;
+        [center requestAuthorizationWithOptions:types10 completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            if (granted) {
+                //点击允许
+                //这里可以添加一些自己的逻辑
+            } else {
+                //点击不允许
+                //这里可以添加一些自己的逻辑
+            }
+        }];
+    }
+}
+
+//app注册推送deviceToken
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSString * token = [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                         stringByReplacingOccurrencesOfString: @">" withString: @""]
+                        stringByReplacingOccurrencesOfString: @" " withString: @""];
+    
+    NSLog(@"%@",token);
+}
+
+//iOS10以下使用这个方法接收通知
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"收到了通知");
+}
+
+//iOS10新增：处理前台收到通知的代理方法
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
+{
+    NSLog(@"收到了通知");
+}
+
+//iOS10新增：处理前台收到通知的代理方法
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+{
+    NSLog(@"收到了通知");
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
