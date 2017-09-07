@@ -71,6 +71,8 @@
 		96AA19B01F5FF0C800C06CE8 /* LookHotelInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */; };
 		96AA19B31F600C8A00C06CE8 /* LookHotelInforModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */; };
 		96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B51F6025A200C06CE8 /* DamageConfigRequest.m */; };
+		96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B81F60DC7B00C06CE8 /* DamageUploadModel.m */; };
+		96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19BB1F60E20500C06CE8 /* DamageUploadRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -227,6 +229,10 @@
 		96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookHotelInforModel.m; sourceTree = "<group>"; };
 		96AA19B41F6025A200C06CE8 /* DamageConfigRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DamageConfigRequest.h; sourceTree = "<group>"; };
 		96AA19B51F6025A200C06CE8 /* DamageConfigRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageConfigRequest.m; sourceTree = "<group>"; };
+		96AA19B71F60DC7B00C06CE8 /* DamageUploadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DamageUploadModel.h; sourceTree = "<group>"; };
+		96AA19B81F60DC7B00C06CE8 /* DamageUploadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageUploadModel.m; sourceTree = "<group>"; };
+		96AA19BA1F60E20500C06CE8 /* DamageUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DamageUploadRequest.h; sourceTree = "<group>"; };
+		96AA19BB1F60E20500C06CE8 /* DamageUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageUploadRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -625,6 +631,8 @@
 				066EA55C1F6012500054264C /* ErrorDetailModel.m */,
 				96AA19B11F600C8A00C06CE8 /* LookHotelInforModel.h */,
 				96AA19B21F600C8A00C06CE8 /* LookHotelInforModel.m */,
+				96AA19B71F60DC7B00C06CE8 /* DamageUploadModel.h */,
+				96AA19B81F60DC7B00C06CE8 /* DamageUploadModel.m */,
 			);
 			path = HoteRankModel;
 			sourceTree = "<group>";
@@ -640,6 +648,8 @@
 				96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */,
 				96AA19B41F6025A200C06CE8 /* DamageConfigRequest.h */,
 				96AA19B51F6025A200C06CE8 /* DamageConfigRequest.m */,
+				96AA19BA1F60E20500C06CE8 /* DamageUploadRequest.h */,
+				96AA19BB1F60E20500C06CE8 /* DamageUploadRequest.m */,
 			);
 			path = HotelRankNet;
 			sourceTree = "<group>";
@@ -849,6 +859,7 @@
 				96AA19A71F5FD03A00C06CE8 /* RestRankInforRequest.m in Sources */,
 				066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */,
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
+				96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */,
 				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
 				0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */,
@@ -856,6 +867,7 @@
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
 				96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */,
 				06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */,
+				96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */,
 				06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */,
 				06B055F31F5D572500A9CE68 /* UIImage+Additional.m in Sources */,
 				96AA199A1F5FC38C00C06CE8 /* lookRestTableViewCell.m in Sources */,

@@ -177,7 +177,7 @@
     self.stbLabel.text = model.boxname;
     self.lastTimeLabel.text = [NSString stringWithFormat:@"最后心跳时间:%@",model.last_heart_time];
     self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后上传日志时间:%@",model.last_heart_time];
-    self.mReContentLabel.text = [NSString stringWithFormat:@"%@",model.string6];
+    self.mReContentLabel.text = [NSString stringWithFormat:@"%@",model.last_nginx];
     //0 是红灯 1 是绿灯
     if (model.ustate == 0) {
         self.dotImageView.backgroundColor = [UIColor redColor];

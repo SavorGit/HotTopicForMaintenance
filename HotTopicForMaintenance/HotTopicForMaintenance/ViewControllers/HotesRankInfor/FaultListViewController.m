@@ -107,13 +107,16 @@
     
     if (_backDatas) {
         NSMutableArray *backArray = [[NSMutableArray alloc ] initWithCapacity:100];
+        NSMutableString *damageIdStr = [[NSMutableString alloc] init];
         for (int i = 0; i < self.dataSource.count; i ++) {
             RestaurantRankModel *tmpModel = self.dataSource[i];
             if (tmpModel.selectType == 1) {
                 [backArray addObject:tmpModel];
+                [damageIdStr appendFormat:@"%@", [NSString stringWithFormat:@",%@",tmpModel.cid]];
             }
         }
-        _backDatas(backArray);
+        [damageIdStr replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
+        _backDatas(backArray,damageIdStr);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }

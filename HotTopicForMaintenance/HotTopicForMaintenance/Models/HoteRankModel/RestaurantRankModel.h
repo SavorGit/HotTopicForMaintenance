@@ -30,6 +30,7 @@
 @property(nonatomic, copy) NSString *mac;
 @property(nonatomic, copy) NSString *rname;
 @property(nonatomic, assign) NSInteger ustate;
+@property(nonatomic, copy) NSString *last_nginx;
 //酒楼版位信息(version)
 @property(nonatomic, assign) NSInteger lstate;
 @property(nonatomic, copy) NSString *ltime;
@@ -37,6 +38,7 @@
 @property(nonatomic, assign) NSInteger last_small_state;
 //酒楼版位信息(其他)
 @property(nonatomic, copy) NSString *neSmall;
+@property(nonatomic, copy) NSString *small_mac;
 @property(nonatomic, copy) NSString *banwei;
 
 @property (nonatomic, strong) NSMutableArray * recordList;

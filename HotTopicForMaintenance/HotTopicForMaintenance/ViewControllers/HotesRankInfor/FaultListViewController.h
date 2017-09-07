@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-typedef void (^backData)(NSArray *str1);
+typedef void (^backData)(NSArray *array , NSString *damIdString);
 
 @interface FaultListViewController : BaseViewController
 
