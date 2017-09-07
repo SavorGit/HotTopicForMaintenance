@@ -334,6 +334,11 @@
                 [self.tableView reloadData];
                 [self.tableView.mj_footer resetNoMoreData];
                 self.pageNumber = 2;
+                
+                BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
+                if (!isNextPage) {
+                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                }
             }
             
             [hud hideAnimated:YES];
@@ -345,7 +350,10 @@
             
         }
         
-        if (self.dataSource.count == 0) {
+        BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
+        if (isNextPage) {
+            [self.tableView.mj_footer endRefreshing];
+        }else{
             [self.tableView.mj_footer endRefreshingWithNoMoreData];
         }
         
@@ -399,7 +407,10 @@
             
         }
         
-        if (self.dataSource.count == 0) {
+        BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
+        if (isNextPage) {
+            [self.tableView.mj_footer endRefreshing];
+        }else{
             [self.tableView.mj_footer endRefreshingWithNoMoreData];
         }
         
@@ -442,10 +453,15 @@
                 }
                 [self.tableView reloadData];
                 self.pageNumber++;
-            }else{
-                [MBProgressHUD showTextHUDWithText:@"没有更多数据了~" inView:self.view];
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                
             }
+        }
+        
+        BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
+        if (isNextPage) {
+            [self.tableView.mj_footer endRefreshing];
+        }else{
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
