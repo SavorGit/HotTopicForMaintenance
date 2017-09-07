@@ -314,24 +314,28 @@
         
         NSDictionary * dataDict = [response objectForKey:@"result"];
         if ([dataDict objectForKey:@"list"]) {
-            [self.dataSource removeAllObjects];
+            
             NSArray * array = [dataDict objectForKey:@"list"];
-            for (NSInteger i = 0; i < array.count; i++) {
-                NSDictionary * dict = [array objectAtIndex:i];
-                RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
-                
-                NSArray * listArray = [dict objectForKey:@"repair_list"];
-                
-                model.recordList = [NSMutableArray new];
-                for (NSInteger i = 0; i < listArray.count; i++) {
-                    RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
-                    [model.recordList addObject:detailModel];
+            if ([array isKindOfClass:[NSArray class]]) {
+                [self.dataSource removeAllObjects];
+                for (NSInteger i = 0; i < array.count; i++) {
+                    NSDictionary * dict = [array objectAtIndex:i];
+                    RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
+                    
+                    NSArray * listArray = [dict objectForKey:@"repair_list"];
+                    
+                    model.recordList = [NSMutableArray new];
+                    for (NSInteger i = 0; i < listArray.count; i++) {
+                        RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
+                        [model.recordList addObject:detailModel];
+                    }
+                    [self.dataSource addObject:model];
                 }
-                [self.dataSource addObject:model];
+                [self.tableView reloadData];
+                [self.tableView.mj_footer resetNoMoreData];
+                self.pageNumber = 2;
             }
-            [self.tableView reloadData];
-            [self.tableView.mj_footer resetNoMoreData];
-            self.pageNumber = 2;
+            
             [hud hideAnimated:YES];
             
         }else{
@@ -367,24 +371,26 @@
         
         NSDictionary * dataDict = [response objectForKey:@"result"];
         if ([dataDict objectForKey:@"list"]) {
-            [self.dataSource removeAllObjects];
             NSArray * array = [dataDict objectForKey:@"list"];
-            for (NSInteger i = 0; i < array.count; i++) {
-                NSDictionary * dict = [array objectAtIndex:i];
-                RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
-                
-                NSArray * listArray = [dict objectForKey:@"repair_list"];
-                
-                model.recordList = [NSMutableArray new];
-                for (NSInteger i = 0; i < listArray.count; i++) {
-                    RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
-                    [model.recordList addObject:detailModel];
+            if ([array isKindOfClass:[NSArray class]]) {
+                [self.dataSource removeAllObjects];
+                for (NSInteger i = 0; i < array.count; i++) {
+                    NSDictionary * dict = [array objectAtIndex:i];
+                    RepairRecordModel * model = [[RepairRecordModel alloc] initWithDictionary:dict];
+                    
+                    NSArray * listArray = [dict objectForKey:@"repair_list"];
+                    
+                    model.recordList = [NSMutableArray new];
+                    for (NSInteger i = 0; i < listArray.count; i++) {
+                        RepairRecordDetailModel * detailModel = [[RepairRecordDetailModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
+                        [model.recordList addObject:detailModel];
+                    }
+                    [self.dataSource addObject:model];
                 }
-                [self.dataSource addObject:model];
+                [self.tableView reloadData];
+                self.pageNumber = 2;
+                [self.tableView.mj_footer resetNoMoreData];
             }
-            [self.tableView reloadData];
-            self.pageNumber = 2;
-            [self.tableView.mj_footer resetNoMoreData];
             
             [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
         }else{
