@@ -38,15 +38,17 @@
 @property (nonatomic, strong) LookHotelInforModel *topHeaderModel;
 
 @property (nonatomic , copy) NSString * cid;
+@property (nonatomic , copy) NSString * hotelName;
 
 @end
 
 @implementation lookRestaurInforViewController
 
-- (instancetype)initWithDetaiID:(NSString *)detailID
+- (instancetype)initWithDetaiID:(NSString *)detailID WithHotelNam:(NSString *)hotelName;
 {
     if (self = [super init]) {
         self.cid = detailID;
+        self.hotelName = hotelName;
     }
     return self;
 }
@@ -55,7 +57,6 @@
     [super viewDidLoad];
     
     [self initInfo];
-//    [self initData];
     [self dataRequest];
 }
 
@@ -72,6 +73,7 @@
 
 - (void)initInfo{
     
+    self.title = self.hotelName;
     _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
 }

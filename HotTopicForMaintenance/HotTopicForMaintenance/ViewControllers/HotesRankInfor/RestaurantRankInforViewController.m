@@ -49,17 +49,23 @@
 
 @property (nonatomic, strong) DamageUploadModel *dUploadModel;
 
+@property (nonatomic, strong) UIButton * unResolvedBtn;
+@property (nonatomic, strong) UIButton * resolvedBtn;
+@property (nonatomic, assign) BOOL isRefreh;
+
+
 @property (nonatomic , copy) NSString * cid;
-@property (nonatomic , copy) NSString * isSolveString;//是否解决
+@property (nonatomic , copy) NSString * hotelName;//酒店名称
 
 @end
 
 @implementation RestaurantRankInforViewController
 
-- (instancetype)initWithDetaiID:(NSString *)detailID
+- (instancetype)initWithDetaiID:(NSString *)detailID WithHotelNam:(NSString *)hotelName
 {
     if (self = [super init]) {
         self.cid = detailID;
+        self.hotelName = hotelName;
     }
     return self;
 }
@@ -70,29 +76,10 @@
     [self initInfo];
     [self dataRequest];
     [self demageConfigRequest];
-//    [self initData];
     
     // 设置导航控制器的代理为self
     self.navigationController.delegate = self;
 
-}
-
-- (void)initData{
-    
-    for (int i = 0; i < 10; i ++) {
-        RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] init];
-        tmpModel.string1 = @"V1";
-        tmpModel.string2 = @"B9876545678";
-        tmpModel.string3 = @"V1机顶盒";
-        tmpModel.string4 = @"3分钟前";
-        tmpModel.string5 = @"2017-08-28 08：08";
-        tmpModel.string6 = @"08-28 17：39（郑伟）";
-        tmpModel.stateType = 0;
-        
-        [self.dataSource addObject:tmpModel];
-    }
-    [self.tableView reloadData];
-    [self setUpTableHeaderView];
 }
 
 - (void)initInfo{
@@ -100,15 +87,15 @@
     _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
     _dConfigData = [[NSMutableArray alloc] initWithCapacity:100];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
-    self.isSolveString = [[NSString alloc] init];
     self.dUploadModel = [[DamageUploadModel alloc] init];
+    self.isRefreh = NO;
     
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(64);
     }];
-    [self autoTitleButtonWith:@"淮阳府(安定门)"];
+    [self autoTitleButtonWith:self.hotelName];
 }
 
 - (void)dataRequest
@@ -150,7 +137,9 @@
         [self.tableView reloadData];
         [self setUpTableHeaderView];
         
-        [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self.view];
+        if (self.isRefreh == YES) {
+            [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
+        }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -187,7 +176,7 @@
     }];
 }
 
-#pragma mark -- 上传错误日志
+#pragma mark -- 上传维护信息
 - (void)damageUploadRequest
 {
     DamageUploadRequest * request = [[DamageUploadRequest alloc] initWithModel:self.dUploadModel];
@@ -197,14 +186,15 @@
         NSString *msg = response[@"msg"];
         if (code == 10000) {
             [self dismissViewWithAnimationDuration:.3f];
+            self.isRefreh = NO;
+            [self dataRequest];
             NSLog(@"---上传成功");
+        }else{
+            [MBProgressHUD showTextHUDWithText:msg inView:self.view];
         }
-        [MBProgressHUD showTextHUDWithText:msg inView:self.view];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
     }];
 }
 
@@ -367,6 +357,7 @@
     [self creatMListView];
 }
 
+#pragma mark - 自定义导航栏视图
 - (UIView *)topView
 {
     if (_topView == nil) {
@@ -389,16 +380,24 @@
         [_backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [_topView addSubview:_backButton];
         
-        UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [shareBtn setImage:[UIImage imageNamed:@"shuaxin"] forState:UIControlStateNormal];
-        [shareBtn setImage:[UIImage imageNamed:@"shuaxin"] forState:UIControlStateSelected];
-        shareBtn.tag = 101;
-        [shareBtn addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
-        [_topView addSubview:shareBtn];
-        [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(40, 44));
-            make.top.mas_equalTo(20);
-            make.right.mas_equalTo(- 15);
+        UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [refreshButton setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+        [_topView addSubview:refreshButton];
+        [refreshButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(20 + 8.5);
+            make.right.mas_equalTo(-18);
+            make.width.height.mas_equalTo(23);
+        }];
+        [refreshButton addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
+        lineView.backgroundColor = [UIColor lightGrayColor];
+        [_topView addSubview:lineView];
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.mas_equalTo(_topView.mas_bottom).offset(-0.5);
+            make.left.mas_equalTo(0);
+            make.width.mas_equalTo(kMainBoundsWidth);
+            make.height.mas_equalTo(0.5);
         }];
     }
     return _topView;
@@ -408,6 +407,8 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+#pragma mark - 弹出维修窗口
 - (void)creatMListView{
     
     self.mListView = [[UIView alloc] init];
@@ -422,9 +423,6 @@
         make.left.right.top.mas_equalTo(0);
     }];
     
-    [self showViewWithAnimationDuration:.3f];
-
-    
     self.sheetBgView = [[UIImageView alloc] init];
     float bgVideoHeight = [Helper autoHeightWith:320];
     float bgVideoWidth = [Helper autoWidthWith:266];
@@ -432,6 +430,10 @@
     self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
     self.sheetBgView.backgroundColor = [UIColor whiteColor];
     self.sheetBgView.userInteractionEnabled = YES;
+    self.sheetBgView.layer.borderColor = UIColorFromRGB(0xf6f2ed).CGColor;
+    self.sheetBgView.layer.borderWidth = .5f;
+    self.sheetBgView.layer.cornerRadius = 6.f;
+    self.sheetBgView.layer.masksToBounds = YES;
     [self.mListView addSubview:self.sheetBgView];
     [self.sheetBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(bgVideoWidth,bgVideoHeight));
@@ -452,34 +454,34 @@
         make.height.mas_equalTo(20);
     }];
     
-    UIButton * unResolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [unResolvedBtn setTitle:@"未解决" forState:UIControlStateNormal];
-    unResolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    unResolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    [unResolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    unResolvedBtn.layer.borderWidth = .5f;
-    unResolvedBtn.layer.cornerRadius = 2.f;
-    unResolvedBtn.layer.masksToBounds = YES;
-    [unResolvedBtn addTarget:self action:@selector(unResolveClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.sheetBgView addSubview:unResolvedBtn];
-    [unResolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.unResolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.unResolvedBtn setTitle:@"未解决" forState:UIControlStateNormal];
+    self.unResolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [self.unResolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.unResolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    self.unResolvedBtn.layer.borderWidth = .5f;
+    self.unResolvedBtn.layer.cornerRadius = 2.f;
+    self.unResolvedBtn.layer.masksToBounds = YES;
+    [self.unResolvedBtn addTarget:self action:@selector(unResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:self.unResolvedBtn];
+    [self.unResolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( - (10 + 40));
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(40);
     }];
     
-    UIButton * resolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [resolvedBtn setTitle:@"已解决" forState:UIControlStateNormal];
-    resolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    resolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    [resolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    resolvedBtn.layer.borderWidth = .5f;
-    resolvedBtn.layer.cornerRadius = 2.f;
-    resolvedBtn.layer.masksToBounds = YES;
-    [resolvedBtn addTarget:self action:@selector(ResolveClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.sheetBgView addSubview:resolvedBtn];
-    [resolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.resolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.resolvedBtn setTitle:@"已解决" forState:UIControlStateNormal];
+    self.resolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.resolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [self.resolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.resolvedBtn.layer.borderWidth = .5f;
+    self.resolvedBtn.layer.cornerRadius = 2.f;
+    self.resolvedBtn.layer.masksToBounds = YES;
+    [self.resolvedBtn addTarget:self action:@selector(ResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:self.resolvedBtn];
+    [self.resolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( 10 + 40);
         make.width.mas_equalTo(80);
@@ -499,7 +501,7 @@
     self.mReasonLab.userInteractionEnabled = YES;
     [self.sheetBgView addSubview:self.mReasonLab];
     [self.mReasonLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(unResolvedBtn.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.unResolvedBtn.mas_bottom).offset(10);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
         make.height.mas_equalTo(30);
@@ -554,7 +556,7 @@
     [self.sheetBgView addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
-        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 45);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
@@ -571,7 +573,7 @@
     [self.sheetBgView addSubview:submitBtn];
     [submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
-        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(45);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
@@ -584,18 +586,49 @@
     mListTap.numberOfTapsRequired = 1;
     [self.mListView addGestureRecognizer:mListTap];
     
+    [self showViewWithAnimationDuration:.3f];
+    
 }
 
-- (void)ResolveClicked{
-    self.dUploadModel.state = @"1";
+- (void)ResolveClicked:(UIButton *)btn{
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        self.dUploadModel.state = @"1";
+        btn.layer.borderWidth = 2.f;
+        if (self.unResolvedBtn.selected == YES) {
+            self.unResolvedBtn.selected = NO;
+            self.unResolvedBtn.layer.borderWidth = .5f;
+        }
+    }else{
+        self.dUploadModel.state = @"";
+        btn.layer.borderWidth = .5f;
+    }
 }
 
-- (void)unResolveClicked{
-    self.dUploadModel.state = @"2";
+- (void)unResolveClicked:(UIButton *)btn{
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+         self.dUploadModel.state = @"2";
+        btn.layer.borderWidth = 2.f;
+        if (self.resolvedBtn.selected == YES) {
+            self.resolvedBtn.selected = NO;
+            self.resolvedBtn.layer.borderWidth = .5f;
+        }
+    }else{
+        self.dUploadModel.state = @"";
+        btn.layer.borderWidth = .5f;
+    }
 }
 
 #pragma mark - 点击提交按钮
 - (void)submitClicked{
+    if (isEmptyString(self.dUploadModel.state)) {
+        [MBProgressHUD showTextHUDWithText:@"请选择是否解决" inView:self.view];
+        return;
+    }else if (isEmptyString(self.dUploadModel.remakr) && isEmptyString(self.dUploadModel.repair_num_str)){
+        [MBProgressHUD showTextHUDWithText:@"请填写至少一项内容" inView:self.view];
+        return;
+    }
     self.dUploadModel.remakr = self.remarkTextView.text;
     [self damageUploadRequest];
 }
@@ -645,7 +678,7 @@
         make.centerY.mas_equalTo(self.mListView.centerY).offset(- 50);
     }];
     if ([textView.text isEqualToString:@"备注，限制100字"]) {
-        self.remarkTextView.textColor = [UIColor lightGrayColor];
+        self.remarkTextView.textColor = [UIColor grayColor];
         textView.text = @"";
     }
 }
@@ -735,7 +768,15 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 120;
+    RestaurantRankModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
+    //维修记录的高度
+    float reConHeight;
+    if (tmpModel.recordList.count > 0) {
+        reConHeight = tmpModel.recordList.count *17;
+    }else{
+        reConHeight = 17;
+    }
+    return 97 + reConHeight;
 }
 
 - (void)autoTitleButtonWith:(NSString *)title
@@ -754,22 +795,32 @@
         size.width = maxWidth;
     }
     [titleButton setImageEdgeInsets:UIEdgeInsetsMake(0, size.width + 15, 0, 0)];
-    [titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10 + 10)];
+    [titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     
     [titleButton setTitle:title forState:UIControlStateNormal];
     [self.topView addSubview:titleButton];
     [titleButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(20);
+        make.top.mas_equalTo(20 + 9);
         make.centerX.mas_equalTo(self.topView.centerX);
         make.width.mas_equalTo(size.width + 30);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(26);
+    }];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor = [UIColor lightGrayColor];
+    [titleButton addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(titleButton.mas_bottom).offset(-0.5);
+        make.centerX.mas_equalTo(titleButton.centerX);
+        make.width.mas_equalTo(size.width);
+        make.height.mas_equalTo(0.5);
     }];
 }
 
 #pragma mark - 点击查看酒楼信息
 - (void)titleButtonDidBeClicked{
     
-    lookRestaurInforViewController *lrVC = [[lookRestaurInforViewController alloc] initWithDetaiID:self.cid];
+    lookRestaurInforViewController *lrVC = [[lookRestaurInforViewController alloc] initWithDetaiID:self.cid WithHotelNam:self.hotelName];
     [self.navigationController pushViewController:lrVC animated:YES];
     
 }
@@ -781,6 +832,9 @@
 
 #pragma mark - 点击刷新页面
 - (void)refreshAction{
+    
+    self.isRefreh = YES;
+    [self dataRequest];
     
 }
 

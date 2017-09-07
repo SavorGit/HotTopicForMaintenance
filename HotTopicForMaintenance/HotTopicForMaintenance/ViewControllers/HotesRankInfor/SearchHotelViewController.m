@@ -30,32 +30,11 @@
     [self initInfo];
     [self creatSubViews];
     [self dataRequest];
-//    [self initData];
-}
-
-- (void)initData{
-    
-    for (int i = 0; i < 10; i ++) {
-        RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] init];
-        tmpModel.string1 = @"V1";
-        tmpModel.string2 = @"B9876545678";
-        tmpModel.string3 = @"V1机顶盒";
-        tmpModel.string4 = @"3分钟前";
-        tmpModel.string5 = @"2017-08-28 08：08";
-        tmpModel.string6 = @"08-28 17：39（郑伟）";
-        tmpModel.stateType = 0;
-        tmpModel.selectType = NO;
-        
-        [self.dataSource addObject:tmpModel];
-    }
-    [self.tableView reloadData];
 }
 
 - (void)initInfo{
     
     _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
-    
-    
 }
 
 - (void)creatSubViews{
@@ -93,8 +72,8 @@
     [self.searchBgView addSubview:self.searchField];
     [self.searchField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15);
-        make.centerX.mas_equalTo(0);
-        make.width.mas_equalTo(kMainBoundsWidth - 40);
+        make.right.mas_equalTo(- 33);
+        make.width.mas_equalTo(kMainBoundsWidth - 76);
         make.height.mas_equalTo(30);
     }];
 }
@@ -125,8 +104,9 @@
 
 - (void)dataRequest
 {
+    self.searchField.text = @"永峰";
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
-    SearchHotelRequest * request = [[SearchHotelRequest alloc] initWithHotelName:@"永峰"];
+    SearchHotelRequest * request = [[SearchHotelRequest alloc] initWithHotelName:self.searchField.text];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];
@@ -140,7 +120,7 @@
         }
         
         [self.tableView reloadData];
-        [MBProgressHUD showTextHUDWithText:@"获取成功" inView:self.view];
+        [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -222,7 +202,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RestaurantRankModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
-    RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] initWithDetaiID:tmpModel.cid];
+    RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] initWithDetaiID:tmpModel.cid WithHotelNam:tmpModel.name];
     [self.navigationController pushViewController:riVC animated:YES];
     
 }

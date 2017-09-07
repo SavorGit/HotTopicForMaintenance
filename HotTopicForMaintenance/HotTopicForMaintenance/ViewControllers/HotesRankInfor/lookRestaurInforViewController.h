@@ -10,6 +10,6 @@
 
 @interface lookRestaurInforViewController : BaseViewController
 
-- (instancetype)initWithDetaiID:(NSString *)detailID;
+- (instancetype)initWithDetaiID:(NSString *)detailID WithHotelNam:(NSString *)hotelName;
 
 @end

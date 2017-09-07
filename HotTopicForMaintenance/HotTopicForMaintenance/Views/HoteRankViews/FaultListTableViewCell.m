@@ -30,6 +30,10 @@
 {
     _bgView = [[UIView alloc] init];
     _bgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    _bgView.layer.borderColor = UIColorFromRGB(0xf6f2ed).CGColor;
+    _bgView.layer.borderWidth = .5f;
+    _bgView.layer.cornerRadius = 5.f;
+    _bgView.layer.masksToBounds = YES;
     [self.contentView addSubview:_bgView];
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(kMainBoundsWidth - 30 - 60);
@@ -51,16 +55,13 @@
     }];
     
     self.selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.selectImgView.backgroundColor = [UIColor grayColor];
     self.selectImgView.contentMode = UIViewContentModeScaleAspectFit;
-    self.selectImgView.layer.cornerRadius = 20/2.0;
-    self.selectImgView.layer.masksToBounds = YES;
-    [self.selectImgView setImage:[UIImage imageNamed:@""]];
+    [self.selectImgView setImage:[UIImage imageNamed:@"selected"]];
     [_bgView addSubview:self.selectImgView];
     self.selectImgView.hidden = YES;
     [self.selectImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(20, 20));
-        make.top.mas_equalTo(9);
+        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.top.mas_equalTo(11);
         make.right.mas_equalTo(- 15);
     }];
 
