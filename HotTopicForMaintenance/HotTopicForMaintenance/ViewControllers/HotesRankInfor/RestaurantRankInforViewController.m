@@ -589,33 +589,42 @@
 - (void)ResolveClicked:(UIButton *)btn{
     btn.selected = !btn.selected;
     if (btn.selected) {
+        self.dUploadModel.state = @"1";
         btn.layer.borderWidth = 2.f;
         if (self.unResolvedBtn.selected == YES) {
             self.unResolvedBtn.selected = NO;
             self.unResolvedBtn.layer.borderWidth = .5f;
         }
     }else{
+        self.dUploadModel.state = @"";
         btn.layer.borderWidth = .5f;
     }
-    self.dUploadModel.state = @"1";
 }
 
 - (void)unResolveClicked:(UIButton *)btn{
     btn.selected = !btn.selected;
     if (btn.selected) {
+         self.dUploadModel.state = @"2";
         btn.layer.borderWidth = 2.f;
         if (self.resolvedBtn.selected == YES) {
             self.resolvedBtn.selected = NO;
             self.resolvedBtn.layer.borderWidth = .5f;
         }
     }else{
+        self.dUploadModel.state = @"";
         btn.layer.borderWidth = .5f;
     }
-    self.dUploadModel.state = @"2";
 }
 
 #pragma mark - 点击提交按钮
 - (void)submitClicked{
+    if (isEmptyString(self.dUploadModel.state)) {
+        [MBProgressHUD showTextHUDWithText:@"请选择是否解决" inView:self.view];
+        return;
+    }else if (isEmptyString(self.dUploadModel.remakr) && isEmptyString(self.dUploadModel.repair_num_str)){
+        [MBProgressHUD showTextHUDWithText:@"请填写至少一项内容" inView:self.view];
+        return;
+    }
     self.dUploadModel.remakr = self.remarkTextView.text;
     [self damageUploadRequest];
 }
