@@ -57,7 +57,7 @@
 - (void)createTableView
 {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 20, 0, 20)];
     [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, 20, 0, 20)];
