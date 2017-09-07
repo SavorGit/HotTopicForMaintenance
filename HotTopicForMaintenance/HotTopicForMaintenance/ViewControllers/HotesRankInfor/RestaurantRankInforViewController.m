@@ -75,29 +75,10 @@
     [self initInfo];
     [self dataRequest];
     [self demageConfigRequest];
-//    [self initData];
     
     // 设置导航控制器的代理为self
     self.navigationController.delegate = self;
 
-}
-
-- (void)initData{
-    
-    for (int i = 0; i < 10; i ++) {
-        RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] init];
-        tmpModel.string1 = @"V1";
-        tmpModel.string2 = @"B9876545678";
-        tmpModel.string3 = @"V1机顶盒";
-        tmpModel.string4 = @"3分钟前";
-        tmpModel.string5 = @"2017-08-28 08：08";
-        tmpModel.string6 = @"08-28 17：39（郑伟）";
-        tmpModel.stateType = 0;
-        
-        [self.dataSource addObject:tmpModel];
-    }
-    [self.tableView reloadData];
-    [self setUpTableHeaderView];
 }
 
 - (void)initInfo{

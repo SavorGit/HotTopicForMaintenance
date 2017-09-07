@@ -75,7 +75,7 @@
     self.stbLabel.font = [UIFont systemFontOfSize:14];
     self.stbLabel.textColor = UIColorFromRGB(0x434343);
     self.stbLabel.textAlignment = NSTextAlignmentLeft;
-    self.stbLabel.backgroundColor = [UIColor cyanColor];
+    self.stbLabel.backgroundColor = [UIColor clearColor];
     self.stbLabel.text = @"机顶盒信息";
     [_bgView addSubview:self.stbLabel];
     [self.stbLabel mas_makeConstraints:^(MASConstraintMaker *make) {

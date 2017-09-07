@@ -10,12 +10,6 @@
 
 @interface RestaurantRankModel : Jastor
 
-@property (nonatomic, copy) NSString *string1;
-@property (nonatomic, copy) NSString *string2;
-@property (nonatomic, copy) NSString *string3;
-@property (nonatomic, copy) NSString *string4;
-@property (nonatomic, copy) NSString *string5;
-@property (nonatomic, copy) NSString *string6;
 @property (nonatomic, assign) NSInteger  stateType;
 
 @property (nonatomic, assign) BOOL  selectType;
