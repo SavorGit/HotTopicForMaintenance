@@ -30,7 +30,7 @@
     self.hotelLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.hotelLabel.textColor = UIColorFromRGB(0x333333);
     self.hotelLabel.textAlignment = NSTextAlignmentLeft;
-    self.hotelLabel.font = kPingFangRegular(14);
+    self.hotelLabel.font = kPingFangMedium(14);
     [self.contentView addSubview:self.hotelLabel];
     [self.hotelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
@@ -40,7 +40,7 @@
     }];
     
     self.InfoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.InfoLabel.textColor = UIColorFromRGB(0x333333);
+    self.InfoLabel.textColor = UIColorFromRGB(0x666666);
     self.InfoLabel.textAlignment = NSTextAlignmentLeft;
     self.InfoLabel.font = kPingFangRegular(14);
     self.InfoLabel.numberOfLines = 0;
@@ -62,7 +62,7 @@
         make.right.mas_equalTo(- 15);
     }];
     
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor whiteColor];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 

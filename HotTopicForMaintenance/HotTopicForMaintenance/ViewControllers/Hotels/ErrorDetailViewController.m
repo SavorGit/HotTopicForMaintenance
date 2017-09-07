@@ -12,7 +12,6 @@
 #import "MJRefresh.h"
 #import "HotTopicTools.h"
 #import "RestaurantRankInforViewController.h"
-#import "UIView+LayerCurve.h"
 
 @interface ErrorDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -67,9 +66,10 @@
 - (void)createTableViewHeaderView
 {
     CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 20 title:self.info font:kPingFangRegular(15)];
-    height += 71;
+    height += 86;
     
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, height)];
+    headerView.backgroundColor = [UIColor whiteColor];
     
     UILabel * detailLabel = [[UILabel alloc] init];
     detailLabel.textColor = UIColorFromRGB(0x333333);
@@ -83,17 +83,15 @@
         make.height.mas_equalTo(20);
     }];
     
-//    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
-//    lineView.backgroundColor = UIColorFromRGB(0x666666);
-//    [headerView addSubview:lineView];
-//    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(kMainBoundsWidth / 4);
-//        make.right.mas_equalTo(-kMainBoundsWidth / 4);
-//        make.bottom.mas_equalTo(0);
-//        make.height.mas_equalTo(.5f);
-//    }];
-    
-    [headerView layerDotteLinePoints:@[[NSValue valueWithCGPoint:CGPointMake(0, height)], [NSValue valueWithCGPoint:CGPointMake(kMainBoundsWidth, height)]] Color:[UIColor redColor] Width:.5f SolidLength:10 DotteLength:3];
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor = VCBackgroundColor;
+    [headerView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(0);
+        make.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(-30);
+        make.height.mas_equalTo(10);
+    }];
     
     UILabel * dateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     dateLabel.textColor = UIColorFromRGB(0x333333);
@@ -104,7 +102,7 @@
     [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.right.mas_equalTo(-10);
-        make.bottom.equalTo(detailLabel.mas_top).offset(-5);
+        make.bottom.equalTo(lineView.mas_top).offset(-5);
         make.height.mas_equalTo(20);
     }];
     
@@ -152,6 +150,12 @@
     ErrorDetailModel * model = [self.dataSource objectAtIndex:indexPath.row];
     RestaurantRankInforViewController * vc = [[RestaurantRankInforViewController alloc] initWithDetaiID:model.detail_id];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)getMore
@@ -206,7 +210,7 @@
 
 - (void)requestErrorDetail
 {
-    MBProgressHUD * hud = [MBProgressHUD showTextHUDWithText:@"正在获取异常详情" inView:self.view];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取异常详情" inView:self.view];
     
     [self requestWithDetailID:@"0" success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
