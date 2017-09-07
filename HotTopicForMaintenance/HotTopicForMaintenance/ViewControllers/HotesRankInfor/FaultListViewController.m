@@ -35,11 +35,13 @@
 }
 
 - (void)creatSubViews{
-    
 
-    
     self.bgView = [[UIView alloc] initWithFrame:CGRectZero];
     self.bgView.backgroundColor = [UIColor whiteColor];
+    self.bgView.layer.borderColor = UIColorFromRGB(0xf6f2ed).CGColor;
+    self.bgView.layer.borderWidth = .5f;
+    self.bgView.layer.cornerRadius = 6.f;
+    self.bgView.layer.masksToBounds = YES;
     [self.view addSubview:self.bgView];
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 180));
@@ -120,29 +122,6 @@
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-#pragma mark -- 懒加载
-//- (UITableView *)tableView
-//{
-//    if (!_tableView) {
-//        
-//        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-//        _tableView.dataSource = self;
-//        _tableView.delegate = self;
-//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//        _tableView.backgroundColor = [UIColor whiteColor];
-//        _tableView.backgroundView = nil;
-//        _tableView.showsVerticalScrollIndicator = NO;
-//        [self.bgView addSubview:_tableView];
-//        [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 240));
-//            make.top.mas_equalTo(10);
-//            make.left.mas_equalTo(0);
-//        }];
-//    }
-//    
-//    return _tableView;
-//}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

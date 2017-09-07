@@ -72,8 +72,8 @@
     [self.searchBgView addSubview:self.searchField];
     [self.searchField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15);
-        make.centerX.mas_equalTo(0);
-        make.width.mas_equalTo(kMainBoundsWidth - 60);
+        make.right.mas_equalTo(- 33);
+        make.width.mas_equalTo(kMainBoundsWidth - 76);
         make.height.mas_equalTo(30);
     }];
 }
@@ -104,8 +104,9 @@
 
 - (void)dataRequest
 {
+    self.searchField.text = @"永峰";
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
-    SearchHotelRequest * request = [[SearchHotelRequest alloc] initWithHotelName:@"永峰"];
+    SearchHotelRequest * request = [[SearchHotelRequest alloc] initWithHotelName:self.searchField.text];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];

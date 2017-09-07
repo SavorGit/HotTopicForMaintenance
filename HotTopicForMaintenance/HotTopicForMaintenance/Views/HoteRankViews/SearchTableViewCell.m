@@ -27,7 +27,11 @@
 - (void)initWithSubView
 {
     _bgView = [[UIView alloc] init];
-    _bgView.backgroundColor = [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:242.0/255.0];;
+    _bgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    _bgView.layer.borderColor = UIColorFromRGB(0xf6f2ed).CGColor;
+    _bgView.layer.borderWidth = .5f;
+    _bgView.layer.cornerRadius = 5.f;
+    _bgView.layer.masksToBounds = YES;
     [self.contentView addSubview:_bgView];
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(kMainBoundsWidth - 30);

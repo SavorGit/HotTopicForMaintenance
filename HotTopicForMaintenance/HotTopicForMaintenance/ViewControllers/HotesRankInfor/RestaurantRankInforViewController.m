@@ -430,6 +430,10 @@
     self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
     self.sheetBgView.backgroundColor = [UIColor whiteColor];
     self.sheetBgView.userInteractionEnabled = YES;
+    self.sheetBgView.layer.borderColor = UIColorFromRGB(0xf6f2ed).CGColor;
+    self.sheetBgView.layer.borderWidth = .5f;
+    self.sheetBgView.layer.cornerRadius = 6.f;
+    self.sheetBgView.layer.masksToBounds = YES;
     [self.mListView addSubview:self.sheetBgView];
     [self.sheetBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(bgVideoWidth,bgVideoHeight));
@@ -453,8 +457,8 @@
     self.unResolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.unResolvedBtn setTitle:@"未解决" forState:UIControlStateNormal];
     self.unResolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    self.unResolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
     [self.unResolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.unResolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
     self.unResolvedBtn.layer.borderWidth = .5f;
     self.unResolvedBtn.layer.cornerRadius = 2.f;
     self.unResolvedBtn.layer.masksToBounds = YES;
