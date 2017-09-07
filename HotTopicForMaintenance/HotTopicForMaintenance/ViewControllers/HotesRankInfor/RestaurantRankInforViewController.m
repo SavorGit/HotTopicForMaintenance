@@ -193,6 +193,7 @@
         if (code == 10000) {
             [self dismissViewWithAnimationDuration:.3f];
             self.isRefreh = NO;
+            [self cleanDamageModel];
             [self dataRequest];
             NSLog(@"---上传成功");
         }else{
@@ -634,23 +635,36 @@
 - (void)submitClicked{
     
     self.submitBtn.userInteractionEnabled = NO;
+    self.dUploadModel.remakr = self.remarkTextView.text;
     
     if (isEmptyString(self.dUploadModel.state)) {
+        self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"请选择是否解决" inView:self.view];
         return;
     }else if (isEmptyString(self.dUploadModel.remakr) && isEmptyString(self.dUploadModel.repair_num_str)){
+        self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"请填写至少一项内容" inView:self.view];
         return;
     }
-    self.dUploadModel.remakr = self.remarkTextView.text;
     [self damageUploadRequest];
 }
 
 #pragma mark - 点击取消按钮
 - (void)cancelClicked{
+    [self cleanDamageModel];
     [self dismissViewWithAnimationDuration:.3f];
 }
 
+- (void)cleanDamageModel{
+    self.dUploadModel.state = @"";
+    self.dUploadModel.type = @"";
+    self.dUploadModel.remakr = @"";
+    self.dUploadModel.repair_num_str = @"";
+    for (int i = 0; i < self.dConfigData.count; i ++) {
+        RestaurantRankModel *tmpModel = self.dConfigData[i];
+        tmpModel.selectType = NO;
+    }
+}
 #pragma mark - 点击故障选择
 - (void)mReasonClicked{
     
@@ -666,8 +680,10 @@
     [self presentViewController:flVC animated:YES completion:nil];
     flVC.backDatas = ^(NSArray *backArray,NSString *damageIdString) {
         NSLog(@"%ld",backArray.count);
-        self.mReasonLab.text = [NSString stringWithFormat:@"  已选择%ld项",backArray.count];
-        self.dUploadModel.repair_num_str = damageIdString;
+        if (backArray.count > 0) {
+            self.mReasonLab.text = [NSString stringWithFormat:@"  已选择%ld项",backArray.count];
+            self.dUploadModel.repair_num_str = damageIdString;
+        }
     };
 }
 

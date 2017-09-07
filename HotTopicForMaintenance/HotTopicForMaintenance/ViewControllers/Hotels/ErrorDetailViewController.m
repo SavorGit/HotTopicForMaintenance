@@ -148,7 +148,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ErrorDetailModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    RestaurantRankInforViewController * vc = [[RestaurantRankInforViewController alloc] initWithDetaiID:model.detail_id WithHotelNam:model.hotel_name];
+    RestaurantRankInforViewController * vc = [[RestaurantRankInforViewController alloc] initWithDetaiID:model.hotel_id WithHotelNam:model.hotel_name];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

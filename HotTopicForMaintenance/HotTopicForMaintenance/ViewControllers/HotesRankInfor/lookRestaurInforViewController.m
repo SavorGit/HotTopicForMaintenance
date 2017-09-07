@@ -315,7 +315,7 @@
     serialNumLab.font = [UIFont systemFontOfSize:14];
     serialNumLab.textColor = [UIColor blackColor];
     serialNumLab.textAlignment = NSTextAlignmentCenter;
-    serialNumLab.text = @"序号";
+    serialNumLab.text = @"包间";
     [stbBgView addSubview:serialNumLab];
     [serialNumLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
@@ -329,7 +329,7 @@
     stbLocationLab.font = [UIFont systemFontOfSize:14];
     stbLocationLab.textColor = [UIColor blackColor];
     stbLocationLab.textAlignment = NSTextAlignmentCenter;
-    stbLocationLab.text = @"位置";
+    stbLocationLab.text = @"机顶盒";
     [stbBgView addSubview:stbLocationLab];
     [stbLocationLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
