@@ -117,7 +117,9 @@
                 [damageIdStr appendFormat:@"%@", [NSString stringWithFormat:@",%@",tmpModel.cid]];
             }
         }
-        [damageIdStr replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
+        if (!isEmptyString(damageIdStr)) {
+            [damageIdStr replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
+        }
         _backDatas(backArray,damageIdStr);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
