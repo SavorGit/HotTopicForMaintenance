@@ -42,7 +42,7 @@
     [self.contentView addSubview:_bgView];
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(kMainBoundsWidth - 20);
-        make.height.mas_equalTo(115);
+        make.height.mas_equalTo(109);
         make.top.mas_equalTo(5);
         make.left.mas_equalTo(10);
     }];
@@ -54,7 +54,7 @@
     self.versionLabel.text = @"版本";
     [_bgView addSubview:self.versionLabel];
     [self.versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3 - 50, 20));
+        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3 - 30, 20));
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(15);
     }];
@@ -66,7 +66,7 @@
     self.macLabel.text = @"Mac";
     [_bgView addSubview:self.macLabel];
     [self.macLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3 + 50, 20));
+        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3 + 30, 20));
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(self.versionLabel.mas_right);
     }];
@@ -75,10 +75,11 @@
     self.stbLabel.font = [UIFont systemFontOfSize:14];
     self.stbLabel.textColor = UIColorFromRGB(0x434343);
     self.stbLabel.textAlignment = NSTextAlignmentLeft;
+    self.stbLabel.backgroundColor = [UIColor cyanColor];
     self.stbLabel.text = @"机顶盒信息";
     [_bgView addSubview:self.stbLabel];
     [self.stbLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30 - 30)/3, 20));
+        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30 - 30)/3 - 5, 20));
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(self.macLabel.mas_right);
     }];
@@ -93,7 +94,7 @@
     [self.dotImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
         make.top.mas_equalTo(15);
-        make.right.mas_equalTo(self.bgView.mas_right);
+        make.right.mas_equalTo(self.bgView.mas_right).offset(- 5);
     }];
 
     
@@ -128,7 +129,7 @@
     self.mRecordLabel.text = @"维修记录:";
     [_bgView addSubview:self.mRecordLabel];
     [self.mRecordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(80, 20));
+        make.size.mas_equalTo(CGSizeMake(65, 17));
         make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
     }];
@@ -137,10 +138,11 @@
     self.mReContentLabel.font = [UIFont systemFontOfSize:14];
     self.mReContentLabel.textColor = UIColorFromRGB(0x434343);
     self.mReContentLabel.textAlignment = NSTextAlignmentLeft;
+    self.mReContentLabel.numberOfLines = 0;
     self.mReContentLabel.text = @"维修记录内容";
     [_bgView addSubview:self.mReContentLabel];
     [self.mReContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 80 - 60, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 65 - 60, 17));
         make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
     }];
@@ -156,7 +158,7 @@
     [button addTarget:self action:@selector(mPlatformClicked) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom);
         make.right.mas_equalTo(-15);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(20);
@@ -176,8 +178,7 @@
     self.macLabel.text = model.mac;
     self.stbLabel.text = model.boxname;
     self.lastTimeLabel.text = [NSString stringWithFormat:@"最后心跳时间:%@",model.last_heart_time];
-    self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后上传日志时间:%@",model.last_heart_time];
-    self.mReContentLabel.text = [NSString stringWithFormat:@"%@",model.last_nginx];
+    self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后上传日志时间:%@",model.last_nginx];
     //0 是红灯 1 是绿灯
     if (model.ustate == 0) {
         self.dotImageView.backgroundColor = [UIColor redColor];
@@ -185,6 +186,48 @@
         self.dotImageView.backgroundColor = [UIColor greenColor];
     }
     
+    if (model.recordList.count > 0) {
+        
+        NSMutableString *mReConString = [[NSMutableString alloc] init];
+        for (int i = 0; i < model.recordList.count; i ++) {
+            RepairRecordRankModel *tmpModel = [model.recordList objectAtIndex:i];
+            [mReConString appendString:[NSString stringWithFormat:@"\n%@  (%@)",tmpModel.ctime,tmpModel.nickname]];
+        }
+        [mReConString replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
+        
+        float reConHeight;//维修记录的高度
+        reConHeight = model.recordList.count *17;
+        [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(reConHeight);
+        }];
+        [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(92 + reConHeight);
+        }];
+        self.mReContentLabel.text = mReConString;
+        
+    }else{
+        [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(17);
+        }];
+        [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(109);
+        }];
+        self.mReContentLabel.text = @"";
+    }
+    
+//    float height = [self getHeightByWidth:kMainBoundsWidth - 30 - 80 - 60 title:@"这是测试字段" font:[UIFont systemFontOfSize:14]];
+    
+}
+
+- (CGFloat)getHeightByWidth:(CGFloat)width title:(NSString *)title font:(UIFont *)font
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, 0)];
+    label.text = title;
+    label.font = font;
+    label.numberOfLines = 0;
+    [label sizeToFit];
+    CGFloat height = label.frame.size.height;
+    return height;
 }
 
 - (void)awakeFromNib {

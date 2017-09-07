@@ -94,7 +94,7 @@
     [self.searchField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15);
         make.centerX.mas_equalTo(0);
-        make.width.mas_equalTo(kMainBoundsWidth - 40);
+        make.width.mas_equalTo(kMainBoundsWidth - 60);
         make.height.mas_equalTo(30);
     }];
 }

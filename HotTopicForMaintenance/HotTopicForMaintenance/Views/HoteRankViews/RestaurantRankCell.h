@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RestaurantRankModel.h"
+#import "RepairRecordRankModel.h"
 
 @interface RestaurantRankCell : UITableViewCell
 

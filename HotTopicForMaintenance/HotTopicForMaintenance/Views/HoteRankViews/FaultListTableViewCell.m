@@ -51,16 +51,13 @@
     }];
     
     self.selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.selectImgView.backgroundColor = [UIColor grayColor];
     self.selectImgView.contentMode = UIViewContentModeScaleAspectFit;
-    self.selectImgView.layer.cornerRadius = 20/2.0;
-    self.selectImgView.layer.masksToBounds = YES;
-    [self.selectImgView setImage:[UIImage imageNamed:@""]];
+    [self.selectImgView setImage:[UIImage imageNamed:@"selected"]];
     [_bgView addSubview:self.selectImgView];
     self.selectImgView.hidden = YES;
     [self.selectImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(20, 20));
-        make.top.mas_equalTo(9);
+        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.top.mas_equalTo(11);
         make.right.mas_equalTo(- 15);
     }];
 
