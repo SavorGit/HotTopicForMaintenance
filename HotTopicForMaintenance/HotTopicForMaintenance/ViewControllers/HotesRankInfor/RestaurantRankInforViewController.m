@@ -51,6 +51,8 @@
 
 @property (nonatomic, strong) UIButton * unResolvedBtn;
 @property (nonatomic, strong) UIButton * resolvedBtn;
+@property (nonatomic, strong) UIButton * submitBtn;
+
 @property (nonatomic, assign) BOOL isRefreh;
 
 
@@ -179,8 +181,12 @@
 #pragma mark -- 上传维护信息
 - (void)damageUploadRequest
 {
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在提交" inView:self.view];
     DamageUploadRequest * request = [[DamageUploadRequest alloc] initWithModel:self.dUploadModel];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:NO];
+        self.submitBtn.userInteractionEnabled = YES;
         
         NSInteger code = [response[@"code"] integerValue];
         NSString *msg = response[@"msg"];
@@ -194,7 +200,11 @@
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        [hud hideAnimated:NO];
+        self.submitBtn.userInteractionEnabled = YES;
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [hud hideAnimated:NO];
+        self.submitBtn.userInteractionEnabled = YES;
     }];
 }
 
@@ -561,17 +571,17 @@
         make.height.mas_equalTo(30);
     }];
     
-    UIButton * submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
-    submitBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    submitBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    [submitBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    submitBtn.layer.borderWidth = .5f;
-    submitBtn.layer.cornerRadius = 2.f;
-    submitBtn.layer.masksToBounds = YES;
-    [submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.sheetBgView addSubview:submitBtn];
-    [submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    self.submitBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.submitBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [self.submitBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.submitBtn.layer.borderWidth = .5f;
+    self.submitBtn.layer.cornerRadius = 2.f;
+    self.submitBtn.layer.masksToBounds = YES;
+    [self.submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:self.submitBtn];
+    [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
         make.width.mas_equalTo(80);
@@ -622,6 +632,9 @@
 
 #pragma mark - 点击提交按钮
 - (void)submitClicked{
+    
+    self.submitBtn.userInteractionEnabled = NO;
+    
     if (isEmptyString(self.dUploadModel.state)) {
         [MBProgressHUD showTextHUDWithText:@"请选择是否解决" inView:self.view];
         return;

@@ -31,7 +31,7 @@
 #define NSLog(...) NSLog(__VA_ARGS__)
 #endif
 
-#define kVersionCode 2017090401
+#define kVersionCode 2017090701
 
 #define keychainID @"HotTopicsForMaintenanceKeychainID"
 
