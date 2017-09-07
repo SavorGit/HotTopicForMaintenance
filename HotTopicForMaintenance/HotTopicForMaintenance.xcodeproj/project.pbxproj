@@ -28,7 +28,6 @@
 		066EA5571F6010DF0054264C /* ErrorDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5561F6010DF0054264C /* ErrorDetailRequest.m */; };
 		066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */; };
 		066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA55C1F6012500054264C /* ErrorDetailModel.m */; };
-		066EA5611F602D810054264C /* UIView+LayerCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5601F602D810054264C /* UIView+LayerCurve.m */; };
 		066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5631F602FBF0054264C /* CheckUpdateRequest.m */; };
 		06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C21F5D00D600A9CE68 /* BaseViewController.m */; };
 		06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C81F5D1C4E00A9CE68 /* UserLoginViewController.m */; };
@@ -135,8 +134,6 @@
 		066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailTableViewCell.m; sourceTree = "<group>"; };
 		066EA55B1F6012500054264C /* ErrorDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorDetailModel.h; sourceTree = "<group>"; };
 		066EA55C1F6012500054264C /* ErrorDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailModel.m; sourceTree = "<group>"; };
-		066EA55F1F602D810054264C /* UIView+LayerCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LayerCurve.h"; sourceTree = "<group>"; };
-		066EA5601F602D810054264C /* UIView+LayerCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LayerCurve.m"; sourceTree = "<group>"; };
 		066EA5621F602FBF0054264C /* CheckUpdateRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckUpdateRequest.h; sourceTree = "<group>"; };
 		066EA5631F602FBF0054264C /* CheckUpdateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUpdateRequest.m; sourceTree = "<group>"; };
 		06B055C11F5D00D600A9CE68 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -315,15 +312,6 @@
 				066EA5561F6010DF0054264C /* ErrorDetailRequest.m */,
 			);
 			path = Hotels;
-			sourceTree = "<group>";
-		};
-		066EA55E1F602D810054264C /* GCCLayerCurve */ = {
-			isa = PBXGroup;
-			children = (
-				066EA55F1F602D810054264C /* UIView+LayerCurve.h */,
-				066EA5601F602D810054264C /* UIView+LayerCurve.m */,
-			);
-			path = GCCLayerCurve;
 			sourceTree = "<group>";
 		};
 		06B055C01F5D009400A9CE68 /* BaseViewController */ = {
@@ -559,7 +547,6 @@
 		06ECDC8A1F596DCD007FBD83 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				066EA55E1F602D810054264C /* GCCLayerCurve */,
 				06B055EE1F5D572500A9CE68 /* Additional */,
 				06B055D21F5D47DE00A9CE68 /* CustomHelper */,
 				06ECDC8B1F596DCD007FBD83 /* DesUtil */,
@@ -895,7 +882,6 @@
 				066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */,
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
-				066EA5611F602D810054264C /* UIView+LayerCurve.m in Sources */,
 				06ECDC851F596C47007FBD83 /* NetworkConfiguration.m in Sources */,
 				06B055E71F5D4A7D00A9CE68 /* JastorRuntimeHelper.m in Sources */,
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
