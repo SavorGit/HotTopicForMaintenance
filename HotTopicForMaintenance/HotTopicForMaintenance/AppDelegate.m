@@ -12,6 +12,10 @@
 #import "HotTopicTools.h"
 #import "UMessage.h"
 #import <UserNotifications/UserNotifications.h>
+#import "UserManager.h"
+
+#import "UserLoginViewController.h"
+#import "ErrorDetailViewController.h"
 
 @interface AppDelegate ()<UNUserNotificationCenterDelegate>
 
@@ -76,19 +80,68 @@
 //iOS10以下使用这个方法接收通知
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"收到了通知");
+    [UMessage didReceiveRemoteNotification:userInfo];
+    [self didReceiveNotificationWithInfo:userInfo];
 }
 
 //iOS10新增：处理前台收到通知的代理方法
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
 {
-    NSLog(@"收到了通知");
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //应用处于前台时的远程推送接受
+        //关闭U-Push自带的弹出框
+        [UMessage setAutoAlert:NO];
+        //必须加这句代码
+        [UMessage didReceiveRemoteNotification:userInfo];
+        
+    }else{
+        //应用处于前台时的本地推送接受
+    }
+    //当应用处于前台时提示设置，需要哪个可以设置哪一个
+    completionHandler(UNNotificationPresentationOptionSound|UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionAlert);
 }
 
-//iOS10新增：处理前台收到通知的代理方法
+//iOS10新增：处理后台点击通知的代理方法
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
 {
-    NSLog(@"收到了通知");
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //应用处于后台时的远程推送接受
+        //必须加这句代码
+        [UMessage didReceiveRemoteNotification:userInfo];
+        [self didReceiveNotificationWithInfo:userInfo];
+        
+    }else{
+        //应用处于后台时的本地推送接受
+    }
+}
+
+- (void)didReceiveNotificationWithInfo:(NSDictionary *)userInfo
+{
+    NSString * jsonStr = [userInfo objectForKey:@"params"];
+    
+    NSDictionary * data = [NSJSONSerialization JSONObjectWithData:[jsonStr dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+    
+    if ([data isKindOfClass:[NSDictionary class]] && data.count > 0) {
+        
+        UserNotificationModel * model = [[UserNotificationModel alloc] initWithDictionary:data];
+        
+        if (!isEmptyString(model.error_id)) {
+            
+            BaseNavigationController * na = (BaseNavigationController *)self.window.rootViewController;
+            if ([na.topViewController isKindOfClass:[UserLoginViewController class]]) {
+                [UserManager manager].notificationModel = model;
+            }else{
+                NSString * errorID = model.error_id;
+                ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
+                [na pushViewController:detail animated:YES];
+            }
+            
+        }
+        
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

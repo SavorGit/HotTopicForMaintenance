@@ -137,7 +137,7 @@
     NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
     NSString *mdStr = [timeString stringByAppendingString:@"savor4321abcd1234"];
     NSString * result = [Helper getMd5_32Bit:mdStr];
-    result = [NSString stringWithFormat:@"time=%@&sign=%@&deviceId=123456", timeString, result];
+    result = [NSString stringWithFormat:@"time=%@&sign=%@&deviceId=%@", timeString, result, [GCCKeyChain load:keychainID]];
 
     return result;
 }
