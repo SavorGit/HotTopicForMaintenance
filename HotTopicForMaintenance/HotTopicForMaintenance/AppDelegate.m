@@ -131,12 +131,33 @@
         if (!isEmptyString(model.error_id)) {
             
             BaseNavigationController * na = (BaseNavigationController *)self.window.rootViewController;
-            if ([na.topViewController isKindOfClass:[UserLoginViewController class]]) {
-                [UserManager manager].notificationModel = model;
+            
+            if (na) {
+                
+                if ([na.topViewController isKindOfClass:[UserLoginViewController class]]) {
+                    [UserManager manager].notificationModel = model;
+                }else{
+                    NSString * errorID = model.error_id;
+                    ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
+                    [na pushViewController:detail animated:YES];
+                }
+                
             }else{
-                NSString * errorID = model.error_id;
-                ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
-                [na pushViewController:detail animated:YES];
+                
+                MBProgressHUD * hud = [MBProgressHUD showTextHUDWithText:@"正在加载" inView:self.window];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    [hud hideAnimated:YES];
+                    
+                    if ([na.topViewController isKindOfClass:[UserLoginViewController class]]) {
+                        [UserManager manager].notificationModel = model;
+                    }else{
+                        NSString * errorID = model.error_id;
+                        ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
+                        [na pushViewController:detail animated:YES];
+                    }
+                    
+                });
             }
             
         }

@@ -81,7 +81,6 @@
     
     // 设置导航控制器的代理为self
     self.navigationController.delegate = self;
-
 }
 
 - (void)initInfo{
@@ -865,6 +864,12 @@
     self.isRefreh = YES;
     [self dataRequest];
     
+}
+
+- (void)dealloc
+{
+    [RestRankInforRequest cancelRequest];
+    [DamageConfigRequest cancelRequest];
 }
 
 - (void)didReceiveMemoryWarning {
