@@ -247,6 +247,11 @@
     [request sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:networkFailureBlock];
 }
 
+- (void)dealloc
+{
+    [ErrorReportRequest cancelRequest];
+}
+
 - (NSMutableArray *)dataSource
 {
     if (!_dataSource) {

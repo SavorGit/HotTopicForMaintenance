@@ -491,6 +491,12 @@
     return _dataSource;
 }
 
+- (void)dealloc
+{
+    [GetRepairRecordListRequest cancelRequest];
+    [GetAllUserRequest cancelRequest];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

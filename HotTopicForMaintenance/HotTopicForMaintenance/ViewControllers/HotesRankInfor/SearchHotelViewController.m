@@ -104,7 +104,7 @@
 - (void)dataRequest
 {
 //    self.searchField.text = @"永峰";
-    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在搜索" inView:self.view];
     SearchHotelRequest * request = [[SearchHotelRequest alloc] initWithHotelName:self.searchField.text];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -119,7 +119,9 @@
         }
         
         [self.tableView reloadData];
-        [MBProgressHUD showTextHUDWithText:@"刷新成功" inView:self.view];
+        if (self.dataSource.count == 0) {
+            [MBProgressHUD showTextHUDWithText:@"没有找到对应的酒楼" inView:self.view];
+        }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -204,6 +206,11 @@
     RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] initWithDetaiID:tmpModel.cid WithHotelNam:tmpModel.name];
     [self.navigationController pushViewController:riVC animated:YES];
     
+}
+
+- (void)dealloc
+{
+    [SearchHotelRequest cancelRequest];
 }
 
 - (void)didReceiveMemoryWarning {
