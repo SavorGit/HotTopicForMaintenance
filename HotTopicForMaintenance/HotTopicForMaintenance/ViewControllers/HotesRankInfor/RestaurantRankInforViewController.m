@@ -351,7 +351,7 @@
     self.mReContentLabel.text = @"维修记录内容";
     [headView addSubview:self.mReContentLabel];
     [self.mReContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 65 - 130, 17));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 65 - 100, 17));
         make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
         make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
     }];
@@ -394,7 +394,7 @@
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
         make.right.mas_equalTo(-15);
-        make.width.mas_equalTo(110);
+        make.width.mas_equalTo(100);
         make.height.mas_equalTo(20);
     }];
     
