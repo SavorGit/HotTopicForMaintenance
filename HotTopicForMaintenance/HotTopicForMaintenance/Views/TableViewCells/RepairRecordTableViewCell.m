@@ -7,6 +7,7 @@
 //
 
 #import "RepairRecordTableViewCell.h"
+#import "HotTopicTools.h"
 
 @interface RepairRecordTableViewCell ()
 
@@ -57,7 +58,7 @@
     
     self.remarkLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.remarkLabel.textColor = UIColorFromRGB(0x333333);
-    self.remarkLabel.textAlignment = NSTextAlignmentLeft;
+    self.remarkLabel.numberOfLines = 0;
     self.remarkLabel.font = kPingFangRegular(14);
     [self.contentView addSubview:self.remarkLabel];
     [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -93,9 +94,18 @@
     }
     
     if (isEmptyString(model.remark)) {
+        [self.remarkLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(20);
+        }];
         self.remarkLabel.text = @"备注：无";
     }else{
-        self.remarkLabel.text = [@"备注：" stringByAppendingString:model.remark];
+        NSString * str = [@"备注：" stringByAppendingString:model.remark];
+        
+        CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 20 title:str font:kPingFangRegular(14)];
+        [self.remarkLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(height);
+        }];
+        self.remarkLabel.text = str;
     }
 }
 

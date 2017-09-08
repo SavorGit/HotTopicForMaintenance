@@ -23,7 +23,7 @@
         [self setValue:model.type forParamKey:@"type"];
         [self setValue:model.state forParamKey:@"state"];
         [self setValue:model.repair_num_str forParamKey:@"repair_num_str"];
-        [self setValue:model.remakr forParamKey:@"remakr"];
+        [self setValue:model.remakr forParamKey:@"remark"];
     }
     return self;
 }

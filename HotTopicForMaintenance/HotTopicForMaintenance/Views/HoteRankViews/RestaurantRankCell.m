@@ -227,7 +227,7 @@
         [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(109);
         }];
-        self.mReContentLabel.text = @"";
+        self.mReContentLabel.text = @"无";
     }
     
 //    float height = [self getHeightByWidth:kMainBoundsWidth - 30 - 80 - 60 title:@"这是测试字段" font:[UIFont systemFontOfSize:14]];

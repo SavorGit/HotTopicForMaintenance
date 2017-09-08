@@ -697,6 +697,9 @@
         if (backArray.count > 0) {
             self.mReasonLab.text = [NSString stringWithFormat:@"  已选择%ld项",backArray.count];
             self.dUploadModel.repair_num_str = damageIdString;
+        }else{
+            self.mReasonLab.text = @"  故障说明与维修记录";
+            self.dUploadModel.repair_num_str = @"";
         }
     };
 }

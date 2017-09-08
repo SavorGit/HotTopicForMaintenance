@@ -52,18 +52,6 @@
         make.left.mas_equalTo(self.serialNumLab.mas_right);
     }];
     
-    self.stbMacLab = [[UILabel alloc]init];
-    self.stbMacLab.font = [UIFont systemFontOfSize:14];
-    self.stbMacLab.textColor = UIColorFromRGB(0x434343);
-    self.stbMacLab.textAlignment = NSTextAlignmentCenter;
-    self.stbMacLab.text = @"192denerhg";
-    [self addSubview:self.stbMacLab];
-    [self.stbMacLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 10)/4 + 15, 20));
-        make.top.mas_equalTo(15);
-        make.left.mas_equalTo(self.stbLocationLab.mas_right);
-    }];
-    
     self.stbStateLab = [[UILabel alloc]init];
     self.stbStateLab.font = [UIFont systemFontOfSize:14];
     self.stbStateLab.textColor = UIColorFromRGB(0x434343);
@@ -71,11 +59,23 @@
     self.stbStateLab.text = @"正常";
     [self addSubview:self.stbStateLab];
     [self.stbStateLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 10)/4 - 15, 20));
+        make.size.mas_equalTo(CGSizeMake(30, 20));
         make.top.mas_equalTo(15);
-        make.left.mas_equalTo(self.stbMacLab.mas_right).offset(15);
+        make.right.mas_equalTo(-10);
     }];
     
+    self.stbMacLab = [[UILabel alloc]init];
+    self.stbMacLab.font = [UIFont systemFontOfSize:14];
+    self.stbMacLab.textColor = UIColorFromRGB(0x434343);
+    self.stbMacLab.textAlignment = NSTextAlignmentCenter;
+    self.stbMacLab.text = @"192denerhg";
+    [self addSubview:self.stbMacLab];
+    [self.stbMacLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(15);
+        make.left.mas_equalTo(self.stbLocationLab.mas_right).offset(10);
+        make.right.equalTo(self.stbStateLab.mas_left).offset(-5);
+        make.height.mas_equalTo(20);
+    }];
 }
 
 - (void)configWithModel:(LookHotelInforModel *)model{

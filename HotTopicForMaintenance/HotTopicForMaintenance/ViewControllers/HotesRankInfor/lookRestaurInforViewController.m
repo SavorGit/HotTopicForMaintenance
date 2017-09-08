@@ -338,6 +338,18 @@
         make.height.mas_equalTo(20);
     }];
     
+    UILabel *stbStateLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    stbStateLab.backgroundColor = [UIColor clearColor];
+    stbStateLab.font = [UIFont systemFontOfSize:14];
+    stbStateLab.textColor = [UIColor blackColor];
+    stbStateLab.text = @"状态";
+    [stbBgView addSubview:stbStateLab];
+    [stbStateLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(30, 20));
+        make.top.mas_equalTo(10);
+        make.right.mas_equalTo(-5);
+    }];
+    
     UILabel *stbMacLab = [[UILabel alloc] initWithFrame:CGRectZero];
     stbMacLab.backgroundColor = [UIColor clearColor];
     stbMacLab.font = [UIFont systemFontOfSize:14];
@@ -349,19 +361,6 @@
         make.top.mas_equalTo(10);
         make.left.mas_equalTo(stbLocationLab.mas_right);
         make.width.mas_equalTo((kMainBoundsWidth - 10)/4 + 15);
-        make.height.mas_equalTo(20);
-    }];
-    
-    UILabel *stbStateLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    stbStateLab.backgroundColor = [UIColor clearColor];
-    stbStateLab.font = [UIFont systemFontOfSize:14];
-    stbStateLab.textColor = [UIColor blackColor];
-    stbStateLab.text = @"状态";
-    [stbBgView addSubview:stbStateLab];
-    [stbStateLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
-        make.left.mas_equalTo(stbMacLab.mas_right).offset(15);
-        make.width.mas_equalTo((kMainBoundsWidth - 10)/4 - 15);
         make.height.mas_equalTo(20);
     }];
     
