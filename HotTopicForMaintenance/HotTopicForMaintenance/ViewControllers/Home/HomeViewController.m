@@ -14,6 +14,7 @@
 #import "RepairRecordViewController.h"
 #import "SearchHotelViewController.h"
 #import "ErrorReportViewController.h"
+#import "ErrorDetailViewController.h"
 
 @interface HomeViewController ()
 
@@ -41,6 +42,8 @@
         [self.navigationController presentViewController:login animated:YES completion:^{
             
         }];
+    }else{
+        [self cheakUserNotification];
     }
     [self.userInfoView reloadUserInfo];
 }
@@ -155,12 +158,23 @@
 {
     SearchHotelViewController *shVC = [[SearchHotelViewController alloc] init];
     [self.navigationController pushViewController:shVC animated:YES];
-    NSLog(@"在这里添加搜索代码");
 }
 
 - (void)setupDatas
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(isUserLogin) name:RDUserLoginStatusDidChange object:nil];
+}
+
+- (void)cheakUserNotification
+{
+    if ([UserManager manager].notificationModel) {
+        if (self.navigationController.topViewController == self) {
+            NSString * errorID = [UserManager manager].notificationModel.error_id;
+            ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
+            [self.navigationController pushViewController:detail animated:YES];
+            [UserManager manager].notificationModel = nil;
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated

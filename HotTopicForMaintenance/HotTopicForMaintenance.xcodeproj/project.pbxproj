@@ -19,6 +19,8 @@
 		06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */; };
 		06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D431F5D964900242940 /* HotelIndexRequest.m */; };
 		06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */; };
+		066278321F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */; };
+		066278341F61634600B2B8E8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278331F61634600B2B8E8 /* UserNotifications.framework */; };
 		066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */; };
 		066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5431F5FE45B0054264C /* ErrorReportViewController.m */; };
 		066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA54A1F5FEDDD0054264C /* ErrorReportTableViewCell.m */; };
@@ -29,6 +31,7 @@
 		066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */; };
 		066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA55C1F6012500054264C /* ErrorDetailModel.m */; };
 		066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5631F602FBF0054264C /* CheckUpdateRequest.m */; };
+		068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 068E65C01F616B4900644CE6 /* UserNotificationModel.m */; };
 		06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C21F5D00D600A9CE68 /* BaseViewController.m */; };
 		06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C81F5D1C4E00A9CE68 /* UserLoginViewController.m */; };
 		06B055CD1F5D414200A9CE68 /* MBProgressHUD+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055CC1F5D414200A9CE68 /* MBProgressHUD+Custom.m */; };
@@ -116,6 +119,10 @@
 		06356D431F5D964900242940 /* HotelIndexRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelIndexRequest.m; sourceTree = "<group>"; };
 		06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelInfoTableViewCell.h; sourceTree = "<group>"; };
 		06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelInfoTableViewCell.m; sourceTree = "<group>"; };
+		066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.5.0.a; sourceTree = "<group>"; };
+		066278311F61632E00B2B8E8 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		066278331F61634600B2B8E8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		066278351F61637800B2B8E8 /* HotTopicForMaintenance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotTopicForMaintenance.entitlements; sourceTree = "<group>"; };
 		066EA53F1F5FCB500054264C /* RepairRecordHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordHeaderView.h; sourceTree = "<group>"; };
 		066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordHeaderView.m; sourceTree = "<group>"; };
 		066EA5421F5FE45B0054264C /* ErrorReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorReportViewController.h; sourceTree = "<group>"; };
@@ -136,6 +143,8 @@
 		066EA55C1F6012500054264C /* ErrorDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailModel.m; sourceTree = "<group>"; };
 		066EA5621F602FBF0054264C /* CheckUpdateRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckUpdateRequest.h; sourceTree = "<group>"; };
 		066EA5631F602FBF0054264C /* CheckUpdateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUpdateRequest.m; sourceTree = "<group>"; };
+		068E65BF1F616B4900644CE6 /* UserNotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotificationModel.h; sourceTree = "<group>"; };
+		068E65C01F616B4900644CE6 /* UserNotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotificationModel.m; sourceTree = "<group>"; };
 		06B055C11F5D00D600A9CE68 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		06B055C21F5D00D600A9CE68 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		06B055C71F5D1C4E00A9CE68 /* UserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLoginViewController.h; sourceTree = "<group>"; };
@@ -237,7 +246,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				066278341F61634600B2B8E8 /* UserNotifications.framework in Frameworks */,
 				88A5533C69257F91FBC76C5E /* libPods-HotTopicForMaintenance.a in Frameworks */,
+				066278321F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +325,15 @@
 			path = Hotels;
 			sourceTree = "<group>";
 		};
+		0662782F1F61632E00B2B8E8 /* UMessage_Sdk_1.5.0 */ = {
+			isa = PBXGroup;
+			children = (
+				066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */,
+				066278311F61632E00B2B8E8 /* UMessage.h */,
+			);
+			path = UMessage_Sdk_1.5.0;
+			sourceTree = "<group>";
+		};
 		06B055C01F5D009400A9CE68 /* BaseViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,6 +402,8 @@
 				0626DEC91F5EC14500686790 /* RepairRecordModel.m */,
 				0626DECB1F5EC99F00686790 /* RepairRecordDetailModel.h */,
 				0626DECC1F5EC99F00686790 /* RepairRecordDetailModel.m */,
+				068E65BF1F616B4900644CE6 /* UserNotificationModel.h */,
+				068E65C01F616B4900644CE6 /* UserNotificationModel.m */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -454,6 +476,7 @@
 		06ECDC4B1F5969AB007FBD83 /* HotTopicForMaintenance */ = {
 			isa = PBXGroup;
 			children = (
+				066278351F61637800B2B8E8 /* HotTopicForMaintenance.entitlements */,
 				06ECDC4F1F5969AB007FBD83 /* AppDelegate.h */,
 				06ECDC501F5969AB007FBD83 /* AppDelegate.m */,
 				06ECDC921F596E3D007FBD83 /* Macro */,
@@ -547,6 +570,7 @@
 		06ECDC8A1F596DCD007FBD83 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				0662782F1F61632E00B2B8E8 /* UMessage_Sdk_1.5.0 */,
 				06B055EE1F5D572500A9CE68 /* Additional */,
 				06B055D21F5D47DE00A9CE68 /* CustomHelper */,
 				06ECDC8B1F596DCD007FBD83 /* DesUtil */,
@@ -653,6 +677,7 @@
 		EEB3D89891EE41A7BAAEE315 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				066278331F61634600B2B8E8 /* UserNotifications.framework */,
 				943310C53F8C67DA52F2D82C /* libPods-HotTopicForMaintenance.a */,
 			);
 			name = Frameworks;
@@ -730,6 +755,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 922V2U92Z9;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					06ECDC611F5969AB007FBD83 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -852,6 +882,7 @@
 				0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */,
 				06B055DE1F5D498000A9CE68 /* UserManager.m in Sources */,
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
+				068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */,
 				96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */,
 				06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */,
 				96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */,
@@ -1037,6 +1068,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_ENTITLEMENTS = HotTopicForMaintenance/HotTopicForMaintenance.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 922V2U92Z9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1044,6 +1076,10 @@
 				INFOPLIST_FILE = HotTopicForMaintenance/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HotTopicForMaintenance/Helpers/UMessage_Sdk_1.5.0",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.apptest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2f98c2f0-8290-456f-863d-b48fdbd084b6";
@@ -1058,6 +1094,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_ENTITLEMENTS = HotTopicForMaintenance/HotTopicForMaintenance.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 922V2U92Z9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1065,6 +1102,10 @@
 				INFOPLIST_FILE = HotTopicForMaintenance/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HotTopicForMaintenance/Helpers/UMessage_Sdk_1.5.0",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.apptest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2f98c2f0-8290-456f-863d-b48fdbd084b6";

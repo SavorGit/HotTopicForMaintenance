@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "UserModel.h"
+#import "UserNotificationModel.h"
 
 extern NSString * const RDUserLoginStatusDidChange; //已经连接至设备
 
@@ -20,5 +21,7 @@ extern NSString * const RDUserLoginStatusDidChange; //已经连接至设备
 @property (nonatomic, strong) UserModel * user;
 
 @property (nonatomic, strong) NSMutableArray * allUsers;
+
+@property (nonatomic, strong) UserNotificationModel * notificationModel;
 
 @end
