@@ -394,7 +394,7 @@
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
         make.right.mas_equalTo(-15);
-        make.width.mas_equalTo(130);
+        make.width.mas_equalTo(110);
         make.height.mas_equalTo(20);
     }];
     
