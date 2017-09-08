@@ -194,7 +194,7 @@
             self.isRefreh = NO;
             [self cleanDamageModel];
             [self dataRequest];
-            NSLog(@"---上传成功");
+            [MBProgressHUD showTextHUDWithText:@"提交成功" inView:self.view];
         }else{
             [MBProgressHUD showTextHUDWithText:msg inView:self.view];
         }
@@ -202,9 +202,15 @@
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"提交失败" inView:self.view];
+        }
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
+        [MBProgressHUD showTextHUDWithText:@"提交失败" inView:self.view];
     }];
 }
 
