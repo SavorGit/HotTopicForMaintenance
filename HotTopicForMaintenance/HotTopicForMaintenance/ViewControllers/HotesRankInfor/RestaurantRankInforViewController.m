@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
+@property (nonatomic, strong) NSMutableArray * repairPData; //数据源
 @property (nonatomic, copy) NSString * cachePath;
 
 @property (nonatomic, strong) UILabel *rePlatformVerLab;
@@ -33,6 +34,8 @@
 @property (nonatomic, strong) UILabel *positionInforLab;
 @property (nonatomic, strong) UIImageView *lastplatDotImg;
 @property (nonatomic, strong) UIImageView *lastApkDotImg;
+@property (nonatomic, strong) UILabel *mRecordLabel;
+@property (nonatomic, strong) UILabel *mReContentLabel;
 
 @property (nonatomic, strong) UIView *mListView;
 @property (nonatomic, strong) UIImageView *sheetBgView;
@@ -87,6 +90,7 @@
     
     _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
     _dConfigData = [[NSMutableArray alloc] initWithCapacity:100];
+    _repairPData = [[NSMutableArray alloc] initWithCapacity:100];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
     self.dUploadModel = [[DamageUploadModel alloc] init];
     self.isRefreh = NO;
@@ -107,6 +111,7 @@
         
         [hud hideAnimated:NO];
         [self.dataSource removeAllObjects];
+        [self.repairPData removeAllObjects];
         
         NSDictionary * dataDict = [response objectForKey:@"result"];
         NSDictionary *listDict = [dataDict objectForKey:@"list"];
@@ -119,8 +124,15 @@
         self.lastSmallModel.banwei = [listDict objectForKey:@"banwei"];
         self.lastSmallModel.neSmall = [versionDict objectForKey:@"new_small"];
         self.lastSmallModel.small_mac = [versionDict objectForKey:@"small_mac"];
-        
         NSArray *boxInforArr = [listDict objectForKey:@"box_info"];
+        
+        NSArray *repair_recordArr = [versionDict objectForKey:@"repair_record"];//头部小平台维修记录
+        for (int i = 0 ; i < repair_recordArr.count; i ++) {
+            
+            RepairRecordRankModel * detailModel = [[RepairRecordRankModel alloc] initWithDictionary:[repair_recordArr objectAtIndex:i]];
+            [_repairPData addObject:detailModel];
+            
+        }
         
         for (int i = 0; i < boxInforArr.count; i ++) {
             
@@ -244,7 +256,7 @@
     
     self.rePlatformVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
     self.rePlatformVerLab.backgroundColor = [UIColor clearColor];
-    self.rePlatformVerLab.font = [UIFont systemFontOfSize:14];
+    self.rePlatformVerLab.font = [UIFont systemFontOfSize:13];
     self.rePlatformVerLab.textColor = [UIColor blackColor];
     self.rePlatformVerLab.text = [NSString stringWithFormat:@"发布小平台版本号:%@",self.lastSmallModel.neSmall];
     [headView addSubview:self.rePlatformVerLab];
@@ -257,7 +269,7 @@
     
     self.lastPlatformVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
     self.lastPlatformVerLab.backgroundColor = [UIColor clearColor];
-    self.lastPlatformVerLab.font = [UIFont systemFontOfSize:15];
+    self.lastPlatformVerLab.font = [UIFont systemFontOfSize:14];
     self.lastPlatformVerLab.textColor = [UIColor blackColor];
     self.lastPlatformVerLab.text = [NSString stringWithFormat:@"最后小平台版本号:%@",self.lastSmallModel.last_small_pla];
     [headView addSubview:self.lastPlatformVerLab];
@@ -289,7 +301,7 @@
     
     self.lastApkVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
     self.lastApkVerLab.backgroundColor = [UIColor clearColor];
-    self.lastApkVerLab.font = [UIFont systemFontOfSize:15];
+    self.lastApkVerLab.font = [UIFont systemFontOfSize:14];
     self.lastApkVerLab.textColor = [UIColor blackColor];
     self.lastApkVerLab.text = [NSString stringWithFormat:@"小平台最后心跳时间:%@",self.lastHeartTModel.ltime];;
     [headView addSubview:self.lastApkVerLab];
@@ -319,6 +331,56 @@
         self.lastApkDotImg.backgroundColor = [UIColor greenColor];
     }
     
+    self.mRecordLabel = [[UILabel alloc]init];
+    self.mRecordLabel.font = [UIFont systemFontOfSize:14];
+    self.mRecordLabel.textColor = [UIColor blackColor];
+    self.mRecordLabel.textAlignment = NSTextAlignmentLeft;
+    self.mRecordLabel.text = @"维修记录:";
+    [headView addSubview:self.mRecordLabel];
+    [self.mRecordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(65, 17));
+        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
+        make.left.mas_equalTo(15);
+    }];
+
+    self.mReContentLabel = [[UILabel alloc]init];
+    self.mReContentLabel.font = [UIFont systemFontOfSize:14];
+    self.mReContentLabel.textColor = [UIColor blackColor];
+    self.mReContentLabel.textAlignment = NSTextAlignmentLeft;
+    self.mReContentLabel.numberOfLines = 0;
+    self.mReContentLabel.text = @"维修记录内容";
+    [headView addSubview:self.mReContentLabel];
+    [self.mReContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 65 - 130, 17));
+        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
+        make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
+    }];
+    
+    if (self.repairPData.count > 0) {
+        
+        NSMutableString *mReConString = [[NSMutableString alloc] init];
+        for (int i = 0; i < self.repairPData.count; i ++) {
+            RepairRecordRankModel *tmpModel = [self.repairPData objectAtIndex:i];
+            [mReConString appendString:[NSString stringWithFormat:@"\n%@  (%@)",tmpModel.ctime,tmpModel.nickname]];
+        }
+        [mReConString replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
+        
+        float reConHeight;//维修记录的高度
+        reConHeight = self.repairPData.count *17;
+        [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(reConHeight);
+        }];
+        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 135 + reConHeight);
+        self.mReContentLabel.text = mReConString;
+        
+    }else{
+        [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(17);
+        }];
+        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 150);
+        self.mReContentLabel.text = @"无";
+    }
+    
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"小平台维修" forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -332,7 +394,7 @@
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
         make.right.mas_equalTo(-15);
-        make.width.mas_equalTo(130);
+        make.width.mas_equalTo(110);
         make.height.mas_equalTo(20);
     }];
     
@@ -340,7 +402,7 @@
     lineView.backgroundColor = UIColorFromRGB(0xe0dad2);
     [headView addSubview:lineView];
     [lineView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(button.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.mReContentLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth);
         make.height.mas_equalTo(1);
