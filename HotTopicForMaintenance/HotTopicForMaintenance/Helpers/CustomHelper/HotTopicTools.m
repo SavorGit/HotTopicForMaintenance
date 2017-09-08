@@ -98,6 +98,18 @@
     return height;
 }
 
++ (CGFloat)getHeightByWidth:(CGFloat)width title:(NSString *)title font:(UIFont *)font lineModel:(NSLineBreakMode)model
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, 0)];
+    label.text = title;
+    label.font = font;
+    label.lineBreakMode = model;
+    label.numberOfLines = 0;
+    [label sizeToFit];
+    CGFloat height = label.frame.size.height;
+    return height;
+}
+
 + (void)checkUpdate
 {
     CheckUpdateRequest * request = [[CheckUpdateRequest alloc] init];

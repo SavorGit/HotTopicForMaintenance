@@ -259,7 +259,14 @@
     RepairRecordDetailModel * detailModel = [model.recordList objectAtIndex:indexPath.row];
     CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 30 title:[@"维修记录：" stringByAppendingString:detailModel.repair_error] font:kPingFangRegular(14)];
     
-    return 61 + height;
+    if (isEmptyString(detailModel.remark)) {
+        return 61 + height;
+    }
+    
+    NSString * str = [@"备注：" stringByAppendingString:detailModel.remark];
+    CGFloat remarkHeight = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 20 title:str font:kPingFangRegular(14)];
+    
+    return 41 + height + remarkHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

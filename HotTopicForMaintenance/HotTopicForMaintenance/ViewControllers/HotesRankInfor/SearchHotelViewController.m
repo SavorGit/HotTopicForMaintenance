@@ -75,6 +75,10 @@
         make.width.mas_equalTo(kMainBoundsWidth - 76);
         make.height.mas_equalTo(30);
     }];
+    
+    if ([self.searchField canBecomeFirstResponder]) {
+        [self.searchField becomeFirstResponder];
+    }
 }
 
 - (void)navBackButtonClicked
