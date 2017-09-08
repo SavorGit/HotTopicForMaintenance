@@ -635,7 +635,11 @@
 - (void)submitClicked{
     
     self.submitBtn.userInteractionEnabled = NO;
-    self.dUploadModel.remakr = self.remarkTextView.text;
+    if ([self.remarkTextView.text isEqualToString:@"备注，限制100字"]) {
+        self.dUploadModel.remakr = @"";
+    }else{
+        self.dUploadModel.remakr = self.remarkTextView.text;
+    }
     
     if (isEmptyString(self.dUploadModel.state)) {
         self.submitBtn.userInteractionEnabled = YES;
@@ -644,6 +648,11 @@
     }else if (isEmptyString(self.dUploadModel.remakr) && isEmptyString(self.dUploadModel.repair_num_str)){
         self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"请填写至少一项内容" inView:self.view];
+        return;
+    }
+    if (self.dUploadModel.remakr.length > 100) {
+        self.submitBtn.userInteractionEnabled = YES;
+        [MBProgressHUD showTextHUDWithText:@"备注文字超出100字" inView:self.view];
         return;
     }
     [self damageUploadRequest];
