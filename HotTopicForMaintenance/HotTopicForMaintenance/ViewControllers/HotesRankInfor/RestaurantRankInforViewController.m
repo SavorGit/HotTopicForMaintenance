@@ -19,6 +19,7 @@
 #import "DamageConfigRequest.h"
 #import "DamageUploadRequest.h"
 #import "UserManager.h"
+#import "RDFrequentlyUsed.h"
 
 @interface RestaurantRankInforViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UINavigationControllerDelegate>
 
@@ -366,7 +367,9 @@
         [mReConString replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
         
         float reConHeight;//维修记录的高度
-        reConHeight = self.repairPData.count *17;
+//        reConHeight = self.repairPData.count *17;
+        
+        reConHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 65 - 100 title:mReConString font:[UIFont systemFontOfSize:14]];
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(reConHeight);
         }];
