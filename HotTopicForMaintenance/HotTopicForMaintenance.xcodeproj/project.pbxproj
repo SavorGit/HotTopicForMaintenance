@@ -75,6 +75,7 @@
 		96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B51F6025A200C06CE8 /* DamageConfigRequest.m */; };
 		96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B81F60DC7B00C06CE8 /* DamageUploadModel.m */; };
 		96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19BB1F60E20500C06CE8 /* DamageUploadRequest.m */; };
+		96AA19BF1F6626B900C06CE8 /* RDFrequentlyUsed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19BE1F6626B900C06CE8 /* RDFrequentlyUsed.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +240,8 @@
 		96AA19B81F60DC7B00C06CE8 /* DamageUploadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageUploadModel.m; sourceTree = "<group>"; };
 		96AA19BA1F60E20500C06CE8 /* DamageUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DamageUploadRequest.h; sourceTree = "<group>"; };
 		96AA19BB1F60E20500C06CE8 /* DamageUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageUploadRequest.m; sourceTree = "<group>"; };
+		96AA19BD1F6626B900C06CE8 /* RDFrequentlyUsed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFrequentlyUsed.h; sourceTree = "<group>"; };
+		96AA19BE1F6626B900C06CE8 /* RDFrequentlyUsed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDFrequentlyUsed.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -381,6 +384,8 @@
 		06B055D21F5D47DE00A9CE68 /* CustomHelper */ = {
 			isa = PBXGroup;
 			children = (
+				96AA19BD1F6626B900C06CE8 /* RDFrequentlyUsed.h */,
+				96AA19BE1F6626B900C06CE8 /* RDFrequentlyUsed.m */,
 				06B055D31F5D47EC00A9CE68 /* Helper.h */,
 				06B055D41F5D47EC00A9CE68 /* Helper.m */,
 				06B055D61F5D486800A9CE68 /* GCCGetInfo.h */,
@@ -884,6 +889,7 @@
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
 				068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */,
 				96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */,
+				96AA19BF1F6626B900C06CE8 /* RDFrequentlyUsed.m in Sources */,
 				06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */,
 				96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */,
 				06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */,
