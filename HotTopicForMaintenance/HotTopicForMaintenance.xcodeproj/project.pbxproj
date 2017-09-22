@@ -1080,10 +1080,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HotTopicForMaintenance/Helpers/UMessage_Sdk_1.5.0",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.apptest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.maintenance;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2f98c2f0-8290-456f-863d-b48fdbd084b6";
-				PROVISIONING_PROFILE_SPECIFIER = HotTopicsTest;
+				PROVISIONING_PROFILE = "b0814b76-499a-4d23-93c9-392a69f83777";
+				PROVISIONING_PROFILE_SPECIFIER = Maintenance_Development;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1095,7 +1095,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_ENTITLEMENTS = HotTopicForMaintenance/HotTopicForMaintenance.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 922V2U92Z9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HotTopicForMaintenance/HotTopicForMaintenance.pch;
@@ -1106,10 +1106,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HotTopicForMaintenance/Helpers/UMessage_Sdk_1.5.0",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.apptest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.maintenance;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2f98c2f0-8290-456f-863d-b48fdbd084b6";
-				PROVISIONING_PROFILE_SPECIFIER = HotTopicsTest;
+				PROVISIONING_PROFILE = "32f831ff-a2ef-4299-abfe-2aab895be3d4";
+				PROVISIONING_PROFILE_SPECIFIER = Maintenance_Distribution;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -10,7 +10,6 @@
 #import "BGNetWorkManager.h"
 #import "NetworkConfiguration.h"
 #import "UserManager.h"
-#import "GetAllUserRequest.h"
 #import "GCCKeyChain.h"
 #import "CheckUpdateRequest.h"
 #import "Helper.h"

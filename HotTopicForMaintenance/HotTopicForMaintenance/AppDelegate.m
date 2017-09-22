@@ -122,6 +122,10 @@
 {
     NSString * jsonStr = [userInfo objectForKey:@"params"];
     
+    if (isEmptyString(jsonStr)) {
+        return;
+    }
+    
     NSDictionary * data = [NSJSONSerialization JSONObjectWithData:[jsonStr dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
     
     if ([data isKindOfClass:[NSDictionary class]] && data.count > 0) {
