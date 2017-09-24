@@ -64,7 +64,7 @@
         make.left.mas_equalTo(10);
         make.bottom.equalTo(self.userInfoView.mas_top).offset(-20);
         make.right.mas_equalTo(-10);
-        make.height.mas_equalTo(300);
+        make.height.mas_equalTo(kMainBoundsHeight / 2);
     }];
     
     UIView * searchView = [[UIView alloc] initWithFrame:CGRectZero];
