@@ -10,16 +10,18 @@
 #import "UserManager.h"
 #import "UserLoginViewController.h"
 #import "HomeUserInfoView.h"
-#import "HomeHotelInfoView.h"
 #import "RepairRecordViewController.h"
 #import "SearchHotelViewController.h"
 #import "ErrorReportViewController.h"
 #import "ErrorDetailViewController.h"
+#import "Helper.h"
+#import "AutoEnableView.h"
 
 @interface HomeViewController ()
 
 @property (nonatomic, strong) HomeUserInfoView * userInfoView;
-@property (nonatomic, strong) HomeHotelInfoView * hotelInfoView;
+@property (nonatomic, strong) UIButton * cityButton;
+@property (nonatomic, strong) UICollectionView * collectionView;
 
 @end
 
@@ -51,6 +53,8 @@
 //布局views
 - (void)setupViews
 {
+    self.navigationItem.leftBarButtonItem = nil;
+    
     self.userInfoView = [[HomeUserInfoView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:self.userInfoView];
     [self.userInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -58,88 +62,95 @@
         make.height.mas_equalTo(50);
     }];
     
-    self.hotelInfoView = [[HomeHotelInfoView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:self.hotelInfoView];
-    [self.hotelInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(10);
-        make.bottom.equalTo(self.userInfoView.mas_top).offset(-20);
-        make.right.mas_equalTo(-10);
-        make.height.mas_equalTo(kMainBoundsHeight / 2);
-    }];
+//    self.hotelInfoView = [[HomeHotelInfoView alloc] initWithFrame:CGRectZero];
+//    [self.view addSubview:self.hotelInfoView];
+//    [self.hotelInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(10);
+//        make.bottom.equalTo(self.userInfoView.mas_top).offset(-20);
+//        make.right.mas_equalTo(-10);
+//        make.height.mas_equalTo(kMainBoundsHeight / 2);
+//    }];
     
-    UIView * searchView = [[UIView alloc] initWithFrame:CGRectZero];
-    searchView.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
-    searchView.layer.borderWidth = .5f;
-    [self.view addSubview:searchView];
-    [searchView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(30);
-        make.left.mas_equalTo(20);
-        make.right.mas_equalTo(-20);
-        make.height.mas_equalTo(30);
-    }];
+    AutoEnableView * searchView = [[AutoEnableView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30 - 60 - 15, 30)];
+    searchView.backgroundColor = UIColorFromRGB(0x00a8e0);
+    searchView.layer.cornerRadius = 5.f;
+    searchView.layer.masksToBounds = YES;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchView];
     
     UIImageView * searchImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     searchImageView.contentMode = UIViewContentModeScaleAspectFit;
     [searchImageView setImage:[UIImage imageNamed:@"sousuo"]];
     [searchView addSubview:searchImageView];
     [searchImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(0);
-        make.bottom.mas_equalTo(0);
-        make.left.mas_equalTo(5);
-        make.width.mas_equalTo(17);
+        make.width.height.mas_equalTo(18);
+        make.centerY.mas_equalTo(0);
+        make.left.mas_equalTo(10);
     }];
     
     UILabel * searchLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    searchLabel.font = kPingFangRegular(15);
-    searchLabel.text = @" 搜索酒楼";
-    searchLabel.textColor = UIColorFromRGB(0x666666);
+    searchLabel.font = kPingFangRegular(14);
+    searchLabel.text = @"搜索酒楼";
+    searchLabel.textColor = kNavTitleColor;
     [searchView addSubview:searchLabel];
     [searchLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(0);
-        make.left.equalTo(searchImageView.mas_right).offset(0);
+        make.left.equalTo(searchImageView.mas_right).offset(8);
         make.right.mas_equalTo(-20);
     }];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchTextFieldDidBeClicked)];
     tap.numberOfTapsRequired = 1;
     [searchView addGestureRecognizer:tap];
     
-    UIView * handleView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:handleView];
-    [handleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(searchLabel.mas_bottom);
-        make.left.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(self.hotelInfoView.mas_top);
-    }];
+    self.cityButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.cityButton setFrame:CGRectMake(0, 0, 60, 30)];
+    [self.cityButton setTitleColor:kNavTitleColor forState:UIControlStateNormal];
+    self.cityButton.titleLabel.font = kPingFangMedium(16);
+    [self.cityButton setTitle:@"北京" forState:UIControlStateNormal];
+    [self.cityButton setImage:[UIImage imageNamed:@"ywsy_csxl"] forState:UIControlStateNormal];
+    [self.cityButton setAdjustsImageWhenHighlighted:NO];
+    [self.cityButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -7, 0, 18)];
+    [self.cityButton setImageEdgeInsets:UIEdgeInsetsMake(0, 44, 0, 0)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cityButton];
     
-    UIButton * leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [leftButton setImage:[UIImage imageNamed:@"weixiujilu"] forState:UIControlStateNormal];
-    [leftButton setTitle:@"维修记录" forState:UIControlStateNormal];
-    leftButton.titleLabel.font = kPingFangRegular(15);
-    [leftButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
-    [leftButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
-    [leftButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -68, 0, 0)];
-    [handleView addSubview:leftButton];
-    [leftButton addTarget:self action:@selector(leftButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
-    [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 120));
-        make.centerX.mas_equalTo(-kMainBoundsWidth /  5);
-        make.centerY.mas_equalTo(0);
-    }];
+//    UIView * handleView = [[UIView alloc] initWithFrame:CGRectZero];
+//    [self.view addSubview:handleView];
+//    [handleView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(0);
+//        make.left.right.mas_equalTo(0);
+//        make.bottom.mas_equalTo(self.hotelInfoView.mas_top);
+//    }];
+//
+//    UIButton * leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [leftButton setImage:[UIImage imageNamed:@"weixiujilu"] forState:UIControlStateNormal];
+//    [leftButton setTitle:@"维修记录" forState:UIControlStateNormal];
+//    leftButton.titleLabel.font = kPingFangRegular(15);
+//    [leftButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+//    [leftButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
+//    [leftButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -68, 0, 0)];
+//    [handleView addSubview:leftButton];
+//    [leftButton addTarget:self action:@selector(leftButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
+//    [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(100, 120));
+//        make.centerX.mas_equalTo(-kMainBoundsWidth /  5);
+//        make.centerY.mas_equalTo(0);
+//    }];
+//
+//    UIButton * rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [rightButton setImage:[UIImage imageNamed:@"yichangbaogao"] forState:UIControlStateNormal];
+//    [rightButton setTitle:@"异常报告" forState:UIControlStateNormal];
+//    rightButton.titleLabel.font = kPingFangRegular(15);
+//    [rightButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+//    [rightButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
+//    [rightButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -68, 0, 0)];
+//    [handleView addSubview:rightButton];
+//    [rightButton addTarget:self action:@selector(rightButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
+//    [rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(100, 120));
+//        make.centerX.mas_equalTo(kMainBoundsWidth /  5);
+//        make.centerY.mas_equalTo(0);
+//    }];
     
-    UIButton * rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightButton setImage:[UIImage imageNamed:@"yichangbaogao"] forState:UIControlStateNormal];
-    [rightButton setTitle:@"异常报告" forState:UIControlStateNormal];
-    rightButton.titleLabel.font = kPingFangRegular(15);
-    [rightButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
-    [rightButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15.5, 30, 0)];
-    [rightButton setTitleEdgeInsets:UIEdgeInsetsMake(65, -68, 0, 0)];
-    [handleView addSubview:rightButton];
-    [rightButton addTarget:self action:@selector(rightButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
-    [rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 120));
-        make.centerX.mas_equalTo(kMainBoundsWidth /  5);
-        make.centerY.mas_equalTo(0);
-    }];
+    
 }
 
 - (void)leftButtonDidBeClicked
@@ -180,20 +191,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    //开启iOS7的滑动返回效果
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    }
-}
-- (void)viewDidAppear:(BOOL)animated {
-    //关闭iOS7的滑动返回效果
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    }
 }
 
 - (void)dealloc

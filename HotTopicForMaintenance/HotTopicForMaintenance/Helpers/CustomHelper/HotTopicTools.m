@@ -27,15 +27,19 @@
     }
     
     //item字体大小
-    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x333333), NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : kNavTitleColor, NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
     
     //设置标题颜色和字体
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x333333), NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : kNavTitleColor, NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
     
     NSString* identifierNumber = [[UIDevice currentDevice].identifierForVendor UUIDString];
     if (![GCCKeyChain load:keychainID]) {
         [GCCKeyChain save:keychainID data:identifierNumber];
     }
+    
+//    [UITableView appearance].estimatedRowHeight = 0;
+//    [UITableView appearance].estimatedSectionHeaderHeight = 0;
+//    [UITableView appearance].estimatedSectionFooterHeight = 0;
     
     [self checkUpdate];
 }

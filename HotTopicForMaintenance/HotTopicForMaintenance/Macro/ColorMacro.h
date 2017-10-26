@@ -16,12 +16,13 @@ alpha:(a)]
 #define RGB(r, g, b) [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:1.0f]
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
+#define kNavTitleColor UIColorFromRGB(0xffffff)
 #define VCBackgroundColor UIColorFromRGB(0xf5f5f5)
 /** 默认背景颜色 */
 #define kDefaultBackgroundColor     RGB(239, 239, 244)
 /** 导航栏背景颜色 */
 //#define kNavBackGround RGB(242, 242, 242)
-#define kNavBackGround UIColorFromRGB(0xf6f6f6)
+#define kNavBackGround UIColorFromRGB(0x00b7f5)
 /** 标题黑色字样颜色 */
 #define kTitleBlackTextColor RGB(30,30,30)
 /** 内容灰色字样颜色 */
