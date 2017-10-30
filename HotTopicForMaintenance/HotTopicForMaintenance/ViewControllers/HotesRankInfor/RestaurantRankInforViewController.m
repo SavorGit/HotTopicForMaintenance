@@ -44,7 +44,6 @@
 @property (nonatomic, strong) UITextView *remarkTextView;
 @property (nonatomic, strong) UILabel *mReasonLab;
 
-@property (nonatomic, strong) UIImageView * topView;
 @property (nonatomic, strong) UIButton *collectBtn;
 @property (nonatomic, strong) UIButton *backButton;
 
@@ -89,18 +88,13 @@
 
 - (void)initInfo{
     
-    _dataSource = [[NSMutableArray alloc] initWithCapacity:100];
-    _dConfigData = [[NSMutableArray alloc] initWithCapacity:100];
-    _repairPData = [[NSMutableArray alloc] initWithCapacity:100];
+    _dataSource = [[NSMutableArray alloc] init];
+    _dConfigData = [[NSMutableArray alloc] init];
+    _repairPData = [[NSMutableArray alloc] init];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
     self.dUploadModel = [[DamageUploadModel alloc] init];
     self.isRefreh = NO;
     
-    [self.view addSubview:self.topView];
-    [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(64);
-    }];
     [self autoTitleButtonWith:self.hotelName];
 }
 
@@ -241,7 +235,7 @@
         _tableView.showsVerticalScrollIndicator = NO;
         [self.view addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(64);
+            make.top.mas_equalTo(0);
             make.left.mas_equalTo(0);
             make.bottom.mas_equalTo(0);
             make.right.mas_equalTo(0);
@@ -253,7 +247,7 @@
 
 -(void)setUpTableHeaderView{
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 150)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170)];
     
     self.rePlatformVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
     self.rePlatformVerLab.backgroundColor = [UIColor clearColor];
@@ -373,14 +367,14 @@
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(reConHeight);
         }];
-        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 135 + reConHeight);
+        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 155 + reConHeight);
         self.mReContentLabel.text = mReConString;
         
     }else{
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(17);
         }];
-        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 150);
+        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170);
         self.mReContentLabel.text = @"无";
     }
     
@@ -405,7 +399,7 @@
     lineView.backgroundColor = UIColorFromRGB(0xe0dad2);
     [headView addSubview:lineView];
     [lineView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mReContentLabel.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.mReContentLabel.mas_bottom).offset(15);
         make.left.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth);
         make.height.mas_equalTo(1);
@@ -423,7 +417,7 @@
         make.width.mas_equalTo(kMainBoundsWidth - 15);
         make.height.mas_equalTo(20);
     }];
-    
+    headView.backgroundColor = UIColorFromRGB(0xffffff);
     _tableView.tableHeaderView = headView;
 }
 
@@ -436,57 +430,6 @@
     self.dUploadModel.box_mac = self.lastSmallModel.small_mac;;
     
     [self creatMListView];
-}
-
-#pragma mark - 自定义导航栏视图
-- (UIView *)topView
-{
-    if (_topView == nil) {
-        
-        _topView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _topView.userInteractionEnabled = YES;
-        _topView.contentMode = UIViewContentModeScaleToFill;
-        _topView.backgroundColor = [UIColor clearColor];
-        [self.view addSubview:_topView];
-        [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(64);
-            make.top.mas_equalTo(0);
-            make.left.mas_equalTo(0);
-            make.right.mas_equalTo(0);
-        }];
-        
-        _backButton = [[UIButton alloc] initWithFrame:CGRectMake(5,20, 40, 44)];
-        [_backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-        [_backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateSelected];
-        [_backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [_topView addSubview:_backButton];
-        
-        UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [refreshButton setBackgroundImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-        [_topView addSubview:refreshButton];
-        [refreshButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(20 + 8.5);
-            make.right.mas_equalTo(-18);
-            make.width.height.mas_equalTo(23);
-        }];
-        [refreshButton addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
-        lineView.backgroundColor = [UIColor lightGrayColor];
-        [_topView addSubview:lineView];
-        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_equalTo(_topView.mas_bottom).offset(-0.5);
-            make.left.mas_equalTo(0);
-            make.width.mas_equalTo(kMainBoundsWidth);
-            make.height.mas_equalTo(0.5);
-        }];
-    }
-    return _topView;
-}
-
-- (void)backButtonClick{
-    
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 弹出维修窗口
@@ -862,15 +805,15 @@
     
     [cell configWithModel:model];
     
+    __weak typeof(self) weakSelf = self;
     cell.btnClick = ^(RestaurantRankModel *tmpModel){
         
-        self.dUploadModel.userid = [UserManager manager].user.userid;
-        self.dUploadModel.hotel_id = self.cid;
-        self.dUploadModel.type = @"2";
-        self.dUploadModel.box_mac = tmpModel.mac;
+        weakSelf.dUploadModel.userid = [UserManager manager].user.userid;
+        weakSelf.dUploadModel.hotel_id = self.cid;
+        weakSelf.dUploadModel.type = @"2";
+        weakSelf.dUploadModel.box_mac = tmpModel.mac;
         
-        [self creatMListView];
-        NSLog(@"---维修---");
+        [weakSelf creatMListView];
     };
     return cell;
    
@@ -887,15 +830,14 @@
     }else{
         reConHeight = 17;
     }
-    return 97 + reConHeight;
+    return 102 + reConHeight;
 }
 
 - (void)autoTitleButtonWith:(NSString *)title
 {
     UIButton * titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [titleButton setTintColor:UIColorFromRGB(0xece6de)];
     titleButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [titleButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [titleButton setTitleColor:kNavTitleColor forState:UIControlStateNormal];
     [titleButton addTarget:self action:@selector(titleButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     titleButton.imageView.contentMode = UIViewContentModeCenter;
     
@@ -907,25 +849,26 @@
     }
     [titleButton setImageEdgeInsets:UIEdgeInsetsMake(0, size.width + 15, 0, 0)];
     [titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    
     [titleButton setTitle:title forState:UIControlStateNormal];
-    [self.topView addSubview:titleButton];
-    [titleButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(20 + 9);
-        make.centerX.mas_equalTo(self.topView.centerX);
-        make.width.mas_equalTo(size.width + 30);
-        make.height.mas_equalTo(26);
-    }];
+    
+    titleButton.frame = CGRectMake(0, 0, size.width + 30, 30);
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
-    lineView.backgroundColor = [UIColor lightGrayColor];
+    lineView.backgroundColor = kNavTitleColor;
     [titleButton addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(titleButton.mas_bottom).offset(-0.5);
-        make.centerX.mas_equalTo(titleButton.centerX);
-        make.width.mas_equalTo(size.width);
+        make.left.mas_equalTo(0);
+        make.right.mas_equalTo(0);
         make.height.mas_equalTo(0.5);
     }];
+    self.navigationItem.titleView = titleButton;
+    
+    UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+    refreshButton.frame = CGRectMake(0, 0, 23, 23);
+    [refreshButton addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:refreshButton];
 }
 
 #pragma mark - 点击查看酒楼信息
@@ -936,10 +879,10 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-}
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    [self.navigationController setNavigationBarHidden:YES animated:animated];
+//}
 
 #pragma mark - 点击刷新页面
 - (void)refreshAction{

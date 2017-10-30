@@ -34,6 +34,7 @@
 		066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA55C1F6012500054264C /* ErrorDetailModel.m */; };
 		066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5631F602FBF0054264C /* CheckUpdateRequest.m */; };
 		068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 068E65C01F616B4900644CE6 /* UserNotificationModel.m */; };
+		06A3DBEC1FA6CC6C0047EE5E /* HomeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A3DBEB1FA6CC6C0047EE5E /* HomeCollectionViewCell.m */; };
 		06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C21F5D00D600A9CE68 /* BaseViewController.m */; };
 		06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C81F5D1C4E00A9CE68 /* UserLoginViewController.m */; };
 		06B055CD1F5D414200A9CE68 /* MBProgressHUD+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055CC1F5D414200A9CE68 /* MBProgressHUD+Custom.m */; };
@@ -152,6 +153,8 @@
 		066EA5631F602FBF0054264C /* CheckUpdateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUpdateRequest.m; sourceTree = "<group>"; };
 		068E65BF1F616B4900644CE6 /* UserNotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotificationModel.h; sourceTree = "<group>"; };
 		068E65C01F616B4900644CE6 /* UserNotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotificationModel.m; sourceTree = "<group>"; };
+		06A3DBEA1FA6CC6C0047EE5E /* HomeCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeCollectionViewCell.h; sourceTree = "<group>"; };
+		06A3DBEB1FA6CC6C0047EE5E /* HomeCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeCollectionViewCell.m; sourceTree = "<group>"; };
 		06B055C11F5D00D600A9CE68 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		06B055C21F5D00D600A9CE68 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		06B055C71F5D1C4E00A9CE68 /* UserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLoginViewController.h; sourceTree = "<group>"; };
@@ -350,6 +353,15 @@
 				066278311F61632E00B2B8E8 /* UMessage.h */,
 			);
 			path = UMessage_Sdk_1.5.0;
+			sourceTree = "<group>";
+		};
+		06A3DBE91FA6CC5B0047EE5E /* CollectionCells */ = {
+			isa = PBXGroup;
+			children = (
+				06A3DBEA1FA6CC6C0047EE5E /* HomeCollectionViewCell.h */,
+				06A3DBEB1FA6CC6C0047EE5E /* HomeCollectionViewCell.m */,
+			);
+			path = CollectionCells;
 			sourceTree = "<group>";
 		};
 		06B055C01F5D009400A9CE68 /* BaseViewController */ = {
@@ -569,6 +581,7 @@
 		06ECDC811F596C08007FBD83 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				06A3DBE91FA6CC5B0047EE5E /* CollectionCells */,
 				96AA19901F5FC38C00C06CE8 /* HoteRankViews */,
 				06356D3D1F5D8A8E00242940 /* TableViewCells */,
 				06356D301F5D7B2400242940 /* RDAlertView */,
@@ -943,6 +956,7 @@
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
 				066EA5541F6010830054264C /* ErrorDetailViewController.m in Sources */,
 				06B055ED1F5D56CF00A9CE68 /* BaseNavigationController.m in Sources */,
+				06A3DBEC1FA6CC6C0047EE5E /* HomeCollectionViewCell.m in Sources */,
 				96AA19A01F5FC39700C06CE8 /* RestaurantRankModel.m in Sources */,
 				066EA5511F5FEF310054264C /* ErrorReportRequest.m in Sources */,
 				066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */,

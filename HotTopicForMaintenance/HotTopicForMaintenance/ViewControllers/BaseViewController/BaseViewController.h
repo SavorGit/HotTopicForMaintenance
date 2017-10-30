@@ -20,4 +20,6 @@
  */
 -(void)setupDatas;
 
+- (void)navBackButtonClicked:(UIButton *)sender;
+
 @end

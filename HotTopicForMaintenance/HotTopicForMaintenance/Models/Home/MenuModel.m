@@ -36,6 +36,13 @@
             
             break;
             
+        case MenuModelType_MyTask:
+            
+            self.title = @"我的任务";
+            self.imageName = @"ywsy_rw";
+            
+            break;
+            
         case MenuModelType_SystemStatus:
             
             self.title = @"系统状态";

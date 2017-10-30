@@ -10,18 +10,23 @@
 #import "UserManager.h"
 #import "UserLoginViewController.h"
 #import "HomeUserInfoView.h"
+#import "Helper.h"
+#import "AutoEnableView.h"
+
+#import "HomeCollectionViewCell.h"
+
 #import "RepairRecordViewController.h"
 #import "SearchHotelViewController.h"
 #import "ErrorReportViewController.h"
 #import "ErrorDetailViewController.h"
-#import "Helper.h"
-#import "AutoEnableView.h"
 
-@interface HomeViewController ()
+@interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) HomeUserInfoView * userInfoView;
 @property (nonatomic, strong) UIButton * cityButton;
 @property (nonatomic, strong) UICollectionView * collectionView;
+
+@property (nonatomic, strong) NSMutableArray * dataSource;
 
 @end
 
@@ -53,6 +58,8 @@
 //布局views
 - (void)setupViews
 {
+    self.view.backgroundColor = UIColorFromRGB(0xffffff);
+    
     self.navigationItem.leftBarButtonItem = nil;
     
     self.userInfoView = [[HomeUserInfoView alloc] initWithFrame:CGRectZero];
@@ -150,7 +157,69 @@
 //        make.centerY.mas_equalTo(0);
 //    }];
     
+    //collectionView
+    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.minimumLineSpacing = 1;
+    layout.minimumInteritemSpacing = 1;
+    layout.itemSize = CGSizeMake(kMainBoundsWidth / 2 - .5f, kMainBoundsWidth / 2 / 374 * 320);
     
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight) collectionViewLayout:layout];
+    [self.collectionView registerClass:[HomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.collectionView.backgroundColor = UIColorFromRGB(0xeaeaea);
+    [self.view addSubview:self.collectionView];
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(kMainBoundsHeight - kStatusBarHeight - kNaviBarHeight - 50);
+    }];
+    
+    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_CreateTask]];
+    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_TaskList]];
+    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_RepairRecord]];
+    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_ErrorReport]];
+    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_SystemStatus]];
+    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_BindDevice]];
+    [self.collectionView reloadData];
+    
+    [self autoCollectionViewSize];
+}
+
+- (void)autoCollectionViewSize
+{
+    NSInteger numberLines = self.dataSource.count / 2;
+    CGFloat totalHeight = (kMainBoundsWidth / 2 / 374 * 320 + .5f) * numberLines;
+    CGFloat maxHeight = kMainBoundsHeight - kStatusBarHeight - kNaviBarHeight - 50;
+    if (numberLines > maxHeight) {
+        [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(maxHeight);
+        }];
+        self.collectionView.bounces = YES;
+    }else{
+        [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(totalHeight);
+        }];
+        self.collectionView.bounces = NO;
+    }
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.dataSource.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    HomeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
+    
+    MenuModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    [cell configWithModel:model];
+    return cell;
 }
 
 - (void)leftButtonDidBeClicked
@@ -188,9 +257,12 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (NSMutableArray *)dataSource
 {
-    [super viewWillAppear:animated];
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray new];
+    }
+    return _dataSource;
 }
 
 - (void)dealloc

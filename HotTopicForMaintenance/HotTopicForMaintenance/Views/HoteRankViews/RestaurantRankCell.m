@@ -38,17 +38,17 @@
 - (void)initWithSubView
 {
     _bgView = [[UIView alloc] init];
-    _bgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
-    _bgView.layer.borderColor = UIColorFromRGB(0xf6f2ed).CGColor;
+    _bgView.backgroundColor = UIColorFromRGB(0xffffff);
+    _bgView.layer.borderColor = UIColorFromRGB(0xeeeeee).CGColor;
     _bgView.layer.borderWidth = .5f;
     _bgView.layer.cornerRadius = 5.f;
     _bgView.layer.masksToBounds = YES;
     [self.contentView addSubview:_bgView];
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(kMainBoundsWidth - 20);
-        make.height.mas_equalTo(109);
         make.top.mas_equalTo(5);
         make.left.mas_equalTo(10);
+        make.bottom.mas_equalTo(0);
     }];
 
     self.versionLabel = [[UILabel alloc]init];
@@ -93,7 +93,6 @@
     self.dotImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.dotImageView.layer.cornerRadius = 20/2.0;
     self.dotImageView.layer.masksToBounds = YES;
-    [self.dotImageView setImage:[UIImage imageNamed:@""]];
     [_bgView addSubview:self.dotImageView];
     [self.dotImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
@@ -215,17 +214,11 @@
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(reConHeight);
         }];
-        [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(92 + reConHeight);
-        }];
         self.mReContentLabel.text = mReConString;
         
     }else{
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(17);
-        }];
-        [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(109);
         }];
         self.mReContentLabel.text = @"无";
     }

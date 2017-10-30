@@ -11,6 +11,7 @@
 typedef enum : NSUInteger {
     MenuModelType_CreateTask,
     MenuModelType_TaskList,
+    MenuModelType_MyTask,
     MenuModelType_SystemStatus,
     MenuModelType_ErrorReport,
     MenuModelType_RepairRecord,

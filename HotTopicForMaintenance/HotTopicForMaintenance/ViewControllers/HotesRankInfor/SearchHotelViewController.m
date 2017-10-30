@@ -11,13 +11,13 @@
 #import "SearchTableViewCell.h"
 #import "RestaurantRankInforViewController.h"
 #import "SearchHotelRequest.h"
+#import "AutoEnableView.h"
 
 @interface SearchHotelViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
-@property (nonatomic, strong) UIView * searchBgView; //数据源
-@property (nonatomic, strong) UITextField * searchField; //数据源
+@property (nonatomic, strong) UITextField * searchField;
 
 
 @end
@@ -37,30 +37,12 @@
 }
 
 - (void)creatSubViews{
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.exclusiveTouch = YES;
-    [button setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
-    button.frame = CGRectMake(0, 0, 30, 33);
-    [button addTarget:self action:@selector(navBackButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    button.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:button];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(27.5);
-        make.left.mas_equalTo(3);
-        make.size.mas_equalTo(CGSizeMake(30, 33));
-    }];
     
-    
-    self.searchBgView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchBgView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.searchBgView];
-    [self.searchBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(15);
-        make.left.equalTo(button.mas_right).offset(0);
-        make.right.mas_equalTo(0);
-        make.height.mas_equalTo(60);
-    }];
+    AutoEnableView * searchView = [[AutoEnableView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 60 - 15, 30)];
+    searchView.backgroundColor = UIColorFromRGB(0x00a8e0);
+    searchView.layer.cornerRadius = 5.f;
+    searchView.layer.masksToBounds = YES;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchView];
     
     self.searchField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.searchField.font = kPingFangLight(15);
@@ -68,12 +50,9 @@
     self.searchField.placeholder = @"搜索酒楼";
     self.searchField.returnKeyType = UIReturnKeySearch;
     self.searchField.delegate = self;
-    [self.searchBgView addSubview:self.searchField];
+    [searchView addSubview:self.searchField];
     [self.searchField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(15);
-        make.right.mas_equalTo(- 33);
-        make.width.mas_equalTo(kMainBoundsWidth - 76);
-        make.height.mas_equalTo(30);
+        make.edges.mas_equalTo(0);
     }];
     
     if ([self.searchField canBecomeFirstResponder]) {
@@ -81,9 +60,12 @@
     }
 }
 
-- (void)navBackButtonClicked
+- (void)navBackButtonClicked:(UIButton *)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.searchField.isFirstResponder) {
+        [self.searchField resignFirstResponder];
+    }
+    [super navBackButtonClicked:sender];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -158,10 +140,7 @@
         _tableView.showsVerticalScrollIndicator = NO;
         [self.view addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(75);
-            make.left.mas_equalTo(0);
-            make.bottom.mas_equalTo(0);
-            make.right.mas_equalTo(0);
+            make.edges.mas_equalTo(0);
         }];
     }
     
