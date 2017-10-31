@@ -34,6 +34,12 @@
 		066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA55C1F6012500054264C /* ErrorDetailModel.m */; };
 		066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5631F602FBF0054264C /* CheckUpdateRequest.m */; };
 		068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 068E65C01F616B4900644CE6 /* UserNotificationModel.m */; };
+		069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C381B1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m */; };
+		069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */; };
+		069C38651FA85C26003F92EF /* TaskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C38641FA85C26003F92EF /* TaskModel.m */; };
+		069C38691FA86039003F92EF /* TaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C38681FA86039003F92EF /* TaskTableViewCell.m */; };
+		069C386D1FA873D1003F92EF /* TaskListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C386C1FA873D1003F92EF /* TaskListViewController.m */; };
+		069C38701FA873E2003F92EF /* TaskPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C386F1FA873E2003F92EF /* TaskPageViewController.m */; };
 		06A3DBEC1FA6CC6C0047EE5E /* HomeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A3DBEB1FA6CC6C0047EE5E /* HomeCollectionViewCell.m */; };
 		06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C21F5D00D600A9CE68 /* BaseViewController.m */; };
 		06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055C81F5D1C4E00A9CE68 /* UserLoginViewController.m */; };
@@ -153,6 +159,18 @@
 		066EA5631F602FBF0054264C /* CheckUpdateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUpdateRequest.m; sourceTree = "<group>"; };
 		068E65BF1F616B4900644CE6 /* UserNotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotificationModel.h; sourceTree = "<group>"; };
 		068E65C01F616B4900644CE6 /* UserNotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotificationModel.m; sourceTree = "<group>"; };
+		069C381A1FA8127A003F92EF /* HomeBadgeCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeBadgeCollectionViewCell.h; sourceTree = "<group>"; };
+		069C381B1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeBadgeCollectionViewCell.m; sourceTree = "<group>"; };
+		069C385F1FA85B3F003F92EF /* TaskChooseTypeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskChooseTypeController.h; sourceTree = "<group>"; };
+		069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskChooseTypeController.m; sourceTree = "<group>"; };
+		069C38631FA85C26003F92EF /* TaskModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskModel.h; sourceTree = "<group>"; };
+		069C38641FA85C26003F92EF /* TaskModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskModel.m; sourceTree = "<group>"; };
+		069C38671FA86039003F92EF /* TaskTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskTableViewCell.h; sourceTree = "<group>"; };
+		069C38681FA86039003F92EF /* TaskTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskTableViewCell.m; sourceTree = "<group>"; };
+		069C386B1FA873D1003F92EF /* TaskListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListViewController.h; sourceTree = "<group>"; };
+		069C386C1FA873D1003F92EF /* TaskListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListViewController.m; sourceTree = "<group>"; };
+		069C386E1FA873E2003F92EF /* TaskPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskPageViewController.h; sourceTree = "<group>"; };
+		069C386F1FA873E2003F92EF /* TaskPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskPageViewController.m; sourceTree = "<group>"; };
 		06A3DBEA1FA6CC6C0047EE5E /* HomeCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeCollectionViewCell.h; sourceTree = "<group>"; };
 		06A3DBEB1FA6CC6C0047EE5E /* HomeCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeCollectionViewCell.m; sourceTree = "<group>"; };
 		06B055C11F5D00D600A9CE68 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -319,6 +337,7 @@
 		06356D3D1F5D8A8E00242940 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				069C38661FA85FB6003F92EF /* Task */,
 				06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */,
 				06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */,
 				0626DEC51F5EBC6E00686790 /* RepairRecordTableViewCell.h */,
@@ -355,11 +374,51 @@
 			path = UMessage_Sdk_1.5.0;
 			sourceTree = "<group>";
 		};
+		069C385B1FA85A59003F92EF /* CreateTasks */ = {
+			isa = PBXGroup;
+			children = (
+				069C385F1FA85B3F003F92EF /* TaskChooseTypeController.h */,
+				069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */,
+			);
+			path = CreateTasks;
+			sourceTree = "<group>";
+		};
+		069C38621FA85C16003F92EF /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				069C38631FA85C26003F92EF /* TaskModel.h */,
+				069C38641FA85C26003F92EF /* TaskModel.m */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		069C38661FA85FB6003F92EF /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				069C38671FA86039003F92EF /* TaskTableViewCell.h */,
+				069C38681FA86039003F92EF /* TaskTableViewCell.m */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		069C386A1FA871B8003F92EF /* TaskList */ = {
+			isa = PBXGroup;
+			children = (
+				069C386B1FA873D1003F92EF /* TaskListViewController.h */,
+				069C386C1FA873D1003F92EF /* TaskListViewController.m */,
+				069C386E1FA873E2003F92EF /* TaskPageViewController.h */,
+				069C386F1FA873E2003F92EF /* TaskPageViewController.m */,
+			);
+			path = TaskList;
+			sourceTree = "<group>";
+		};
 		06A3DBE91FA6CC5B0047EE5E /* CollectionCells */ = {
 			isa = PBXGroup;
 			children = (
 				06A3DBEA1FA6CC6C0047EE5E /* HomeCollectionViewCell.h */,
 				06A3DBEB1FA6CC6C0047EE5E /* HomeCollectionViewCell.m */,
+				069C381A1FA8127A003F92EF /* HomeBadgeCollectionViewCell.h */,
+				069C381B1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m */,
 			);
 			path = CollectionCells;
 			sourceTree = "<group>";
@@ -468,6 +527,8 @@
 			children = (
 				06B055F61F5D57A700A9CE68 /* HomeViewController.h */,
 				06B055F71F5D57A700A9CE68 /* HomeViewController.m */,
+				069C386A1FA871B8003F92EF /* TaskList */,
+				069C385B1FA85A59003F92EF /* CreateTasks */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -568,6 +629,7 @@
 		06ECDC801F596BFB007FBD83 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				069C38621FA85C16003F92EF /* Task */,
 				06338BB61FA1C6F1003775B5 /* Home */,
 				96AA199D1F5FC39700C06CE8 /* HoteRankModel */,
 				06B055DC1F5D498000A9CE68 /* UserManager.h */,
@@ -920,10 +982,12 @@
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
 				068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */,
 				96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */,
+				069C38651FA85C26003F92EF /* TaskModel.m in Sources */,
 				96AA19BF1F6626B900C06CE8 /* RDFrequentlyUsed.m in Sources */,
 				06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */,
 				96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */,
 				06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */,
+				069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */,
 				06B055F31F5D572500A9CE68 /* UIImage+Additional.m in Sources */,
 				96AA199A1F5FC38C00C06CE8 /* lookRestTableViewCell.m in Sources */,
 				0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */,
@@ -949,6 +1013,7 @@
 				06B055CD1F5D414200A9CE68 /* MBProgressHUD+Custom.m in Sources */,
 				06338BB51FA1B9A9003775B5 /* AutoEnableView.m in Sources */,
 				066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */,
+				069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */,
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
 				06ECDC851F596C47007FBD83 /* NetworkConfiguration.m in Sources */,
@@ -956,10 +1021,13 @@
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
 				066EA5541F6010830054264C /* ErrorDetailViewController.m in Sources */,
 				06B055ED1F5D56CF00A9CE68 /* BaseNavigationController.m in Sources */,
+				069C38701FA873E2003F92EF /* TaskPageViewController.m in Sources */,
 				06A3DBEC1FA6CC6C0047EE5E /* HomeCollectionViewCell.m in Sources */,
 				96AA19A01F5FC39700C06CE8 /* RestaurantRankModel.m in Sources */,
+				069C38691FA86039003F92EF /* TaskTableViewCell.m in Sources */,
 				066EA5511F5FEF310054264C /* ErrorReportRequest.m in Sources */,
 				066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */,
+				069C386D1FA873D1003F92EF /* TaskListViewController.m in Sources */,
 				0626DEC11F5E860800686790 /* GetAllUserRequest.m in Sources */,
 				06B055D81F5D486800A9CE68 /* GCCGetInfo.m in Sources */,
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,

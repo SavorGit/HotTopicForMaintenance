@@ -281,7 +281,6 @@
     self.lastplatDotImg.contentMode = UIViewContentModeScaleAspectFit;
     self.lastplatDotImg.layer.cornerRadius = 20/2.0;
     self.lastplatDotImg.layer.masksToBounds = YES;
-    [self.lastplatDotImg setImage:[UIImage imageNamed:@""]];
     [headView addSubview:self.lastplatDotImg];
     [self.lastplatDotImg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
@@ -313,7 +312,6 @@
     self.lastApkDotImg.contentMode = UIViewContentModeScaleAspectFit;
     self.lastApkDotImg.layer.cornerRadius = 20/2.0;
     self.lastApkDotImg.layer.masksToBounds = YES;
-    [self.lastApkDotImg setImage:[UIImage imageNamed:@""]];
     [headView addSubview:self.lastApkDotImg];
     [self.lastApkDotImg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));

@@ -13,12 +13,14 @@
 #import "Helper.h"
 #import "AutoEnableView.h"
 
-#import "HomeCollectionViewCell.h"
+#import "HomeBadgeCollectionViewCell.h"
 
 #import "RepairRecordViewController.h"
 #import "SearchHotelViewController.h"
 #import "ErrorReportViewController.h"
 #import "ErrorDetailViewController.h"
+#import "TaskChooseTypeController.h"
+#import "TaskPageViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -117,6 +119,7 @@
     [self.cityButton setAdjustsImageWhenHighlighted:NO];
     [self.cityButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -7, 0, 18)];
     [self.cityButton setImageEdgeInsets:UIEdgeInsetsMake(0, 44, 0, 0)];
+    [self.cityButton addTarget:self action:@selector(cityButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cityButton];
     
 //    UIView * handleView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -165,6 +168,7 @@
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight) collectionViewLayout:layout];
     [self.collectionView registerClass:[HomeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
+    [self.collectionView registerClass:[HomeBadgeCollectionViewCell class] forCellWithReuseIdentifier:@"HomeBadgeCollectionViewCell"];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.backgroundColor = UIColorFromRGB(0xeaeaea);
@@ -183,6 +187,11 @@
     [self.collectionView reloadData];
     
     [self autoCollectionViewSize];
+}
+
+- (void)cityButtonDidClicked
+{
+    
 }
 
 - (void)autoCollectionViewSize
@@ -215,11 +224,42 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    HomeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
-    
     MenuModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    [cell configWithModel:model];
-    return cell;
+    if (model.type == MenuModelType_TaskList) {
+        HomeBadgeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeBadgeCollectionViewCell" forIndexPath:indexPath];
+        [cell configWithModel:model];
+        [cell setBadgeNumber:9];
+        
+        return cell;
+    }else{
+        HomeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
+        [cell configWithModel:model];
+        
+        return cell;
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    MenuModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    switch (model.type) {
+        case MenuModelType_CreateTask:
+        {
+            TaskChooseTypeController * vc = [[TaskChooseTypeController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case MenuModelType_TaskList:
+        {
+            TaskPageViewController * vc = [[TaskPageViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)leftButtonDidBeClicked

@@ -13,7 +13,6 @@
 @property (nonatomic, strong) UIImageView * logoImageView;
 @property (nonatomic, strong) UILabel * titleLabel;
 
-
 @end
 
 @implementation HomeCollectionViewCell

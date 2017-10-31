@@ -37,9 +37,13 @@
         [GCCKeyChain save:keychainID data:identifierNumber];
     }
     
-//    [UITableView appearance].estimatedRowHeight = 0;
-//    [UITableView appearance].estimatedSectionHeaderHeight = 0;
-//    [UITableView appearance].estimatedSectionFooterHeight = 0;
+    [UITableView appearance].estimatedSectionHeaderHeight = 0;
+    [UITableView appearance].estimatedSectionFooterHeight = 0;
+    if (@available(iOS 11.0, *)) {
+        [UIScrollView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
     
     [self checkUpdate];
 }

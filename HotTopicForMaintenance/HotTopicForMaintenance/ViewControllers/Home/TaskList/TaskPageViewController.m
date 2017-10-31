@@ -1,21 +1,47 @@
 //
-//  BaseViewController.m
+//  TaskPageViewController.m
 //  HotTopicForMaintenance
 //
-//  Created by 郭春城 on 2017/9/4.
+//  Created by 郭春城 on 2017/10/31.
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "TaskPageViewController.h"
+#import "TaskListViewController.h"
 
-@interface BaseViewController ()
+@interface TaskPageViewController ()
 
 @end
 
-@implementation BaseViewController
+@implementation TaskPageViewController
+
+- (instancetype)init
+{
+    NSArray * vcArray = @[[TaskListViewController class],[TaskListViewController class],[TaskListViewController class], [TaskListViewController class]];
+    NSArray * titleArray = @[@"全部", @"待指派", @"待处理", @"已完成"];
+    
+    if (self = [super initWithViewControllerClasses:vcArray andTheirTitles:titleArray]) {
+        [self configPageController];
+    }
+    return self;
+}
+
+- (void)configPageController
+{
+    self.titleColorNormal = UIColorFromRGB(0x444444);
+    self.titleColorSelected = kNavBackGround;
+    
+    self.progressColor = kNavBackGround;
+    self.progressHeight = 1.5f;
+    self.menuViewStyle = WMMenuViewStyleLine;
+    self.progressViewBottomSpace = 0;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = @"任务列表";
+    
     self.view.backgroundColor = VCBackgroundColor;
     
     if (@available(iOS 11.0, *)) {
@@ -42,29 +68,6 @@
 
 - (void)navBackButtonClicked:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)setupViews
-{
-}
-
-- (void)setupDatas
-{
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    //代理置空，否则会闪退
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.delegate = nil;
-    }
-}
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    //开启iOS7的滑动返回效果
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
-    }
 }
 
 - (void)didReceiveMemoryWarning {
