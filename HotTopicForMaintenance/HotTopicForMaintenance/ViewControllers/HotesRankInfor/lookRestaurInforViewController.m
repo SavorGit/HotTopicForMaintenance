@@ -407,11 +407,6 @@
     [cell setLayoutMargins:UIEdgeInsetsZero];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
 - (void)dealloc
 {
     [LookHotelInforRequest cancelRequest];

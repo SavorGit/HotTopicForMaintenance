@@ -877,11 +877,6 @@
     
 }
 
-//- (void)viewWillAppear:(BOOL)animated
-//{
-//    [self.navigationController setNavigationBarHidden:YES animated:animated];
-//}
-
 #pragma mark - 点击刷新页面
 - (void)refreshAction{
     
