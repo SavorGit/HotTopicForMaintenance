@@ -6,7 +6,7 @@
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "Jastor.h"
 
 typedef enum : NSUInteger {
     TaskType_Install,
@@ -15,7 +15,7 @@ typedef enum : NSUInteger {
     TaskType_Repair
 } TaskType;
 
-@interface TaskModel : NSObject
+@interface TaskModel : Jastor
 
 - (instancetype)initWithType:(TaskType)type;
 

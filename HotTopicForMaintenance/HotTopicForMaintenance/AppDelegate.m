@@ -35,7 +35,6 @@
     BaseNavigationController * homeRoot = [[BaseNavigationController alloc] initWithRootViewController:home];
     self.window.rootViewController = homeRoot;
     
-    
     //处理启动时候的相关事务
     [self handleLaunchWorkWithOptions:launchOptions];
     

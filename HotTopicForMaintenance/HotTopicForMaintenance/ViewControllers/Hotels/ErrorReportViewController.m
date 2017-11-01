@@ -79,12 +79,6 @@
     [self.navigationController pushViewController:detail animated:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
 - (void)getErrorReportList
 {
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取异常报告" inView:self.view];

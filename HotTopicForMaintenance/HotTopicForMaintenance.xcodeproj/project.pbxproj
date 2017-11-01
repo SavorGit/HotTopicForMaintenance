@@ -59,6 +59,8 @@
 		06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055F71F5D57A700A9CE68 /* HomeViewController.m */; };
 		06B055FC1F5D58A200A9CE68 /* HomeUserInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055FB1F5D58A200A9CE68 /* HomeUserInfoView.m */; };
 		06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B056011F5D599500A9CE68 /* HotTopicTools.m */; };
+		06C44BFB1FA9A1DF0050FDBC /* TaskListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C44BFA1FA9A1DF0050FDBC /* TaskListTableViewCell.m */; };
+		06C44BFE1FA9A2A50050FDBC /* TaskListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C44BFD1FA9A2A50050FDBC /* TaskListModel.m */; };
 		06ECDC4E1F5969AB007FBD83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECDC4D1F5969AB007FBD83 /* main.m */; };
 		06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECDC501F5969AB007FBD83 /* AppDelegate.m */; };
 		06ECDC591F5969AB007FBD83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ECDC581F5969AB007FBD83 /* Assets.xcassets */; };
@@ -218,6 +220,10 @@
 		06B055FB1F5D58A200A9CE68 /* HomeUserInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeUserInfoView.m; sourceTree = "<group>"; };
 		06B056001F5D599500A9CE68 /* HotTopicTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotTopicTools.h; sourceTree = "<group>"; };
 		06B056011F5D599500A9CE68 /* HotTopicTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotTopicTools.m; sourceTree = "<group>"; };
+		06C44BF91FA9A1DF0050FDBC /* TaskListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListTableViewCell.h; sourceTree = "<group>"; };
+		06C44BFA1FA9A1DF0050FDBC /* TaskListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListTableViewCell.m; sourceTree = "<group>"; };
+		06C44BFC1FA9A2A50050FDBC /* TaskListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListModel.h; sourceTree = "<group>"; };
+		06C44BFD1FA9A2A50050FDBC /* TaskListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListModel.m; sourceTree = "<group>"; };
 		06ECDC491F5969AB007FBD83 /* HotTopicForMaintenance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotTopicForMaintenance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ECDC4D1F5969AB007FBD83 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		06ECDC4F1F5969AB007FBD83 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -422,6 +428,8 @@
 			children = (
 				069C38631FA85C26003F92EF /* TaskModel.h */,
 				069C38641FA85C26003F92EF /* TaskModel.m */,
+				06C44BFC1FA9A2A50050FDBC /* TaskListModel.h */,
+				06C44BFD1FA9A2A50050FDBC /* TaskListModel.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -431,6 +439,8 @@
 			children = (
 				069C38671FA86039003F92EF /* TaskTableViewCell.h */,
 				069C38681FA86039003F92EF /* TaskTableViewCell.m */,
+				06C44BF91FA9A1DF0050FDBC /* TaskListTableViewCell.h */,
+				06C44BFA1FA9A1DF0050FDBC /* TaskListTableViewCell.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -1021,6 +1031,7 @@
 			files = (
 				96AA19A71F5FD03A00C06CE8 /* RestRankInforRequest.m in Sources */,
 				066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */,
+				06C44BFB1FA9A1DF0050FDBC /* TaskListTableViewCell.m in Sources */,
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
 				96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */,
 				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
@@ -1052,6 +1063,7 @@
 				96AA19B01F5FF0C800C06CE8 /* LookHotelInforRequest.m in Sources */,
 				06ECDC911F596DCD007FBD83 /* DesUtil.m in Sources */,
 				06B055F41F5D572500A9CE68 /* UIView+Additional.m in Sources */,
+				06C44BFE1FA9A2A50050FDBC /* TaskListModel.m in Sources */,
 				066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */,
 				066EA54E1F5FEE6B0054264C /* ErrorReportModel.m in Sources */,
 				96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */,
