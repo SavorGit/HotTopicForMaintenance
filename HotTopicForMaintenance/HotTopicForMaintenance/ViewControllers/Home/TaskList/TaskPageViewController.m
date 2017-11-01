@@ -28,6 +28,9 @@
 
 - (void)configPageController
 {
+    self.titleSizeNormal = 15;
+    self.titleSizeSelected = 16;
+    
     self.titleColorNormal = UIColorFromRGB(0x444444);
     self.titleColorSelected = kNavBackGround;
     
