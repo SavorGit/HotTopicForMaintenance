@@ -9,7 +9,7 @@
 #import "TaskPageViewController.h"
 #import "TaskListViewController.h"
 
-@interface TaskPageViewController ()
+@interface TaskPageViewController ()<WMPageControllerDataSource>
 
 @end
 
@@ -64,6 +64,11 @@
     button.backgroundColor = [UIColor clearColor];
     UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.leftBarButtonItem = backItem;
+}
+
+- (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index
+{
+    return [[TaskListViewController alloc] initWithTaskListType:index];
 }
 
 - (void)navBackButtonClicked:(UIButton *)sender {

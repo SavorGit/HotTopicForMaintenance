@@ -10,9 +10,19 @@
 
 @interface TaskListViewController ()
 
+@property (nonatomic, assign) TaskListType taskType;
+
 @end
 
 @implementation TaskListViewController
+
+- (instancetype)initWithTaskListType:(TaskListType)type
+{
+    if (self = [super init]) {
+        self.taskType = type;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
