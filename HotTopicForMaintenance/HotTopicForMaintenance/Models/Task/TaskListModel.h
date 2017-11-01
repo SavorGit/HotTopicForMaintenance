@@ -23,4 +23,7 @@
 @property (nonatomic, copy) NSString * completeTime;
 @property (nonatomic, copy) NSString * refuseTime;
 
+@property (nonatomic, copy) NSString * localtion;
+@property (nonatomic, copy) NSString * contacts;
+
 @end

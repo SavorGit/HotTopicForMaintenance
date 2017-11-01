@@ -58,6 +58,8 @@
     }
     
     [self setNavBackArrowWithWidth:40];
+    
+    self.menuView.frame = CGRectMake(0, 0, kMainBoundsWidth, 40);
     // Do any additional setup after loading the view.
 }
 
@@ -71,6 +73,11 @@
     button.backgroundColor = [UIColor clearColor];
     UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.leftBarButtonItem = backItem;
+}
+
+- (CGRect)pageController:(WMPageController *)pageController preferredFrameForMenuView:(WMMenuView *)menuView
+{
+    return CGRectMake(0, 0, kMainBoundsWidth, 40);
 }
 
 - (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index

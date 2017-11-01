@@ -9,6 +9,7 @@
 #import "TaskListViewController.h"
 #import "TaskListModel.h"
 #import "TaskListTableViewCell.h"
+#import "TaskDetailViewController.h"
 
 @interface TaskListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -49,6 +50,13 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    TaskListModel * model = [self.dataSource objectAtIndex:indexPath.section];
+    TaskDetailViewController * vc = [[TaskDetailViewController alloc] initWithTaskListModel:model];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -132,6 +140,8 @@
                 model1.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model1.assignTime = @"2017-09-26 09:20 (宗艳丽)";
                 model1.completeTime = @"2017-09-26 09:20 (成通)";
+                model1.localtion = @"北京市东城区王府井大街新东安广场A123";
+                model1.contacts = @"李师傅   13012345678";
                 [self.dataSource addObject: model1];
                 
                 TaskListModel * model2 = [[TaskListModel alloc] init];
@@ -143,6 +153,8 @@
                 model2.hotelName = @"旺顺阁鱼头泡饼王府井店";
                 model2.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model2.refuseTime = @"2017-09-26 09:20 (宗艳丽)";
+                model2.localtion = @"北京市东城区王府井大街新东安广场A123";
+                model2.contacts = @"李师傅   13012345678";
                 [self.dataSource addObject: model2];
                 
                 TaskListModel * model3 = [[TaskListModel alloc] init];
@@ -152,6 +164,8 @@
                 model3.cityName = @"北京";
                 model3.hotelName = @"旺顺阁鱼头泡饼王府井店";
                 model3.createTime = @"2017-09-26 09:20 (辛丽娟)";
+                model3.localtion = @"北京市东城区王府井大街新东安广场A123";
+                model3.contacts = @"李师傅   13012345678";
                 [self.dataSource addObject: model3];
                 
                 TaskListModel * model4 = [[TaskListModel alloc] init];
@@ -163,6 +177,8 @@
                 model4.assignHandleTime = @"2017-09-26 (成通)";
                 model4.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model4.assignTime = @"2017-09-26 09:20 (宗艳丽)";
+                model4.localtion = @"北京市东城区王府井大街新东安广场A123";
+                model4.contacts = @"李师傅   13012345678";
                 [self.dataSource addObject: model4];
             }
         }
@@ -180,6 +196,8 @@
                 model3.cityName = @"北京";
                 model3.hotelName = @"旺顺阁鱼头泡饼王府井店";
                 model3.createTime = @"2017-09-26 09:20 (辛丽娟)";
+                model3.localtion = @"北京市东城区王府井大街新东安广场A123";
+                model3.contacts = @"李师傅   13012345678";
                 [self.dataSource addObject: model3];
             }
         }
@@ -199,6 +217,8 @@
                 model4.assignHandleTime = @"2017-09-26 (成通)";
                 model4.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model4.assignTime = @"2017-09-26 09:20 (宗艳丽)";
+                model4.localtion = @"北京市东城区王府井大街新东安广场A123";
+                model4.contacts = @"李师傅   13012345678";
                 [self.dataSource addObject: model4];
             }
         }
@@ -221,6 +241,8 @@
                 model1.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model1.assignTime = @"2017-09-26 09:20 (宗艳丽)";
                 model1.completeTime = @"2017-09-26 09:20 (成通)";
+                model1.localtion = @"北京市东城区王府井大街新东安广场A123";
+                model1.contacts = @"李师傅   13012345678";
                 [self.dataSource addObject: model1];
             }
         }
