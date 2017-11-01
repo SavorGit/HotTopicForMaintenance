@@ -11,6 +11,7 @@
 #import "NetworkTransforViewController.h"
 #import "InstallAndAcceptViewController.h"
 #import "inforDetectionViewController.h"
+#import "RepairViewController.h"
 
 @interface TaskChooseTypeController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -99,7 +100,8 @@
         inforDetectionViewController *iv = [[inforDetectionViewController alloc] init];
         [self.navigationController pushViewController:iv animated:YES];
     }else if (indexPath.section == 3){
-        
+        RepairViewController *rc = [[RepairViewController alloc] init];
+        [self.navigationController pushViewController:rc animated:YES];
     }
 }
 
