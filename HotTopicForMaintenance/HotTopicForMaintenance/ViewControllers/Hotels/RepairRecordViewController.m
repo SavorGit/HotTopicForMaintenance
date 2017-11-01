@@ -142,9 +142,9 @@
     NSString * title = self.user.nickname;
     
     UIButton * titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [titleButton setImage:[UIImage imageNamed:@"xlxz"] forState:UIControlStateNormal];
+    [titleButton setImage:[UIImage imageNamed:@"ywsy_csxl"] forState:UIControlStateNormal];
     titleButton.titleLabel.font = kPingFangRegular(16);
-    [titleButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+    [titleButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
     [titleButton addTarget:self action:@selector(titleButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     titleButton.imageView.contentMode = UIViewContentModeCenter;
     
@@ -154,7 +154,7 @@
     if (size.width > maxWidth) {
         size.width = maxWidth;
     }
-    titleButton.frame = CGRectMake(0, (kMainBoundsWidth - size.width - 30) / 2, size.width + 30, size.height);
+    titleButton.frame = CGRectMake(0, (kMainBoundsWidth - size.width - 30) / 2, size.width + 35, size.height);
     
     [titleButton setImageEdgeInsets:UIEdgeInsetsMake(0, size.width + 15, 0, 0)];
     [titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10 + 10)];

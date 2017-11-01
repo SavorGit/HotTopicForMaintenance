@@ -21,6 +21,7 @@
 #import "ErrorDetailViewController.h"
 #import "TaskChooseTypeController.h"
 #import "TaskPageViewController.h"
+#import "SystemStatusController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -253,6 +254,27 @@
         case MenuModelType_TaskList:
         {
             TaskPageViewController * vc = [[TaskPageViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case MenuModelType_ErrorReport:
+        {
+            ErrorReportViewController * vc = [[ErrorReportViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case MenuModelType_RepairRecord:
+        {
+            RepairRecordViewController * vc = [[RepairRecordViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case MenuModelType_SystemStatus:
+        {
+            SystemStatusController * vc = [[SystemStatusController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

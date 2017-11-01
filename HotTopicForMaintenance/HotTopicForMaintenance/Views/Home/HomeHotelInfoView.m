@@ -18,6 +18,8 @@
 @property (nonatomic, strong) UILabel * bottomLabel;
 @property (nonatomic, strong) UITableView * tableView;
 
+@property (nonatomic, assign) BOOL isRefresh;
+
 @end
 
 @implementation HomeHotelInfoView
@@ -63,24 +65,24 @@
         make.height.mas_equalTo(0.5);
     }];
     
-    UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    refreshButton.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
-    refreshButton.layer.borderWidth = .5f;
-    refreshButton.layer.cornerRadius = 5;
-    refreshButton.layer.masksToBounds = YES;
-    [refreshButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
-    [refreshButton setTitle:@"刷新" forState:UIControlStateNormal];
-    [refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-    refreshButton.titleLabel.font = kPingFangRegular(13);
-    [self addSubview:refreshButton];
-    [refreshButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
-        make.bottom.equalTo(lineView.mas_top).offset(-10);
-        make.right.mas_equalTo(-10);
-        make.width.mas_equalTo(70);
-    }];
-    [refreshButton setImageEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 10)];
-    [refreshButton addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    refreshButton.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
+//    refreshButton.layer.borderWidth = .5f;
+//    refreshButton.layer.cornerRadius = 5;
+//    refreshButton.layer.masksToBounds = YES;
+//    [refreshButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+//    [refreshButton setTitle:@"刷新" forState:UIControlStateNormal];
+//    [refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+//    refreshButton.titleLabel.font = kPingFangRegular(13);
+//    [self addSubview:refreshButton];
+//    [refreshButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(10);
+//        make.bottom.equalTo(lineView.mas_top).offset(-10);
+//        make.right.mas_equalTo(-10);
+//        make.width.mas_equalTo(70);
+//    }];
+//    [refreshButton setImageEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 10)];
+//    [refreshButton addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventTouchUpInside];
     
     self.bottomLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.bottomLabel.numberOfLines = 0;
@@ -119,10 +121,15 @@
 
 - (void)refreshData
 {
+    if (self.isRefresh) {
+        return;
+    }
+    self.isRefresh = YES;
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self];
     HotelIndexRequest * request = [[HotelIndexRequest alloc] init];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        self.isRefresh = NO;
         [hud hideAnimated:NO];
         [self.dataSource removeAllObjects];
         NSDictionary * dataDict = [response objectForKey:@"result"];
@@ -136,6 +143,7 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        self.isRefresh = NO;
         [hud hideAnimated:NO];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self];
@@ -145,6 +153,7 @@
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
+        self.isRefresh = NO;
         [hud hideAnimated:NO];
         [MBProgressHUD showTextHUDWithText:@"获取失败，网络出现问题了~" inView:self];
         

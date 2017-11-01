@@ -10,4 +10,6 @@
 
 @interface HomeHotelInfoView : UIView
 
+- (void)refreshData;
+
 @end

@@ -21,6 +21,7 @@
 		06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */; };
 		06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D431F5D964900242940 /* HotelIndexRequest.m */; };
 		06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */; };
+		0650F38C1FA96ADC0086B794 /* SystemStatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650F38B1FA96ADC0086B794 /* SystemStatusController.m */; };
 		066278321F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */; };
 		066278341F61634600B2B8E8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278331F61634600B2B8E8 /* UserNotifications.framework */; };
 		066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */; };
@@ -133,6 +134,8 @@
 		06356D431F5D964900242940 /* HotelIndexRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelIndexRequest.m; sourceTree = "<group>"; };
 		06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelInfoTableViewCell.h; sourceTree = "<group>"; };
 		06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelInfoTableViewCell.m; sourceTree = "<group>"; };
+		0650F38A1FA96ADC0086B794 /* SystemStatusController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusController.h; sourceTree = "<group>"; };
+		0650F38B1FA96ADC0086B794 /* SystemStatusController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusController.m; sourceTree = "<group>"; };
 		066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.5.0.a; sourceTree = "<group>"; };
 		066278311F61632E00B2B8E8 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		066278331F61634600B2B8E8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -308,6 +311,8 @@
 				066EA5431F5FE45B0054264C /* ErrorReportViewController.m */,
 				066EA5521F6010830054264C /* ErrorDetailViewController.h */,
 				066EA5531F6010830054264C /* ErrorDetailViewController.m */,
+				0650F38A1FA96ADC0086B794 /* SystemStatusController.h */,
+				0650F38B1FA96ADC0086B794 /* SystemStatusController.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -1027,6 +1032,7 @@
 				069C38691FA86039003F92EF /* TaskTableViewCell.m in Sources */,
 				066EA5511F5FEF310054264C /* ErrorReportRequest.m in Sources */,
 				066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */,
+				0650F38C1FA96ADC0086B794 /* SystemStatusController.m in Sources */,
 				069C386D1FA873D1003F92EF /* TaskListViewController.m in Sources */,
 				0626DEC11F5E860800686790 /* GetAllUserRequest.m in Sources */,
 				06B055D81F5D486800A9CE68 /* GCCGetInfo.m in Sources */,

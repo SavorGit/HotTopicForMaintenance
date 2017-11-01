@@ -864,7 +864,7 @@
     
     UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-    refreshButton.frame = CGRectMake(0, 0, 23, 23);
+    refreshButton.frame = CGRectMake(0, 0, 40, 30);
     [refreshButton addTarget:self action:@selector(refreshAction) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:refreshButton];
 }
