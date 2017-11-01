@@ -198,8 +198,9 @@
 - (void)autoCollectionViewSize
 {
     NSInteger numberLines = self.dataSource.count / 2;
-    CGFloat totalHeight = (kMainBoundsWidth / 2 / 374 * 320 + .5f) * numberLines;
+    CGFloat totalHeight = (kMainBoundsWidth / 2 / 374 * 320 + 1.f) * numberLines - 1;
     CGFloat maxHeight = kMainBoundsHeight - kStatusBarHeight - kNaviBarHeight - 50;
+    self.collectionView.bounces = YES;
     if (numberLines > maxHeight) {
         [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(maxHeight);
