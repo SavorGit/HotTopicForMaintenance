@@ -44,9 +44,7 @@
         make.top.mas_equalTo(10);
         make.left.mas_equalTo(0);
     }];
-    
 }
-
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
