@@ -8,6 +8,9 @@
 
 #import "TaskChooseTypeController.h"
 #import "TaskTableViewCell.h"
+#import "NetworkTransforViewController.h"
+#import "InstallAndAcceptViewController.h"
+#import "inforDetectionViewController.h"
 
 @interface TaskChooseTypeController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -82,6 +85,22 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 50.f;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 0) {
+        InstallAndAcceptViewController *ia = [[InstallAndAcceptViewController alloc] init];
+        [self.navigationController pushViewController:ia animated:YES];
+    }else if (indexPath.section == 1){
+        NetworkTransforViewController *nt = [[NetworkTransforViewController alloc] init];
+        [self.navigationController pushViewController:nt animated:YES];
+    }else if (indexPath.section == 2){
+        inforDetectionViewController *iv = [[inforDetectionViewController alloc] init];
+        [self.navigationController pushViewController:iv animated:YES];
+    }else if (indexPath.section == 3){
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {

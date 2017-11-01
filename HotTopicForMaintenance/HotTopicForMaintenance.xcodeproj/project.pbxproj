@@ -68,6 +68,11 @@
 		06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECDC8D1F596DCD007FBD83 /* ConverUtil.m */; };
 		06ECDC911F596DCD007FBD83 /* DesUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECDC8F1F596DCD007FBD83 /* DesUtil.m */; };
 		88A5533C69257F91FBC76C5E /* libPods-HotTopicForMaintenance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 943310C53F8C67DA52F2D82C /* libPods-HotTopicForMaintenance.a */; };
+		969A3C2C1FA97A1A00EB95C9 /* InstallAcceptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2B1FA97A1A00EB95C9 /* InstallAcceptTableViewCell.m */; };
+		969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */; };
+		969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */; };
+		969A3C351FA995E900EB95C9 /* NetworkTranTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */; };
+		969A3C381FA99AA700EB95C9 /* inforDetectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */; };
 		96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19851F5FC38100C06CE8 /* FaultListViewController.m */; };
 		96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19871F5FC38100C06CE8 /* lookRestaurInforViewController.m */; };
 		96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19891F5FC38100C06CE8 /* RestaurantRankInforViewController.m */; };
@@ -236,6 +241,16 @@
 		1A452788AF09D343D0F3EABA /* Pods-HotTopicForMaintenance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicForMaintenance.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicForMaintenance/Pods-HotTopicForMaintenance.debug.xcconfig"; sourceTree = "<group>"; };
 		3F947E8C600EAFB6DB1B0E66 /* Pods-HotTopicForMaintenance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicForMaintenance.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicForMaintenance/Pods-HotTopicForMaintenance.release.xcconfig"; sourceTree = "<group>"; };
 		943310C53F8C67DA52F2D82C /* libPods-HotTopicForMaintenance.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicForMaintenance.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		969A3C2A1FA97A1A00EB95C9 /* InstallAcceptTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallAcceptTableViewCell.h; sourceTree = "<group>"; };
+		969A3C2B1FA97A1A00EB95C9 /* InstallAcceptTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallAcceptTableViewCell.m; sourceTree = "<group>"; };
+		969A3C2D1FA97A2B00EB95C9 /* NetworkTransforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTransforViewController.h; sourceTree = "<group>"; };
+		969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallAndAcceptViewController.m; sourceTree = "<group>"; };
+		969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkTransforViewController.m; sourceTree = "<group>"; };
+		969A3C301FA97A2C00EB95C9 /* InstallAndAcceptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallAndAcceptViewController.h; sourceTree = "<group>"; };
+		969A3C331FA995E900EB95C9 /* NetworkTranTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkTranTableViewCell.h; sourceTree = "<group>"; };
+		969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkTranTableViewCell.m; sourceTree = "<group>"; };
+		969A3C361FA99AA700EB95C9 /* inforDetectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inforDetectionViewController.h; sourceTree = "<group>"; };
+		969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = inforDetectionViewController.m; sourceTree = "<group>"; };
 		96AA19841F5FC38100C06CE8 /* FaultListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaultListViewController.h; sourceTree = "<group>"; };
 		96AA19851F5FC38100C06CE8 /* FaultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaultListViewController.m; sourceTree = "<group>"; };
 		96AA19861F5FC38100C06CE8 /* lookRestaurInforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookRestaurInforViewController.h; sourceTree = "<group>"; };
@@ -382,6 +397,12 @@
 		069C385B1FA85A59003F92EF /* CreateTasks */ = {
 			isa = PBXGroup;
 			children = (
+				969A3C301FA97A2C00EB95C9 /* InstallAndAcceptViewController.h */,
+				969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */,
+				969A3C2D1FA97A2B00EB95C9 /* NetworkTransforViewController.h */,
+				969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */,
+				969A3C361FA99AA700EB95C9 /* inforDetectionViewController.h */,
+				969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */,
 				069C385F1FA85B3F003F92EF /* TaskChooseTypeController.h */,
 				069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */,
 			);
@@ -648,6 +669,7 @@
 		06ECDC811F596C08007FBD83 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				969A3C291FA97A1A00EB95C9 /* CreatViews */,
 				06A3DBE91FA6CC5B0047EE5E /* CollectionCells */,
 				96AA19901F5FC38C00C06CE8 /* HoteRankViews */,
 				06356D3D1F5D8A8E00242940 /* TableViewCells */,
@@ -700,6 +722,17 @@
 				06ECDC951F596E3D007FBD83 /* SystemMacro.h */,
 			);
 			path = Macro;
+			sourceTree = "<group>";
+		};
+		969A3C291FA97A1A00EB95C9 /* CreatViews */ = {
+			isa = PBXGroup;
+			children = (
+				969A3C2A1FA97A1A00EB95C9 /* InstallAcceptTableViewCell.h */,
+				969A3C2B1FA97A1A00EB95C9 /* InstallAcceptTableViewCell.m */,
+				969A3C331FA995E900EB95C9 /* NetworkTranTableViewCell.h */,
+				969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */,
+			);
+			path = CreatViews;
 			sourceTree = "<group>";
 		};
 		96AA19831F5FC38100C06CE8 /* HotesRankInfor */ = {
@@ -989,11 +1022,13 @@
 				96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */,
 				069C38651FA85C26003F92EF /* TaskModel.m in Sources */,
 				96AA19BF1F6626B900C06CE8 /* RDFrequentlyUsed.m in Sources */,
+				969A3C351FA995E900EB95C9 /* NetworkTranTableViewCell.m in Sources */,
 				06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */,
 				96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */,
 				06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */,
 				069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */,
 				06B055F31F5D572500A9CE68 /* UIImage+Additional.m in Sources */,
+				969A3C381FA99AA700EB95C9 /* inforDetectionViewController.m in Sources */,
 				96AA199A1F5FC38C00C06CE8 /* lookRestTableViewCell.m in Sources */,
 				0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */,
 				06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */,
@@ -1018,6 +1053,7 @@
 				06B055CD1F5D414200A9CE68 /* MBProgressHUD+Custom.m in Sources */,
 				06338BB51FA1B9A9003775B5 /* AutoEnableView.m in Sources */,
 				066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */,
+				969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */,
 				069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */,
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
@@ -1029,8 +1065,10 @@
 				069C38701FA873E2003F92EF /* TaskPageViewController.m in Sources */,
 				06A3DBEC1FA6CC6C0047EE5E /* HomeCollectionViewCell.m in Sources */,
 				96AA19A01F5FC39700C06CE8 /* RestaurantRankModel.m in Sources */,
+				969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */,
 				069C38691FA86039003F92EF /* TaskTableViewCell.m in Sources */,
 				066EA5511F5FEF310054264C /* ErrorReportRequest.m in Sources */,
+				969A3C2C1FA97A1A00EB95C9 /* InstallAcceptTableViewCell.m in Sources */,
 				066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */,
 				0650F38C1FA96ADC0086B794 /* SystemStatusController.m in Sources */,
 				069C386D1FA873D1003F92EF /* TaskListViewController.m in Sources */,
