@@ -77,6 +77,8 @@
 		969A3C381FA99AA700EB95C9 /* inforDetectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */; };
 		969A3C3B1FA99C6400EB95C9 /* RepairViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */; };
 		969A3C3E1FA99CD100EB95C9 /* RepairTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C3D1FA99CD100EB95C9 /* RepairTableViewCell.m */; };
+		969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C431FA9C01300EB95C9 /* PositionListViewController.m */; };
+		969A3C471FA9C9C000EB95C9 /* PosionListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C461FA9C9C000EB95C9 /* PosionListTableViewCell.m */; };
 		96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19851F5FC38100C06CE8 /* FaultListViewController.m */; };
 		96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19871F5FC38100C06CE8 /* lookRestaurInforViewController.m */; };
 		96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19891F5FC38100C06CE8 /* RestaurantRankInforViewController.m */; };
@@ -263,6 +265,10 @@
 		969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RepairViewController.m; sourceTree = "<group>"; };
 		969A3C3C1FA99CD100EB95C9 /* RepairTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RepairTableViewCell.h; sourceTree = "<group>"; };
 		969A3C3D1FA99CD100EB95C9 /* RepairTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RepairTableViewCell.m; sourceTree = "<group>"; };
+		969A3C421FA9C01300EB95C9 /* PositionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PositionListViewController.h; sourceTree = "<group>"; };
+		969A3C431FA9C01300EB95C9 /* PositionListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PositionListViewController.m; sourceTree = "<group>"; };
+		969A3C451FA9C9C000EB95C9 /* PosionListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PosionListTableViewCell.h; sourceTree = "<group>"; };
+		969A3C461FA9C9C000EB95C9 /* PosionListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PosionListTableViewCell.m; sourceTree = "<group>"; };
 		96AA19841F5FC38100C06CE8 /* FaultListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaultListViewController.h; sourceTree = "<group>"; };
 		96AA19851F5FC38100C06CE8 /* FaultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaultListViewController.m; sourceTree = "<group>"; };
 		96AA19861F5FC38100C06CE8 /* lookRestaurInforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookRestaurInforViewController.h; sourceTree = "<group>"; };
@@ -417,6 +423,8 @@
 				969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */,
 				969A3C391FA99C6400EB95C9 /* RepairViewController.h */,
 				969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */,
+				969A3C421FA9C01300EB95C9 /* PositionListViewController.h */,
+				969A3C431FA9C01300EB95C9 /* PositionListViewController.m */,
 				069C385F1FA85B3F003F92EF /* TaskChooseTypeController.h */,
 				069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */,
 			);
@@ -751,6 +759,8 @@
 				969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */,
 				969A3C3C1FA99CD100EB95C9 /* RepairTableViewCell.h */,
 				969A3C3D1FA99CD100EB95C9 /* RepairTableViewCell.m */,
+				969A3C451FA9C9C000EB95C9 /* PosionListTableViewCell.h */,
+				969A3C461FA9C9C000EB95C9 /* PosionListTableViewCell.m */,
 			);
 			path = CreatViews;
 			sourceTree = "<group>";
@@ -1054,6 +1064,7 @@
 				0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */,
 				06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */,
 				066EA5571F6010DF0054264C /* ErrorDetailRequest.m in Sources */,
+				969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
@@ -1083,6 +1094,7 @@
 				06ECDC851F596C47007FBD83 /* NetworkConfiguration.m in Sources */,
 				06B055E71F5D4A7D00A9CE68 /* JastorRuntimeHelper.m in Sources */,
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
+				969A3C471FA9C9C000EB95C9 /* PosionListTableViewCell.m in Sources */,
 				066EA5541F6010830054264C /* ErrorDetailViewController.m in Sources */,
 				06B055ED1F5D56CF00A9CE68 /* BaseNavigationController.m in Sources */,
 				069C38701FA873E2003F92EF /* TaskPageViewController.m in Sources */,
