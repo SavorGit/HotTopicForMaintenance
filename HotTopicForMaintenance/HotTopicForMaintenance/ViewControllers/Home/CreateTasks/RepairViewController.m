@@ -9,11 +9,12 @@
 #import "RepairViewController.h"
 #import "RepairTableViewCell.h"
 
-@interface RepairViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface RepairViewController ()<UITableViewDelegate,UITableViewDataSource,RepairTableViewDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
 @property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
+@property (nonatomic, assign) NSInteger sectionNum; //组数
 
 @end
 
@@ -22,17 +23,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.sectionNum = 3;
     [self creatSubViews];
     
     // Do any additional setup after loading the view.
 }
 
 - (void)creatSubViews{
-    
-//    [self.tableView beginUpdates];
-//    [self.tableView insertSections:[[NSIndexSet alloc] initWithIndex:3] withRowAnimation:UITableViewRowAnimationLeft];
-//    [self.tableView reloadSections:[[NSIndexSet alloc] initWithIndex:3] withRowAnimation:UITableViewRowAnimationLeft];
-//    [self.tableView endUpdates];
     
     self.title = @"发布任务";
     self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度", nil];
@@ -53,10 +50,28 @@
     }];
 }
 
+- (void)addNPress{
+      [self.tableView beginUpdates];
+      [self.tableView insertSections:[NSMutableIndexSet indexSetWithIndex:self.sectionNum] withRowAnimation:UITableViewRowAnimationFade];
+      self.sectionNum = self.sectionNum + 1;
+      [self.tableView endUpdates];
+    
+}
+
+- (void)reduceNPress{
+    if (self.sectionNum > 2) {
+        [self.tableView beginUpdates];
+        [self.tableView deleteSections:[NSMutableIndexSet indexSetWithIndex:self.sectionNum - 1] withRowAnimation:UITableViewRowAnimationFade];
+        self.sectionNum = self.sectionNum - 1;
+        [self.tableView endUpdates];
+    }
+    
+}
+
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return self.sectionNum;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -72,13 +87,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"RestaurantRankCell";
-    RepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+//    RepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    RepairTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell == nil) {
         cell = [[RepairTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.backgroundColor = [UIColor lightGrayColor];
+    cell.delegate = self;
     
     if (indexPath.section == 0) {
         [cell configWithTitle:self.titleArray[indexPath.row] andContent:@"俏江南" andIdexPath:indexPath];
@@ -88,7 +106,6 @@
         }else{
             [cell configWithTitle:self.otherTitleArray[indexPath.row - 1] andContent:@"俏江南" andIdexPath:indexPath];
         }
-        
     }else{
         [cell configWithTitle:self.otherTitleArray[indexPath.row] andContent:@"俏江南" andIdexPath:indexPath];
     }

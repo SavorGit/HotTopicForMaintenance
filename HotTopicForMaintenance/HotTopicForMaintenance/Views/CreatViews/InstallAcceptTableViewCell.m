@@ -88,7 +88,7 @@
                 make.centerY.mas_equalTo(self);
                 make.right.mas_equalTo(- 20);
             }];
-            [self.inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+            [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(100, 20));
                 make.centerY.mas_equalTo(self);
                 make.right.mas_equalTo(- 40);
@@ -117,50 +117,110 @@
         }
         
     }else if (index.section == 1){
-        self.inPutTextField.hidden = YES;
         
-        UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        addBtn.backgroundColor = [UIColor blueColor];
-        [addBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:addBtn];
-        [addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(30, 30));
-            make.centerY.mas_equalTo(self);
-            make.right.mas_equalTo(- 145);
-        }];
-        
-        self.numLabel = [[UILabel alloc]init];
-        self.numLabel.font = [UIFont systemFontOfSize:15];
-        self.numLabel.textColor = [UIColor blackColor];
-        self.numLabel.textAlignment = NSTextAlignmentCenter;
-        self.numLabel.text = @"100";
-        [self addSubview:self.numLabel];
-        [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(60, 20));
-            make.centerY.mas_equalTo(self);
-            make.right.mas_equalTo(- 75);
-        }];
-        
-        UIButton *reduceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        reduceBtn.backgroundColor = [UIColor cyanColor];
-        [reduceBtn addTarget:self action:@selector(reducePress) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:reduceBtn];
-        [reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(30, 30));
-            make.centerY.mas_equalTo(self);
-            make.right.mas_equalTo(- 35);
-        }];
+        if (index.row == 0) {
+            self.inPutTextField.hidden = YES;
+            UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            addBtn.backgroundColor = [UIColor blueColor];
+            [addBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:addBtn];
+            [addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(30, 30));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 145);
+            }];
+            
+            self.numLabel = [[UILabel alloc]init];
+            self.numLabel.font = [UIFont systemFontOfSize:15];
+            self.numLabel.textColor = [UIColor blackColor];
+            self.numLabel.textAlignment = NSTextAlignmentCenter;
+            self.numLabel.text = @"100";
+            [self addSubview:self.numLabel];
+            [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(60, 20));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 75);
+            }];
+            
+            UIButton *reduceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            reduceBtn.backgroundColor = [UIColor cyanColor];
+            [reduceBtn addTarget:self action:@selector(reducePress) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:reduceBtn];
+            [reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(30, 30));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 35);
+            }];
+        }else if (index.row == 1){
+            UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectZero];
+            rightImg.contentMode = UIViewContentModeScaleAspectFit;
+            [rightImg setImage:[UIImage imageNamed:@"selected"]];
+            [self addSubview:rightImg];
+            [rightImg mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(16, 16));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 20);
+            }];
+            [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(100, 20));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 40);
+            }];
+            self.inPutTextField.text = @"请选择";
+        }else if (index.row == 2){
+            self.inPutTextField.text = @"请填写";
+        }else if (index.row == 3){
+            self.inPutTextField.hidden = YES;
+            UIButton *addImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            addImgBtn.backgroundColor = [UIColor blueColor];
+            [addImgBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:addImgBtn];
+            [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(30, 30));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 20);
+            }];
+        }
+    }else{
+        if (index.row == 0){
+            UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectZero];
+            rightImg.contentMode = UIViewContentModeScaleAspectFit;
+            [rightImg setImage:[UIImage imageNamed:@"selected"]];
+            [self addSubview:rightImg];
+            [rightImg mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(16, 16));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 20);
+            }];
+            [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(100, 20));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 40);
+            }];
+            self.inPutTextField.text = @"请选择";
+        }else if (index.row == 1){
+            self.inPutTextField.text = @"请填写";
+        }else if (index.row == 2){
+            self.inPutTextField.hidden = YES;
+            UIButton *addImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            addImgBtn.backgroundColor = [UIColor blueColor];
+            [addImgBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:addImgBtn];
+            [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(30, 30));
+                make.centerY.mas_equalTo(self);
+                make.right.mas_equalTo(- 20);
+            }];
+        }
     }
-   
-    
 }
 
 - (void)addPress{
-    
+    [self.delegate addNPress];
 }
 
 - (void)reducePress{
-    
+    [self.delegate reduceNPress];
 }
 
 -(void)change:(UISegmentedControl *)sender{
