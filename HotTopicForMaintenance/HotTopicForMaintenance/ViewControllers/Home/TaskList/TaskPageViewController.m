@@ -28,8 +28,10 @@
 
 - (void)configPageController
 {
-    self.titleSizeNormal = 15;
-    self.titleSizeSelected = 16;
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    self.titleSizeNormal = 15.f * scale;
+    self.titleSizeSelected = 16.f * scale;
     
     self.titleColorNormal = UIColorFromRGB(0x444444);
     self.titleColorSelected = kNavBackGround;
@@ -38,6 +40,8 @@
     self.progressHeight = 1.5f;
     self.menuViewStyle = WMMenuViewStyleLine;
     self.progressViewBottomSpace = 0;
+    
+    self.preloadPolicy = WMPageControllerPreloadPolicyNeighbour;
 }
 
 - (void)viewDidLoad {
@@ -45,7 +49,7 @@
     
     self.title = @"任务列表";
     
-    self.view.backgroundColor = VCBackgroundColor;
+    self.view.backgroundColor = UIColorFromRGB(0xffffff);
     
     if (@available(iOS 11.0, *)) {
         

@@ -198,4 +198,14 @@
     }];
 }
 
++ (UILabel *)labelWithFrame:(CGRect)frame TextColor:(UIColor *)textColor font:(UIFont *)font alignment:(NSTextAlignment)Alignment
+{
+    UILabel * label = [[UILabel alloc] initWithFrame:frame];
+    label.textColor = textColor;
+    label.font = font;
+    label.textAlignment = Alignment;
+    
+    return label;
+}
+
 @end

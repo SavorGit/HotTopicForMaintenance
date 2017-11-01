@@ -65,13 +65,6 @@
     
     self.navigationItem.leftBarButtonItem = nil;
     
-    self.userInfoView = [[HomeUserInfoView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:self.userInfoView];
-    [self.userInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.mas_equalTo(0);
-        make.height.mas_equalTo(50);
-    }];
-    
 //    self.hotelInfoView = [[HomeHotelInfoView alloc] initWithFrame:CGRectZero];
 //    [self.view addSubview:self.hotelInfoView];
 //    [self.hotelInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -188,6 +181,13 @@
     [self.collectionView reloadData];
     
     [self autoCollectionViewSize];
+    
+    self.userInfoView = [[HomeUserInfoView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:self.userInfoView];
+    [self.userInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.mas_equalTo(0);
+        make.height.mas_equalTo(50);
+    }];
 }
 
 - (void)cityButtonDidClicked
@@ -201,7 +201,7 @@
     CGFloat totalHeight = (kMainBoundsWidth / 2 / 374 * 320 + 1.f) * numberLines - 1;
     CGFloat maxHeight = kMainBoundsHeight - kStatusBarHeight - kNaviBarHeight - 50;
     self.collectionView.bounces = YES;
-    if (numberLines > maxHeight) {
+    if (totalHeight > maxHeight) {
         [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(maxHeight);
         }];
