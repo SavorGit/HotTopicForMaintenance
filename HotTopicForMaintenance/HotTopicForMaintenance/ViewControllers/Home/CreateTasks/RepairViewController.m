@@ -8,6 +8,9 @@
 
 #import "RepairViewController.h"
 #import "RepairTableViewCell.h"
+#import "PositionListViewController.h"
+#import "DamageConfigRequest.h"
+#import "RestaurantRankModel.h"
 
 @interface RepairViewController ()<UITableViewDelegate,UITableViewDataSource,RepairTableViewDelegate>
 
@@ -15,6 +18,7 @@
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
 @property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
+@property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 
 @end
 
@@ -23,14 +27,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.sectionNum = 3;
+    self.sectionNum = 2;
+    [self demageConfigRequest];
     [self creatSubViews];
-    
-    // Do any additional setup after loading the view.
 }
 
 - (void)creatSubViews{
     
+    _dConfigData = [[NSMutableArray alloc] init];
     self.title = @"发布任务";
     self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度", nil];
     self.otherTitleArray = [NSArray arrayWithObjects:@"版位名称",@"故障现象",@"故障照片", nil];
@@ -66,6 +70,41 @@
         [self.tableView endUpdates];
     }
     
+}
+
+- (void)selectPosion:(UIButton *)btn{
+    
+    PositionListViewController *flVC = [[PositionListViewController alloc] init];
+    float version = [UIDevice currentDevice].systemVersion.floatValue;
+    if (version < 8.0) {
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    } else {;
+        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    flVC.dataSource = self.dConfigData;
+    [self presentViewController:flVC animated:YES completion:nil];
+    flVC.backDatas = ^(NSString *damageIdString) {
+        [btn setTitle:damageIdString forState:UIControlStateNormal];
+    };
+}
+
+- (void)demageConfigRequest
+{
+    DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        NSArray *listArray = [dataDict objectForKey:@"list"];
+        
+        for (int i = 0; i < listArray.count; i ++) {
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
+            [self.dConfigData addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -150,17 +189,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

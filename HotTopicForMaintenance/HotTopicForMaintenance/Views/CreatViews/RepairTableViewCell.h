@@ -10,6 +10,7 @@
 @protocol RepairTableViewDelegate<NSObject>
 - (void)addNPress;
 - (void)reduceNPress;
+- (void)selectPosion:(UIButton *)btn;
 
 @end
 

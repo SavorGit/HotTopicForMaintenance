@@ -18,7 +18,7 @@
 
 @implementation RepairTableViewCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         [self initWithSubView];
     }
@@ -152,6 +152,7 @@
                 make.right.mas_equalTo(- 35);
             }];
         }else if (index.row == 1){
+            self.inPutTextField.hidden = YES;
             UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectZero];
             rightImg.contentMode = UIViewContentModeScaleAspectFit;
             [rightImg setImage:[UIImage imageNamed:@"selected"]];
@@ -161,12 +162,21 @@
                 make.centerY.mas_equalTo(self);
                 make.right.mas_equalTo(- 20);
             }];
-            [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(100, 20));
+//            [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
+//                make.size.mas_equalTo(CGSizeMake(100, 20));
+//                make.centerY.mas_equalTo(self);
+//                make.right.mas_equalTo(- 40);
+//            }];
+//            self.inPutTextField.text = @"请选择";
+            UIButton *selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [selectBtn setTitle:@"请选择" forState:UIControlStateNormal];
+            [selectBtn addTarget:self action:@selector(selectPress:) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:selectBtn];
+            [selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(60, 30));
                 make.centerY.mas_equalTo(self);
                 make.right.mas_equalTo(- 40);
             }];
-            self.inPutTextField.text = @"请选择";
         }else if (index.row == 2){
             self.inPutTextField.text = @"请填写";
         }else if (index.row == 3){
@@ -221,6 +231,11 @@
 
 - (void)reducePress{
     [self.delegate reduceNPress];
+}
+
+- (void)selectPress:(UIButton *)btn{
+    
+    [self.delegate selectPosion:btn];
 }
 
 -(void)change:(UISegmentedControl *)sender{
