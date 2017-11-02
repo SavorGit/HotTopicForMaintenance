@@ -141,7 +141,8 @@
                 model1.assignTime = @"2017-09-26 09:20 (宗艳丽)";
                 model1.completeTime = @"2017-09-26 09:20 (成通)";
                 model1.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model1.contacts = @"李师傅   13012345678";
+                model1.contacts = @"李师傅";
+                model1.contactWay = @"13012345678";
                 [self.dataSource addObject: model1];
                 
                 TaskListModel * model2 = [[TaskListModel alloc] init];
@@ -154,7 +155,8 @@
                 model2.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model2.refuseTime = @"2017-09-26 09:20 (宗艳丽)";
                 model2.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model2.contacts = @"李师傅   13012345678";
+                model2.contacts = @"李师傅";
+                model2.contactWay = @"13012345678";
                 [self.dataSource addObject: model2];
                 
                 TaskListModel * model3 = [[TaskListModel alloc] init];
@@ -165,7 +167,8 @@
                 model3.hotelName = @"旺顺阁鱼头泡饼王府井店";
                 model3.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model3.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model3.contacts = @"李师傅   13012345678";
+                model3.contacts = @"李师傅";
+                model3.contactWay = @"13012345678";
                 [self.dataSource addObject: model3];
                 
                 TaskListModel * model4 = [[TaskListModel alloc] init];
@@ -178,7 +181,8 @@
                 model4.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model4.assignTime = @"2017-09-26 09:20 (宗艳丽)";
                 model4.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model4.contacts = @"李师傅   13012345678";
+                model4.contacts = @"李师傅";
+                model4.contactWay = @"13012345678";
                 [self.dataSource addObject: model4];
             }
         }
@@ -197,7 +201,8 @@
                 model3.hotelName = @"旺顺阁鱼头泡饼王府井店";
                 model3.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model3.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model3.contacts = @"李师傅   13012345678";
+                model3.contacts = @"李师傅";
+                model3.contactWay = @"13012345678";
                 [self.dataSource addObject: model3];
             }
         }
@@ -218,7 +223,8 @@
                 model4.createTime = @"2017-09-26 09:20 (辛丽娟)";
                 model4.assignTime = @"2017-09-26 09:20 (宗艳丽)";
                 model4.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model4.contacts = @"李师傅   13012345678";
+                model4.contacts = @"李师傅";
+                model4.contactWay = @"13012345678";
                 [self.dataSource addObject: model4];
             }
         }
@@ -242,7 +248,8 @@
                 model1.assignTime = @"2017-09-26 09:20 (宗艳丽)";
                 model1.completeTime = @"2017-09-26 09:20 (成通)";
                 model1.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model1.contacts = @"李师傅   13012345678";
+                model1.contacts = @"李师傅";
+                model1.contactWay = @"13012345678";
                 [self.dataSource addObject: model1];
             }
         }
