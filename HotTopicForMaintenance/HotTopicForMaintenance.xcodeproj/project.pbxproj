@@ -13,6 +13,7 @@
 		0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC61F5EBC6E00686790 /* RepairRecordTableViewCell.m */; };
 		0626DECA1F5EC14500686790 /* RepairRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC91F5EC14500686790 /* RepairRecordModel.m */; };
 		0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DECC1F5EC99F00686790 /* RepairRecordDetailModel.m */; };
+		0627850B1FAAEC1C0014BD5F /* AssignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0627850A1FAAEC1C0014BD5F /* AssignViewController.m */; };
 		06338BB51FA1B9A9003775B5 /* AutoEnableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06338BB41FA1B9A9003775B5 /* AutoEnableView.m */; };
 		06338BB91FA1C702003775B5 /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06338BB81FA1C702003775B5 /* MenuModel.m */; };
 		06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D321F5D7B2400242940 /* RDAlertAction.m */; };
@@ -134,6 +135,8 @@
 		0626DEC91F5EC14500686790 /* RepairRecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordModel.m; sourceTree = "<group>"; };
 		0626DECB1F5EC99F00686790 /* RepairRecordDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordDetailModel.h; sourceTree = "<group>"; };
 		0626DECC1F5EC99F00686790 /* RepairRecordDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordDetailModel.m; sourceTree = "<group>"; };
+		062785091FAAEC1C0014BD5F /* AssignViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssignViewController.h; sourceTree = "<group>"; };
+		0627850A1FAAEC1C0014BD5F /* AssignViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignViewController.m; sourceTree = "<group>"; };
 		06338BB31FA1B9A9003775B5 /* AutoEnableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoEnableView.h; sourceTree = "<group>"; };
 		06338BB41FA1B9A9003775B5 /* AutoEnableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoEnableView.m; sourceTree = "<group>"; };
 		06338BB71FA1C702003775B5 /* MenuModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
@@ -481,6 +484,8 @@
 				069C386F1FA873E2003F92EF /* TaskPageViewController.m */,
 				06C44BFF1FA9E1540050FDBC /* TaskDetailViewController.h */,
 				06C44C001FA9E1540050FDBC /* TaskDetailViewController.m */,
+				062785091FAAEC1C0014BD5F /* AssignViewController.h */,
+				0627850A1FAAEC1C0014BD5F /* AssignViewController.m */,
 			);
 			path = TaskList;
 			sourceTree = "<group>";
@@ -1119,6 +1124,7 @@
 				06B055FC1F5D58A200A9CE68 /* HomeUserInfoView.m in Sources */,
 				06B055EA1F5D4AAC00A9CE68 /* UserModel.m in Sources */,
 				06B055CD1F5D414200A9CE68 /* MBProgressHUD+Custom.m in Sources */,
+				0627850B1FAAEC1C0014BD5F /* AssignViewController.m in Sources */,
 				06338BB51FA1B9A9003775B5 /* AutoEnableView.m in Sources */,
 				066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */,
 				969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */,
