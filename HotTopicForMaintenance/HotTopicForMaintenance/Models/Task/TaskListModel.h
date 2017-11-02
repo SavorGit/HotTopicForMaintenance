@@ -25,5 +25,6 @@
 
 @property (nonatomic, copy) NSString * localtion;
 @property (nonatomic, copy) NSString * contacts;
+@property (nonatomic, copy) NSString * contactWay;
 
 @end

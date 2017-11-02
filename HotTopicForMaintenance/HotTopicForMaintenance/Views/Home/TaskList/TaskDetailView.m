@@ -11,6 +11,8 @@
 
 @interface TaskDetailView ()
 
+@property (nonatomic, weak) TaskListModel * model;
+
 @property (nonatomic, strong) UIView * topView;
 @property (nonatomic, strong) UIView * timeView;
 @property (nonatomic, strong) UIView * bottomView;
@@ -63,6 +65,7 @@
     }
     
     if (self = [super initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, height)]) {
+        self.model = model;
         [self createTaskDetailView];
         [self configWithTaskListModel:model];
     }
@@ -177,6 +180,7 @@
     }];
     contactButton.layer.borderColor = UIColorFromRGB(0x66cc00).CGColor;
     contactButton.layer.borderWidth = 1.f;
+    [contactButton addTarget:self action:@selector(contactButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     
     self.contactsLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
     [self.bottomView addSubview:self.contactsLabel];
@@ -199,6 +203,11 @@
     self.assignLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
     self.completeLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
     self.refuseLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
+}
+
+- (void)contactButtonDidClicked
+{
+    [HotTopicTools callPhoneByNumber:self.model.contactWay];
 }
 
 - (void)configWithTaskListModel:(TaskListModel *)model
@@ -227,7 +236,7 @@
     self.handleLabel.text = model.handleName;
     self.statusLabel.text = model.status;
     self.cityLabel.text = [NSString stringWithFormat:@"(%@)", model.cityName];
-    self.contactsLabel.text = [@"联系人：" stringByAppendingString:model.contacts];
+    self.contactsLabel.text = [NSString stringWithFormat:@"联系方式：%@   %@", model.contacts, model.contactWay];
     
     if (isEmptyString(model.deviceNumber)) {
         self.deviceNumLabel.hidden = YES;

@@ -11,12 +11,15 @@
 #import "DeviceFaultModel.h"
 #import "DeviceFaultTableViewCell.h"
 #import "HotTopicTools.h"
+#import "UserManager.h"
 
 @interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) TaskListModel * taskListModel;
+
+@property (nonatomic, strong) UIView * bottomView;
 
 @end
 
@@ -42,6 +45,7 @@
 {
     self.title = @"任务详情";
     
+    //tableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight) style:UITableViewStyleGrouped];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.backgroundColor = VCBackgroundColor;
@@ -56,6 +60,61 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 98.f * scale)];
+    
+    //底部角色操作栏
+    self.bottomView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.bottomView.backgroundColor = UIColorFromRGB(0xffffff);
+    [self.view addSubview:self.bottomView];
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.mas_equalTo(0);
+        make.height.mas_equalTo(58.f * scale);
+    }];
+    
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor =UIColorFromRGB(0xf5f5f5);
+    [self.bottomView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(1.f);
+    }];
+    
+    [self createRolesHandleView];
+}
+
+- (void)createRolesHandleView
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    switch ([UserManager manager].user.type) {
+        case UserRoleType_AssignTask:
+            
+        {
+            UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"去指派" cornerRadius:5.f];
+            [self.bottomView addSubview:assignButton];
+            [assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.mas_equalTo(0);
+                make.left.mas_equalTo(15.f * scale);
+                make.width.mas_equalTo(225.f * scale);
+                make.height.mas_equalTo(44.f * scale);
+            }];
+            
+            UIButton * refuseButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0xf54444) title:@"拒绝" cornerRadius:5.f];
+            [self.bottomView addSubview:refuseButton];
+            [refuseButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.mas_equalTo(0);
+                make.right.mas_equalTo(-15.f * scale);
+                make.width.mas_equalTo(110.f * scale);
+                make.height.mas_equalTo(44.f * scale);
+            }];
+        }
+            
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

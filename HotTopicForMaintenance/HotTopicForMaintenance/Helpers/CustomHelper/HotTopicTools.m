@@ -208,4 +208,35 @@
     return label;
 }
 
++ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title
+{
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitleColor:titleColor forState:UIControlStateNormal];
+    button.titleLabel.font = font;
+    [button setBackgroundColor:backgroundColor];
+    [button setTitle:title forState:UIControlStateNormal];
+    return button;
+}
+
++ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title cornerRadius:(CGFloat)cornerRadius
+{
+    UIButton * button = [self buttonWithTitleColor:titleColor font:font backgroundColor:backgroundColor title:title];
+    button.layer.cornerRadius = cornerRadius;
+    button.layer.masksToBounds = YES;
+    return button;
+}
+
++ (void)callPhoneByNumber:(NSString *)num{
+    
+    NSMutableString  *str = [[NSMutableString alloc] initWithFormat:@"tel:%@",num];
+    
+    if (@available(iOS 10.0, *)) {
+        /// 大于等于10.0系统使用此openURL方法
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str] options:@{} completionHandler:nil];
+    }else{
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    }
+    
+}
+
 @end
