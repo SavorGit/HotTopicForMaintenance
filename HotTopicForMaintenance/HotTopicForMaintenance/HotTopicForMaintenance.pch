@@ -40,7 +40,7 @@
 
 #define DocumentPath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 #define FileCachePath [NSString stringWithFormat:@"%@/FileCache", DocumentPath]
-#define UserInfoCachePath [NSString stringWithFormat:@"%@/FileCache/userInfo.plist", DocumentPath]
+#define UserAccountPath [NSString stringWithFormat:@"%@/FileCache/userAccount.plist", DocumentPath]
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.

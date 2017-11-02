@@ -42,6 +42,7 @@
     self.progressViewBottomSpace = 0;
     
     self.preloadPolicy = WMPageControllerPreloadPolicyNeighbour;
+    self.pageAnimatable = YES;
 }
 
 - (void)viewDidLoad {

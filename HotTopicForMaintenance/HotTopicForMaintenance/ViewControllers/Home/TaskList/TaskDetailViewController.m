@@ -12,6 +12,7 @@
 #import "DeviceFaultTableViewCell.h"
 #import "HotTopicTools.h"
 #import "UserManager.h"
+#import "AssignViewController.h"
 
 @interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -87,11 +88,12 @@
 - (void)createRolesHandleView
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
-    switch ([UserManager manager].user.type) {
+    switch ([UserManager manager].user.roletype) {
         case UserRoleType_AssignTask:
             
         {
             UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"去指派" cornerRadius:5.f];
+            [assignButton addTarget:self action:@selector(assignButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.bottomView addSubview:assignButton];
             [assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.mas_equalTo(0);
@@ -115,6 +117,12 @@
         default:
             break;
     }
+}
+
+- (void)assignButtonDidClicked
+{
+    AssignViewController * vc = [[AssignViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
