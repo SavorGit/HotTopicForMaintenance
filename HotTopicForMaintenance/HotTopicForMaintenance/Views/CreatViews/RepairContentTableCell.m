@@ -18,7 +18,6 @@
 @property (nonatomic, strong) UILabel *titlePhotoLabel;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
-@property (nonatomic, strong) UIImageView *fImageView;
 
 @end
 
@@ -117,7 +116,7 @@
     
     UIButton *addImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     addImgBtn.backgroundColor = [UIColor blueColor];
-    [addImgBtn addTarget:self action:@selector(addImgPress) forControlEvents:UIControlEventTouchUpInside];
+    [addImgBtn addTarget:self action:@selector(addImgPress:) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:addImgBtn];
     [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
@@ -128,7 +127,7 @@
     self.fImageView  = [[UIImageView alloc] init];
     self.fImageView.backgroundColor = [UIColor cyanColor];
     [_bgView addSubview:self.fImageView];
-    [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.fImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
         make.right.mas_equalTo(- 60);

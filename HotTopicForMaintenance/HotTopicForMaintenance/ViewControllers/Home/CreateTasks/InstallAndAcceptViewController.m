@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) NSIndexPath *indexPath;
 
 @end
 
@@ -56,7 +57,15 @@
     
     _dConfigData = [[NSMutableArray alloc] init];
     self.title = @"安装与验收";
-    self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",  nil];
+    
+     self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",  nil];
+   
+    for (int i = 0; i < 6; i ++) {
+         DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
+        request.title = self.titleArray[i];
+        request.imgHType = 0;
+    }
+   
     self.otherTitleArray = [NSArray arrayWithObjects:@"版位名称",@"故障现象",@"故障照片", nil];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -186,6 +195,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
+        
         return 50 *3 + 10;
     }
     return 50;
@@ -220,7 +230,9 @@
 }
 
 
-- (void)addImgPress{
+- (void)addImgPress:(NSIndexPath *)index{
+    
+    self.indexPath = index;
     
     NSString *mediaType = AVMediaTypeVideo;//读取媒体类型
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];//读取设备授权状态
@@ -268,10 +280,15 @@
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
         //如果是图片
         self.imageView.image = info[UIImagePickerControllerEditedImage];
+        
+        [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+        
+        RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];
+        cell.fImageView.image = info[UIImagePickerControllerEditedImage];
+        
+        
         //压缩图片
-        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
-        //保存图片至相册
-        UIImageWriteToSavedPhotosAlbum(self.imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+//        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
         //上传图片
 //        [self uploadImageWithData:fileData];
 

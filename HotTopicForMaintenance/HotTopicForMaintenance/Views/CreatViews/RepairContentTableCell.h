@@ -19,6 +19,8 @@
 
 @property (nonatomic, weak) id <RepairContentDelegate> delegate;
 
+@property (nonatomic, strong) UIImageView *fImageView;
+
 - (void)configWithContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;
 
 @end
