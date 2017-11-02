@@ -68,7 +68,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    cell.backgroundColor = [UIColor lightGrayColor];
+    cell.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [cell configWithTitle:self.titleArray[indexPath.row] andContent:@"俏江南" andIdexPath:indexPath];
     
     return cell;

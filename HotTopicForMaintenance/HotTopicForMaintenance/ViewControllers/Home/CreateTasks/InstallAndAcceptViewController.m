@@ -7,14 +7,20 @@
 //
 
 #import "InstallAndAcceptViewController.h"
-#import "InstallAcceptTableViewCell.h"
+#import "RepairHeaderTableCell.h"
+#import "RepairContentTableCell.h"
+#import "PositionListViewController.h"
+#import "DamageConfigRequest.h"
+#import "RestaurantRankModel.h"
 
-@interface InstallAndAcceptViewController ()<UITableViewDelegate,UITableViewDataSource,InstallAcceptDelegate>
+
+@interface InstallAndAcceptViewController ()<UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
 @property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
+@property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 
 @end
 
@@ -23,16 +29,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.sectionNum = 2;
+    self.sectionNum = 1;
+    [self demageConfigRequest];
     [self creatSubViews];
     
     // Do any additional setup after loading the view.
 }
-
 - (void)creatSubViews{
     
-    self.title = @"发布任务";
-    self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度", nil];
+    _dConfigData = [[NSMutableArray alloc] init];
+    self.title = @"安装与验收";
+    self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",  nil];
     self.otherTitleArray = [NSArray arrayWithObjects:@"版位名称",@"故障现象",@"故障照片", nil];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -48,36 +55,79 @@
         make.top.mas_equalTo(10);
         make.left.mas_equalTo(0);
     }];
+    
+    //    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 50 *8)];
+    //    headerView.backgroundColor = UIColorFromRGB(0xf8f6f1);
+    //    _tableView.tableHeaderView = headerView;
+    
 }
 
 - (void)addNPress{
     [self.tableView beginUpdates];
-    [self.tableView insertSections:[NSMutableIndexSet indexSetWithIndex:self.sectionNum] withRowAnimation:UITableViewRowAnimationFade];
+    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.sectionNum inSection:1];
+    [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
     self.sectionNum = self.sectionNum + 1;
     [self.tableView endUpdates];
     
 }
 
 - (void)reduceNPress{
-    if (self.sectionNum > 2) {
+    if (self.sectionNum > 1) {
         [self.tableView beginUpdates];
-        [self.tableView deleteSections:[NSMutableIndexSet indexSetWithIndex:self.sectionNum - 1] withRowAnimation:UITableViewRowAnimationFade];
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.sectionNum - 1 inSection:1];
+        [self.tableView  deleteRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
         self.sectionNum = self.sectionNum - 1;
         [self.tableView endUpdates];
     }
+    
+}
+
+- (void)selectPosion:(UIButton *)btn{
+    
+    PositionListViewController *flVC = [[PositionListViewController alloc] init];
+    float version = [UIDevice currentDevice].systemVersion.floatValue;
+    if (version < 8.0) {
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    } else {;
+        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    flVC.dataSource = self.dConfigData;
+    [self presentViewController:flVC animated:YES completion:nil];
+    flVC.backDatas = ^(NSString *damageIdString) {
+        [btn setTitle:damageIdString forState:UIControlStateNormal];
+    };
+}
+
+- (void)demageConfigRequest
+{
+    DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        NSArray *listArray = [dataDict objectForKey:@"list"];
+        
+        for (int i = 0; i < listArray.count; i ++) {
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
+            [self.dConfigData addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    }];
 }
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.sectionNum;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
         return self.titleArray.count;
     }else if (section == 1){
-        return self.otherTitleArray.count + 1;
+        return self.sectionNum;
     }else{
         return self.otherTitleArray.count;
     }
@@ -85,37 +135,42 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellID = @"RestaurantRankCell";
-    //    RepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    InstallAcceptTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell == nil) {
-        cell = [[InstallAcceptTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-    }
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    cell.backgroundColor = [UIColor lightGrayColor];
-    cell.delegate = self;
-    
     if (indexPath.section == 0) {
-        [cell configWithTitle:self.titleArray[indexPath.row] andContent:@"俏江南" andIdexPath:indexPath];
-    }else if (indexPath.section == 1){
-        if (indexPath.row == 0) {
-            [cell configWithTitle:@"版位数量" andContent:@"俏江南" andIdexPath:indexPath];
-        }else{
-            [cell configWithTitle:self.otherTitleArray[indexPath.row - 1] andContent:@"俏江南" andIdexPath:indexPath];
+        static NSString *cellID = @"RepairHeaderCell";
+        //        RepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        RepairHeaderTableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (cell == nil) {
+            cell = [[RepairHeaderTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
-    }else{
-        [cell configWithTitle:self.otherTitleArray[indexPath.row] andContent:@"俏江南" andIdexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
+        cell.delegate = self;
+        [cell configWithTitle:self.titleArray[indexPath.row] andContent:@"俏江南" andIdexPath:indexPath];
+        return cell;
+    }else {
+        
+        static NSString *cellID = @"RestaurantRankCell";
+        RepairContentTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        //            RepairTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (cell == nil) {
+            cell = [[RepairContentTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
+        cell.delegate = self;
+        [cell configWithContent:@"机顶盒故障"  andIdexPath:indexPath];
+        return cell;
     }
-    
-    return cell;
-    
 }
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 1) {
+        return 50 *3 + 10;
+    }
     return 50;
 }
 
