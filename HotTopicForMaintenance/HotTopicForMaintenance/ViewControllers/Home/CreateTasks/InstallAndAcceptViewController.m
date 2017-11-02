@@ -13,14 +13,21 @@
 #import "DamageConfigRequest.h"
 #import "RestaurantRankModel.h"
 
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface InstallAndAcceptViewController ()<UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate>
+@interface InstallAndAcceptViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate>
+{
+    UIImagePickerController *_imagePickerController;
+}
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
 @property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
+
+@property (nonatomic, strong) UIImageView *imageView;
 
 @end
 
@@ -33,7 +40,17 @@
     [self demageConfigRequest];
     [self creatSubViews];
     
+    [self initInfor];
     // Do any additional setup after loading the view.
+}
+
+- (void)initInfor{
+    
+    _imagePickerController = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.allowsEditing = YES;
+    
 }
 - (void)creatSubViews{
     
@@ -200,6 +217,66 @@
     UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
     view.backgroundColor = [UIColor clearColor];
     return view;
+}
+
+
+- (void)addImgPress{
+    
+    NSString *mediaType = AVMediaTypeVideo;//读取媒体类型
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];//读取设备授权状态
+    if(authStatus == AVAuthorizationStatusRestricted){
+        NSLog(@"设置-常用-访问限制里面不让使用相机");
+    }else if (authStatus == AVAuthorizationStatusDenied){
+        NSLog(@"设置-隐私里面不让使用相机");
+    }else if (authStatus == AVAuthorizationStatusAuthorized){
+        NSLog(@"正常使用相机");
+        //这里需要注意，只有判断能正常使用相机了才可以调用相机，如果是先调用相机，调用失败才判断原因的话，是只能判断出相机不能调用，具体什么原因不能调用则判断不出来，所以应该是整个判断的大条件，先做判断
+        [self selectImageFromCamera];
+    }else if (authStatus == AVAuthorizationStatusNotDetermined){
+        NSLog(@"在模拟器上会出现这种情况，应该是不支持的问题");
+    }
+}
+
+#pragma mark 从摄像头获取图片或视频
+- (void)selectImageFromCamera
+{
+    _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //设置摄像头模式拍照模式
+    _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+    [self presentViewController:_imagePickerController animated:YES completion:nil];
+}
+
+#pragma mark 从相册获取图片或视频
+- (void)selectImageFromAlbum
+{
+    //NSLog(@"相册");
+    _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController:_imagePickerController animated:YES completion:nil];
+}
+
+#pragma mark UIImagePickerControllerDelegate
+//该代理方法仅适用于只选取图片时
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
+}
+
+//适用获取所有媒体资源，只需判断资源类型
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
+    //判断资源类型
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        //如果是图片
+        self.imageView.image = info[UIImagePickerControllerEditedImage];
+        //压缩图片
+        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
+        //保存图片至相册
+        UIImageWriteToSavedPhotosAlbum(self.imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+        //上传图片
+//        [self uploadImageWithData:fileData];
+
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

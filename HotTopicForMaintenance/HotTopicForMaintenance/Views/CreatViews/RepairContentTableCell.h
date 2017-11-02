@@ -11,6 +11,7 @@
 @protocol RepairContentDelegate<NSObject>
 
 - (void)selectPosion:(UIButton *)btn;
+- (void)addImgPress:(NSIndexPath *)index;
 
 @end
 

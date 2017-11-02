@@ -17,6 +17,9 @@
 @property (nonatomic, strong) UILabel *titleFaultLabel;
 @property (nonatomic, strong) UILabel *titlePhotoLabel;
 
+@property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, strong) UIImageView *fImageView;
+
 @end
 
 @implementation RepairContentTableCell
@@ -107,7 +110,7 @@
     self.titlePhotoLabel.text = @"故障照片";
     [_bgView addSubview:self.titlePhotoLabel];
     [self.titlePhotoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 80), 20));
+        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 150), 20));
         make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
         make.left.mas_equalTo(15);
     }];
@@ -121,18 +124,33 @@
         make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
         make.right.mas_equalTo(- 20);
     }];
+    
+    self.fImageView  = [[UIImageView alloc] init];
+    self.fImageView.backgroundColor = [UIColor cyanColor];
+    [_bgView addSubview:self.fImageView];
+    [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+        make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
+        make.right.mas_equalTo(- 60);
+    }];
 }
 
 - (void)configWithContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;{
-    
+    self.indexPath = index;
     if (index.row == 1) {
-        self.inPutTextField = contenStr;
+        self.inPutTextField.text = contenStr;
     }
 }
 
 - (void)selectPress:(UIButton *)btn{
     
     [self.delegate selectPosion:btn];
+}
+
+- (void)addImgPress:(NSIndexPath *)index{
+    
+    [self.delegate addImgPress:self.indexPath];
+    
 }
 
 - (void)awakeFromNib {

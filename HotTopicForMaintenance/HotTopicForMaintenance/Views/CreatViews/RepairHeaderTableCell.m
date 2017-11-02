@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UILabel *reasonLabel;
 @property (nonatomic, strong) UILabel *numLabel;
 @property (nonatomic, strong) UITextField *inPutTextField;
+@property (nonatomic, assign) int  posionNum;
 
 @end
 
@@ -20,6 +21,8 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
+        
+        self.posionNum = 1;
         [self initWithSubView];
     }
     return self;
@@ -109,7 +112,7 @@
         self.numLabel.font = [UIFont systemFontOfSize:15];
         self.numLabel.textColor = [UIColor blackColor];
         self.numLabel.textAlignment = NSTextAlignmentCenter;
-        self.numLabel.text = @"100";
+        self.numLabel.text = @"1";
         [self addSubview:self.numLabel];
         [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(60, 20));
@@ -138,10 +141,16 @@
 }
 
 - (void)addPress{
+    self.posionNum ++;
+    self.numLabel.text =  [NSString stringWithFormat:@"%d", self.posionNum];
     [self.delegate addNPress];
 }
 
 - (void)reducePress{
+    if (self.posionNum != 1) {
+        self.posionNum --;
+    }
+    self.numLabel.text =  [NSString stringWithFormat:@"%d", self.posionNum];
     [self.delegate reduceNPress];
 }
 
