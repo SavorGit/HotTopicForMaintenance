@@ -7,7 +7,13 @@
 //
 
 #import "BaseViewController.h"
-#import "TaskListModel.h"
+
+typedef enum : NSUInteger {
+    TaskListType_All,           //全部
+    TaskListType_WaitAssign,    //待指派
+    TaskListType_WaitHandle,    //待处理
+    TaskListType_Completed      //已完成
+} TaskListType;
 
 @interface TaskListViewController : BaseViewController
 
