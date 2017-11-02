@@ -9,10 +9,10 @@
 #import "Jastor.h"
 
 typedef enum : NSUInteger {
-    TaskType_Install,
-    TaskType_InfoCheck,
-    TaskType_NetTransform,
-    TaskType_Repair
+    TaskType_InfoCheck = 3,
+    TaskType_NetTransform = 4,
+    TaskType_Install = 6,
+    TaskType_Repair = 7
 } TaskType;
 
 typedef enum : NSUInteger {

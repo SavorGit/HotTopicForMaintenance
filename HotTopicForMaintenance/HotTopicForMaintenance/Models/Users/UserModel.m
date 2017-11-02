@@ -8,11 +8,13 @@
 
 #import "UserModel.h"
 
+NSString * const RDUserCityDidChangeNotification = @"RDUserCityDidChangeNotification";
+
 @implementation UserModel
 
 - (NSMutableArray<CityModel *> *)cityArray
 {
-    if (_cityArray) {
+    if (!_cityArray) {
         _cityArray = [[NSMutableArray alloc] init];
     }
     return _cityArray;

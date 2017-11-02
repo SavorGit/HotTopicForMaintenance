@@ -185,6 +185,9 @@
                 NSDictionary * cityInfo  = [cityList objectAtIndex:i];
                 CityModel * cityModel = [[CityModel alloc] initWithDictionary:cityInfo];
                 [user.cityArray addObject:cityModel];
+                if (i == 0) {
+                    user.currentCity = cityModel;
+                }
             }
         }
         
