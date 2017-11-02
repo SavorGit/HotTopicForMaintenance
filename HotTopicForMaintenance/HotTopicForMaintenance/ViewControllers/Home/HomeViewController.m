@@ -22,6 +22,7 @@
 #import "TaskChooseTypeController.h"
 #import "TaskPageViewController.h"
 #import "SystemStatusController.h"
+#import "BindingPositionViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -281,6 +282,13 @@
         case MenuModelType_SystemStatus:
         {
             SystemStatusController * vc = [[SystemStatusController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+         case MenuModelType_BindDevice:
+        {
+            BindingPositionViewController * vc = [[BindingPositionViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
