@@ -11,6 +11,7 @@
 @protocol RepairHeaderTableDelegate<NSObject>
 - (void)addNPress;
 - (void)reduceNPress;
+- (void)hotelPress:(NSIndexPath *)index;
 
 @end
 
@@ -18,6 +19,7 @@
 
 @property (nonatomic, weak) id <RepairHeaderTableDelegate> delegate;
 
+@property (nonatomic, strong) UIButton *hotelBtn;
 - (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;
 
 @end

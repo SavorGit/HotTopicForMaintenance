@@ -8,6 +8,10 @@
 
 #import "BaseViewController.h"
 
+typedef void (^backHotelValue)(NSString *hotelName , NSString *hotelId);
 @interface SearchHotelViewController : BaseViewController
+
+@property(nonatomic, copy) backHotelValue backHotel;
+- (instancetype)initWithClassType:(NSInteger)classType;
 
 @end
