@@ -1,5 +1,5 @@
 //
-//  RepairTableViewCell.h
+//  RepairHeaderTableCell.h
 //  HotTopicForMaintenance
 //
 //  Created by 王海朋 on 2017/11/1.
@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol RepairTableViewDelegate<NSObject>
+
+@protocol RepairHeaderTableDelegate<NSObject>
 - (void)addNPress;
 - (void)reduceNPress;
-- (void)selectPosion:(UIButton *)btn;
 
 @end
 
-@interface RepairTableViewCell : UITableViewCell
+@interface RepairHeaderTableCell : UITableViewCell
 
-@property (nonatomic, weak) id <RepairTableViewDelegate> delegate;
+@property (nonatomic, weak) id <RepairHeaderTableDelegate> delegate;
 
 - (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;
 
