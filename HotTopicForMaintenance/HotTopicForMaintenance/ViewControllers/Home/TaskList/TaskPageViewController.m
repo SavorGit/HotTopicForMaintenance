@@ -51,11 +51,11 @@
     
     self.view.backgroundColor = UIColorFromRGB(0xffffff);
     
-    if (@available(iOS 11.0, *)) {
-        
-    }else{
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
+//    if (@available(iOS 11.0, *)) {
+//        
+//    }else{
+//        self.automaticallyAdjustsScrollViewInsets = NO;
+//    }
     
     [self setNavBackArrowWithWidth:40];
     

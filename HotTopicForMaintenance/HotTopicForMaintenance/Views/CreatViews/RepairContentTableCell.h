@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RepairContentModel.h"
 
 @protocol RepairContentDelegate<NSObject>
 
@@ -21,6 +22,6 @@
 
 @property (nonatomic, strong) UIImageView *fImageView;
 
-- (void)configWithContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;
+- (void)configWithContent:(RepairContentModel *)model andIdexPath:(NSIndexPath *)index;
 
 @end
