@@ -9,7 +9,6 @@
 #import "HotTopicTools.h"
 #import "BGNetWorkManager.h"
 #import "NetworkConfiguration.h"
-#import "UserManager.h"
 #import "GCCKeyChain.h"
 #import "CheckUpdateRequest.h"
 #import "Helper.h"
@@ -20,11 +19,6 @@
 + (void)configApplication
 {
     [[BGNetworkManager sharedManager] setNetworkConfiguration:[NetworkConfiguration configuration]];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:UserInfoCachePath]) {
-        NSDictionary * userInfo = [NSDictionary dictionaryWithContentsOfFile:UserInfoCachePath];
-        [UserManager manager].user = [[UserModel alloc] initWithDictionary:userInfo];
-    }
     
     //item字体大小
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : kNavTitleColor, NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];

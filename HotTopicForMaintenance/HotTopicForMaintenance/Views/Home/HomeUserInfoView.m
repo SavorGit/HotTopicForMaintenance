@@ -84,7 +84,7 @@
         
     } bold:NO];
     RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
-        [HotTopicTools removeFileOnPath:UserInfoCachePath];
+        [HotTopicTools removeFileOnPath:UserAccountPath];
         [UserManager manager].user = nil;
     } bold:YES];
     

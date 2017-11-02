@@ -102,6 +102,7 @@
     self.passwordTextFiled = [[UITextField alloc] initWithFrame:CGRectZero];
     self.passwordTextFiled.font = kPingFangLight(15);
     self.passwordTextFiled.borderStyle = UITextBorderStyleRoundedRect;
+    self.passwordTextFiled.secureTextEntry = YES;
     self.passwordTextFiled.placeholder = @"密码";
     [self.userInputView addSubview:self.passwordTextFiled];
     [self.passwordTextFiled mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -127,6 +128,17 @@
         make.height.mas_equalTo(40);
     }];
     [loginButton addTarget:self action:@selector(startLogin) forControlEvents:UIControlEventTouchUpInside];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
+        NSDictionary * userInfo = [NSDictionary dictionaryWithContentsOfFile:UserAccountPath];
+        NSString * name = [userInfo objectForKey:@"name"];
+        NSString * password = [userInfo objectForKey:@"password"];
+        if (!isEmptyString(name) && !isEmptyString(password)) {
+            self.nameTextFiled.text = name;
+            self.passwordTextFiled.text = password;
+            [self startLogin];
+        }
+    }
 }
 
 - (void)startLogin
@@ -150,8 +162,21 @@
         [hud hideAnimated:NO];
         
         NSDictionary * userInfo = [response objectForKey:@"result"];
-        [HotTopicTools saveFileOnPath:UserInfoCachePath withDictionary:userInfo];
+        [HotTopicTools saveFileOnPath:UserAccountPath withDictionary:@{@"name":name,@"password":password}];
         [UserManager manager].user = [[UserModel alloc] initWithDictionary:userInfo];
+        
+        NSDictionary * skillList = [userInfo objectForKey:@"skill_list"];
+        if (skillList && [skillList isKindOfClass:[NSDictionary class]]) {
+            NSDictionary * roleInfo = [skillList objectForKey:@"role_info"];
+            if (roleInfo && [roleInfo isKindOfClass:[NSDictionary class]]) {
+                NSInteger roleType = [[roleInfo objectForKey:@"id"] integerValue];
+                NSString * roleName = [roleInfo objectForKey:@"name"];
+                if (!isEmptyString(roleName)) {
+                    [UserManager manager].user.roletype = roleType;
+                    [UserManager manager].user.roleName = roleName;
+                }
+            }
+        }
         
         [MBProgressHUD showTextHUDWithText:@"登录成功" inView:[UIApplication sharedApplication].keyWindow];
         [self closeKeyBorad];

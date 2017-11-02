@@ -9,10 +9,10 @@
 #import "Jastor.h"
 
 typedef enum : NSUInteger {
-    UserRoleType_CreateTask,
-    UserRoleType_AssignTask,
-    UserRoleType_HandleTask,
-    UserRoleType_LookTask
+    UserRoleType_CreateTask = 1,
+    UserRoleType_AssignTask = 2,
+    UserRoleType_HandleTask = 3,
+    UserRoleType_LookTask = 4
 } UserRoleType;
 
 @interface UserModel : Jastor
@@ -21,6 +21,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *nickname;
 
-@property (nonatomic, assign) UserRoleType type;
+@property (nonatomic, assign) UserRoleType roletype;
+@property (nonatomic, copy) NSString * roleName;
 
 @end
