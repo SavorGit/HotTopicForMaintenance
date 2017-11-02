@@ -33,10 +33,10 @@
 
 - (void)setupDatas
 {
-    TaskModel * model1 = [[TaskModel alloc] initWithType:TaskType_Install];
-    TaskModel * model2 = [[TaskModel alloc] initWithType:TaskType_InfoCheck];
-    TaskModel * model3 = [[TaskModel alloc] initWithType:TaskType_NetTransform];
-    TaskModel * model4 = [[TaskModel alloc] initWithType:TaskType_Repair];
+    TaskListModel * model1 = [[TaskListModel alloc] initWithType:TaskType_Install];
+    TaskListModel * model2 = [[TaskListModel alloc] initWithType:TaskType_InfoCheck];
+    TaskListModel * model3 = [[TaskListModel alloc] initWithType:TaskType_NetTransform];
+    TaskListModel * model4 = [[TaskListModel alloc] initWithType:TaskType_Repair];
     
     self.datsSource = [NSArray arrayWithObjects:model1, model2, model3, model4, nil];
 }

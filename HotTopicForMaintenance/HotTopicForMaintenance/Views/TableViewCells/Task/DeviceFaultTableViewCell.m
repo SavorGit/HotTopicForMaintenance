@@ -183,8 +183,8 @@
         }
     }
     
-    self.nameLabel.text = [@"版位名称：" stringByAppendingString:model.name];
-    self.descLabel.text = [@"故障现象：" stringByAppendingString:model.desc];
+    self.nameLabel.text = [NSString stringWithFormat:@"版位名称：%@", model.name];
+    self.descLabel.text = [NSString stringWithFormat:@"故障现象：%@", model.desc];
     
     CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 54.f * scale title:self.descLabel.text font:self.descLabel.font];
     [self.descLabel mas_updateConstraints:^(MASConstraintMaker *make) {

@@ -7,6 +7,8 @@
 //
 
 #import "Jastor.h"
+#import "CityModel.h"
+#import "SkillModel.h"
 
 typedef enum : NSUInteger {
     UserRoleType_CreateTask = 1,
@@ -23,5 +25,10 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) UserRoleType roletype;
 @property (nonatomic, copy) NSString * roleName;
+
+@property (nonatomic, assign) NSInteger is_lead_install;
+
+@property (nonatomic, strong) NSMutableArray<CityModel *> * cityArray;
+@property (nonatomic, strong) NSMutableArray<SkillModel *> * skillArray;
 
 @end

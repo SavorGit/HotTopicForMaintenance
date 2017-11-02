@@ -10,4 +10,20 @@
 
 @implementation UserModel
 
+- (NSMutableArray<CityModel *> *)cityArray
+{
+    if (_cityArray) {
+        _cityArray = [[NSMutableArray alloc] init];
+    }
+    return _cityArray;
+}
+
+- (NSMutableArray<SkillModel *> *)skillArray
+{
+    if (!_skillArray) {
+        _skillArray = [[NSMutableArray alloc] init];
+    }
+    return _skillArray;
+}
+
 @end

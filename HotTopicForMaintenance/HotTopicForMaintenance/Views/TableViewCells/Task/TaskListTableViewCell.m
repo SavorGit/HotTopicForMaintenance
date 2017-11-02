@@ -134,7 +134,7 @@
     self.refuseLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
 }
 
-- (void)configWithTaskListModel:(TaskListModel *)model
+- (void)configWithTaskModel:(TaskModel *)model
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
@@ -148,7 +148,7 @@
     if (isEmptyString(model.deviceNumber)) {
         self.deviceNumLabel.hidden = YES;
     }else{
-        self.deviceNumLabel.text = [@"版位数量：" stringByAppendingString:model.deviceNumber];
+        self.deviceNumLabel.text = [NSString stringWithFormat:@"版位数量：%@", model.deviceNumber];
         self.deviceNumLabel.hidden = NO;
     }
     
@@ -159,10 +159,10 @@
         self.remarkLabel.hidden = NO;
     }
     
-    switch (model.type) {
-        case 1:
+    switch (model.statusType) {
+        case TaskStatusType_WaitAssign:
         {
-            self.createLabel.text = [@"发布时间：" stringByAppendingString:model.createTime];
+            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@", model.createTime];
             [self.timeView addSubview:self.createLabel];
             [self.createLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.left.right.mas_equalTo(0);
@@ -173,11 +173,11 @@
         }
             break;
             
-        case 2:
+        case TaskStatusType_WaitHandle:
         {
-            self.assignHandelLabel.text = [@"指派执行时间：" stringByAppendingString:model.assignHandleTime];
-            self.createLabel.text = [@"发布时间：" stringByAppendingString:model.createTime];
-            self.assignLabel.text = [@"指派时间：" stringByAppendingString:model.assignTime];
+            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@", model.assignHandleTime];
+            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@", model.createTime];
+            self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@", model.assignTime];
             [self.timeView addSubview:self.assignHandelLabel];
             [self.timeView addSubview:self.createLabel];
             [self.timeView addSubview:self.assignLabel];
@@ -201,12 +201,12 @@
         }
             break;
             
-        case 3:
+        case TaskStatusType_Completed:
         {
-            self.assignHandelLabel.text = [@"指派执行时间：" stringByAppendingString:model.assignHandleTime];
-            self.createLabel.text = [@"发布时间：" stringByAppendingString:model.createTime];
-            self.assignLabel.text = [@"指派时间：" stringByAppendingString:model.assignTime];
-            self.completeLabel.text = [@"完成时间：" stringByAppendingString:model.completeTime];
+            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@", model.assignHandleTime];
+            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@", model.createTime];
+            self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@", model.assignTime];
+            self.completeLabel.text = [NSString stringWithFormat:@"完成时间：%@", model.completeTime];
             [self.timeView addSubview:self.assignHandelLabel];
             [self.timeView addSubview:self.createLabel];
             [self.timeView addSubview:self.assignLabel];
@@ -236,10 +236,10 @@
         }
             break;
             
-        case 4:
+        case TaskStatusType_Refuse:
         {
-            self.createLabel.text = [@"发布时间：" stringByAppendingString:model.createTime];
-            self.refuseLabel.text = [@"拒绝时间：" stringByAppendingString:model.refuseTime];
+            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@", model.createTime];
+            self.refuseLabel.text = [NSString stringWithFormat:@"拒绝时间：%@", model.refuseTime];
             [self.timeView addSubview:self.createLabel];
             [self.timeView addSubview:self.refuseLabel];
             

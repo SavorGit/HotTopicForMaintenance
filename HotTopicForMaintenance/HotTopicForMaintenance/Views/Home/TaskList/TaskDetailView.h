@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TaskListModel.h"
+#import "TaskModel.h"
 
 @interface TaskDetailView : UIView
 
-- (instancetype)initWithTaskListModel:(TaskListModel *)model;
+- (instancetype)initWithTaskModel:(TaskModel *)model;
 
 @end

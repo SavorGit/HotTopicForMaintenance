@@ -160,24 +160,48 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];
+
         
         NSDictionary * userInfo = [response objectForKey:@"result"];
         [HotTopicTools saveFileOnPath:UserAccountPath withDictionary:@{@"name":name,@"password":password}];
-        [UserManager manager].user = [[UserModel alloc] initWithDictionary:userInfo];
+        UserModel * user = [[UserModel alloc] initWithDictionary:userInfo];
         
-        NSDictionary * skillList = [userInfo objectForKey:@"skill_list"];
-        if (skillList && [skillList isKindOfClass:[NSDictionary class]]) {
-            NSDictionary * roleInfo = [skillList objectForKey:@"role_info"];
+        NSDictionary * RoleList = [userInfo objectForKey:@"skill_list"];
+        if (RoleList && [RoleList isKindOfClass:[NSDictionary class]]) {
+            NSDictionary * roleInfo = [RoleList objectForKey:@"role_info"];
             if (roleInfo && [roleInfo isKindOfClass:[NSDictionary class]]) {
                 NSInteger roleType = [[roleInfo objectForKey:@"id"] integerValue];
                 NSString * roleName = [roleInfo objectForKey:@"name"];
                 if (!isEmptyString(roleName)) {
-                    [UserManager manager].user.roletype = roleType;
-                    [UserManager manager].user.roleName = roleName;
+                    user.roletype = roleType;
+                    user.roleName = roleName;
                 }
             }
         }
         
+        NSArray * cityList = [RoleList objectForKey:@"manage_city"];
+        if (cityList && [cityList isKindOfClass:[NSArray class]]) {
+            for (NSInteger i = 0; i < cityList.count; i++) {
+                NSDictionary * cityInfo  = [cityList objectAtIndex:i];
+                CityModel * cityModel = [[CityModel alloc] initWithDictionary:cityInfo];
+                [user.cityArray addObject:cityModel];
+            }
+        }
+        
+        if (user.roletype == UserRoleType_HandleTask) {
+            NSArray * skillList = [RoleList objectForKey:@"skill_info"];
+            if (skillList && [skillList isKindOfClass:[NSArray class]]) {
+                for (NSInteger i = 0; i < skillList.count; i++) {
+                    NSDictionary * skillInfo  = [skillList objectAtIndex:i];
+                    SkillModel * skillModel = [[SkillModel alloc] initWithDictionary:skillInfo];
+                    [user.skillArray addObject:skillModel];
+                }
+            }
+            
+            user.is_lead_install = [[RoleList objectForKey:@"is_lead_install"] integerValue];
+        }
+        
+        [UserManager manager].user = user;
         [MBProgressHUD showTextHUDWithText:@"登录成功" inView:[UIApplication sharedApplication].keyWindow];
         [self closeKeyBorad];
         [self dismissViewControllerAnimated:YES completion:^{
