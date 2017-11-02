@@ -13,6 +13,7 @@
 #import "DamageConfigRequest.h"
 #import "RestaurantRankModel.h"
 #import "RepairContentModel.h"
+#import "SearchHotelViewController.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -238,6 +239,18 @@
     return view;
 }
 
+- (void)hotelPress:(NSIndexPath *)index{
+    
+    SearchHotelViewController *shVC = [[SearchHotelViewController alloc] initWithClassType:1];
+    [self.navigationController pushViewController:shVC animated:YES];
+    shVC.backHotel = ^(NSString *hotelName, NSString *hotelId){
+        
+        RepairHeaderTableCell *cell = [_tableView cellForRowAtIndexPath:index];
+        if (!isEmptyString(hotelName)) {
+            [cell.hotelBtn setTitle:hotelName forState:UIControlStateNormal];
+        }
+    };
+}
 
 - (void)addImgPress:(NSIndexPath *)index{
     

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *numLabel;
 @property (nonatomic, strong) UITextField *inPutTextField;
 @property (nonatomic, assign) int  posionNum;
+@property (nonatomic, strong) NSIndexPath *indexPath;
 
 @end
 
@@ -37,7 +38,7 @@
     self.reasonLabel.text = @"安装与验收";
     [self addSubview:self.reasonLabel];
     [self.reasonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 80), 20));
+        make.size.mas_equalTo(CGSizeMake((100), 20));
         make.centerY.mas_equalTo(self);
         make.left.mas_equalTo(15);
     }];
@@ -65,8 +66,11 @@
 
 - (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index{
   
+    self.indexPath = index;
     self.reasonLabel.text = title;
     if (index.row == 0) {
+        self.inPutTextField.hidden = YES;
+        
         UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectZero];
         rightImg.contentMode = UIViewContentModeScaleAspectFit;
         [rightImg setImage:[UIImage imageNamed:@"selected"]];
@@ -76,12 +80,18 @@
             make.centerY.mas_equalTo(self);
             make.right.mas_equalTo(- 20);
         }];
-        [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(100, 20));
+        
+        self.hotelBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.hotelBtn setTitle:@"请选择酒楼" forState:UIControlStateNormal];
+        [self.hotelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.hotelBtn addTarget:self action:@selector(hotelPress:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.hotelBtn];
+        [self.hotelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self);
             make.right.mas_equalTo(- 40);
+            make.width.mas_lessThanOrEqualTo(kMainBoundsWidth - 36 - 15 - 100);
         }];
-        self.inPutTextField.text = @"东方广场店";
+        
     }else if (index.row == 4){
         self.inPutTextField.hidden = YES;
         
@@ -138,6 +148,10 @@
         self.inPutTextField.text = contenStr;
     }
 
+}
+
+- (void)hotelPress:(UIButton *)btn{
+    [self.delegate hotelPress:self.indexPath];
 }
 
 - (void)addPress{

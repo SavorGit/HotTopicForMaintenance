@@ -89,6 +89,8 @@
 		969A3C4A1FA9EA6500EB95C9 /* RepairHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C491FA9EA6500EB95C9 /* RepairHeaderTableCell.m */; };
 		969A3C4D1FAAAF7200EB95C9 /* RepairContentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C4C1FAAAF7200EB95C9 /* RepairContentTableCell.m */; };
 		969A3C531FAAF72C00EB95C9 /* RepairContentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C521FAAF72C00EB95C9 /* RepairContentModel.m */; };
+		969A3C571FAB324F00EB95C9 /* BindingPositionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C561FAB324F00EB95C9 /* BindingPositionViewController.m */; };
+		969A3C5B1FAB32D100EB95C9 /* BindPositionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C5A1FAB32D100EB95C9 /* BindPositionTableViewCell.m */; };
 		96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19851F5FC38100C06CE8 /* FaultListViewController.m */; };
 		96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19871F5FC38100C06CE8 /* lookRestaurInforViewController.m */; };
 		96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19891F5FC38100C06CE8 /* RestaurantRankInforViewController.m */; };
@@ -299,6 +301,10 @@
 		969A3C4C1FAAAF7200EB95C9 /* RepairContentTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RepairContentTableCell.m; sourceTree = "<group>"; };
 		969A3C511FAAF72C00EB95C9 /* RepairContentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairContentModel.h; sourceTree = "<group>"; };
 		969A3C521FAAF72C00EB95C9 /* RepairContentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairContentModel.m; sourceTree = "<group>"; };
+		969A3C551FAB324F00EB95C9 /* BindingPositionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BindingPositionViewController.h; sourceTree = "<group>"; };
+		969A3C561FAB324F00EB95C9 /* BindingPositionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BindingPositionViewController.m; sourceTree = "<group>"; };
+		969A3C591FAB32D100EB95C9 /* BindPositionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BindPositionTableViewCell.h; sourceTree = "<group>"; };
+		969A3C5A1FAB32D100EB95C9 /* BindPositionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BindPositionTableViewCell.m; sourceTree = "<group>"; };
 		96AA19841F5FC38100C06CE8 /* FaultListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaultListViewController.h; sourceTree = "<group>"; };
 		96AA19851F5FC38100C06CE8 /* FaultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaultListViewController.m; sourceTree = "<group>"; };
 		96AA19861F5FC38100C06CE8 /* lookRestaurInforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookRestaurInforViewController.h; sourceTree = "<group>"; };
@@ -632,6 +638,7 @@
 			children = (
 				06B055F61F5D57A700A9CE68 /* HomeViewController.h */,
 				06B055F71F5D57A700A9CE68 /* HomeViewController.m */,
+				969A3C541FAB322900EB95C9 /* BindingPosition */,
 				069C386A1FA871B8003F92EF /* TaskList */,
 				069C385B1FA85A59003F92EF /* CreateTasks */,
 			);
@@ -759,6 +766,7 @@
 		06ECDC811F596C08007FBD83 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				969A3C581FAB329C00EB95C9 /* BindPositionViews */,
 				969A3C291FA97A1A00EB95C9 /* CreatViews */,
 				06A3DBE91FA6CC5B0047EE5E /* CollectionCells */,
 				96AA19901F5FC38C00C06CE8 /* HoteRankViews */,
@@ -829,6 +837,24 @@
 				969A3C461FA9C9C000EB95C9 /* PosionListTableViewCell.m */,
 			);
 			path = CreatViews;
+			sourceTree = "<group>";
+		};
+		969A3C541FAB322900EB95C9 /* BindingPosition */ = {
+			isa = PBXGroup;
+			children = (
+				969A3C551FAB324F00EB95C9 /* BindingPositionViewController.h */,
+				969A3C561FAB324F00EB95C9 /* BindingPositionViewController.m */,
+			);
+			path = BindingPosition;
+			sourceTree = "<group>";
+		};
+		969A3C581FAB329C00EB95C9 /* BindPositionViews */ = {
+			isa = PBXGroup;
+			children = (
+				969A3C591FAB32D100EB95C9 /* BindPositionTableViewCell.h */,
+				969A3C5A1FAB32D100EB95C9 /* BindPositionTableViewCell.m */,
+			);
+			path = BindPositionViews;
 			sourceTree = "<group>";
 		};
 		96AA19831F5FC38100C06CE8 /* HotesRankInfor */ = {
@@ -1123,6 +1149,7 @@
 				96AA19BF1F6626B900C06CE8 /* RDFrequentlyUsed.m in Sources */,
 				969A3C351FA995E900EB95C9 /* NetworkTranTableViewCell.m in Sources */,
 				06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */,
+				969A3C5B1FAB32D100EB95C9 /* BindPositionTableViewCell.m in Sources */,
 				96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */,
 				06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */,
 				969A3C531FAAF72C00EB95C9 /* RepairContentModel.m in Sources */,
@@ -1192,6 +1219,7 @@
 				96AA198F1F5FC38100C06CE8 /* SearchHotelViewController.m in Sources */,
 				96AA19991F5FC38C00C06CE8 /* FaultListTableViewCell.m in Sources */,
 				06C44C051FA9E2990050FDBC /* TaskDetailView.m in Sources */,
+				969A3C571FAB324F00EB95C9 /* BindingPositionViewController.m in Sources */,
 				06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */,
 				06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */,
 				96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */,

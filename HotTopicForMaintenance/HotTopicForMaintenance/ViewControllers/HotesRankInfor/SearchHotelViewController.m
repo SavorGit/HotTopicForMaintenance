@@ -18,11 +18,20 @@
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
 @property (nonatomic, strong) UITextField * searchField;
+@property (nonatomic, assign) NSInteger classType;
 
 
 @end
 
 @implementation SearchHotelViewController
+
+- (instancetype)initWithClassType:(NSInteger)classType
+{
+    if (self = [super init]) {
+        self.classType = classType;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -186,9 +195,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RestaurantRankModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
-    RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] initWithDetaiID:tmpModel.cid WithHotelNam:tmpModel.name];
-    [self.navigationController pushViewController:riVC animated:YES];
-    
+    if (self.classType == 1) {
+        if (_backHotel) {
+            _backHotel(tmpModel.name,tmpModel.cid);
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] initWithDetaiID:tmpModel.cid WithHotelNam:tmpModel.name];
+        [self.navigationController pushViewController:riVC animated:YES];
+    }
 }
 
 - (void)dealloc
