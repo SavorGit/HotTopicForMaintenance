@@ -12,6 +12,7 @@
 #import "PositionListViewController.h"
 #import "DamageConfigRequest.h"
 #import "RestaurantRankModel.h"
+#import "RepairContentModel.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -22,12 +23,13 @@
 }
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
-@property (nonatomic, strong) NSArray * titleArray; //表项标题
+@property (nonatomic, strong) NSMutableArray * titleArray; //表项标题
 @property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 
-@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, strong) UIView *maskingView;
 
 @end
 
@@ -55,8 +57,19 @@
 - (void)creatSubViews{
     
     _dConfigData = [[NSMutableArray alloc] init];
+    self.titleArray = [[NSMutableArray alloc] init];
     self.title = @"安装与验收";
-    self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",  nil];
+    
+     NSArray *dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",  nil];
+   
+    for (int i = 0; i < 6; i ++) {
+        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+        tmpModel.title = dataArr[i];
+        tmpModel.imgHType = 0;
+        
+        [self.titleArray addObject:tmpModel];
+    }
+   
     self.otherTitleArray = [NSArray arrayWithObjects:@"版位名称",@"故障现象",@"故障照片", nil];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -152,6 +165,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    RepairContentModel *tmpModel = self.titleArray[indexPath.row];
     if (indexPath.section == 0) {
         static NSString *cellID = @"RepairHeaderCell";
         //        RepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
@@ -163,13 +177,12 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-        [cell configWithTitle:self.titleArray[indexPath.row] andContent:@"俏江南" andIdexPath:indexPath];
+        [cell configWithTitle:tmpModel.title andContent:@"俏江南" andIdexPath:indexPath];
         return cell;
     }else {
         
         static NSString *cellID = @"RestaurantRankCell";
         RepairContentTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        //            RepairTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if (cell == nil) {
             cell = [[RepairContentTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
@@ -177,7 +190,7 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-        [cell configWithContent:@"机顶盒故障"  andIdexPath:indexPath];
+        [cell configWithContent:tmpModel  andIdexPath:indexPath];
         return cell;
     }
 }
@@ -186,7 +199,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
-        return 50 *3 + 10;
+        CGFloat scale = kMainBoundsWidth / 375.f;
+        RepairContentModel *tmpModel = self.titleArray[indexPath.row];
+        if (tmpModel.imgHType == 0) {
+            return 50 *3 + 10;
+        }else{
+            return 50 *3 + 10 + 84.5 *scale;
+        }
     }
     return 50;
 }
@@ -220,7 +239,9 @@
 }
 
 
-- (void)addImgPress{
+- (void)addImgPress:(NSIndexPath *)index{
+    
+    self.indexPath = index;
     
     NSString *mediaType = AVMediaTypeVideo;//读取媒体类型
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];//读取设备授权状态
@@ -230,35 +251,108 @@
         NSLog(@"设置-隐私里面不让使用相机");
     }else if (authStatus == AVAuthorizationStatusAuthorized){
         NSLog(@"正常使用相机");
-        //这里需要注意，只有判断能正常使用相机了才可以调用相机，如果是先调用相机，调用失败才判断原因的话，是只能判断出相机不能调用，具体什么原因不能调用则判断不出来，所以应该是整个判断的大条件，先做判断
-        [self selectImageFromCamera];
+        [self creatMaskingView];
     }else if (authStatus == AVAuthorizationStatusNotDetermined){
         NSLog(@"在模拟器上会出现这种情况，应该是不支持的问题");
     }
 }
 
+- (void)creatMaskingView{
+    
+    self.maskingView = [[UIView alloc] init];
+    self.maskingView.tag = 1888;
+    self.maskingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.maskingView.userInteractionEnabled = YES;
+    self.maskingView.frame = CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight);
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    self.maskingView.top = keyWindow.bottom;
+    [keyWindow addSubview:self.maskingView];
+    
+    [self showViewWithAnimationDuration:.3f];
+    
+    UIView *bgView = [[UIView alloc] init];
+    bgView.backgroundColor = [UIColor whiteColor];
+    [self.maskingView addSubview:bgView];
+    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 80));
+        make.bottom.mas_equalTo(self.maskingView.mas_bottom);
+        make.left.mas_equalTo(0);
+    }];
+    
+    UIButton *cameraBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [cameraBtn setTitle:@"相机" forState:UIControlStateNormal];
+    [cameraBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cameraBtn addTarget:self action:@selector(selectImageFromCamera) forControlEvents:UIControlEventTouchUpInside];
+    [bgView addSubview:cameraBtn];
+    [cameraBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(80, 50));
+        make.centerY.mas_equalTo(bgView.mas_centerY);
+        make.centerX.mas_equalTo(bgView.centerX).offset(- 80);
+    }];
+    
+    UIButton *imgAlbumBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [imgAlbumBtn setTitle:@"相册" forState:UIControlStateNormal];
+    [imgAlbumBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [imgAlbumBtn addTarget:self action:@selector(selectImageFromAlbum) forControlEvents:UIControlEventTouchUpInside];
+    [bgView addSubview:imgAlbumBtn];
+    [imgAlbumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(80, 50));
+        make.centerY.mas_equalTo(bgView.mas_centerY);
+        make.centerX.mas_equalTo(bgView.mas_centerX).offset(80);
+    }];
+}
+
+#pragma mark - show view
+-(void)showViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        self.maskingView.top = keyWindow.top;
+    } completion:^(BOOL finished) {
+    }];
+}
+
+-(void)dismissViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        self.maskingView.top = keyWindow.bottom;
+        
+    } completion:^(BOOL finished) {
+        [self.maskingView removeFromSuperview];
+    }];
+}
+
 #pragma mark 从摄像头获取图片或视频
 - (void)selectImageFromCamera
 {
+    [self dismissViewWithAnimationDuration:0.1];
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     //设置摄像头模式拍照模式
     _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+    [_imagePickerController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentViewController:_imagePickerController animated:YES completion:nil];
 }
 
 #pragma mark 从相册获取图片或视频
 - (void)selectImageFromAlbum
 {
-    //NSLog(@"相册");
+    [self dismissViewWithAnimationDuration:0.1];
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
+    [_imagePickerController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentViewController:_imagePickerController animated:YES completion:nil];
 }
 
 #pragma mark UIImagePickerControllerDelegate
 //该代理方法仅适用于只选取图片时
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
+    
+    RepairContentModel *tmpModel = self.titleArray[self.indexPath.row];
+    tmpModel.imgHType = 1;
+    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+    RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];
+    cell.fImageView.image = image;
 }
 
 //适用获取所有媒体资源，只需判断资源类型
@@ -266,12 +360,14 @@
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
-        //如果是图片
-        self.imageView.image = info[UIImagePickerControllerEditedImage];
+        RepairContentModel *tmpModel = self.titleArray[self.indexPath.row];
+        tmpModel.imgHType = 1;
+        [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+        RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];
+        cell.fImageView.image = info[UIImagePickerControllerEditedImage];
+        
         //压缩图片
-        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
-        //保存图片至相册
-        UIImageWriteToSavedPhotosAlbum(self.imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+//        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
         //上传图片
 //        [self uploadImageWithData:fileData];
 
@@ -283,15 +379,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

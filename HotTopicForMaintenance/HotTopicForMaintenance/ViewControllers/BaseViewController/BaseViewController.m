@@ -18,11 +18,11 @@
     [super viewDidLoad];
     self.view.backgroundColor = VCBackgroundColor;
     
-    if (@available(iOS 11.0, *)) {
-        
-    }else{
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
+//    if (@available(iOS 11.0, *)) {
+//        
+//    }else{
+//        self.automaticallyAdjustsScrollViewInsets = NO;
+//    }
     
     [self setNavBackArrowWithWidth:40];
     // Do any additional setup after loading the view.

@@ -16,9 +16,9 @@
 @property (nonatomic, strong) UILabel *titlePosionLabel;
 @property (nonatomic, strong) UILabel *titleFaultLabel;
 @property (nonatomic, strong) UILabel *titlePhotoLabel;
+@property (nonatomic, strong) UIButton *addImgBtn;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
-@property (nonatomic, strong) UIImageView *fImageView;
 
 @end
 
@@ -54,7 +54,7 @@
     self.titlePosionLabel.text = @"版位名称";
     [_bgView addSubview:self.titlePosionLabel];
     [self.titlePosionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 80), 20));
+        make.size.mas_equalTo(CGSizeMake(60, 20));
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(15);
     }];
@@ -88,7 +88,7 @@
     self.titleFaultLabel.text = @"故障现象";
     [_bgView addSubview:self.titleFaultLabel];
     [self.titleFaultLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 80), 20));
+        make.size.mas_equalTo(CGSizeMake(60, 20));
         make.top.mas_equalTo(self.titlePosionLabel.mas_bottom).offset(30);
         make.left.mas_equalTo(15);
     }];
@@ -110,35 +110,61 @@
     self.titlePhotoLabel.text = @"故障照片";
     [_bgView addSubview:self.titlePhotoLabel];
     [self.titlePhotoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 150), 20));
+        make.size.mas_equalTo(CGSizeMake(60, 20));
         make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
         make.left.mas_equalTo(15);
     }];
     
-    UIButton *addImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    addImgBtn.backgroundColor = [UIColor blueColor];
-    [addImgBtn addTarget:self action:@selector(addImgPress) forControlEvents:UIControlEventTouchUpInside];
-    [_bgView addSubview:addImgBtn];
-    [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.addImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.addImgBtn.backgroundColor = [UIColor blueColor];
+    [self.addImgBtn addTarget:self action:@selector(addImgPress:) forControlEvents:UIControlEventTouchUpInside];
+    [_bgView addSubview:self.addImgBtn];
+    [self.addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
         make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
         make.right.mas_equalTo(- 20);
     }];
-    
+
     self.fImageView  = [[UIImageView alloc] init];
     self.fImageView.backgroundColor = [UIColor cyanColor];
+    self.fImageView.userInteractionEnabled = YES;
     [_bgView addSubview:self.fImageView];
-    [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(30, 30));
-        make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
-        make.right.mas_equalTo(- 60);
-    }];
 }
 
-- (void)configWithContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;{
+- (void)configWithContent:(RepairContentModel *)model andIdexPath:(NSIndexPath *)index{
     self.indexPath = index;
+    if (model.imgHType == 1) {
+        self.addImgBtn.hidden = YES;
+        
+        CGFloat scale = kMainBoundsWidth / 375.f;
+        [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(kMainBoundsWidth - 30);
+            make.height.mas_equalTo(50 *3 + 84.5 *scale - 20);
+            make.top.mas_equalTo(10);
+            make.left.mas_equalTo(15);
+        }];
+        
+        [self.fImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(150 *scale, 84.5 *scale));
+            make.top.mas_equalTo(self.titlePhotoLabel.mas_top);
+            make.left.mas_equalTo(self.titlePhotoLabel.mas_right).offset(10);
+        }];
+        
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addImgPress:)];
+        tap.numberOfTapsRequired = 1;
+        [self.fImageView addGestureRecognizer:tap];
+        
+    }else{
+        self.addImgBtn.hidden = NO;
+        [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(kMainBoundsWidth - 30);
+            make.height.mas_equalTo(50 *3);
+            make.top.mas_equalTo(10);
+            make.left.mas_equalTo(15);
+        }];
+    }
     if (index.row == 1) {
-        self.inPutTextField.text = contenStr;
+        self.inPutTextField.text = model.title;
     }
 }
 
