@@ -38,6 +38,7 @@
 		0677AC071FAB168800D494FE /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC061FAB168800D494FE /* CityModel.m */; };
 		0677AC0A1FAB169B00D494FE /* SkillModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC091FAB169B00D494FE /* SkillModel.m */; };
 		0677AC0D1FAB427200D494FE /* UserCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC0C1FAB427200D494FE /* UserCityViewController.m */; };
+		06844CFE1FAC12D700E7A2CD /* RDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06844CFD1FAC12D700E7A2CD /* RDTextView.m */; };
 		068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 068E65C01F616B4900644CE6 /* UserNotificationModel.m */; };
 		069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C381B1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m */; };
 		069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */; };
@@ -191,6 +192,8 @@
 		0677AC091FAB169B00D494FE /* SkillModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkillModel.m; sourceTree = "<group>"; };
 		0677AC0B1FAB427200D494FE /* UserCityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCityViewController.h; sourceTree = "<group>"; };
 		0677AC0C1FAB427200D494FE /* UserCityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserCityViewController.m; sourceTree = "<group>"; };
+		06844CFC1FAC12D700E7A2CD /* RDTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDTextView.h; sourceTree = "<group>"; };
+		06844CFD1FAC12D700E7A2CD /* RDTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDTextView.m; sourceTree = "<group>"; };
 		068E65BF1F616B4900644CE6 /* UserNotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotificationModel.h; sourceTree = "<group>"; };
 		068E65C01F616B4900644CE6 /* UserNotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotificationModel.m; sourceTree = "<group>"; };
 		069C381A1FA8127A003F92EF /* HomeBadgeCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeBadgeCollectionViewCell.h; sourceTree = "<group>"; };
@@ -457,6 +460,15 @@
 				0677AC091FAB169B00D494FE /* SkillModel.m */,
 			);
 			path = Roles;
+			sourceTree = "<group>";
+		};
+		06844CFB1FAC125A00E7A2CD /* RDTextView */ = {
+			isa = PBXGroup;
+			children = (
+				06844CFC1FAC12D700E7A2CD /* RDTextView.h */,
+				06844CFD1FAC12D700E7A2CD /* RDTextView.m */,
+			);
+			path = RDTextView;
 			sourceTree = "<group>";
 		};
 		069C385B1FA85A59003F92EF /* CreateTasks */ = {
@@ -766,6 +778,7 @@
 		06ECDC811F596C08007FBD83 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				06844CFB1FAC125A00E7A2CD /* RDTextView */,
 				969A3C581FAB329C00EB95C9 /* BindPositionViews */,
 				969A3C291FA97A1A00EB95C9 /* CreatViews */,
 				06A3DBE91FA6CC5B0047EE5E /* CollectionCells */,
@@ -1213,6 +1226,7 @@
 				0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */,
 				06B055DB1F5D48D800A9CE68 /* GCCKeyChain.m in Sources */,
 				066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */,
+				06844CFE1FAC12D700E7A2CD /* RDTextView.m in Sources */,
 				96AA199B1F5FC38C00C06CE8 /* RestaurantRankCell.m in Sources */,
 				06338BB91FA1C702003775B5 /* MenuModel.m in Sources */,
 				0626DECA1F5EC14500686790 /* RepairRecordModel.m in Sources */,
