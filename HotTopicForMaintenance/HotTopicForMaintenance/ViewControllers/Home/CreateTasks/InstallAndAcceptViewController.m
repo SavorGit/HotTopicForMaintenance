@@ -98,6 +98,7 @@
 }
 
 - (void)addNPress{
+    
     [self.tableView beginUpdates];
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.sectionNum inSection:1];
     [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -107,6 +108,7 @@
 }
 
 - (void)reduceNPress{
+    
     if (self.sectionNum > 1) {
         [self.tableView beginUpdates];
         NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.sectionNum - 1 inSection:1];
@@ -119,21 +121,19 @@
 
 - (void)selectPosion:(UIButton *)btn{
     
-    [self boxConfigRequest];
-    
-//    PositionListViewController *flVC = [[PositionListViewController alloc] init];
-//    float version = [UIDevice currentDevice].systemVersion.floatValue;
-//    if (version < 8.0) {
-//        self.modalPresentationStyle = UIModalPresentationCurrentContext;
-//    } else {;
-//        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-//    }
-//    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//    flVC.dataSource = self.dConfigData;
-//    [self presentViewController:flVC animated:YES completion:nil];
-//    flVC.backDatas = ^(NSString *damageIdString) {
-//        [btn setTitle:damageIdString forState:UIControlStateNormal];
-//    };
+    PositionListViewController *flVC = [[PositionListViewController alloc] init];
+    float version = [UIDevice currentDevice].systemVersion.floatValue;
+    if (version < 8.0) {
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    } else {;
+        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    flVC.dataSource = self.dConfigData;
+    [self presentViewController:flVC animated:YES completion:nil];
+    flVC.backDatas = ^(NSString *damageIdString,NSString *name) {
+        [btn setTitle:name forState:UIControlStateNormal];
+    };
 }
 
 - (void)boxConfigRequest
@@ -141,8 +141,7 @@
     GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.currHotelId];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        NSDictionary * dataDict = [response objectForKey:@"result"];
-        NSArray *listArray = [dataDict objectForKey:@"result"];
+        NSArray *listArray = [response objectForKey:@"result"];
         
         for (int i = 0; i < listArray.count; i ++) {
             RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
@@ -256,6 +255,9 @@
         NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
         [_tableView endUpdates];
+        
+        // 请求改酒店版位
+         [self boxConfigRequest];
     };
 }
 

@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-typedef void (^backData)(NSString *damIdString);
+typedef void (^backData)(NSString *damIdString,NSString *name);
 
 @interface PositionListViewController : BaseViewController
 

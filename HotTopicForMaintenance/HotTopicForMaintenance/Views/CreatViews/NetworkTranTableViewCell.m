@@ -88,7 +88,7 @@
                 make.centerY.mas_equalTo(self);
                 make.right.mas_equalTo(- 20);
             }];
-            [self.inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+            [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(100, 20));
                 make.centerY.mas_equalTo(self);
                 make.right.mas_equalTo(- 40);
@@ -108,7 +108,7 @@
             }];
             
         }else{
-            [self.inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+            [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(100, 20));
                 make.centerY.mas_equalTo(self);
                 make.right.mas_equalTo(- 20);
