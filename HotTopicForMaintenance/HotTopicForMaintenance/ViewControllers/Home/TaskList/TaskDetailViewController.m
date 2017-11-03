@@ -292,6 +292,7 @@
         UIButton * okButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"提交" cornerRadius:5.f];
         okButton.layer.borderColor = UIColorFromRGB(0x444444).CGColor;
         okButton.layer.borderWidth = 1.f;
+        [okButton addTarget:_refuseView action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
         [contenView addSubview:okButton];
         [okButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(0);
