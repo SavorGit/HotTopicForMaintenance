@@ -22,6 +22,10 @@
 @property(nonatomic, copy) NSString *addr;
 @property(nonatomic, copy) NSString *area_id;
 
+//酒楼版位列表
+@property(nonatomic, copy) NSString *box_id;
+@property(nonatomic, copy) NSString *box_name;
+
 //酒楼版位信息
 @property(nonatomic, copy) NSString *boxname;
 @property(nonatomic, copy) NSString *last_heart_time;

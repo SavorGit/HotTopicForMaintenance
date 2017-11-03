@@ -11,6 +11,7 @@
 #import "RepairContentTableCell.h"
 #import "PositionListViewController.h"
 #import "DamageConfigRequest.h"
+#import "GetBoxListRequest.h"
 #import "RestaurantRankModel.h"
 #import "RepairContentModel.h"
 #import "SearchHotelViewController.h"
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
+@property (nonatomic, copy) NSString *currHotelId;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) UIView *maskingView;
@@ -42,7 +44,6 @@
     [super viewDidLoad];
     
     self.sectionNum = 1;
-    [self demageConfigRequest];
     [self creatSubViews];
     
     [self initInfor];
@@ -61,6 +62,7 @@
     
     _dConfigData = [[NSMutableArray alloc] init];
     self.titleArray = [[NSMutableArray alloc] init];
+    self.currHotelId = [[NSString alloc] init];
     self.title = @"安装与验收";
     
      NSArray *dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",  nil];
@@ -117,28 +119,30 @@
 
 - (void)selectPosion:(UIButton *)btn{
     
-    PositionListViewController *flVC = [[PositionListViewController alloc] init];
-    float version = [UIDevice currentDevice].systemVersion.floatValue;
-    if (version < 8.0) {
-        self.modalPresentationStyle = UIModalPresentationCurrentContext;
-    } else {;
-        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    }
-    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.dataSource = self.dConfigData;
-    [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSString *damageIdString) {
-        [btn setTitle:damageIdString forState:UIControlStateNormal];
-    };
+    [self boxConfigRequest];
+    
+//    PositionListViewController *flVC = [[PositionListViewController alloc] init];
+//    float version = [UIDevice currentDevice].systemVersion.floatValue;
+//    if (version < 8.0) {
+//        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+//    } else {;
+//        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+//    }
+//    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    flVC.dataSource = self.dConfigData;
+//    [self presentViewController:flVC animated:YES completion:nil];
+//    flVC.backDatas = ^(NSString *damageIdString) {
+//        [btn setTitle:damageIdString forState:UIControlStateNormal];
+//    };
 }
 
-- (void)demageConfigRequest
+- (void)boxConfigRequest
 {
-    DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
+    GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.currHotelId];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSDictionary * dataDict = [response objectForKey:@"result"];
-        NSArray *listArray = [dataDict objectForKey:@"list"];
+        NSArray *listArray = [dataDict objectForKey:@"result"];
         
         for (int i = 0; i < listArray.count; i ++) {
             RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
@@ -171,8 +175,7 @@
     RepairContentModel *tmpModel = self.titleArray[indexPath.row];
     if (indexPath.section == 0) {
         static NSString *cellID = @"RepairHeaderCell";
-        //        RepairTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        RepairHeaderTableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        RepairHeaderTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
             cell = [[RepairHeaderTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
@@ -247,9 +250,12 @@
     [self.navigationController pushViewController:shVC animated:YES];
     shVC.backHotel = ^(RestaurantRankModel *model){
         
-        self.contentArray = [NSArray arrayWithObjects:model.name != nil?model.name:@"",model.contractor != nil?model.contractor:@"",model.mobile != nil?model.mobile:@"",model.addr != nil?model.addr:@"", nil];
+        self.currHotelId = model.cid;
+        self.contentArray = [NSArray arrayWithObjects:model.name != nil?model.name:@"",model.contractor != nil?model.contractor:@"",model.mobile != nil?model.mobile:@"",model.addr != nil?model.addr:@"",@"紧急程度",@"版位数量", nil];
+        [_tableView beginUpdates];
         NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        [_tableView endUpdates];
     };
 }
 

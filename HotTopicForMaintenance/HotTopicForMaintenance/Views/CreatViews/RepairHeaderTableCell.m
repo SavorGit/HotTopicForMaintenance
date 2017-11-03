@@ -15,6 +15,11 @@
 @property (nonatomic, assign) int  posionNum;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
+@property (nonatomic, strong) UIImageView *rightImg;
+@property (nonatomic, strong) UISegmentedControl *segment;
+@property (nonatomic, strong) UIButton *addBtn;
+@property (nonatomic, strong) UIButton *reduceBtn;
+
 @end
 
 @implementation RepairHeaderTableCell
@@ -47,7 +52,7 @@
     self.inPutTextField.textAlignment = NSTextAlignmentRight;
     [self addSubview:self.inPutTextField];
     [self.inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 100, 20));
         make.centerY.mas_equalTo(self);
         make.right.mas_equalTo(- 20);
     }];
@@ -69,19 +74,27 @@
     self.reasonLabel.text = title;
     if (index.row == 0) {
         self.inPutTextField.hidden = YES;
+        self.addBtn.hidden = YES;
+        self.numLabel.hidden = YES;
+        self.reduceBtn.hidden = YES;
+        self.segment.hidden = YES;
         
-        UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectZero];
-        rightImg.contentMode = UIViewContentModeScaleAspectFit;
-        [rightImg setImage:[UIImage imageNamed:@"selected"]];
-        [self addSubview:rightImg];
-        [rightImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.rightImg = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.rightImg.contentMode = UIViewContentModeScaleAspectFit;
+        [self.rightImg setImage:[UIImage imageNamed:@"selected"]];
+        [self addSubview:self.rightImg];
+        [self.rightImg mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(16, 16));
             make.centerY.mas_equalTo(self);
             make.right.mas_equalTo(- 20);
         }];
         
         self.hotelBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.hotelBtn setTitle:@"请选择酒楼" forState:UIControlStateNormal];
+        if (isEmptyString(contenStr)) {
+            [self.hotelBtn setTitle:@"请选择酒楼" forState:UIControlStateNormal];
+        }else{
+            [self.hotelBtn setTitle:contenStr forState:UIControlStateNormal];
+        }
         [self.hotelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.hotelBtn addTarget:self action:@selector(hotelPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.hotelBtn];
@@ -93,12 +106,17 @@
         
     }else if (index.row == 4){
         self.inPutTextField.hidden = YES;
+        self.rightImg.hidden = YES;
+        self.hotelBtn.hidden = YES;
+        self.addBtn.hidden = YES;
+        self.numLabel.hidden = YES;
+        self.reduceBtn.hidden = YES;
         
         NSArray *array = [NSArray arrayWithObjects:@"紧急",@"正常", nil];
-        UISegmentedControl *segment = [[UISegmentedControl alloc]initWithItems:array];
-        [segment addTarget:self action:@selector(change:) forControlEvents:UIControlEventValueChanged];
-        [self addSubview:segment];
-        [segment mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.segment = [[UISegmentedControl alloc]initWithItems:array];
+        [self.segment addTarget:self action:@selector(change:) forControlEvents:UIControlEventValueChanged];
+        [self addSubview:self.segment];
+        [self.segment mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(140, 30));
             make.centerY.mas_equalTo(self);
             make.right.mas_equalTo(- 20);
@@ -106,12 +124,15 @@
         
     }else if (index.row == 5){
         self.inPutTextField.hidden = YES;
+        self.rightImg.hidden = YES;
+        self.hotelBtn.hidden = YES;
+        self.segment.hidden = YES;
         
-        UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        addBtn.backgroundColor = [UIColor blueColor];
-        [addBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:addBtn];
-        [addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.addBtn.backgroundColor = [UIColor blueColor];
+        [self.addBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.addBtn];
+        [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(30, 30));
             make.top.mas_equalTo(10);
             make.right.mas_equalTo(- 145);
@@ -129,18 +150,25 @@
             make.right.mas_equalTo(- 75);
         }];
         
-        UIButton *reduceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        reduceBtn.backgroundColor = [UIColor cyanColor];
-        [reduceBtn addTarget:self action:@selector(reducePress) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:reduceBtn];
-        [reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.reduceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.reduceBtn.backgroundColor = [UIColor cyanColor];
+        [self.reduceBtn addTarget:self action:@selector(reducePress) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.reduceBtn];
+        [self.reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(30, 30));
             make.top.mas_equalTo(10);
             make.right.mas_equalTo(- 35);
         }];
     }else{
+        self.rightImg.hidden = YES;
+        self.hotelBtn.hidden = YES;
+        self.addBtn.hidden = YES;
+        self.numLabel.hidden = YES;
+        self.reduceBtn.hidden = YES;
+        self.segment.hidden = YES;
+        
         [self.inPutTextField mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(100, 20));
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 100, 20));
             make.centerY.mas_equalTo(self);
             make.right.mas_equalTo(- 20);
         }];
