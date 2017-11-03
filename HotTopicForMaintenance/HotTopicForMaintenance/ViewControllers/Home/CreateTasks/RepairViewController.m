@@ -93,8 +93,8 @@
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     flVC.dataSource = self.dConfigData;
     [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSString *damageIdString) {
-        [btn setTitle:damageIdString forState:UIControlStateNormal];
+    flVC.backDatas = ^(NSString *damageIdString ,NSString *name) {
+        [btn setTitle:name forState:UIControlStateNormal];
     };
 }
 

@@ -56,8 +56,8 @@
     _tableView.showsVerticalScrollIndicator = NO;
     [self.bgView addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 160));
-        make.top.mas_equalTo(10);
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 215));
+        make.top.mas_equalTo(15);
         make.left.mas_equalTo(0);
     }];
 }
@@ -107,7 +107,7 @@
     
     RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
     if (_backDatas) {
-        _backDatas(model.cid);
+        _backDatas(model.cid,model.box_name);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     
