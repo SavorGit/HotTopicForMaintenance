@@ -14,12 +14,22 @@
 #import "UserManager.h"
 #import "AssignViewController.h"
 #import "RDTextView.h"
+#import "Helper.h"
+#import "InstallProAlertView.h"
 
 @interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) TaskModel * taskListModel;
+
+@property (nonatomic, strong) UIView *mListView;
+@property (nonatomic, strong) UIImageView *sheetBgView;
+@property (nonatomic, strong) UITextView *remarkTextView;
+@property (nonatomic, strong) UILabel *mReasonLab;
+@property (nonatomic, strong) UIButton * unResolvedBtn;
+@property (nonatomic, strong) UIButton * resolvedBtn;
+@property (nonatomic, strong) UIButton * submitBtn;
 
 @property (nonatomic, strong) UIView * bottomView;
 
@@ -202,13 +212,13 @@
 //安装验收
 - (void)installButtonButtonDidClicked
 {
-    
+    [self creatInstallListView];
 }
 
 //维修
 - (void)repairButtonDidClicked
 {
-    
+    [self creatRepairListView];
 }
 
 //网络改造处理完成
@@ -221,6 +231,258 @@
 - (void)checkButtonButtonDidClicked
 {
     
+}
+
+#pragma mark - 弹出安装验收，网络改造，信息检测窗口
+- (void)creatInstallListView{
+    
+    InstallProAlertView *inPAlertView = [[InstallProAlertView alloc] initWithTotalCount:10];
+    inPAlertView.tag = 2888;
+    inPAlertView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    inPAlertView.userInteractionEnabled = YES;
+//    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+//    self.mListView.bottom = keyWindow.top;
+    [self.view addSubview:inPAlertView];
+    [inPAlertView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64));
+        make.left.right.top.mas_equalTo(0);
+    }];
+}
+
+#pragma mark - 弹出维修窗口
+- (void)creatRepairListView{
+    
+    self.mListView = [[UIView alloc] init];
+    self.mListView.tag = 1888;
+    self.mListView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.mListView.userInteractionEnabled = YES;
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    self.mListView.bottom = keyWindow.top;
+    [self.view addSubview:self.mListView];
+    [self.mListView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
+        make.left.right.top.mas_equalTo(0);
+    }];
+    
+    self.sheetBgView = [[UIImageView alloc] init];
+    float bgVideoHeight = [Helper autoHeightWith:320];
+    float bgVideoWidth = [Helper autoWidthWith:266];
+    self.self.sheetBgView.frame = CGRectZero;
+    self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
+    self.sheetBgView.backgroundColor = [UIColor whiteColor];
+    self.sheetBgView.userInteractionEnabled = YES;
+    self.sheetBgView.layer.borderColor = UIColorFromRGB(0xf6f2ed).CGColor;
+    self.sheetBgView.layer.borderWidth = .5f;
+    self.sheetBgView.layer.cornerRadius = 6.f;
+    self.sheetBgView.layer.masksToBounds = YES;
+    [self.mListView addSubview:self.sheetBgView];
+    [self.sheetBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(bgVideoWidth,bgVideoHeight));
+        make.center.mas_equalTo(self.mListView);
+    }];
+    
+    self.mReasonLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.mReasonLab.backgroundColor = [UIColor clearColor];
+    self.mReasonLab.font = [UIFont systemFontOfSize:14];
+    self.mReasonLab.textColor = [UIColor grayColor];
+    self.mReasonLab.layer.borderWidth = .5f;
+    self.mReasonLab.layer.cornerRadius = 4.f;
+    self.mReasonLab.layer.masksToBounds = YES;
+    self.mReasonLab.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    self.mReasonLab.text = @"  选择版位";
+    self.mReasonLab.textAlignment = NSTextAlignmentLeft;
+    self.mReasonLab.userInteractionEnabled = YES;
+    [self.sheetBgView addSubview:self.mReasonLab];
+    [self.mReasonLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(10);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(bgVideoWidth - 30);
+        make.height.mas_equalTo(30);
+    }];
+    
+    self.unResolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.unResolvedBtn setTitle:@"未解决" forState:UIControlStateNormal];
+    self.unResolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [self.unResolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.unResolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    self.unResolvedBtn.layer.borderWidth = .5f;
+    self.unResolvedBtn.layer.cornerRadius = 2.f;
+    self.unResolvedBtn.layer.masksToBounds = YES;
+    [self.unResolvedBtn addTarget:self action:@selector(unResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:self.unResolvedBtn];
+    [self.unResolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( - (10 + 40));
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(40);
+    }];
+    
+    self.resolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.resolvedBtn setTitle:@"已解决" forState:UIControlStateNormal];
+    self.resolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.resolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [self.resolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.resolvedBtn.layer.borderWidth = .5f;
+    self.resolvedBtn.layer.cornerRadius = 2.f;
+    self.resolvedBtn.layer.masksToBounds = YES;
+    [self.resolvedBtn addTarget:self action:@selector(ResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:self.resolvedBtn];
+    [self.resolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( 10 + 40);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(40);
+    }];
+    
+    self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+    self.remarkTextView.text = @"备注，限制100字";
+    self.remarkTextView.font = [UIFont systemFontOfSize:14];
+    self.remarkTextView.textColor = UIColorFromRGB(0xe0dad2);
+    self.remarkTextView.textAlignment = NSTextAlignmentLeft;
+    self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.remarkTextView.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    self.remarkTextView.layer.borderWidth = 1;
+    self.remarkTextView.layer.cornerRadius =5;
+    self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
+    self.remarkTextView.returnKeyType = UIReturnKeyDefault;
+    self.remarkTextView.scrollEnabled = YES;
+    self.remarkTextView.delegate = self;
+    self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    [self.sheetBgView addSubview:self.remarkTextView];
+    [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.resolvedBtn.mas_bottom).offset(10);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(bgVideoWidth - 30);
+        make.height.mas_equalTo(70);
+    }];
+    
+    UIView *photoBgView = [[UIView alloc] init];
+    photoBgView.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    photoBgView.layer.borderWidth = 1;
+    photoBgView.layer.cornerRadius =5;
+    [self.sheetBgView addSubview:photoBgView];
+    [photoBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(10);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(bgVideoWidth - 30);
+        make.height.mas_equalTo(120);
+    }];
+    
+    UILabel *mTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    mTitleLab.backgroundColor = [UIColor clearColor];
+    mTitleLab.font = [UIFont systemFontOfSize:14];
+    mTitleLab.textColor = [UIColor blackColor];
+    mTitleLab.text = @"最多上传三张照片";
+    mTitleLab.textAlignment = NSTextAlignmentCenter;
+    [photoBgView addSubview:mTitleLab];
+    [mTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(5);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX);
+        make.width.mas_equalTo(bgVideoWidth);
+        make.height.mas_equalTo(20);
+    }];
+    
+    for (int i = 0; i < 3; i ++) {
+        
+        UIImageView *fImageView  = [[UIImageView alloc] init];
+        fImageView.tag = 1999 + i;
+        fImageView.backgroundColor = [UIColor cyanColor];
+        fImageView.userInteractionEnabled = YES;
+        [photoBgView addSubview:fImageView];
+        CGFloat fWidth = (bgVideoWidth - 40 - 30)/3;
+        [fImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(mTitleLab.mas_bottom);
+            make.left.mas_equalTo(10 + (i *10 + i *fWidth));
+            make.width.mas_equalTo(fWidth);
+            make.height.mas_equalTo(110 - 50);
+        }];
+        
+        UIButton *deleteImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        deleteImgBtn.tag = 2999 + i;
+        [deleteImgBtn setTitle:@"删除" forState:UIControlStateNormal];
+        deleteImgBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        deleteImgBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+        [deleteImgBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        deleteImgBtn.layer.borderWidth = .5f;
+        deleteImgBtn.layer.cornerRadius = 2.f;
+        deleteImgBtn.layer.masksToBounds = YES;
+        [deleteImgBtn addTarget:self action:@selector(deleteClicked) forControlEvents:UIControlEventTouchUpInside];
+        [photoBgView addSubview:deleteImgBtn];
+        CGFloat dWidth = (bgVideoWidth - 52 - 30)/3;
+        [deleteImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(fImageView.mas_bottom).offset(5);
+            make.left.mas_equalTo(13 + (i *13 + i *dWidth));
+            make.width.mas_equalTo(dWidth);
+            make.height.mas_equalTo(20);
+        }];
+    }
+    
+    UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    cancelBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [cancelBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    cancelBtn.layer.borderWidth = .5f;
+    cancelBtn.layer.cornerRadius = 2.f;
+    cancelBtn.layer.masksToBounds = YES;
+    [cancelBtn addTarget:self action:@selector(cancelClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:cancelBtn];
+    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(photoBgView.mas_bottom).offset(15);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(30);
+    }];
+    
+    self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    self.submitBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.submitBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [self.submitBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.submitBtn.layer.borderWidth = .5f;
+    self.submitBtn.layer.cornerRadius = 2.f;
+    self.submitBtn.layer.masksToBounds = YES;
+    [self.submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:self.submitBtn];
+    [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(photoBgView.mas_bottom).offset(15);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(30);
+    }];
+    
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mReasonClicked)];
+    tap.numberOfTapsRequired = 1;
+    [self.mReasonLab addGestureRecognizer:tap];
+    
+    UITapGestureRecognizer * mListTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mListClicked)];
+    mListTap.numberOfTapsRequired = 1;
+    [self.mListView addGestureRecognizer:mListTap];
+    
+    [self showViewWithAnimationDuration:.3f];
+    
+}
+
+#pragma mark - show view
+-(void)showViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        self.mListView.bottom = self.view.bottom;
+    } completion:^(BOOL finished) {
+    }];
+}
+
+-(void)dismissViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+        self.mListView.bottom = self.view.top;
+        
+    } completion:^(BOOL finished) {
+        
+        [self.mListView removeFromSuperview];
+        
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

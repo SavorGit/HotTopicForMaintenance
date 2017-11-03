@@ -225,7 +225,7 @@
                 model4.localtion = @"北京市东城区王府井大街新东安广场A123";
                 model4.contacts = @"李师傅";
                 model4.contactWay = @"13012345678";
-                model4.type = TaskType_Repair;
+                model4.type = TaskType_Install;
                 [self.dataSource addObject: model4];
             }
         }
