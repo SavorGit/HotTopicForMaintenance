@@ -48,8 +48,6 @@
     [self presentViewController:login animated:YES completion:^{
         
     }];
-    
-//    [self isUserLogin];
 }
 
 //检测用户当前登录状态

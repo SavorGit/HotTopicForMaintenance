@@ -9,11 +9,16 @@
 #import "BindingPositionViewController.h"
 #import "BindPositionTableViewCell.h"
 #import "HotTopicTools.h"
+#import "DeviceManager.h"
 
 @interface BindingPositionViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
+
+@property (nonatomic, strong) UILabel *hotelLabel;
+@property (nonatomic, strong) UILabel *wifiLabel;
+@property (nonatomic, strong) UILabel *boxLabel;
 
 @end
 
@@ -21,8 +26,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[DeviceManager manager] startSearchDecice];
+    [[DeviceManager manager] startMonitoring];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidSuccess) name:RDSearchDeviceSuccessNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidEnd) name:RDSearchDeviceDidEndNotification object:nil];
+    
     [self creatSubViews];
     // Do any additional setup after loading the view.
+}
+
+//发现了酒楼环境
+- (void)searchDeviceDidSuccess
+{
+    
+}
+
+//搜索设备结束
+- (void)searchDeviceDidEnd
+{
+    
 }
 
 - (void)creatSubViews{
@@ -34,9 +57,7 @@
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = [UIColor whiteColor];
-    _tableView.backgroundView = nil;
-    _tableView.showsVerticalScrollIndicator = NO;
+    _tableView.backgroundColor = VCBackgroundColor;
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64));
@@ -45,30 +66,30 @@
     }];
     
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 100)];
-    headView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    headView.backgroundColor = UIColorFromRGB(0xffffff);
     _tableView.tableHeaderView = headView;
     
-    UILabel *hotelLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:[UIColor blackColor] font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
-    hotelLabel.text = @"当前酒楼：";
-    [headView addSubview:hotelLabel];
-    [hotelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.hotelLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
+    self.hotelLabel.text = @"当前酒楼：";
+    [headView addSubview:self.hotelLabel];
+    [self.hotelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
         make.left.mas_equalTo(15.f);
     }];
     
-    UILabel *wifiLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:[UIColor blackColor] font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
-    wifiLabel.text = @"当前WIFI：";
-    [headView addSubview:wifiLabel];
-    [wifiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(hotelLabel.mas_bottom).offset(10);
+    self.wifiLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
+    self.wifiLabel.text = @"当前WIFI：";
+    [headView addSubview:self.wifiLabel];
+    [self.wifiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.hotelLabel.mas_bottom).offset(10);
         make.left.mas_equalTo(15.f);
     }];
     
-    UILabel *boxLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:[UIColor blackColor] font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
-    boxLabel.text = @"当前机顶盒MAC：";
-    [headView addSubview:boxLabel];
-    [boxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(wifiLabel.mas_bottom).offset(10);
+    self.boxLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
+    self.boxLabel.text = @"当前机顶盒MAC：";
+    [headView addSubview:self.boxLabel];
+    [self.boxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.wifiLabel.mas_bottom).offset(10);
         make.left.mas_equalTo(15.f);
     }];
     
@@ -95,7 +116,6 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    cell.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [cell configWithModel:nil];
     
     return cell;
@@ -115,6 +135,19 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     return 5;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [[DeviceManager manager] stopMonitoring];
+    [[DeviceManager manager] stopSearchDevice];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDSearchDeviceSuccessNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDSearchDeviceDidEndNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

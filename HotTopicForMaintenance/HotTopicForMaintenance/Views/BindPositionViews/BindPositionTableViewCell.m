@@ -36,6 +36,8 @@
 
 - (void)initWithSubView
 {
+    self.contentView.backgroundColor = VCBackgroundColor;
+    
     _bgView = [[UIView alloc] init];
     _bgView.backgroundColor = UIColorFromRGB(0xffffff);
     _bgView.layer.borderColor = UIColorFromRGB(0xeeeeee).CGColor;
@@ -114,15 +116,19 @@
     self.bindBtn.layer.cornerRadius = 5.f;
     self.bindBtn.layer.masksToBounds = YES;
     [self.bindBtn setTitle:@"绑定" forState:UIControlStateNormal];
-    [self.bindBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.bindBtn addTarget:self action:@selector(selectImageFromCamera) forControlEvents:UIControlEventTouchUpInside];
+    [self.bindBtn setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
+    [self.bindBtn addTarget:self action:@selector(bindButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:self.bindBtn];
     [self.bindBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 35));
         make.centerY.mas_equalTo(_bgView.mas_centerY);
         make.right.mas_equalTo(_bgView.mas_right).offset(- 15);
     }];
+}
 
+- (void)bindButtonDidBeClicked
+{
+    
 }
 
 - (void)configWithModel:(RestaurantRankModel *)model{
