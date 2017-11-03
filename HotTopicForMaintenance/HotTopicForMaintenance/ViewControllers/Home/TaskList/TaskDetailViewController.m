@@ -22,6 +22,8 @@
 
 @property (nonatomic, strong) UIView * bottomView;
 
+@property (nonatomic, strong) UITextView * refuseTextView;
+
 @end
 
 @implementation TaskDetailViewController
@@ -124,7 +126,7 @@
                 [repairButton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(0);
                     make.left.mas_equalTo(15.f * scale);
-                    make.width.mas_equalTo(15.f * scale);
+                    make.right.mas_equalTo(-15.f * scale);
                     make.height.mas_equalTo(44.f * scale);
                 }];
             }else if (self.taskListModel.type == TaskType_Install) {
@@ -134,7 +136,7 @@
                 [installButton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(0);
                     make.left.mas_equalTo(15.f * scale);
-                    make.width.mas_equalTo(15.f * scale);
+                    make.right.mas_equalTo(-15.f * scale);
                     make.height.mas_equalTo(44.f * scale);
                 }];
             }else if (self.taskListModel.type == TaskType_NetTransform) {
@@ -144,7 +146,7 @@
                 [netWorkButton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(0);
                     make.left.mas_equalTo(15.f * scale);
-                    make.width.mas_equalTo(15.f * scale);
+                    make.right.mas_equalTo(-15.f * scale);
                     make.height.mas_equalTo(44.f * scale);
                 }];
             }else if (self.taskListModel.type == TaskType_InfoCheck) {
@@ -154,7 +156,7 @@
                 [checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(0);
                     make.left.mas_equalTo(15.f * scale);
-                    make.width.mas_equalTo(15.f * scale);
+                    make.right.mas_equalTo(-15.f * scale);
                     make.height.mas_equalTo(44.f * scale);
                 }];
             }
@@ -179,6 +181,13 @@
 //拒绝
 - (void)refuseButtonDidClicked
 {
+    UIView * backView = [[UIView alloc] initWithFrame:CGRectZero];
+    backView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6f];
+    [self.navigationController.view addSubview:backView];
+    [backView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    
     
 }
 
@@ -258,6 +267,14 @@
         }
         [self.dataSource addObject:model];
     }
+}
+
+- (UITextView *)refuseTextView
+{
+    if (!_refuseTextView) {
+        
+    }
+    return _refuseTextView;
 }
 
 - (void)didReceiveMemoryWarning {
