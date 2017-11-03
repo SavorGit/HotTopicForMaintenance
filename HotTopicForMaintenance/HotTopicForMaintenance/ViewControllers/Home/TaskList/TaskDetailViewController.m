@@ -23,6 +23,7 @@
 
 @property (nonatomic, strong) UIView * bottomView;
 
+//点击拒绝的弹窗
 @property (nonatomic, strong) UIView * refuseView;
 @property (nonatomic, strong) RDTextView * refuseTextView;
 
@@ -92,75 +93,84 @@
 - (void)createRolesHandleView
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
+    
     switch ([UserManager manager].user.roletype) {
         case UserRoleType_AssignTask:
             
         {
-            UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"去指派" cornerRadius:5.f];
-            [assignButton addTarget:self action:@selector(assignButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-            [self.bottomView addSubview:assignButton];
-            [assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.mas_equalTo(0);
-                make.left.mas_equalTo(15.f * scale);
-                make.width.mas_equalTo(225.f * scale);
-                make.height.mas_equalTo(44.f * scale);
-            }];
-            
-            UIButton * refuseButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0xf54444) title:@"拒绝" cornerRadius:5.f];
-            [refuseButton addTarget:self action:@selector(refuseButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-            [self.bottomView addSubview:refuseButton];
-            [refuseButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.mas_equalTo(0);
-                make.right.mas_equalTo(-15.f * scale);
-                make.width.mas_equalTo(110.f * scale);
-                make.height.mas_equalTo(44.f * scale);
-            }];
+            if (self.taskListModel.statusType == TaskStatusType_WaitAssign) {
+                UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"去指派" cornerRadius:5.f];
+                [assignButton addTarget:self action:@selector(assignButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                [self.bottomView addSubview:assignButton];
+                [assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.mas_equalTo(0);
+                    make.left.mas_equalTo(15.f * scale);
+                    make.width.mas_equalTo(225.f * scale);
+                    make.height.mas_equalTo(44.f * scale);
+                }];
+                
+                UIButton * refuseButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0xf54444) title:@"拒绝" cornerRadius:5.f];
+                [refuseButton addTarget:self action:@selector(refuseButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                [self.bottomView addSubview:refuseButton];
+                [refuseButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.mas_equalTo(0);
+                    make.right.mas_equalTo(-15.f * scale);
+                    make.width.mas_equalTo(110.f * scale);
+                    make.height.mas_equalTo(44.f * scale);
+                }];
+            }else{
+                [self.bottomView removeFromSuperview];
+            }
         }
             
             break;
             
         case UserRoleType_HandleTask:
         {
-            if (self.taskListModel.type == TaskType_Repair) {
-                UIButton * repairButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"维修" cornerRadius:5.f];
-                [repairButton addTarget:self action:@selector(repairButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-                [self.bottomView addSubview:repairButton];
-                [repairButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerY.mas_equalTo(0);
-                    make.left.mas_equalTo(15.f * scale);
-                    make.right.mas_equalTo(-15.f * scale);
-                    make.height.mas_equalTo(44.f * scale);
-                }];
-            }else if (self.taskListModel.type == TaskType_Install) {
-                UIButton * installButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"安装验收" cornerRadius:5.f];
-                [installButton addTarget:self action:@selector(installButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-                [self.bottomView addSubview:installButton];
-                [installButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerY.mas_equalTo(0);
-                    make.left.mas_equalTo(15.f * scale);
-                    make.right.mas_equalTo(-15.f * scale);
-                    make.height.mas_equalTo(44.f * scale);
-                }];
-            }else if (self.taskListModel.type == TaskType_NetTransform) {
-                UIButton * netWorkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
-                [netWorkButton addTarget:self action:@selector(netWorkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-                [self.bottomView addSubview:netWorkButton];
-                [netWorkButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerY.mas_equalTo(0);
-                    make.left.mas_equalTo(15.f * scale);
-                    make.right.mas_equalTo(-15.f * scale);
-                    make.height.mas_equalTo(44.f * scale);
-                }];
-            }else if (self.taskListModel.type == TaskType_InfoCheck) {
-                UIButton * checkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
-                [checkButton addTarget:self action:@selector(checkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-                [self.bottomView addSubview:checkButton];
-                [checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerY.mas_equalTo(0);
-                    make.left.mas_equalTo(15.f * scale);
-                    make.right.mas_equalTo(-15.f * scale);
-                    make.height.mas_equalTo(44.f * scale);
-                }];
+            if (self.taskListModel.statusType == TaskStatusType_WaitHandle) {
+                if (self.taskListModel.type == TaskType_Repair) {
+                    UIButton * repairButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"维修" cornerRadius:5.f];
+                    [repairButton addTarget:self action:@selector(repairButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                    [self.bottomView addSubview:repairButton];
+                    [repairButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.centerY.mas_equalTo(0);
+                        make.left.mas_equalTo(15.f * scale);
+                        make.right.mas_equalTo(-15.f * scale);
+                        make.height.mas_equalTo(44.f * scale);
+                    }];
+                }else if (self.taskListModel.type == TaskType_Install) {
+                    UIButton * installButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"安装验收" cornerRadius:5.f];
+                    [installButton addTarget:self action:@selector(installButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                    [self.bottomView addSubview:installButton];
+                    [installButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.centerY.mas_equalTo(0);
+                        make.left.mas_equalTo(15.f * scale);
+                        make.right.mas_equalTo(-15.f * scale);
+                        make.height.mas_equalTo(44.f * scale);
+                    }];
+                }else if (self.taskListModel.type == TaskType_NetTransform) {
+                    UIButton * netWorkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
+                    [netWorkButton addTarget:self action:@selector(netWorkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                    [self.bottomView addSubview:netWorkButton];
+                    [netWorkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.centerY.mas_equalTo(0);
+                        make.left.mas_equalTo(15.f * scale);
+                        make.right.mas_equalTo(-15.f * scale);
+                        make.height.mas_equalTo(44.f * scale);
+                    }];
+                }else if (self.taskListModel.type == TaskType_InfoCheck) {
+                    UIButton * checkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
+                    [checkButton addTarget:self action:@selector(checkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                    [self.bottomView addSubview:checkButton];
+                    [checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.centerY.mas_equalTo(0);
+                        make.left.mas_equalTo(15.f * scale);
+                        make.right.mas_equalTo(-15.f * scale);
+                        make.height.mas_equalTo(44.f * scale);
+                    }];
+                }
+            }else{
+                [self.bottomView removeFromSuperview];
             }
         }
             break;
@@ -183,7 +193,7 @@
 //拒绝
 - (void)refuseButtonDidClicked
 {
-    [self.navigationController.view addSubview:self.refuseView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.refuseView];
     [self.refuseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];

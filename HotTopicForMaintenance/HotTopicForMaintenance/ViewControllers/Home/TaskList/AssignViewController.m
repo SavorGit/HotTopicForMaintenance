@@ -156,7 +156,7 @@
 
 - (void)timeViewDidTap
 {
-    [self.navigationController.view addSubview:self.blackView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.blackView];
 }
 
 - (void)dateDidBeChoose
