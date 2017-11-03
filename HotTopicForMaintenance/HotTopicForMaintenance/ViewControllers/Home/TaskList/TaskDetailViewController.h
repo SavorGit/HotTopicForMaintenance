@@ -7,10 +7,10 @@
 //
 
 #import "BaseViewController.h"
-#import "TaskListModel.h"
+#import "TaskModel.h"
 
 @interface TaskDetailViewController : BaseViewController
 
-- (instancetype)initWithTaskListModel:(TaskListModel *)model;
+- (instancetype)initWithTaskModel:(TaskModel *)model;
 
 @end

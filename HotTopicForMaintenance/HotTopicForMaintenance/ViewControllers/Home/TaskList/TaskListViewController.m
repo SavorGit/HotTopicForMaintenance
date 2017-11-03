@@ -7,7 +7,7 @@
 //
 
 #import "TaskListViewController.h"
-#import "TaskListModel.h"
+#import "TaskModel.h"
 #import "TaskListTableViewCell.h"
 #import "TaskDetailViewController.h"
 
@@ -54,8 +54,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TaskListModel * model = [self.dataSource objectAtIndex:indexPath.section];
-    TaskDetailViewController * vc = [[TaskDetailViewController alloc] initWithTaskListModel:model];
+    TaskModel * model = [self.dataSource objectAtIndex:indexPath.section];
+    TaskDetailViewController * vc = [[TaskDetailViewController alloc] initWithTaskModel:model];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -71,10 +71,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TaskListModel * model = [self.dataSource objectAtIndex:indexPath.section];
+    TaskModel * model = [self.dataSource objectAtIndex:indexPath.section];
     
     TaskListTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TaskListTableViewCell" forIndexPath:indexPath];
-    [cell configWithTaskListModel:model];
+    [cell configWithTaskModel:model];
     
     return cell;
 }
@@ -91,23 +91,23 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TaskListModel * model = [self.dataSource objectAtIndex:indexPath.section];
+    TaskModel * model = [self.dataSource objectAtIndex:indexPath.section];
     
     CGFloat scale = kMainBoundsWidth / 375.f;
-    switch (model.type) {
-        case 1:
+    switch (model.statusType) {
+        case TaskStatusType_WaitAssign:
             return 134.f * scale + 1;
             break;
             
-        case 2:
+        case TaskStatusType_WaitHandle:
             return 182.f * scale + 3;
             break;
             
-        case 3:
+        case TaskStatusType_Completed:
             return 206.f * scale + 4;
             break;
             
-        case 4:
+        case TaskStatusType_Refuse:
             return 158.f * scale + 2;
             break;
             
@@ -128,8 +128,8 @@
         {
             for (NSInteger i = 0; i < 5; i++) {
                 
-                TaskListModel * model1 = [[TaskListModel alloc] init];
-                model1.type = 3;
+                TaskModel * model1 = [[TaskModel alloc] init];
+                model1.statusType = 3;
                 model1.status = @"已完成";
                 model1.handleName = @"维修";
                 model1.cityName = @"北京";
@@ -145,8 +145,8 @@
                 model1.contactWay = @"13012345678";
                 [self.dataSource addObject: model1];
                 
-                TaskListModel * model2 = [[TaskListModel alloc] init];
-                model2.type = 4;
+                TaskModel * model2 = [[TaskModel alloc] init];
+                model2.statusType = 4;
                 model2.status = @"已拒绝";
                 model2.handleName = @"安装";
                 model2.cityName = @"北京";
@@ -159,8 +159,8 @@
                 model2.contactWay = @"13012345678";
                 [self.dataSource addObject: model2];
                 
-                TaskListModel * model3 = [[TaskListModel alloc] init];
-                model3.type = 1;
+                TaskModel * model3 = [[TaskModel alloc] init];
+                model3.statusType = 1;
                 model3.status = @"待指派";
                 model3.handleName = @"网络";
                 model3.cityName = @"北京";
@@ -171,8 +171,8 @@
                 model3.contactWay = @"13012345678";
                 [self.dataSource addObject: model3];
                 
-                TaskListModel * model4 = [[TaskListModel alloc] init];
-                model4.type = 2;
+                TaskModel * model4 = [[TaskModel alloc] init];
+                model4.statusType = 2;
                 model4.status = @"待处理";
                 model4.handleName = @"检测";
                 model4.cityName = @"北京";
@@ -193,8 +193,8 @@
             
         {
             for (NSInteger i = 0; i < 20; i++) {
-                TaskListModel * model3 = [[TaskListModel alloc] init];
-                model3.type = 1;
+                TaskModel * model3 = [[TaskModel alloc] init];
+                model3.statusType = 1;
                 model3.status = @"待指派";
                 model3.handleName = @"网络";
                 model3.cityName = @"北京";
@@ -213,8 +213,8 @@
             
         {
             for (NSInteger i = 0; i < 20; i++) {
-                TaskListModel * model4 = [[TaskListModel alloc] init];
-                model4.type = 2;
+                TaskModel * model4 = [[TaskModel alloc] init];
+                model4.statusType = 2;
                 model4.status = @"待处理";
                 model4.handleName = @"检测";
                 model4.cityName = @"北京";
@@ -235,8 +235,8 @@
             
         {
             for (NSInteger i = 0; i < 20; i++) {
-                TaskListModel * model1 = [[TaskListModel alloc] init];
-                model1.type = 3;
+                TaskModel * model1 = [[TaskModel alloc] init];
+                model1.statusType = 3;
                 model1.status = @"已完成";
                 model1.handleName = @"维修";
                 model1.cityName = @"北京";

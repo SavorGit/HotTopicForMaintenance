@@ -90,7 +90,7 @@
     if (isEmptyString(model.repair_error)) {
         self.recordLabel.text = @"维修记录：无";
     }else{
-        self.recordLabel.text = [@"维修记录：" stringByAppendingString:model.repair_error];
+        self.recordLabel.text = [NSString stringWithFormat:@"维修记录：%@", model.repair_error];
     }
     
     if (isEmptyString(model.remark)) {
@@ -99,7 +99,7 @@
         }];
         self.remarkLabel.text = @"备注：无";
     }else{
-        NSString * str = [@"备注：" stringByAppendingString:model.remark];
+        NSString * str = [NSString stringWithFormat:@"备注：%@", model.remark];
         
         CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 20 title:str font:kPingFangRegular(14)];
         [self.remarkLabel mas_updateConstraints:^(MASConstraintMaker *make) {

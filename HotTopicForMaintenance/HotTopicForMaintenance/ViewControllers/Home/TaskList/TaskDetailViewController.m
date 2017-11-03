@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
-@property (nonatomic, strong) TaskListModel * taskListModel;
+@property (nonatomic, strong) TaskModel * taskListModel;
 
 @property (nonatomic, strong) UIView * bottomView;
 
@@ -26,7 +26,7 @@
 
 @implementation TaskDetailViewController
 
-- (instancetype)initWithTaskListModel:(TaskListModel *)model
+- (instancetype)initWithTaskModel:(TaskModel *)model
 {
     if (self = [super init]) {
         self.taskListModel = model;
@@ -54,7 +54,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    TaskDetailView * view = [[TaskDetailView alloc] initWithTaskListModel:self.taskListModel];
+    TaskDetailView * view = [[TaskDetailView alloc] initWithTaskModel:self.taskListModel];
     self.tableView.tableHeaderView = view;
     
     [self.view addSubview:self.tableView];
@@ -103,6 +103,7 @@
             }];
             
             UIButton * refuseButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0xf54444) title:@"拒绝" cornerRadius:5.f];
+            [refuseButton addTarget:self action:@selector(refuseButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.bottomView addSubview:refuseButton];
             [refuseButton mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.mas_equalTo(0);
@@ -114,15 +115,95 @@
             
             break;
             
+        case UserRoleType_HandleTask:
+        {
+            if (self.taskListModel.type == TaskType_Repair) {
+                UIButton * repairButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"维修" cornerRadius:5.f];
+                [repairButton addTarget:self action:@selector(repairButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                [self.bottomView addSubview:repairButton];
+                [repairButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.mas_equalTo(0);
+                    make.left.mas_equalTo(15.f * scale);
+                    make.width.mas_equalTo(15.f * scale);
+                    make.height.mas_equalTo(44.f * scale);
+                }];
+            }else if (self.taskListModel.type == TaskType_Install) {
+                UIButton * installButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"安装验收" cornerRadius:5.f];
+                [installButton addTarget:self action:@selector(installButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                [self.bottomView addSubview:installButton];
+                [installButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.mas_equalTo(0);
+                    make.left.mas_equalTo(15.f * scale);
+                    make.width.mas_equalTo(15.f * scale);
+                    make.height.mas_equalTo(44.f * scale);
+                }];
+            }else if (self.taskListModel.type == TaskType_NetTransform) {
+                UIButton * netWorkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
+                [netWorkButton addTarget:self action:@selector(netWorkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                [self.bottomView addSubview:netWorkButton];
+                [netWorkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.mas_equalTo(0);
+                    make.left.mas_equalTo(15.f * scale);
+                    make.width.mas_equalTo(15.f * scale);
+                    make.height.mas_equalTo(44.f * scale);
+                }];
+            }else if (self.taskListModel.type == TaskType_InfoCheck) {
+                UIButton * checkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
+                [checkButton addTarget:self action:@selector(checkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+                [self.bottomView addSubview:checkButton];
+                [checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.mas_equalTo(0);
+                    make.left.mas_equalTo(15.f * scale);
+                    make.width.mas_equalTo(15.f * scale);
+                    make.height.mas_equalTo(44.f * scale);
+                }];
+            }
+        }
+            break;
+            
         default:
+            
+            [self.bottomView removeFromSuperview];
+            
             break;
     }
 }
 
+//去指派
 - (void)assignButtonDidClicked
 {
     AssignViewController * vc = [[AssignViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+//拒绝
+- (void)refuseButtonDidClicked
+{
+    
+}
+
+//安装验收
+- (void)installButtonButtonDidClicked
+{
+    
+}
+
+//维修
+- (void)repairButtonDidClicked
+{
+    
+}
+
+//网络改造处理完成
+- (void)netWorkButtonButtonDidClicked
+{
+    
+}
+
+//信息检测
+- (void)checkButtonButtonDidClicked
+{
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

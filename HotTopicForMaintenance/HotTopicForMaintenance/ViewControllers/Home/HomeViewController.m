@@ -23,6 +23,8 @@
 #import "TaskPageViewController.h"
 #import "SystemStatusController.h"
 #import "BindingPositionViewController.h"
+#import "UserCityViewController.h"
+#import "BaseNavigationController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -43,7 +45,7 @@
     [self setupDatas];
     
     UserLoginViewController * login = [[UserLoginViewController alloc] init];
-    [self.navigationController presentViewController:login animated:YES completion:^{
+    [self presentViewController:login animated:YES completion:^{
         
     }];
     
@@ -55,13 +57,82 @@
 {
     if (![UserManager manager].isUserLoginStatusEnable) {
         UserLoginViewController * login = [[UserLoginViewController alloc] init];
-        [self.navigationController presentViewController:login animated:YES completion:^{
+        [self presentViewController:login animated:YES completion:^{
             
         }];
     }else{
         [self cheakUserNotification];
     }
     [self.userInfoView reloadUserInfo];
+    
+    MenuModel * createModel = [[MenuModel alloc] initWithMenuType:MenuModelType_CreateTask];
+    MenuModel * tasklistModel = [[MenuModel alloc] initWithMenuType:MenuModelType_TaskList];
+    MenuModel * repairModel = [[MenuModel alloc] initWithMenuType:MenuModelType_RepairRecord];
+    MenuModel * reportModel = [[MenuModel alloc] initWithMenuType:MenuModelType_ErrorReport];
+    MenuModel * systemModel = [[MenuModel alloc] initWithMenuType:MenuModelType_SystemStatus];
+    MenuModel * bindDeviceModel = [[MenuModel alloc] initWithMenuType:MenuModelType_BindDevice];
+    MenuModel * myTaskModel = [[MenuModel alloc] initWithMenuType:MenuModelType_MyTask];
+    
+    [self.dataSource removeAllObjects];
+    switch ([UserManager manager].user.roletype) {
+        case UserRoleType_CreateTask:
+            
+        {
+            [self.dataSource addObjectsFromArray:@[createModel, tasklistModel, systemModel, reportModel, repairModel]];
+        }
+            
+            break;
+            
+        case UserRoleType_AssignTask:
+            
+        {
+            [self.dataSource addObjectsFromArray:@[tasklistModel, systemModel, reportModel, repairModel]];
+        }
+            
+            break;
+            
+        case UserRoleType_HandleTask:
+            
+        {
+            [self.dataSource addObjectsFromArray:@[myTaskModel, systemModel, reportModel, repairModel, bindDeviceModel]];
+        }
+            
+            break;
+            
+        case UserRoleType_LookTask:
+            
+        {
+            [self.dataSource addObjectsFromArray:@[tasklistModel, systemModel, reportModel, repairModel]];
+        }
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (self.dataSource.count % 2 != 0) {
+        [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_Space]];
+    }
+    
+    [self.collectionView reloadData];
+    [self autoCollectionViewSize];
+    
+    [self configCityName];
+}
+
+- (void)configCityName
+{
+    NSString * cityName = [UserManager manager].user.currentCity.region_name;
+    
+    cityName = [cityName stringByReplacingOccurrencesOfString:@"市" withString:@""];
+    
+    if (cityName.length == 3) {
+        self.cityButton.titleLabel.font = kPingFangMedium(12);
+    }else{
+        self.cityButton.titleLabel.font = kPingFangMedium(16);
+    }
+    [self.cityButton setTitle:cityName forState:UIControlStateNormal];
 }
 
 //布局views
@@ -117,8 +188,8 @@
     [self.cityButton setTitle:@"北京" forState:UIControlStateNormal];
     [self.cityButton setImage:[UIImage imageNamed:@"ywsy_csxl"] forState:UIControlStateNormal];
     [self.cityButton setAdjustsImageWhenHighlighted:NO];
-    [self.cityButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -7, 0, 18)];
-    [self.cityButton setImageEdgeInsets:UIEdgeInsetsMake(0, 44, 0, 0)];
+    [self.cityButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -15, 0, 18)];
+    [self.cityButton setImageEdgeInsets:UIEdgeInsetsMake(0, 40, 0, 0)];
     [self.cityButton addTarget:self action:@selector(cityButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cityButton];
     
@@ -178,16 +249,6 @@
         make.height.mas_equalTo(kMainBoundsHeight - kStatusBarHeight - kNaviBarHeight - 50);
     }];
     
-    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_CreateTask]];
-    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_TaskList]];
-    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_RepairRecord]];
-    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_ErrorReport]];
-    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_SystemStatus]];
-    [self.dataSource addObject:[[MenuModel alloc] initWithMenuType:MenuModelType_BindDevice]];
-    [self.collectionView reloadData];
-    
-    [self autoCollectionViewSize];
-    
     self.userInfoView = [[HomeUserInfoView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:self.userInfoView];
     [self.userInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -198,12 +259,25 @@
 
 - (void)cityButtonDidClicked
 {
-    
+    if ([UserManager manager].user.cityArray.count >= 2) {
+        UserCityViewController * vc = [[UserCityViewController alloc] init];
+        BaseNavigationController * na = [[BaseNavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:na animated:YES completion:^{
+            
+        }];
+    }else{
+        [MBProgressHUD showTextHUDWithText:@"您只拥有本城市权限" inView:self.view];
+    }
 }
 
 - (void)autoCollectionViewSize
 {
-    NSInteger numberLines = self.dataSource.count / 2;
+    NSInteger numberLines;
+    if (self.dataSource.count % 2 == 0) {
+        numberLines = self.dataSource.count / 2;
+    }else{
+        numberLines = self.dataSource.count / 2 + 1;
+    }
     CGFloat totalHeight = (kMainBoundsWidth / 2 / 374 * 320 + 1.f) * numberLines - 1;
     CGFloat maxHeight = kMainBoundsHeight - kStatusBarHeight - kNaviBarHeight - 50;
     self.collectionView.bounces = YES;
@@ -265,6 +339,13 @@
         }
             break;
             
+        case MenuModelType_MyTask:
+        {
+            TaskPageViewController * vc = [[TaskPageViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
         case MenuModelType_ErrorReport:
         {
             ErrorReportViewController * vc = [[ErrorReportViewController alloc] init];
@@ -319,6 +400,7 @@
 - (void)setupDatas
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(isUserLogin) name:RDUserLoginStatusDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configCityName) name:RDUserCityDidChangeNotification object:nil];
 }
 
 - (void)cheakUserNotification
@@ -344,6 +426,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserCityDidChangeNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

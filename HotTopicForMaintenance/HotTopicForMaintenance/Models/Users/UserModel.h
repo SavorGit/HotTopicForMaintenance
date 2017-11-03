@@ -7,6 +7,8 @@
 //
 
 #import "Jastor.h"
+#import "CityModel.h"
+#import "SkillModel.h"
 
 typedef enum : NSUInteger {
     UserRoleType_CreateTask = 1,
@@ -14,6 +16,8 @@ typedef enum : NSUInteger {
     UserRoleType_HandleTask = 3,
     UserRoleType_LookTask = 4
 } UserRoleType;
+
+extern NSString * const RDUserCityDidChangeNotification; //已经连接至设备
 
 @interface UserModel : Jastor
 
@@ -23,5 +27,12 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) UserRoleType roletype;
 @property (nonatomic, copy) NSString * roleName;
+
+@property (nonatomic, assign) NSInteger is_lead_install;
+
+@property (nonatomic, strong) CityModel * currentCity;
+
+@property (nonatomic, strong) NSMutableArray<CityModel *> * cityArray;
+@property (nonatomic, strong) NSMutableArray<SkillModel *> * skillArray;
 
 @end

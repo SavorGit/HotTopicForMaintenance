@@ -35,6 +35,9 @@
 		066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */; };
 		066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA55C1F6012500054264C /* ErrorDetailModel.m */; };
 		066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5631F602FBF0054264C /* CheckUpdateRequest.m */; };
+		0677AC071FAB168800D494FE /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC061FAB168800D494FE /* CityModel.m */; };
+		0677AC0A1FAB169B00D494FE /* SkillModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC091FAB169B00D494FE /* SkillModel.m */; };
+		0677AC0D1FAB427200D494FE /* UserCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC0C1FAB427200D494FE /* UserCityViewController.m */; };
 		068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 068E65C01F616B4900644CE6 /* UserNotificationModel.m */; };
 		069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C381B1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m */; };
 		069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */; };
@@ -182,6 +185,12 @@
 		066EA55C1F6012500054264C /* ErrorDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailModel.m; sourceTree = "<group>"; };
 		066EA5621F602FBF0054264C /* CheckUpdateRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckUpdateRequest.h; sourceTree = "<group>"; };
 		066EA5631F602FBF0054264C /* CheckUpdateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUpdateRequest.m; sourceTree = "<group>"; };
+		0677AC051FAB168800D494FE /* CityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CityModel.h; sourceTree = "<group>"; };
+		0677AC061FAB168800D494FE /* CityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
+		0677AC081FAB169B00D494FE /* SkillModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillModel.h; sourceTree = "<group>"; };
+		0677AC091FAB169B00D494FE /* SkillModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkillModel.m; sourceTree = "<group>"; };
+		0677AC0B1FAB427200D494FE /* UserCityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCityViewController.h; sourceTree = "<group>"; };
+		0677AC0C1FAB427200D494FE /* UserCityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserCityViewController.m; sourceTree = "<group>"; };
 		068E65BF1F616B4900644CE6 /* UserNotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotificationModel.h; sourceTree = "<group>"; };
 		068E65C01F616B4900644CE6 /* UserNotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotificationModel.m; sourceTree = "<group>"; };
 		069C381A1FA8127A003F92EF /* HomeBadgeCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeBadgeCollectionViewCell.h; sourceTree = "<group>"; };
@@ -439,6 +448,17 @@
 			path = UMessage_Sdk_1.5.0;
 			sourceTree = "<group>";
 		};
+		0677AC041FAB167400D494FE /* Roles */ = {
+			isa = PBXGroup;
+			children = (
+				0677AC051FAB168800D494FE /* CityModel.h */,
+				0677AC061FAB168800D494FE /* CityModel.m */,
+				0677AC081FAB169B00D494FE /* SkillModel.h */,
+				0677AC091FAB169B00D494FE /* SkillModel.m */,
+			);
+			path = Roles;
+			sourceTree = "<group>";
+		};
 		069C385B1FA85A59003F92EF /* CreateTasks */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +548,8 @@
 			children = (
 				06B055C71F5D1C4E00A9CE68 /* UserLoginViewController.h */,
 				06B055C81F5D1C4E00A9CE68 /* UserLoginViewController.m */,
+				0677AC0B1FAB427200D494FE /* UserCityViewController.h */,
+				0677AC0C1FAB427200D494FE /* UserCityViewController.m */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -729,6 +751,7 @@
 		06ECDC801F596BFB007FBD83 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0677AC041FAB167400D494FE /* Roles */,
 				069C38621FA85C16003F92EF /* Task */,
 				06338BB61FA1C6F1003775B5 /* Home */,
 				96AA199D1F5FC39700C06CE8 /* HoteRankModel */,
@@ -1120,6 +1143,7 @@
 				06B055DE1F5D498000A9CE68 /* UserManager.m in Sources */,
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
 				068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */,
+				0677AC0D1FAB427200D494FE /* UserCityViewController.m in Sources */,
 				96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */,
 				069C38651FA85C26003F92EF /* TaskModel.m in Sources */,
 				96AA19BF1F6626B900C06CE8 /* RDFrequentlyUsed.m in Sources */,
@@ -1172,6 +1196,7 @@
 				066EA5541F6010830054264C /* ErrorDetailViewController.m in Sources */,
 				06B055ED1F5D56CF00A9CE68 /* BaseNavigationController.m in Sources */,
 				06C44C0B1FA9F7000050FDBC /* DeviceFaultTableViewCell.m in Sources */,
+				0677AC0A1FAB169B00D494FE /* SkillModel.m in Sources */,
 				069C38701FA873E2003F92EF /* TaskPageViewController.m in Sources */,
 				06A3DBEC1FA6CC6C0047EE5E /* HomeCollectionViewCell.m in Sources */,
 				96AA19A01F5FC39700C06CE8 /* RestaurantRankModel.m in Sources */,
@@ -1198,6 +1223,7 @@
 				06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */,
 				06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */,
 				96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */,
+				0677AC071FAB168800D494FE /* CityModel.m in Sources */,
 				06B055D51F5D47EC00A9CE68 /* Helper.m in Sources */,
 				969A3C3B1FA99C6400EB95C9 /* RepairViewController.m in Sources */,
 				969A3C4D1FAAAF7200EB95C9 /* RepairContentTableCell.m in Sources */,

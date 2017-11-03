@@ -55,7 +55,7 @@
     }];
 }
 
-- (void)configWithModel:(TaskModel *)model
+- (void)configWithModel:(TaskListModel *)model
 {
     self.typeDescLabel.text = model.type_Desc;
     self.typeLogoLabel.text = model.logo_Desc;

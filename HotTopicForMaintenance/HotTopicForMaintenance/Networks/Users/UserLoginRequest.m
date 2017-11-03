@@ -14,7 +14,7 @@
 - (instancetype)initWithName:(NSString *)name password:(NSString *)password
 {
     if (self = [super init]) {
-        self.methodName = [@"Opclient/login/doLogin?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Opclient11/login/doLogin?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         [self setValue:name forParamKey:@"username"];
         [self setValue:password forParamKey:@"password"];

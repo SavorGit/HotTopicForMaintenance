@@ -7,24 +7,14 @@
 //
 
 #import "Jastor.h"
+#import "TaskModel.h"
 
 @interface TaskListModel : Jastor
 
-@property (nonatomic, assign) NSInteger type;
-@property (nonatomic, copy) NSString * handleName;
-@property (nonatomic, copy) NSString * status;
-@property (nonatomic, copy) NSString * remark;
-@property (nonatomic, copy) NSString * cityName;
-@property (nonatomic, copy) NSString * hotelName;
-@property (nonatomic, copy) NSString * deviceNumber;
-@property (nonatomic, copy) NSString * assignHandleTime;
-@property (nonatomic, copy) NSString * createTime;
-@property (nonatomic, copy) NSString * assignTime;
-@property (nonatomic, copy) NSString * completeTime;
-@property (nonatomic, copy) NSString * refuseTime;
+- (instancetype)initWithType:(TaskType)type;
 
-@property (nonatomic, copy) NSString * localtion;
-@property (nonatomic, copy) NSString * contacts;
-@property (nonatomic, copy) NSString * contactWay;
+@property (nonatomic, assign) TaskType type;
+@property (nonatomic, copy) NSString * type_Desc;
+@property (nonatomic, copy) NSString * logo_Desc;
 
 @end

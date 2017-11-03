@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TaskListModel.h"
+#import "TaskModel.h"
 
 @interface TaskListTableViewCell : UITableViewCell
 
-- (void)configWithTaskListModel:(TaskListModel *)model;
+- (void)configWithTaskModel:(TaskModel *)model;
 
 @end

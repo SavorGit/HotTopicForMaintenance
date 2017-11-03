@@ -71,6 +71,13 @@
             
             break;
             
+        case MenuModelType_Space:
+            
+            self.title = @"";
+            self.imageName = @"";
+            
+            break;
+            
         default:
             break;
     }
