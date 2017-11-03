@@ -92,6 +92,7 @@
 		969A3C531FAAF72C00EB95C9 /* RepairContentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C521FAAF72C00EB95C9 /* RepairContentModel.m */; };
 		969A3C571FAB324F00EB95C9 /* BindingPositionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C561FAB324F00EB95C9 /* BindingPositionViewController.m */; };
 		969A3C5B1FAB32D100EB95C9 /* BindPositionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C5A1FAB32D100EB95C9 /* BindPositionTableViewCell.m */; };
+		969A3C631FAC407D00EB95C9 /* GetBoxListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C621FAC407C00EB95C9 /* GetBoxListRequest.m */; };
 		96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19851F5FC38100C06CE8 /* FaultListViewController.m */; };
 		96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19871F5FC38100C06CE8 /* lookRestaurInforViewController.m */; };
 		96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19891F5FC38100C06CE8 /* RestaurantRankInforViewController.m */; };
@@ -308,6 +309,8 @@
 		969A3C561FAB324F00EB95C9 /* BindingPositionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BindingPositionViewController.m; sourceTree = "<group>"; };
 		969A3C591FAB32D100EB95C9 /* BindPositionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BindPositionTableViewCell.h; sourceTree = "<group>"; };
 		969A3C5A1FAB32D100EB95C9 /* BindPositionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BindPositionTableViewCell.m; sourceTree = "<group>"; };
+		969A3C611FAC407C00EB95C9 /* GetBoxListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetBoxListRequest.h; sourceTree = "<group>"; };
+		969A3C621FAC407C00EB95C9 /* GetBoxListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetBoxListRequest.m; sourceTree = "<group>"; };
 		96AA19841F5FC38100C06CE8 /* FaultListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaultListViewController.h; sourceTree = "<group>"; };
 		96AA19851F5FC38100C06CE8 /* FaultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaultListViewController.m; sourceTree = "<group>"; };
 		96AA19861F5FC38100C06CE8 /* lookRestaurInforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookRestaurInforViewController.h; sourceTree = "<group>"; };
@@ -794,6 +797,7 @@
 		06ECDC821F596C1E007FBD83 /* Networks */ = {
 			isa = PBXGroup;
 			children = (
+				969A3C601FAC407C00EB95C9 /* CreateTasksNet */,
 				96AA19A11F5FC97900C06CE8 /* HotelRankNet */,
 				06356D411F5D962300242940 /* Hotels */,
 				06B055CE1F5D466400A9CE68 /* Users */,
@@ -868,6 +872,15 @@
 				969A3C5A1FAB32D100EB95C9 /* BindPositionTableViewCell.m */,
 			);
 			path = BindPositionViews;
+			sourceTree = "<group>";
+		};
+		969A3C601FAC407C00EB95C9 /* CreateTasksNet */ = {
+			isa = PBXGroup;
+			children = (
+				969A3C611FAC407C00EB95C9 /* GetBoxListRequest.h */,
+				969A3C621FAC407C00EB95C9 /* GetBoxListRequest.m */,
+			);
+			path = CreateTasksNet;
 			sourceTree = "<group>";
 		};
 		96AA19831F5FC38100C06CE8 /* HotesRankInfor */ = {
@@ -1198,6 +1211,7 @@
 				06338BB51FA1B9A9003775B5 /* AutoEnableView.m in Sources */,
 				066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */,
 				969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */,
+				969A3C631FAC407D00EB95C9 /* GetBoxListRequest.m in Sources */,
 				069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */,
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
