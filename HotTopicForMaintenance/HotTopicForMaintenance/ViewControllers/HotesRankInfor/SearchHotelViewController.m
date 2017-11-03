@@ -7,7 +7,6 @@
 //
 
 #import "SearchHotelViewController.h"
-#import "RestaurantRankModel.h"
 #import "SearchTableViewCell.h"
 #import "RestaurantRankInforViewController.h"
 #import "SearchHotelRequest.h"
@@ -197,7 +196,7 @@
     RestaurantRankModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
     if (self.classType == 1) {
         if (_backHotel) {
-            _backHotel(tmpModel.name,tmpModel.cid);
+            _backHotel(tmpModel);
         }
         [self.navigationController popViewControllerAnimated:YES];
     }else{

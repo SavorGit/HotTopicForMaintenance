@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RestaurantRankModel.h"
 
 @interface BindPositionTableViewCell : UITableViewCell
+
+- (void)configWithModel:(RestaurantRankModel *)model;
 
 @end

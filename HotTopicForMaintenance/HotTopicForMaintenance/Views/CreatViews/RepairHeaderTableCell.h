@@ -20,6 +20,8 @@
 @property (nonatomic, weak) id <RepairHeaderTableDelegate> delegate;
 
 @property (nonatomic, strong) UIButton *hotelBtn;
+@property (nonatomic, strong) UITextField *inPutTextField;
+
 - (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;
 
 @end

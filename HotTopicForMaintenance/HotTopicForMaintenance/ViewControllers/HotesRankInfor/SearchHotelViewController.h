@@ -7,8 +7,9 @@
 //
 
 #import "BaseViewController.h"
+#import "RestaurantRankModel.h"
 
-typedef void (^backHotelValue)(NSString *hotelName , NSString *hotelId);
+typedef void (^backHotelValue)(RestaurantRankModel *model);
 @interface SearchHotelViewController : BaseViewController
 
 @property(nonatomic, copy) backHotelValue backHotel;

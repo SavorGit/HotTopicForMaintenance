@@ -17,6 +17,10 @@
 //搜索酒楼
 @property (nonatomic, copy) NSString * cid;//非服务器返回
 @property(nonatomic, copy) NSString *name;
+@property(nonatomic, copy) NSString *contractor;
+@property(nonatomic, copy) NSString *mobile;
+@property(nonatomic, copy) NSString *addr;
+@property(nonatomic, copy) NSString *area_id;
 
 //酒楼版位信息
 @property(nonatomic, copy) NSString *boxname;

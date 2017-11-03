@@ -17,6 +17,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface InstallAndAcceptViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate>
 {
@@ -25,6 +26,7 @@
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * titleArray; //表项标题
+@property (nonatomic, strong) NSArray * contentArray; //表项标题
 @property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
@@ -178,7 +180,7 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-        [cell configWithTitle:tmpModel.title andContent:@"俏江南" andIdexPath:indexPath];
+        [cell configWithTitle:tmpModel.title andContent:self.contentArray[indexPath.row] andIdexPath:indexPath];
         return cell;
     }else {
         
@@ -243,12 +245,11 @@
     
     SearchHotelViewController *shVC = [[SearchHotelViewController alloc] initWithClassType:1];
     [self.navigationController pushViewController:shVC animated:YES];
-    shVC.backHotel = ^(NSString *hotelName, NSString *hotelId){
+    shVC.backHotel = ^(RestaurantRankModel *model){
         
-        RepairHeaderTableCell *cell = [_tableView cellForRowAtIndexPath:index];
-        if (!isEmptyString(hotelName)) {
-            [cell.hotelBtn setTitle:hotelName forState:UIControlStateNormal];
-        }
+        self.contentArray = [NSArray arrayWithObjects:model.name != nil?model.name:@"",model.contractor != nil?model.contractor:@"",model.mobile != nil?model.mobile:@"",model.addr != nil?model.addr:@"", nil];
+        NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
+        [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
     };
 }
 
@@ -256,18 +257,7 @@
     
     self.indexPath = index;
     
-    NSString *mediaType = AVMediaTypeVideo;//读取媒体类型
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];//读取设备授权状态
-    if(authStatus == AVAuthorizationStatusRestricted){
-        NSLog(@"设置-常用-访问限制里面不让使用相机");
-    }else if (authStatus == AVAuthorizationStatusDenied){
-        NSLog(@"设置-隐私里面不让使用相机");
-    }else if (authStatus == AVAuthorizationStatusAuthorized){
-        NSLog(@"正常使用相机");
-        [self creatMaskingView];
-    }else if (authStatus == AVAuthorizationStatusNotDetermined){
-        NSLog(@"在模拟器上会出现这种情况，应该是不支持的问题");
-    }
+    [self creatMaskingView];
 }
 
 - (void)creatMaskingView{
