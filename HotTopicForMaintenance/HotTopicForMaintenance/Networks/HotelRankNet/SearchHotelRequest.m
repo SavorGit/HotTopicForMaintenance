@@ -8,17 +8,19 @@
 
 #import "SearchHotelRequest.h"
 #import "Helper.h"
+#import "UserManager.h"
 
 @implementation SearchHotelRequest
 
-- (instancetype)initWithHotelName:(NSString *)hotelName
+- (instancetype)initWithHotelName:(NSString *)hotelName;
 {
     if (self = [super init]) {
-        self.methodName = [@"Opclient/hotel/searchHotel?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Opclient11/Hotel/searchHotel?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         if (!isEmptyString(hotelName)) {
             [self setValue:hotelName forParamKey:@"hotel_name"];
         }
+        [self setValue:[UserManager manager].user.currentCity.cid forParamKey:@"area_id"];
     }
     return self;
 }

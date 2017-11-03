@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) UILabel *reasonLabel;
 @property (nonatomic, strong) UILabel *numLabel;
-@property (nonatomic, strong) UITextField *inPutTextField;
 @property (nonatomic, assign) int  posionNum;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
