@@ -13,6 +13,7 @@
 #import "CheckUpdateRequest.h"
 #import "Helper.h"
 #import "RDAlertView.h"
+#import <AliyunOSSiOS/OSSService.h>
 
 @implementation HotTopicTools
 
@@ -231,6 +232,50 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
     }
     
+}
+
++ (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
+{
+    NSString *endpoint = AliynEndPoint;
+    
+    OSSClientConfiguration * conf = [OSSClientConfiguration new];
+    conf.maxRetryCount = 3; // 网络请求遇到异常失败后的重试次数
+    
+    // 由阿里云颁发的AccessKeyId/AccessKeySecret构造一个CredentialProvider。
+    // 明文设置secret的方式建议只在测试时使用，更多鉴权模式请参考后面的访问控制章节。
+    id<OSSCredentialProvider> credential = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:AliyunAccessKeyID secretKey:AliyunAccessKeySecret];
+    OSSClient * client = [[OSSClient alloc] initWithEndpoint:endpoint credentialProvider:credential clientConfiguration:conf];
+    
+    OSSPutObjectRequest * put = [OSSPutObjectRequest new];
+    put.bucketName = AliyunBucketName;
+    put.objectKey = [NSString stringWithFormat:@"log/mobile/ios/MaintenanceImage/%@/%@", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], path];
+    put.uploadingData = UIImageJPEGRepresentation(image, 1);
+    put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        if (progress) {
+             progress(bytesSent, totalBytesSent, totalBytesExpectedToSend);
+        }
+    };
+    OSSTask * putTask = [client putObject:put];
+    [putTask continueWithBlock:^id _Nullable(OSSTask * _Nonnull task) {
+        if (task.error) {
+            if (failureBlock) {
+                failureBlock();
+            }
+        }else{
+            if (successBlock) {
+                successBlock([AliynEndPoint stringByAppendingString:put.objectKey]);
+            }
+        }
+        return nil;
+    }];
+}
+
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
+{
+    for (NSInteger i = 0; i < images.count; i++) {
+        UIImage * image = [images objectAtIndex:i];
+        [self uploadImage:image withPath:[path stringByAppendingFormat:@"%ld.jpg", i] progress:progress success:successBlock failure:failureBlock];
+    }
 }
 
 @end

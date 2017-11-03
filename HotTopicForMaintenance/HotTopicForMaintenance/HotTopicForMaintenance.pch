@@ -34,6 +34,9 @@
 //-------------------友盟-------------------------
 #define UmengAppkey @"59b1260a734be41803000022"
 
+#define AliyunAccessKeyID @"LTAI6QZ3c2qBvmjs"
+#define AliyunAccessKeySecret @"bvE6fELl7Dgiyb5z2rP4tuYWZrQGzM"
+
 #define kVersionCode 2017090701
 
 #define keychainID @"HotTopicsForMaintenanceKeychainID"

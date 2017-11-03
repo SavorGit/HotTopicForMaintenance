@@ -10,7 +10,7 @@
 #import "UserModel.h"
 #import "UserNotificationModel.h"
 
-extern NSString * const RDUserLoginStatusDidChange; //已经连接至设备
+extern NSString * const RDUserLoginStatusDidChange; //用户登录状态改变
 
 @interface UserManager : NSObject
 
