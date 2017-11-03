@@ -13,6 +13,7 @@
 #import "HotTopicTools.h"
 #import "UserManager.h"
 #import "AssignViewController.h"
+#import "RDTextView.h"
 
 @interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -21,6 +22,9 @@
 @property (nonatomic, strong) TaskModel * taskListModel;
 
 @property (nonatomic, strong) UIView * bottomView;
+
+@property (nonatomic, strong) UIView * refuseView;
+@property (nonatomic, strong) RDTextView * refuseTextView;
 
 @end
 
@@ -124,7 +128,7 @@
                 [repairButton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(0);
                     make.left.mas_equalTo(15.f * scale);
-                    make.width.mas_equalTo(15.f * scale);
+                    make.right.mas_equalTo(-15.f * scale);
                     make.height.mas_equalTo(44.f * scale);
                 }];
             }else if (self.taskListModel.type == TaskType_Install) {
@@ -134,7 +138,7 @@
                 [installButton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(0);
                     make.left.mas_equalTo(15.f * scale);
-                    make.width.mas_equalTo(15.f * scale);
+                    make.right.mas_equalTo(-15.f * scale);
                     make.height.mas_equalTo(44.f * scale);
                 }];
             }else if (self.taskListModel.type == TaskType_NetTransform) {
@@ -144,7 +148,7 @@
                 [netWorkButton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(0);
                     make.left.mas_equalTo(15.f * scale);
-                    make.width.mas_equalTo(15.f * scale);
+                    make.right.mas_equalTo(-15.f * scale);
                     make.height.mas_equalTo(44.f * scale);
                 }];
             }else if (self.taskListModel.type == TaskType_InfoCheck) {
@@ -154,7 +158,7 @@
                 [checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(0);
                     make.left.mas_equalTo(15.f * scale);
-                    make.width.mas_equalTo(15.f * scale);
+                    make.right.mas_equalTo(-15.f * scale);
                     make.height.mas_equalTo(44.f * scale);
                 }];
             }
@@ -179,7 +183,10 @@
 //拒绝
 - (void)refuseButtonDidClicked
 {
-    
+    [self.navigationController.view addSubview:self.refuseView];
+    [self.refuseView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
 }
 
 //安装验收
@@ -258,6 +265,43 @@
         }
         [self.dataSource addObject:model];
     }
+}
+
+- (UIView *)refuseView
+{
+    if (!_refuseView) {
+        _refuseView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _refuseView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6f];
+        
+        UIView * contenView = [[UIView alloc] initWithFrame:CGRectMake(30, kMainBoundsHeight / 10, kMainBoundsWidth - 60, kMainBoundsHeight / 3)];
+        contenView.backgroundColor = UIColorFromRGB(0xffffff);
+        [_refuseView addSubview:contenView];
+        contenView.layer.cornerRadius = 10.f;
+        contenView.layer.masksToBounds = YES;
+        
+        self.refuseTextView = [[RDTextView alloc] initWithFrame:CGRectMake(10, 10, contenView.frame.size.width - 20, contenView.frame.size.height - 70)];
+        self.refuseTextView.placeholder = @"请输入拒绝原因(例如：已经与业务人员沟通，版位正常)";
+        self.refuseTextView.font = kPingFangRegular(16);
+        self.refuseTextView.textColor = UIColorFromRGB(0x333333);
+        self.refuseTextView.layer.cornerRadius = 5.f;
+        self.refuseTextView.layer.masksToBounds = YES;
+        self.refuseTextView.layer.borderColor = [[UIColor grayColor] colorWithAlphaComponent:.3f].CGColor;
+        self.refuseTextView.layer.borderWidth = 1.f;
+        [contenView addSubview:self.refuseTextView];
+        
+        UIButton * okButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"提交" cornerRadius:5.f];
+        okButton.layer.borderColor = UIColorFromRGB(0x444444).CGColor;
+        okButton.layer.borderWidth = 1.f;
+        [okButton addTarget:_refuseView action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+        [contenView addSubview:okButton];
+        [okButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(0);
+            make.bottom.mas_equalTo(-10.f);
+            make.width.mas_equalTo(80);
+            make.height.mas_equalTo(40);
+        }];
+    }
+    return _refuseView;
 }
 
 - (void)didReceiveMemoryWarning {
