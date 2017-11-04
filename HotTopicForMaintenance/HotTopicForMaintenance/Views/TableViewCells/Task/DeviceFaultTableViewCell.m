@@ -138,7 +138,7 @@
     }else{
         self.isBigPhoto = YES;
         self.bigScrollView.zoomScale = 1.f;
-        [self.bigImageView sd_setImageWithURL:[NSURL URLWithString:self.model.imageURL] placeholderImage:[UIImage new] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        [self.bigImageView sd_setImageWithURL:[NSURL URLWithString:self.model.fault_image_url] placeholderImage:[UIImage new] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             
             CGFloat scale = self.bigScrollView.frame.size.width / self.bigScrollView.frame.size.height;
             CGFloat imageScale = image.size.width / image.size.height;
@@ -166,12 +166,12 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     self.model = model;
-    if (isEmptyString(model.imageURL)) {
+    if (isEmptyString(model.fault_image_url)) {
         [self.photoImageView removeFromSuperview];
         self.photoLabel.text = @"故障照片：无";
     }else{
         self.photoLabel.text = @"故障照片：";
-        [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:model.imageURL]];
+        [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:model.fault_image_url]];
         if (!self.photoImageView.superview) {
             [self.baseView addSubview:self.photoImageView];
             [self.photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -183,8 +183,8 @@
         }
     }
     
-    self.nameLabel.text = [NSString stringWithFormat:@"版位名称：%@", model.name];
-    self.descLabel.text = [NSString stringWithFormat:@"故障现象：%@", model.desc];
+    self.nameLabel.text = [NSString stringWithFormat:@"版位名称：%@", model.box_name];
+    self.descLabel.text = [NSString stringWithFormat:@"故障现象：%@", model.fault_desc];
     
     CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 54.f * scale title:self.descLabel.text font:self.descLabel.font];
     [self.descLabel mas_updateConstraints:^(MASConstraintMaker *make) {
