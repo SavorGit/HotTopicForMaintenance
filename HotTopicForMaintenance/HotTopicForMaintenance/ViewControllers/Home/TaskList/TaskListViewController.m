@@ -13,6 +13,7 @@
 #import "MJRefresh.h"
 #import "AssignRoleTaskListRequest.h"
 #import "CreateRoleTasklistRequest.h"
+#import "HandleRoleListRequest.h"
 #import "UserManager.h"
 
 @interface TaskListViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -257,6 +258,13 @@
         case UserRoleType_AssignTask:
         {
             AssignRoleTaskListRequest * list = [[AssignRoleTaskListRequest alloc] initWithPage:page state:self.taskType userID:[UserManager manager].user.userid];
+            [list sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:businessFailureBlock];
+        }
+            break;
+            
+        case UserRoleType_HandleTask:
+        {
+            HandleRoleListRequest * list = [[HandleRoleListRequest alloc] initWithPage:page state:self.taskType userID:[UserManager manager].user.userid];
             [list sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:businessFailureBlock];
         }
             break;
