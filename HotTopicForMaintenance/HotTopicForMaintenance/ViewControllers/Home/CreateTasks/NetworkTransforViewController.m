@@ -8,6 +8,7 @@
 
 #import "NetworkTransforViewController.h"
 #import "NetworkTranTableViewCell.h"
+#import "PubTaskRequest.h"
 
 @interface NetworkTransforViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -22,6 +23,7 @@
     [super viewDidLoad];
     
     [self creatSubViews];
+    [self subMitDataRequest];
     // Do any additional setup after loading the view.
 }
 
@@ -46,6 +48,19 @@
     
 }
 
+- (void)subMitDataRequest
+{
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"6",@"hotel_id",@"2",@"task_emerge",@"3",@"task_type", nil];
+    PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary *dic = [response objectForKey:@"result"];
+        
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    }];
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

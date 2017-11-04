@@ -98,6 +98,7 @@
 		969A3C631FAC407D00EB95C9 /* GetBoxListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C621FAC407C00EB95C9 /* GetBoxListRequest.m */; };
 		969A3C721FAC7A1700EB95C9 /* InstallAlerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C701FAC7A1600EB95C9 /* InstallAlerTableViewCell.m */; };
 		969A3C751FAC7A3500EB95C9 /* InstallProAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C731FAC7A3500EB95C9 /* InstallProAlertView.m */; };
+		969A3C781FAD651100EB95C9 /* PubTaskRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C771FAD651100EB95C9 /* PubTaskRequest.m */; };
 		96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19851F5FC38100C06CE8 /* FaultListViewController.m */; };
 		96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19871F5FC38100C06CE8 /* lookRestaurInforViewController.m */; };
 		96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19891F5FC38100C06CE8 /* RestaurantRankInforViewController.m */; };
@@ -326,6 +327,8 @@
 		969A3C711FAC7A1700EB95C9 /* InstallAlerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallAlerTableViewCell.h; sourceTree = "<group>"; };
 		969A3C731FAC7A3500EB95C9 /* InstallProAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallProAlertView.m; sourceTree = "<group>"; };
 		969A3C741FAC7A3500EB95C9 /* InstallProAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallProAlertView.h; sourceTree = "<group>"; };
+		969A3C761FAD651100EB95C9 /* PubTaskRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubTaskRequest.h; sourceTree = "<group>"; };
+		969A3C771FAD651100EB95C9 /* PubTaskRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PubTaskRequest.m; sourceTree = "<group>"; };
 		96AA19841F5FC38100C06CE8 /* FaultListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaultListViewController.h; sourceTree = "<group>"; };
 		96AA19851F5FC38100C06CE8 /* FaultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaultListViewController.m; sourceTree = "<group>"; };
 		96AA19861F5FC38100C06CE8 /* lookRestaurInforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookRestaurInforViewController.h; sourceTree = "<group>"; };
@@ -920,6 +923,8 @@
 			children = (
 				969A3C611FAC407C00EB95C9 /* GetBoxListRequest.h */,
 				969A3C621FAC407C00EB95C9 /* GetBoxListRequest.m */,
+				969A3C761FAD651100EB95C9 /* PubTaskRequest.h */,
+				969A3C771FAD651100EB95C9 /* PubTaskRequest.m */,
 			);
 			path = CreateTasksNet;
 			sourceTree = "<group>";
@@ -1236,6 +1241,7 @@
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
 				96AA19B31F600C8A00C06CE8 /* LookHotelInforModel.m in Sources */,
+				969A3C781FAD651100EB95C9 /* PubTaskRequest.m in Sources */,
 				06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */,
 				96AA19B01F5FF0C800C06CE8 /* LookHotelInforRequest.m in Sources */,
 				06ECDC911F596DCD007FBD83 /* DesUtil.m in Sources */,
