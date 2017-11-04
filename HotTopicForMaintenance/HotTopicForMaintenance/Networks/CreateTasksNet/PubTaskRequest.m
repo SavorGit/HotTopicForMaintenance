@@ -25,6 +25,9 @@
         if (!isEmptyString([dataDic objectForKey:@"task_type"])) {
             [self setValue:[dataDic objectForKey:@"task_type"] forParamKey:@"task_type"];
         }
+        if (!isEmptyString([dataDic objectForKey:@"publish_user_id"])) {
+            [self setValue:[dataDic objectForKey:@"publish_user_id"] forParamKey:@"publish_user_id"];
+        }
         
         // 选填
         if (!isEmptyString([dataDic objectForKey:@"addr"])) {
@@ -41,6 +44,9 @@
         }
         if (!isEmptyString([dataDic objectForKey:@"tv_nums"])) {
             [self setValue:[dataDic objectForKey:@"tv_nums"] forParamKey:@"tv_nums"];
+        }
+        if (!isEmptyString([dataDic objectForKey:@"repair_info"])) {
+            [self setValue:[dataDic objectForKey:@"repair_info"] forParamKey:@"repair_info"];
         }
     }
     return self;

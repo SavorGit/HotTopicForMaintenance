@@ -10,4 +10,6 @@
 
 @interface NetworkTransforViewController : BaseViewController
 
+-(instancetype)initWithTaskType:(NSInteger )taskType;
+
 @end

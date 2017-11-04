@@ -94,11 +94,11 @@
         InstallAndAcceptViewController *ia = [[InstallAndAcceptViewController alloc] init];
         [self.navigationController pushViewController:ia animated:YES];
     }else if (indexPath.section == 1){
-        NetworkTransforViewController *nt = [[NetworkTransforViewController alloc] init];
-        [self.navigationController pushViewController:nt animated:YES];
-    }else if (indexPath.section == 2){
         inforDetectionViewController *iv = [[inforDetectionViewController alloc] init];
         [self.navigationController pushViewController:iv animated:YES];
+    }else if (indexPath.section == 2){
+        NetworkTransforViewController *nt = [[NetworkTransforViewController alloc] initWithTaskType:4];
+        [self.navigationController pushViewController:nt animated:YES];
     }else if (indexPath.section == 3){
         RepairViewController *rc = [[RepairViewController alloc] init];
         [self.navigationController pushViewController:rc animated:YES];

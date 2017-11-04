@@ -44,6 +44,27 @@
     
 }
 
+//- (void)subMitDataRequest
+//{
+//    NSDictionary *repairInforDicOne = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"这这是测试",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
+//    NSDictionary *repairInforDic = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"电源坏掉了",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
+//    NSArray *repairArray = [NSArray arrayWithObjects:repairInforDic,repairInforDicOne, nil];
+//    
+//    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",@"7",@"task_type",[UserManager manager].user.userid,@"publish_user_id",[repairArray toReadableJSONString],@"repair_info",@"永峰写字楼",@"addr",@"独孤求败",@"contractor",@"18500000000",@"mobile", nil];
+//    PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
+//    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+//        
+//        NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
+//        if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
+//            [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+//        }
+//        
+//    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+//        
+//    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+//        
+//    }];
+//}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
