@@ -8,8 +8,11 @@
 
 #import "TaskPageViewController.h"
 #import "TaskListViewController.h"
+#import "UserManager.h"
 
 @interface TaskPageViewController ()<WMPageControllerDataSource>
+
+@property (nonatomic, strong) NSArray * taskListTypeArray;
 
 @end
 
@@ -19,6 +22,13 @@
 {
     NSArray * vcArray = @[[TaskListViewController class],[TaskListViewController class],[TaskListViewController class], [TaskListViewController class]];
     NSArray * titleArray = @[@"全部", @"待指派", @"待处理", @"已完成"];
+    self.taskListTypeArray = @[@(TaskListType_All), @(TaskListType_WaitAssign), @(TaskListType_WaitHandle), @(TaskListType_Completed)];
+    
+    if ([UserManager manager].user.roletype == UserRoleType_HandleTask) {
+        vcArray = @[[TaskListViewController class],[TaskListViewController class],[TaskListViewController class]];
+        titleArray = @[@"全部", @"待处理", @"已完成"];
+        self.taskListTypeArray = @[@(TaskListType_All), @(TaskListType_WaitHandle), @(TaskListType_Completed)];
+    }
     
     if (self = [super initWithViewControllerClasses:vcArray andTheirTitles:titleArray]) {
         [self configPageController];
@@ -83,7 +93,8 @@
 
 - (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index
 {
-    return [[TaskListViewController alloc] initWithTaskListType:index];
+    TaskListType type = [[self.taskListTypeArray objectAtIndex:index] integerValue];
+    return [[TaskListViewController alloc] initWithTaskListType:type];
 }
 
 - (void)navBackButtonClicked:(UIButton *)sender {

@@ -10,4 +10,9 @@
 
 @implementation TaskModel
 
+-(NSDictionary *)attrMapDict{
+    
+    return @{@"cid":@"id"};
+}
+
 @end

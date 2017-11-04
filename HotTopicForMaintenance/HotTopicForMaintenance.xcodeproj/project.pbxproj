@@ -66,6 +66,7 @@
 		06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055F71F5D57A700A9CE68 /* HomeViewController.m */; };
 		06B055FC1F5D58A200A9CE68 /* HomeUserInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B055FB1F5D58A200A9CE68 /* HomeUserInfoView.m */; };
 		06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B056011F5D599500A9CE68 /* HotTopicTools.m */; };
+		06B4A6451FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4A6441FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.m */; };
 		06C44BFB1FA9A1DF0050FDBC /* TaskListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C44BFA1FA9A1DF0050FDBC /* TaskListTableViewCell.m */; };
 		06C44BFE1FA9A2A50050FDBC /* TaskListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C44BFD1FA9A2A50050FDBC /* TaskListModel.m */; };
 		06C44C011FA9E1540050FDBC /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C44C001FA9E1540050FDBC /* TaskDetailViewController.m */; };
@@ -254,6 +255,8 @@
 		06B055FB1F5D58A200A9CE68 /* HomeUserInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeUserInfoView.m; sourceTree = "<group>"; };
 		06B056001F5D599500A9CE68 /* HotTopicTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotTopicTools.h; sourceTree = "<group>"; };
 		06B056011F5D599500A9CE68 /* HotTopicTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotTopicTools.m; sourceTree = "<group>"; };
+		06B4A6431FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssignRoleTaskListRequest.h; sourceTree = "<group>"; };
+		06B4A6441FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignRoleTaskListRequest.m; sourceTree = "<group>"; };
 		06C44BF91FA9A1DF0050FDBC /* TaskListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListTableViewCell.h; sourceTree = "<group>"; };
 		06C44BFA1FA9A1DF0050FDBC /* TaskListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListTableViewCell.m; sourceTree = "<group>"; };
 		06C44BFC1FA9A2A50050FDBC /* TaskListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListModel.h; sourceTree = "<group>"; };
@@ -701,6 +704,15 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		06B4A6421FAD5C220081BBA7 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				06B4A6431FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.h */,
+				06B4A6441FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.m */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
 		06C44C021FA9E2840050FDBC /* TaskList */ = {
 			isa = PBXGroup;
 			children = (
@@ -825,6 +837,7 @@
 		06ECDC821F596C1E007FBD83 /* Networks */ = {
 			isa = PBXGroup;
 			children = (
+				06B4A6421FAD5C220081BBA7 /* Task */,
 				969A3C601FAC407C00EB95C9 /* CreateTasksNet */,
 				96AA19A11F5FC97900C06CE8 /* HotelRankNet */,
 				06356D411F5D962300242940 /* Hotels */,
@@ -1203,6 +1216,7 @@
 				96AA19BF1F6626B900C06CE8 /* RDFrequentlyUsed.m in Sources */,
 				969A3C351FA995E900EB95C9 /* NetworkTranTableViewCell.m in Sources */,
 				969A3C751FAC7A3500EB95C9 /* InstallProAlertView.m in Sources */,
+				06B4A6451FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.m in Sources */,
 				06B056021F5D599500A9CE68 /* HotTopicTools.m in Sources */,
 				969A3C5B1FAB32D100EB95C9 /* BindPositionTableViewCell.m in Sources */,
 				96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */,

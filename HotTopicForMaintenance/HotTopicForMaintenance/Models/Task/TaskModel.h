@@ -26,6 +26,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) TaskType type;
 @property (nonatomic, assign) TaskStatusType statusType;
+@property (nonatomic, copy) NSString * cid;
 @property (nonatomic, copy) NSString * handleName;
 @property (nonatomic, copy) NSString * status;
 @property (nonatomic, copy) NSString * remark;
