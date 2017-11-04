@@ -31,7 +31,7 @@ NSString * const RDUserLoginStatusDidChange = @"RDUserLoginStatusDidChange";
 {
     if (_user != user) {
         _user = user;
-        user.roletype = UserRoleType_CreateTask;
+//        user.roletype = UserRoleType_CreateTask;
         [[NSNotificationCenter defaultCenter] postNotificationName:RDUserLoginStatusDidChange object:nil];
     }
 }

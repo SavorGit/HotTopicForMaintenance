@@ -16,9 +16,11 @@
 #import "RDTextView.h"
 #import "Helper.h"
 #import "InstallProAlertView.h"
+#import "TaskListDetailRequest.h"
 
 @interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate>
 
+@property (nonatomic, copy) NSString * taskID;
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) TaskModel * taskListModel;
@@ -43,10 +45,10 @@
 
 @implementation TaskDetailViewController
 
-- (instancetype)initWithTaskModel:(TaskModel *)model
+- (instancetype)initWithTaskID:(NSString *)taskID
 {
     if (self = [super init]) {
-        self.taskListModel = model;
+        self.taskID = taskID;
     }
     return self;
 }
@@ -55,14 +57,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.title = @"任务详情";
     [self setupDatas];
-    [self setupViews];
+//    [self setupViews];
 }
 
 - (void)setupViews
 {
-    self.title = @"任务详情";
-    
     //tableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight) style:UITableViewStyleGrouped];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -110,7 +111,7 @@
         case UserRoleType_AssignTask:
             
         {
-            if (self.taskListModel.statusType == TaskStatusType_WaitAssign) {
+            if (self.taskListModel.state_id == TaskStatusType_WaitAssign) {
                 UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"去指派" cornerRadius:5.f];
                 [assignButton addTarget:self action:@selector(assignButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
                 [self.bottomView addSubview:assignButton];
@@ -139,8 +140,8 @@
             
         case UserRoleType_HandleTask:
         {
-            if (self.taskListModel.statusType == TaskStatusType_WaitHandle) {
-                if (self.taskListModel.type == TaskType_Repair) {
+            if (self.taskListModel.state_id == TaskStatusType_WaitHandle) {
+                if (self.taskListModel.task_type_id == TaskType_Repair) {
                     UIButton * repairButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"维修" cornerRadius:5.f];
                     [repairButton addTarget:self action:@selector(repairButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
                     [self.bottomView addSubview:repairButton];
@@ -150,7 +151,7 @@
                         make.right.mas_equalTo(-15.f * scale);
                         make.height.mas_equalTo(44.f * scale);
                     }];
-                }else if (self.taskListModel.type == TaskType_Install) {
+                }else if (self.taskListModel.task_type_id == TaskType_Install) {
                     UIButton * installButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"安装验收" cornerRadius:5.f];
                     [installButton addTarget:self action:@selector(installButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
                     [self.bottomView addSubview:installButton];
@@ -160,7 +161,7 @@
                         make.right.mas_equalTo(-15.f * scale);
                         make.height.mas_equalTo(44.f * scale);
                     }];
-                }else if (self.taskListModel.type == TaskType_NetTransform) {
+                }else if (self.taskListModel.task_type_id == TaskType_NetTransform) {
                     UIButton * netWorkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
                     [netWorkButton addTarget:self action:@selector(netWorkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
                     [self.bottomView addSubview:netWorkButton];
@@ -170,7 +171,7 @@
                         make.right.mas_equalTo(-15.f * scale);
                         make.height.mas_equalTo(44.f * scale);
                     }];
-                }else if (self.taskListModel.type == TaskType_InfoCheck) {
+                }else if (self.taskListModel.task_type_id == TaskType_InfoCheck) {
                     UIButton * checkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
                     [checkButton addTarget:self action:@selector(checkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
                     [self.bottomView addSubview:checkButton];
@@ -571,21 +572,44 @@
 {
     self.dataSource = [[NSMutableArray alloc] init];
     
-    for (NSInteger i = 0; i < 20; i++) {
-        DeviceFaultModel * model = [[DeviceFaultModel alloc] init];
-        model.name = @"郭春城专用";
-        if (i%3 == 0) {
-            model.desc = @"吃饭的时候撑到了";
-        }else{
-            model.desc = @"吃饭的时候撑到了吃饭的时候撑到了吃饭的时候撑到了吃饭的时候撑到了吃饭的时候撑到了吃饭的时候撑到了吃饭的时候撑到了吃饭的时候撑到了吃饭的时候撑到了吃饭的时候撑到了";
+    TaskListDetailRequest * request = [[TaskListDetailRequest alloc] initWithTaskID:self.taskID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            self.taskListModel = [[TaskModel alloc] initWithDictionary:result];
         }
-        if (i%2 == 0) {
-            model.imageURL = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509552271344&di=80a9cc59b6c25603b17df857bd279fbe&imgtype=0&src=http%3A%2F%2Fimg02.tooopen.com%2Fimages%2F20151223%2Ftooopen_sy_152513897829.jpg";
-        }else{
-            model.imageURL = @"";
+        
+        NSArray * repairList = [result objectForKey:@"repair_list"];
+        if ([repairList isKindOfClass:[NSArray class]] && repairList.count > 0) {
+            
+            for (NSInteger i = 0; i < repairList.count; i++) {
+                NSDictionary * device = [repairList objectAtIndex:i];
+                if ([device isKindOfClass:[NSDictionary class]]) {
+                    DeviceFaultModel * model = [[DeviceFaultModel alloc] initWithDictionary:device];
+                    [self.dataSource addObject:model];
+                }
+            }
         }
-        [self.dataSource addObject:model];
-    }
+        
+        [self setupViews];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSString * msg = [response objectForKey:@"msg"];
+        if (isEmptyString(msg)) {
+            [MBProgressHUD showTextHUDWithText:msg inView:[UIApplication sharedApplication].keyWindow];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:[UIApplication sharedApplication].keyWindow];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:[UIApplication sharedApplication].keyWindow];
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }];
 }
 
 - (UIView *)refuseView

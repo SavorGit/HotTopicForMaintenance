@@ -9,38 +9,55 @@
 #import "Jastor.h"
 
 typedef enum : NSUInteger {
-    TaskType_InfoCheck = 3,
-    TaskType_NetTransform = 4,
-    TaskType_Install = 6,
-    TaskType_Repair = 7
+    TaskType_InfoCheck = 3,     //信息检测
+    TaskType_NetTransform = 4,  //网络改造
+    TaskType_Install = 6,       //安装验收
+    TaskType_Repair = 7         //维修
 } TaskType;
 
 typedef enum : NSUInteger {
-    TaskStatusType_WaitAssign = 1,
-    TaskStatusType_WaitHandle = 2,
-    TaskStatusType_Completed= 3,
-    TaskStatusType_Refuse = 4
+    TaskStatusType_WaitAssign = 1,  //待指派
+    TaskStatusType_WaitHandle = 2,  //待处理
+    TaskStatusType_Completed= 4,    //已完成
+    TaskStatusType_Refuse = 5       //已拒绝
 } TaskStatusType;
+
+typedef enum : NSUInteger {
+    TaskEmergeType_Urgent,  //紧急
+    TaskEmergeType_Normal   //正常
+} TaskEmergeType;
 
 @interface TaskModel : Jastor
 
-@property (nonatomic, assign) TaskType type;
-@property (nonatomic, assign) TaskStatusType statusType;
-@property (nonatomic, copy) NSString * cid;
-@property (nonatomic, copy) NSString * handleName;
-@property (nonatomic, copy) NSString * status;
-@property (nonatomic, copy) NSString * remark;
-@property (nonatomic, copy) NSString * cityName;
-@property (nonatomic, copy) NSString * hotelName;
-@property (nonatomic, copy) NSString * deviceNumber;
-@property (nonatomic, copy) NSString * assignHandleTime;
-@property (nonatomic, copy) NSString * createTime;
-@property (nonatomic, copy) NSString * assignTime;
-@property (nonatomic, copy) NSString * completeTime;
-@property (nonatomic, copy) NSString * refuseTime;
+@property (nonatomic, assign) NSInteger task_type_id;
+@property (nonatomic, assign) NSInteger state_id;
+@property (nonatomic, assign) NSInteger task_emerge_id;
 
-@property (nonatomic, copy) NSString * localtion;
-@property (nonatomic, copy) NSString * contacts;
-@property (nonatomic, copy) NSString * contactWay;
+@property (nonatomic, copy) NSString * cid;
+@property (nonatomic, copy) NSString * task_type;
+@property (nonatomic, copy) NSString * task_type_desc;
+@property (nonatomic, copy) NSString * state;
+@property (nonatomic, copy) NSString * task_emerge;
+@property (nonatomic, copy) NSString * region_name;
+@property (nonatomic, copy) NSString * hotel_name;
+@property (nonatomic, copy) NSString * tv_nums;
+
+@property (nonatomic, copy) NSString * appoint_exe_time;
+@property (nonatomic, copy) NSString * exeuser;
+
+@property (nonatomic, copy) NSString * create_time;
+@property (nonatomic, copy) NSString * publish_user;
+
+@property (nonatomic, copy) NSString * appoint_time;
+@property (nonatomic, copy) NSString * appoint_user;
+
+@property (nonatomic, copy) NSString * complete_time;
+
+@property (nonatomic, copy) NSString * refuse_time;
+
+@property (nonatomic, copy) NSString * hotel_address;
+
+@property (nonatomic, copy) NSString * hotel_linkman;
+@property (nonatomic, copy) NSString * hotel_linkman_tel;
 
 @end

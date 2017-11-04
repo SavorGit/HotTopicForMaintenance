@@ -12,6 +12,8 @@
 #import "TaskDetailViewController.h"
 #import "MJRefresh.h"
 #import "AssignRoleTaskListRequest.h"
+#import "CreateRoleTasklistRequest.h"
+#import "UserManager.h"
 
 @interface TaskListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -40,7 +42,6 @@
     // Do any additional setup after loading the view.
     
     [self setupDatas];
-    [self setupViews];
 }
 
 - (void)setupViews
@@ -63,7 +64,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TaskModel * model = [self.dataSource objectAtIndex:indexPath.section];
-    TaskDetailViewController * vc = [[TaskDetailViewController alloc] initWithTaskModel:model];
+    TaskDetailViewController * vc = [[TaskDetailViewController alloc] initWithTaskID:model.cid];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -102,7 +103,7 @@
     TaskModel * model = [self.dataSource objectAtIndex:indexPath.section];
     
     CGFloat scale = kMainBoundsWidth / 375.f;
-    switch (model.statusType) {
+    switch (model.state_id) {
         case TaskStatusType_WaitAssign:
             return 134.f * scale + 1;
             break;
@@ -130,159 +131,139 @@
 {
     self.dataSource = [NSMutableArray new];
     
-    switch (self.taskType) {
-        case TaskListType_All:
-            
-        {
-            for (NSInteger i = 0; i < 5; i++) {
+    [self requestWithPage:1 success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self setupViews];
+        NSArray * taskList = [response objectForKey:@"result"];
+        if ([taskList isKindOfClass:[NSArray class]] && taskList.count > 0) {
+            for (NSInteger i = 0; i < taskList.count; i++) {
                 
-                TaskModel * model1 = [[TaskModel alloc] init];
-                model1.statusType = 3;
-                model1.status = @"已完成";
-                model1.handleName = @"维修";
-                model1.cityName = @"北京";
-                model1.remark = @"紧急";
-                model1.deviceNumber = @"10";
-                model1.hotelName = @"旺顺阁鱼头泡饼王府井店";
-                model1.assignHandleTime = @"2017-09-26 (成通)";
-                model1.createTime = @"2017-09-26 09:20 (辛丽娟)";
-                model1.assignTime = @"2017-09-26 09:20 (宗艳丽)";
-                model1.completeTime = @"2017-09-26 09:20 (成通)";
-                model1.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model1.contacts = @"李师傅";
-                model1.contactWay = @"13012345678";
-                [self.dataSource addObject: model1];
-                
-                TaskModel * model2 = [[TaskModel alloc] init];
-                model2.statusType = 4;
-                model2.status = @"已拒绝";
-                model2.handleName = @"安装";
-                model2.cityName = @"北京";
-                model2.deviceNumber = @"10";
-                model2.hotelName = @"旺顺阁鱼头泡饼王府井店";
-                model2.createTime = @"2017-09-26 09:20 (辛丽娟)";
-                model2.refuseTime = @"2017-09-26 09:20 (宗艳丽)";
-                model2.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model2.contacts = @"李师傅";
-                model2.contactWay = @"13012345678";
-                [self.dataSource addObject: model2];
-                
-                TaskModel * model3 = [[TaskModel alloc] init];
-                model3.statusType = 1;
-                model3.status = @"待指派";
-                model3.handleName = @"网络";
-                model3.cityName = @"北京";
-                model3.hotelName = @"旺顺阁鱼头泡饼王府井店";
-                model3.createTime = @"2017-09-26 09:20 (辛丽娟)";
-                model3.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model3.contacts = @"李师傅";
-                model3.contactWay = @"13012345678";
-                [self.dataSource addObject: model3];
-                
-                TaskModel * model4 = [[TaskModel alloc] init];
-                model4.statusType = 2;
-                model4.status = @"待处理";
-                model4.handleName = @"检测";
-                model4.cityName = @"北京";
-                model4.hotelName = @"旺顺阁鱼头泡饼王府井店";
-                model4.assignHandleTime = @"2017-09-26 (成通)";
-                model4.createTime = @"2017-09-26 09:20 (辛丽娟)";
-                model4.assignTime = @"2017-09-26 09:20 (宗艳丽)";
-                model4.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model4.contacts = @"李师傅";
-                model4.contactWay = @"13012345678";
-                [self.dataSource addObject: model4];
+                NSDictionary * task = [taskList objectAtIndex:i];
+                if ([task isKindOfClass:[NSDictionary class]]) {
+                    TaskModel * model = [[TaskModel alloc] initWithDictionary:task];
+                    [self.dataSource addObject:model];
+                }
             }
         }
-            
+        
+        [self.tableView reloadData];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSString * msg = [response objectForKey:@"msg"];
+        if (isEmptyString(msg)) {
+            [MBProgressHUD showTextHUDWithText:msg inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+        
+    }];
+}
+
+- (void)refreshData
+{
+    [self requestWithPage:1 success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray * taskList = [response objectForKey:@"result"];
+        if ([taskList isKindOfClass:[NSArray class]] && taskList.count > 0) {
+            [self.dataSource removeAllObjects];
+            for (NSInteger i = 0; i < taskList.count; i++) {
+                
+                NSDictionary * task = [taskList objectAtIndex:i];
+                if ([task isKindOfClass:[NSDictionary class]]) {
+                    TaskModel * model = [[TaskModel alloc] initWithDictionary:task];
+                    [self.dataSource addObject:model];
+                }
+            }
+        }
+        
+        self.page = 1;
+        [self.tableView reloadData];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer resetNoMoreData];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSString * msg = [response objectForKey:@"msg"];
+        if (isEmptyString(msg)) {
+            [MBProgressHUD showTextHUDWithText:msg inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+        }
+        [self.tableView.mj_header endRefreshing];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+        [self.tableView.mj_header endRefreshing];
+        
+    }];
+}
+
+- (void)getMore
+{
+    [self requestWithPage:self.page+1 success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray * taskList = [response objectForKey:@"result"];
+        if ([taskList isKindOfClass:[NSArray class]] && taskList.count > 0) {
+            for (NSInteger i = 0; i < taskList.count; i++) {
+                
+                NSDictionary * task = [taskList objectAtIndex:i];
+                if ([task isKindOfClass:[NSDictionary class]]) {
+                    TaskModel * model = [[TaskModel alloc] initWithDictionary:task];
+                    [self.dataSource addObject:model];
+                }
+            }
+            [self.tableView reloadData];
+            [self.tableView.mj_footer endRefreshing];
+            self.page++;
+        }else{
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+        }
+        
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSString * msg = [response objectForKey:@"msg"];
+        if (isEmptyString(msg)) {
+            [MBProgressHUD showTextHUDWithText:msg inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+        }
+        [self.tableView.mj_footer endRefreshing];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+        [self.tableView.mj_footer endRefreshing];
+        
+    }];
+}
+
+- (void)requestWithPage:(NSInteger)page success:(BGSuccessCompletionBlock)successCompletionBlock businessFailure:(BGBusinessFailureBlock)businessFailureBlock networkFailure:(BGNetworkFailureBlock)networkFailureBlock
+{
+    switch ([UserManager manager].user.roletype) {
+        case UserRoleType_CreateTask:
+        {
+            CreateRoleTasklistRequest * list = [[CreateRoleTasklistRequest alloc] initWithPage:page state:self.taskType userID:[UserManager manager].user.userid];
+            [list sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:businessFailureBlock];
+        }
             break;
             
-        case TaskListType_WaitAssign:
-            
+        case UserRoleType_AssignTask:
         {
-            for (NSInteger i = 0; i < 20; i++) {
-                TaskModel * model3 = [[TaskModel alloc] init];
-                model3.statusType = 1;
-                model3.status = @"待指派";
-                model3.handleName = @"网络";
-                model3.cityName = @"北京";
-                model3.hotelName = @"旺顺阁鱼头泡饼王府井店";
-                model3.createTime = @"2017-09-26 09:20 (辛丽娟)";
-                model3.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model3.contacts = @"李师傅";
-                model3.contactWay = @"13012345678";
-                [self.dataSource addObject: model3];
-            }
+            AssignRoleTaskListRequest * list = [[AssignRoleTaskListRequest alloc] initWithPage:page state:self.taskType userID:[UserManager manager].user.userid];
+            [list sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:businessFailureBlock];
         }
-            
-            break;
-            
-        case TaskListType_WaitHandle:
-            
-        {
-            for (NSInteger i = 0; i < 20; i++) {
-                TaskModel * model4 = [[TaskModel alloc] init];
-                model4.statusType = 2;
-                model4.status = @"待处理";
-                model4.handleName = @"检测";
-                model4.cityName = @"北京";
-                model4.hotelName = @"旺顺阁鱼头泡饼王府井店";
-                model4.assignHandleTime = @"2017-09-26 (成通)";
-                model4.createTime = @"2017-09-26 09:20 (辛丽娟)";
-                model4.assignTime = @"2017-09-26 09:20 (宗艳丽)";
-                model4.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model4.contacts = @"李师傅";
-                model4.contactWay = @"13012345678";
-                model4.type = TaskType_Install;
-                [self.dataSource addObject: model4];
-            }
-        }
-            
-            break;
-            
-        case TaskListType_Completed:
-            
-        {
-            for (NSInteger i = 0; i < 20; i++) {
-                TaskModel * model1 = [[TaskModel alloc] init];
-                model1.statusType = 3;
-                model1.status = @"已完成";
-                model1.handleName = @"维修";
-                model1.cityName = @"北京";
-                model1.remark = @"紧急";
-                model1.deviceNumber = @"10";
-                model1.hotelName = @"旺顺阁鱼头泡饼王府井店";
-                model1.assignHandleTime = @"2017-09-26 (成通)";
-                model1.createTime = @"2017-09-26 09:20 (辛丽娟)";
-                model1.assignTime = @"2017-09-26 09:20 (宗艳丽)";
-                model1.completeTime = @"2017-09-26 09:20 (成通)";
-                model1.localtion = @"北京市东城区王府井大街新东安广场A123";
-                model1.contacts = @"李师傅";
-                model1.contactWay = @"13012345678";
-                [self.dataSource addObject: model1];
-            }
-        }
-            
             break;
             
         default:
             break;
     }
-}
-
-- (void)refreshData
-{
-    
-}
-
-- (void)getMore
-{
-    
-}
-
-- (void)requestWithPage:(NSInteger)page success:(BGSuccessCompletionBlock)successCompletionBlock businessFailure:(BGBusinessFailureBlock)businessFailureBlock networkFailure:(BGNetworkFailureBlock)networkFailureBlock
-{
-    
 }
 
 - (void)didReceiveMemoryWarning {
