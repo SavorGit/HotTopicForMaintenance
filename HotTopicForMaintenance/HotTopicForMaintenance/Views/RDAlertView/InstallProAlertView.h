@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol InstallProAlertDelegate<NSObject>
+
+- (void)subMitData;
+- (void)cancel;
+
+@end
+
 @interface InstallProAlertView : UIView
+
+@property (nonatomic, weak) id <InstallProAlertDelegate> delegate;
 
 - (instancetype)initWithTotalCount:(NSInteger )totalCount;
 

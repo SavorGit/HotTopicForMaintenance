@@ -30,7 +30,6 @@
 
 - (void)initWithSubView
 {
-    float bgVideoHeight = [Helper autoHeightWith:320];
     float bgVideoWidth = [Helper autoWidthWith:266];
     
     _bgView = [[UIView alloc] init];
@@ -43,7 +42,7 @@
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(bgVideoWidth - 30);
         make.height.mas_equalTo(100);
-        make.top.mas_equalTo(0);
+        make.top.mas_equalTo(10);
         make.left.mas_equalTo(15);
     }];
     
@@ -61,7 +60,7 @@
     self.titlePosionLabel = [[UILabel alloc]init];
     self.titlePosionLabel.font = [UIFont systemFontOfSize:14];
     self.titlePosionLabel.textColor = UIColorFromRGB(0x434343);
-    self.titlePosionLabel.textAlignment = NSTextAlignmentLeft;
+    self.titlePosionLabel.textAlignment = NSTextAlignmentCenter;
     self.titlePosionLabel.text = @"安装流程单";
     [_bgView addSubview:self.titlePosionLabel];
     [self.titlePosionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,13 +69,19 @@
         make.centerX.mas_equalTo(_bgView);
     }];
     
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addImgPress:)];
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addImgPress)];
     tap.numberOfTapsRequired = 1;
     [self.instaImg addGestureRecognizer:tap];
 }
 
 - (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index{
 
+}
+
+- (void)addImgPress{
+    if ([self.delegate respondsToSelector:@selector(addImgPress)]) {
+        [self.delegate addImgPress];
+    }
 }
 
 - (void)awakeFromNib {

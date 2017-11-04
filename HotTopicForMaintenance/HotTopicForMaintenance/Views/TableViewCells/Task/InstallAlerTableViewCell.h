@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol InstallCellDelegate<NSObject>
+
+- (void)addImgPress;
+
+@end
+
 @interface InstallAlerTableViewCell : UITableViewCell
+
+@property (nonatomic, weak) id <InstallCellDelegate> delegate;
 
 - (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index;
 

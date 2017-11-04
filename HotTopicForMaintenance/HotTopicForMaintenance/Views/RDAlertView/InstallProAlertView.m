@@ -50,11 +50,11 @@
         make.center.mas_equalTo(self);
     }];
     
-    _alertTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _alertTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _alertTableView.dataSource = self;
     _alertTableView.delegate = self;
     _alertTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _alertTableView.backgroundColor = [UIColor whiteColor];
+    _alertTableView.backgroundColor = [UIColor cyanColor];
     _alertTableView.backgroundView = nil;
     _alertTableView.showsVerticalScrollIndicator = NO;
     [self.sheetBgView  addSubview:_alertTableView];
@@ -76,7 +76,24 @@
     [self.sheetBgView addSubview:self.submitBtn];
     [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_alertTableView.mas_bottom).offset(10);
-        make.centerX.mas_equalTo(self.sheetBgView.centerX);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(30);
+    }];
+    
+    UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    cancelBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [cancelBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    cancelBtn.layer.borderWidth = .5f;
+    cancelBtn.layer.cornerRadius = 2.f;
+    cancelBtn.layer.masksToBounds = YES;
+    [cancelBtn addTarget:self action:@selector(cancelClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:cancelBtn];
+    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_alertTableView.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
@@ -91,7 +108,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;
+    return self.totalCount;
     
 }
 
@@ -116,6 +133,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+}
+
+- (void)submitClicked{
+    if ([self.delegate respondsToSelector:@selector(subMitData)]) {
+         [self.delegate subMitData];
+    }
+}
+
+- (void)cancelClicked{
+    if ([self.delegate respondsToSelector:@selector(cancel)]) {
+        [self.delegate cancel];
+    }
 }
 
 @end

@@ -17,7 +17,7 @@
 #import "Helper.h"
 #import "InstallProAlertView.h"
 
-@interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
@@ -30,6 +30,8 @@
 @property (nonatomic, strong) UIButton * unResolvedBtn;
 @property (nonatomic, strong) UIButton * resolvedBtn;
 @property (nonatomic, strong) UIButton * submitBtn;
+
+@property (nonatomic, strong) InstallProAlertView *inPAlertView;
 
 @property (nonatomic, strong) UIView * bottomView;
 
@@ -212,7 +214,7 @@
 //安装验收
 - (void)installButtonButtonDidClicked
 {
-    [self creatInstallListView];
+    [self creatInstallListView:10];
 }
 
 //维修
@@ -224,28 +226,63 @@
 //网络改造处理完成
 - (void)netWorkButtonButtonDidClicked
 {
-    
+    [self creatInstallListView:2];
 }
 
 //信息检测
 - (void)checkButtonButtonDidClicked
 {
-    
+    [self creatInstallListView:2];
 }
 
 #pragma mark - 弹出安装验收，网络改造，信息检测窗口
-- (void)creatInstallListView{
+- (void)creatInstallListView:(NSUInteger )totalCount{
     
-    InstallProAlertView *inPAlertView = [[InstallProAlertView alloc] initWithTotalCount:10];
-    inPAlertView.tag = 2888;
-    inPAlertView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    inPAlertView.userInteractionEnabled = YES;
-//    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-//    self.mListView.bottom = keyWindow.top;
-    [self.view addSubview:inPAlertView];
-    [inPAlertView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.inPAlertView = [[InstallProAlertView alloc] initWithTotalCount:totalCount];
+    self.inPAlertView.tag = 2888;
+    self.inPAlertView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.inPAlertView.userInteractionEnabled = YES;
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    self.inPAlertView.bottom = keyWindow.top;
+    self.inPAlertView.delegate = self;
+    [self.view addSubview: self.inPAlertView];
+    [self.inPAlertView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64));
         make.left.right.top.mas_equalTo(0);
+    }];
+}
+
+#pragma mark - 提交上传照片
+- (void)subMitData{
+    [self dismissInstallAlertViewWithDuration:0.3f];
+}
+
+#pragma mark - 取消上传照片
+- (void)cancel{
+     [self dismissInstallAlertViewWithDuration:0.3f];
+}
+
+#pragma mark - show view
+-(void)showInstallAlertViewWithDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+         self.inPAlertView.bottom = self.view.bottom;
+        
+    } completion:^(BOOL finished) {
+    }];
+}
+
+-(void)dismissInstallAlertViewWithDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+         self.inPAlertView.bottom = self.view.top;
+        
+    } completion:^(BOOL finished) {
+        
+        [ self.inPAlertView removeFromSuperview];
+        
     }];
 }
 
@@ -463,11 +500,23 @@
     
 }
 
+-(void)cancelClicked{
+    
+    [self dismissViewWithAnimationDuration:0.3f];
+    
+}
+
+-(void)submitClicked{
+    [self dismissViewWithAnimationDuration:0.3f];
+}
+
 #pragma mark - show view
 -(void)showViewWithAnimationDuration:(float)duration{
     
     [UIView animateWithDuration:duration animations:^{
+        
         self.mListView.bottom = self.view.bottom;
+        
     } completion:^(BOOL finished) {
     }];
 }
