@@ -140,29 +140,29 @@
     
     [self.timeView removeAllSubviews];
     
-    self.hotelNameLabel.text = model.hotelName;
-    self.handleLabel.text = model.handleName;
-    self.statusLabel.text = model.status;
-    self.cityLabel.text = [NSString stringWithFormat:@"(%@)", model.cityName];
+    self.hotelNameLabel.text = model.hotel_name;
+    self.handleLabel.text = model.task_type_desc;
+    self.statusLabel.text = model.state;
+    self.cityLabel.text = [NSString stringWithFormat:@"(%@)", model.region_name];
     
-    if (isEmptyString(model.deviceNumber)) {
+    if (isEmptyString(model.tv_nums)) {
         self.deviceNumLabel.hidden = YES;
     }else{
-        self.deviceNumLabel.text = [NSString stringWithFormat:@"版位数量：%@", model.deviceNumber];
+        self.deviceNumLabel.text = [NSString stringWithFormat:@"版位数量：%@", model.tv_nums];
         self.deviceNumLabel.hidden = NO;
     }
     
-    if (isEmptyString(model.remark)) {
+    if (model.task_emerge_id == 3) {
         self.remarkLabel.hidden = YES;
     }else{
-        self.remarkLabel.text = model.remark;
+        self.remarkLabel.text = model.task_emerge;
         self.remarkLabel.hidden = NO;
     }
     
-    switch (model.statusType) {
+    switch (model.state_id) {
         case TaskStatusType_WaitAssign:
         {
-            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@", model.createTime];
+            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
             [self.timeView addSubview:self.createLabel];
             [self.createLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.left.right.mas_equalTo(0);
@@ -175,9 +175,9 @@
             
         case TaskStatusType_WaitHandle:
         {
-            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@", model.assignHandleTime];
-            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@", model.createTime];
-            self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@", model.assignTime];
+            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.appoint_user];
+            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
+            self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@ (%@)", model.appoint_time, model.appoint_user];
             [self.timeView addSubview:self.assignHandelLabel];
             [self.timeView addSubview:self.createLabel];
             [self.timeView addSubview:self.assignLabel];
@@ -203,10 +203,10 @@
             
         case TaskStatusType_Completed:
         {
-            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@", model.assignHandleTime];
-            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@", model.createTime];
-            self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@", model.assignTime];
-            self.completeLabel.text = [NSString stringWithFormat:@"完成时间：%@", model.completeTime];
+            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.appoint_user];
+            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
+            self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@ (%@)", model.appoint_time, model.appoint_user];
+            self.completeLabel.text = [NSString stringWithFormat:@"完成时间：%@ (%@)", model.complete_time, model.exeuser];
             [self.timeView addSubview:self.assignHandelLabel];
             [self.timeView addSubview:self.createLabel];
             [self.timeView addSubview:self.assignLabel];
@@ -238,8 +238,8 @@
             
         case TaskStatusType_Refuse:
         {
-            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@", model.createTime];
-            self.refuseLabel.text = [NSString stringWithFormat:@"拒绝时间：%@", model.refuseTime];
+            self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
+            self.refuseLabel.text = [NSString stringWithFormat:@"拒绝时间：%@", model.refuse_time];
             [self.timeView addSubview:self.createLabel];
             [self.timeView addSubview:self.refuseLabel];
             

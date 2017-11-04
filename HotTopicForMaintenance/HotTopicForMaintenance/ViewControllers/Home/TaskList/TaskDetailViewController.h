@@ -11,6 +11,6 @@
 
 @interface TaskDetailViewController : BaseViewController
 
-- (instancetype)initWithTaskModel:(TaskModel *)model;
+- (instancetype)initWithTaskID:(NSString *)taskID;
 
 @end
