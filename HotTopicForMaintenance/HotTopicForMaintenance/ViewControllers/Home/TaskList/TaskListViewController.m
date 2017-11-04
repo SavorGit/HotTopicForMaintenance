@@ -10,6 +10,8 @@
 #import "TaskModel.h"
 #import "TaskListTableViewCell.h"
 #import "TaskDetailViewController.h"
+#import "MJRefresh.h"
+#import "AssignRoleTaskListRequest.h"
 
 @interface TaskListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -17,6 +19,8 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+
+@property (nonatomic, assign) NSInteger page;
 
 @end
 
@@ -26,6 +30,7 @@
 {
     if (self = [super init]) {
         self.taskType = type;
+        self.page = 1;
     }
     return self;
 }
@@ -50,6 +55,9 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMore)];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -260,6 +268,21 @@
         default:
             break;
     }
+}
+
+- (void)refreshData
+{
+    
+}
+
+- (void)getMore
+{
+    
+}
+
+- (void)requestWithPage:(NSInteger)page success:(BGSuccessCompletionBlock)successCompletionBlock businessFailure:(BGBusinessFailureBlock)businessFailureBlock networkFailure:(BGNetworkFailureBlock)networkFailureBlock
+{
+    
 }
 
 - (void)didReceiveMemoryWarning {
