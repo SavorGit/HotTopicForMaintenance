@@ -85,11 +85,10 @@
 
 - (void)subMitDataRequest
 {
-    NSDictionary *repairInforDicOne = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"这这是测试",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
-    NSDictionary *repairInforDic = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"电源坏掉了",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
-    NSArray *repairArray = [NSArray arrayWithObjects:repairInforDic,repairInforDicOne, nil];
-    
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",@"7",@"task_type",[UserManager manager].user.userid,@"publish_user_id",[repairArray toReadableJSONString],@"repair_info",@"永峰写字楼",@"addr",@"独孤求败",@"contractor",@"18500000000",@"mobile", nil];
+    NetworkTranTableViewCell *cellOne = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:1]];
+    NetworkTranTableViewCell *cellTwo = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:2]];
+    NetworkTranTableViewCell *cellThree = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:3]];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",@"repair_info",cellThree.inPutTextField.text,@"addr",cellOne.inPutTextField.text,@"contractor",cellTwo.inPutTextField.text,@"mobile", nil];
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -103,33 +102,6 @@
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
     }];
-}
-
-- (NSString *)toReadableJSONString {
-    NSData *data = [NSJSONSerialization dataWithJSONObject:self
-                                                   options:NSJSONWritingPrettyPrinted
-                                                     error:nil];
-    
-    if (data == nil) {
-        return nil;
-    }
-    
-    NSString *string = [[NSString alloc] initWithData:data
-                                             encoding:NSUTF8StringEncoding];
-    return string;
-}
-
-// 将字典或者数组转化为JSON串
-- (NSData *)toJSONData:(id)theData
-{
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:theData options:NSJSONWritingPrettyPrinted error:nil];
-    
-    if ([jsonData length]&&error== nil){
-        return jsonData;
-    }else{
-        return nil;
-    }
 }
 
 -(void)hotelPress:(NSIndexPath *)index{

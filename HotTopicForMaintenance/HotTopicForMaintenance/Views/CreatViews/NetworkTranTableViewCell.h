@@ -19,6 +19,8 @@
 
 @property (nonatomic, weak) id <NetworkTranDelegate> delegate;
 
+@property (nonatomic, strong) UITextField *inPutTextField;
+
 - (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;
 
 @end

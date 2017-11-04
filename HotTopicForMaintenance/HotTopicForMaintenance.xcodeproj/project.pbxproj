@@ -89,7 +89,6 @@
 		969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */; };
 		969A3C351FA995E900EB95C9 /* NetworkTranTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */; };
 		969A3C381FA99AA700EB95C9 /* inforDetectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */; };
-		969A3C3B1FA99C6400EB95C9 /* RepairViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */; };
 		969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C431FA9C01300EB95C9 /* PositionListViewController.m */; };
 		969A3C471FA9C9C000EB95C9 /* PosionListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C461FA9C9C000EB95C9 /* PosionListTableViewCell.m */; };
 		969A3C4A1FA9EA6500EB95C9 /* RepairHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C491FA9EA6500EB95C9 /* RepairHeaderTableCell.m */; };
@@ -312,8 +311,6 @@
 		969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkTranTableViewCell.m; sourceTree = "<group>"; };
 		969A3C361FA99AA700EB95C9 /* inforDetectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inforDetectionViewController.h; sourceTree = "<group>"; };
 		969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = inforDetectionViewController.m; sourceTree = "<group>"; };
-		969A3C391FA99C6400EB95C9 /* RepairViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RepairViewController.h; sourceTree = "<group>"; };
-		969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RepairViewController.m; sourceTree = "<group>"; };
 		969A3C421FA9C01300EB95C9 /* PositionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PositionListViewController.h; sourceTree = "<group>"; };
 		969A3C431FA9C01300EB95C9 /* PositionListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PositionListViewController.m; sourceTree = "<group>"; };
 		969A3C451FA9C9C000EB95C9 /* PosionListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PosionListTableViewCell.h; sourceTree = "<group>"; };
@@ -523,8 +520,6 @@
 				969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */,
 				969A3C361FA99AA700EB95C9 /* inforDetectionViewController.h */,
 				969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */,
-				969A3C391FA99C6400EB95C9 /* RepairViewController.h */,
-				969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */,
 				969A3C421FA9C01300EB95C9 /* PositionListViewController.h */,
 				969A3C431FA9C01300EB95C9 /* PositionListViewController.m */,
 				069C385F1FA85B3F003F92EF /* TaskChooseTypeController.h */,
@@ -1323,7 +1318,6 @@
 				96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */,
 				0677AC071FAB168800D494FE /* CityModel.m in Sources */,
 				06B055D51F5D47EC00A9CE68 /* Helper.m in Sources */,
-				969A3C3B1FA99C6400EB95C9 /* RepairViewController.m in Sources */,
 				969A3C4D1FAAAF7200EB95C9 /* RepairContentTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

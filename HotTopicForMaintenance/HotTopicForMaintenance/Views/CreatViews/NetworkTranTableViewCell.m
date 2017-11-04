@@ -11,7 +11,6 @@
 @interface NetworkTranTableViewCell()
 
 @property (nonatomic, strong) UILabel *reasonLabel;
-@property (nonatomic, strong) UITextField *inPutTextField;
 @property (nonatomic, strong) UIButton *hotelBtn;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) UISegmentedControl *segment;
