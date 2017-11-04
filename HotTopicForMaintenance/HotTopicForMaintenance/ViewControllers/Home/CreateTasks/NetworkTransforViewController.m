@@ -9,25 +9,60 @@
 #import "NetworkTransforViewController.h"
 #import "NetworkTranTableViewCell.h"
 #import "PubTaskRequest.h"
+#import "SearchHotelViewController.h"
+#import "UserManager.h"
+#import "MBProgressHUD+Custom.h"
+#import "NSArray+json.h"
 
-@interface NetworkTransforViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface NetworkTransforViewController ()<UITableViewDelegate,UITableViewDataSource,NetworkTranDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
+@property (nonatomic, strong) NSArray * contentArray; //表项标题
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
+@property (nonatomic, copy)   NSString *currHotelId;
+@property (nonatomic, assign) NSInteger segTag;
+@property (nonatomic, assign) NSInteger taskType;
 
 @end
 
 @implementation NetworkTransforViewController
 
+-(instancetype)initWithTaskType:(NSInteger )taskType{
+    if (self = [super init]) {
+        self.taskType = taskType;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self initInfor];
     [self creatSubViews];
-    [self subMitDataRequest];
     // Do any additional setup after loading the view.
 }
 
-- (void)creatSubViews{
+- (void)initInfor{
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.exclusiveTouch = YES;
+    [button setTitle:@"发布" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, 40, 44);
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    [button addTarget:self action:@selector(pubBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    button.backgroundColor = [UIColor clearColor];
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = backItem;
+    
+    self.segTag = 3;
+}
+
+- (void)pubBtnClicked
+{
+    [self subMitDataRequest];
+}
+
+-(void)creatSubViews{
     
     self.title = @"网络改造";
     self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度", nil];
@@ -50,16 +85,43 @@
 
 - (void)subMitDataRequest
 {
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"6",@"hotel_id",@"2",@"task_emerge",@"3",@"task_type", nil];
+    NetworkTranTableViewCell *cellOne = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:1]];
+    NetworkTranTableViewCell *cellTwo = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:2]];
+    NetworkTranTableViewCell *cellThree = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:3]];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",@"repair_info",cellThree.inPutTextField.text,@"addr",cellOne.inPutTextField.text,@"contractor",cellTwo.inPutTextField.text,@"mobile", nil];
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        NSDictionary *dic = [response objectForKey:@"result"];
-        
+        NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
+        if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+        }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
     }];
+}
+
+-(void)hotelPress:(NSIndexPath *)index{
+    
+    SearchHotelViewController *shVC = [[SearchHotelViewController alloc] initWithClassType:1];
+    [self.navigationController pushViewController:shVC animated:YES];
+    shVC.backHotel = ^(RestaurantRankModel *model){
+        
+        self.currHotelId = model.cid;
+        self.contentArray = [NSArray arrayWithObjects:model.name != nil?model.name:@"",model.contractor != nil?model.contractor:@"",model.mobile != nil?model.mobile:@"",model.addr != nil?model.addr:@"",@"紧急程度", nil];
+        [_tableView beginUpdates];
+        NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
+        [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        [_tableView endUpdates];
+        
+    };
+}
+
+- (void)Segmented:(NSInteger)segTag{
+    self.segTag = segTag;
 }
 
 #pragma mark - UITableViewDataSource
@@ -81,10 +143,11 @@
     if (cell == nil) {
         cell = [[NetworkTranTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
+    cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.backgroundColor = UIColorFromRGB(0xf6f2ed);
-    [cell configWithTitle:self.titleArray[indexPath.row] andContent:@"俏江南" andIdexPath:indexPath];
+    [cell configWithTitle:self.titleArray[indexPath.row] andContent:self.contentArray[indexPath.row] andIdexPath:indexPath];
     
     return cell;
     

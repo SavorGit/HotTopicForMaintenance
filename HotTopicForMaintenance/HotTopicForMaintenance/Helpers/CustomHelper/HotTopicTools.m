@@ -270,11 +270,12 @@
     }];
 }
 
-+ (void)uploadImageArray:(NSArray<UIImage *> *)images withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withPath:(NSArray *)pathArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
 {
     for (NSInteger i = 0; i < images.count; i++) {
         UIImage * image = [images objectAtIndex:i];
-        [self uploadImage:image withPath:[path stringByAppendingFormat:@"%ld.jpg", i] progress:progress success:successBlock failure:failureBlock];
+        NSString * pathString = [pathArray objectAtIndex:i];
+        [self uploadImage:image withPath:[pathString stringByAppendingFormat:@"%ld.jpg", i] progress:progress success:successBlock failure:failureBlock];
     }
 }
 

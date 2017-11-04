@@ -15,6 +15,11 @@
 #import "RestaurantRankModel.h"
 #import "RepairContentModel.h"
 #import "SearchHotelViewController.h"
+#import "PubTaskRequest.h"
+#import "UserManager.h"
+#import "MBProgressHUD+Custom.h"
+#import "NSArray+json.h"
+#import "HotTopicTools.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -36,9 +41,19 @@
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) UIView *maskingView;
 
+@property (nonatomic, assign) NSInteger taskType;
+@property (nonatomic, assign) NSInteger segTag;
+
 @end
 
 @implementation InstallAndAcceptViewController
+
+-(instancetype)initWithTaskType:(NSInteger )taskType{
+    if (self = [super init]) {
+        self.taskType = taskType;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,8 +61,14 @@
     self.sectionNum = 1;
     [self creatSubViews];
     
+    [self upLoadImageData];
     [self initInfor];
     // Do any additional setup after loading the view.
+}
+
+- (void)pubBtnClicked
+{
+    [self subMitDataRequest];
 }
 
 - (void)initInfor{
@@ -57,13 +78,64 @@
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     _imagePickerController.allowsEditing = YES;
     
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.exclusiveTouch = YES;
+    [button setTitle:@"发布" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, 40, 44);
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    [button addTarget:self action:@selector(pubBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    button.backgroundColor = [UIColor clearColor];
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = backItem;
+    
+    self.segTag = 3;
+    
 }
+
+- (void)subMitDataRequest
+{
+    NSDictionary *repairInforDicOne = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"这这是测试",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
+    NSDictionary *repairInforDic = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"电源坏掉了",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
+    NSArray *repairArray = [NSArray arrayWithObjects:repairInforDic,repairInforDicOne, nil];
+    
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[repairArray toReadableJSONString],@"repair_info",@"永峰写字楼",@"addr",@"独孤求败",@"contractor",@"18500000000",@"mobile", nil];
+    PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
+        if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+}
+
+- (void)upLoadImageData{
+    
+    NSArray *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"selected"],[UIImage imageNamed:@"selected"], nil];
+    NSArray *pathArray = [NSArray arrayWithObjects:@"itisceshi",@"itisceshi1", nil];
+    [HotTopicTools uploadImageArray:imgArray withPath:pathArray progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        
+    } success:^(NSString *path) {
+        
+    } failure:^{
+        
+    }];
+}
+
 - (void)creatSubViews{
     
     _dConfigData = [[NSMutableArray alloc] init];
     self.titleArray = [[NSMutableArray alloc] init];
     self.currHotelId = [[NSString alloc] init];
     self.title = @"安装与验收";
+    if (self.taskType == 7) {
+        self.title = @"维修";
+    }
     
      NSArray *dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",  nil];
    

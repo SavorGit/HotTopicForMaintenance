@@ -89,7 +89,6 @@
 		969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */; };
 		969A3C351FA995E900EB95C9 /* NetworkTranTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */; };
 		969A3C381FA99AA700EB95C9 /* inforDetectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */; };
-		969A3C3B1FA99C6400EB95C9 /* RepairViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */; };
 		969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C431FA9C01300EB95C9 /* PositionListViewController.m */; };
 		969A3C471FA9C9C000EB95C9 /* PosionListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C461FA9C9C000EB95C9 /* PosionListTableViewCell.m */; };
 		969A3C4A1FA9EA6500EB95C9 /* RepairHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C491FA9EA6500EB95C9 /* RepairHeaderTableCell.m */; };
@@ -101,6 +100,7 @@
 		969A3C721FAC7A1700EB95C9 /* InstallAlerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C701FAC7A1600EB95C9 /* InstallAlerTableViewCell.m */; };
 		969A3C751FAC7A3500EB95C9 /* InstallProAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C731FAC7A3500EB95C9 /* InstallProAlertView.m */; };
 		969A3C781FAD651100EB95C9 /* PubTaskRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C771FAD651100EB95C9 /* PubTaskRequest.m */; };
+		969A3C7E1FADAE1400EB95C9 /* NSArray+json.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C7D1FADAE1400EB95C9 /* NSArray+json.m */; };
 		96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19851F5FC38100C06CE8 /* FaultListViewController.m */; };
 		96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19871F5FC38100C06CE8 /* lookRestaurInforViewController.m */; };
 		96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19891F5FC38100C06CE8 /* RestaurantRankInforViewController.m */; };
@@ -311,8 +311,6 @@
 		969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkTranTableViewCell.m; sourceTree = "<group>"; };
 		969A3C361FA99AA700EB95C9 /* inforDetectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inforDetectionViewController.h; sourceTree = "<group>"; };
 		969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = inforDetectionViewController.m; sourceTree = "<group>"; };
-		969A3C391FA99C6400EB95C9 /* RepairViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RepairViewController.h; sourceTree = "<group>"; };
-		969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RepairViewController.m; sourceTree = "<group>"; };
 		969A3C421FA9C01300EB95C9 /* PositionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PositionListViewController.h; sourceTree = "<group>"; };
 		969A3C431FA9C01300EB95C9 /* PositionListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PositionListViewController.m; sourceTree = "<group>"; };
 		969A3C451FA9C9C000EB95C9 /* PosionListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PosionListTableViewCell.h; sourceTree = "<group>"; };
@@ -335,6 +333,8 @@
 		969A3C741FAC7A3500EB95C9 /* InstallProAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallProAlertView.h; sourceTree = "<group>"; };
 		969A3C761FAD651100EB95C9 /* PubTaskRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubTaskRequest.h; sourceTree = "<group>"; };
 		969A3C771FAD651100EB95C9 /* PubTaskRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PubTaskRequest.m; sourceTree = "<group>"; };
+		969A3C7C1FADAE1400EB95C9 /* NSArray+json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+json.h"; sourceTree = "<group>"; };
+		969A3C7D1FADAE1400EB95C9 /* NSArray+json.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+json.m"; sourceTree = "<group>"; };
 		96AA19841F5FC38100C06CE8 /* FaultListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaultListViewController.h; sourceTree = "<group>"; };
 		96AA19851F5FC38100C06CE8 /* FaultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaultListViewController.m; sourceTree = "<group>"; };
 		96AA19861F5FC38100C06CE8 /* lookRestaurInforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookRestaurInforViewController.h; sourceTree = "<group>"; };
@@ -520,8 +520,6 @@
 				969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */,
 				969A3C361FA99AA700EB95C9 /* inforDetectionViewController.h */,
 				969A3C371FA99AA700EB95C9 /* inforDetectionViewController.m */,
-				969A3C391FA99C6400EB95C9 /* RepairViewController.h */,
-				969A3C3A1FA99C6400EB95C9 /* RepairViewController.m */,
 				969A3C421FA9C01300EB95C9 /* PositionListViewController.h */,
 				969A3C431FA9C01300EB95C9 /* PositionListViewController.m */,
 				069C385F1FA85B3F003F92EF /* TaskChooseTypeController.h */,
@@ -645,6 +643,8 @@
 				06B055DA1F5D48D800A9CE68 /* GCCKeyChain.m */,
 				06B056001F5D599500A9CE68 /* HotTopicTools.h */,
 				06B056011F5D599500A9CE68 /* HotTopicTools.m */,
+				969A3C7C1FADAE1400EB95C9 /* NSArray+json.h */,
+				969A3C7D1FADAE1400EB95C9 /* NSArray+json.m */,
 			);
 			path = CustomHelper;
 			sourceTree = "<group>";
@@ -1244,6 +1244,7 @@
 				96AA199A1F5FC38C00C06CE8 /* lookRestTableViewCell.m in Sources */,
 				0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */,
 				06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */,
+				969A3C7E1FADAE1400EB95C9 /* NSArray+json.m in Sources */,
 				066EA5571F6010DF0054264C /* ErrorDetailRequest.m in Sources */,
 				969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
@@ -1317,7 +1318,6 @@
 				96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */,
 				0677AC071FAB168800D494FE /* CityModel.m in Sources */,
 				06B055D51F5D47EC00A9CE68 /* Helper.m in Sources */,
-				969A3C3B1FA99C6400EB95C9 /* RepairViewController.m in Sources */,
 				969A3C4D1FAAAF7200EB95C9 /* RepairContentTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

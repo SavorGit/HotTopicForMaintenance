@@ -10,4 +10,6 @@
 
 @interface InstallAndAcceptViewController : BaseViewController
 
+-(instancetype)initWithTaskType:(NSInteger )taskType;
+
 @end

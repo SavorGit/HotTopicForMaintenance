@@ -10,4 +10,6 @@
 
 @interface inforDetectionViewController : BaseViewController
 
+-(instancetype)initWithTaskType:(NSInteger )taskType;
+
 @end

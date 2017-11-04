@@ -11,7 +11,6 @@
 #import "NetworkTransforViewController.h"
 #import "InstallAndAcceptViewController.h"
 #import "inforDetectionViewController.h"
-#import "RepairViewController.h"
 
 @interface TaskChooseTypeController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -91,16 +90,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        InstallAndAcceptViewController *ia = [[InstallAndAcceptViewController alloc] init];
+        InstallAndAcceptViewController *ia = [[InstallAndAcceptViewController alloc] initWithTaskType:6];
         [self.navigationController pushViewController:ia animated:YES];
     }else if (indexPath.section == 1){
-        NetworkTransforViewController *nt = [[NetworkTransforViewController alloc] init];
-        [self.navigationController pushViewController:nt animated:YES];
-    }else if (indexPath.section == 2){
-        inforDetectionViewController *iv = [[inforDetectionViewController alloc] init];
+        inforDetectionViewController *iv = [[inforDetectionViewController alloc] initWithTaskType:3];
         [self.navigationController pushViewController:iv animated:YES];
+    }else if (indexPath.section == 2){
+        NetworkTransforViewController *nt = [[NetworkTransforViewController alloc] initWithTaskType:4];
+        [self.navigationController pushViewController:nt animated:YES];
     }else if (indexPath.section == 3){
-        RepairViewController *rc = [[RepairViewController alloc] init];
+        InstallAndAcceptViewController *rc = [[InstallAndAcceptViewController alloc] initWithTaskType:7];
         [self.navigationController pushViewController:rc animated:YES];
     }
 }

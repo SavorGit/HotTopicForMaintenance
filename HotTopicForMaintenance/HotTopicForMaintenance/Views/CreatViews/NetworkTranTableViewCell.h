@@ -8,7 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol NetworkTranDelegate<NSObject>
+
+- (void)hotelPress:(NSIndexPath *)index;
+- (void)Segmented:(NSInteger )segTag;
+
+@end
+
 @interface NetworkTranTableViewCell : UITableViewCell
+
+@property (nonatomic, weak) id <NetworkTranDelegate> delegate;
+
+@property (nonatomic, strong) UITextField *inPutTextField;
 
 - (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;
 
