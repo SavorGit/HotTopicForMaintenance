@@ -28,6 +28,7 @@
 - (void)createTaskCell
 {
     self.contentView.backgroundColor = UIColorFromRGB(0xffffff);
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     self.typeLogoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     self.typeLogoLabel.font = kPingFangMedium(16);

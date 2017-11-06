@@ -202,10 +202,7 @@
     }
 }
 
-- (void)requestErrorDetail
-{
-    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取异常详情" inView:self.view];
-    
+- (void)extracted:(MBProgressHUD *)hud {
     [self requestWithDetailID:@"0" success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         if ([response objectForKey:@"result"]) {
@@ -257,6 +254,13 @@
         [MBProgressHUD showTextHUDWithText:@"获取失败，网络出现问题了~" inView:self.view];
         
     }];
+}
+
+- (void)requestErrorDetail
+{
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取异常详情" inView:self.view];
+    
+    [self extracted:hud];
     
     
 }
