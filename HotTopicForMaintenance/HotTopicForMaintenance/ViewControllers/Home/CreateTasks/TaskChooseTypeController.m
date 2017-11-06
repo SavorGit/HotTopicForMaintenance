@@ -67,7 +67,7 @@
 {
     TaskTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TaskTableViewCell" forIndexPath:indexPath];
     
-    TaskModel * model = [self.datsSource objectAtIndex:indexPath.section];
+    TaskListModel * model = [self.datsSource objectAtIndex:indexPath.section];
     [cell configWithModel:model];
     return cell;
 }

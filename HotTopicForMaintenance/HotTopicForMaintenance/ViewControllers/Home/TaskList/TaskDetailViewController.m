@@ -639,13 +639,13 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     DeviceFaultModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    if (isEmptyString(model.imageURL)) {
+    if (isEmptyString(model.fault_image_url)) {
         height = 117 * scale;
     }else{
         height = 186 * scale;
     }
     
-    CGFloat descHeight = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 54.f * scale title:[@"故障现象：" stringByAppendingString:model.desc] font:kPingFangRegular(15.f * scale)];
+    CGFloat descHeight = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 54.f * scale title:[@"故障现象：" stringByAppendingString:model.fault_desc] font:kPingFangRegular(15.f * scale)];
     height += descHeight;
     
     return height;
@@ -655,7 +655,7 @@
 {
     self.dataSource = [[NSMutableArray alloc] init];
     
-    TaskListDetailRequest * request = [[TaskListDetailRequest alloc] initWithTaskID:self.taskID];
+    TaskListDetailRequest * request = [[TaskListDetailRequest alloc] initWithTaskID:@"55"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSDictionary * result = [response objectForKey:@"result"];

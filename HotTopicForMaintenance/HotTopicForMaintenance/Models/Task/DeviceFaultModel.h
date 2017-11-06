@@ -10,8 +10,9 @@
 
 @interface DeviceFaultModel : Jastor
 
-@property (nonatomic, copy) NSString * name;
-@property (nonatomic, copy) NSString * desc;
-@property (nonatomic, copy) NSString * imageURL;
+@property (nonatomic, copy) NSString * box_name;
+@property (nonatomic, copy) NSString * fault_desc;
+@property (nonatomic, copy) NSString * fault_image_url;
+@property (nonatomic, copy) NSString * box_id;
 
 @end

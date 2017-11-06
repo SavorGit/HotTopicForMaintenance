@@ -69,6 +69,8 @@
 		06B4A6451FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4A6441FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.m */; };
 		06B4A6481FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4A6471FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m */; };
 		06B4A64B1FAD976D0081BBA7 /* TaskListDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4A64A1FAD976D0081BBA7 /* TaskListDetailRequest.m */; };
+		06B4A64E1FADC3570081BBA7 /* HandleRoleListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4A64D1FADC3570081BBA7 /* HandleRoleListRequest.m */; };
+		06B4A6511FADC4780081BBA7 /* LookRoleListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4A6501FADC4780081BBA7 /* LookRoleListRequest.m */; };
 		06C44BFB1FA9A1DF0050FDBC /* TaskListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C44BFA1FA9A1DF0050FDBC /* TaskListTableViewCell.m */; };
 		06C44BFE1FA9A2A50050FDBC /* TaskListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C44BFD1FA9A2A50050FDBC /* TaskListModel.m */; };
 		06C44C011FA9E1540050FDBC /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C44C001FA9E1540050FDBC /* TaskDetailViewController.m */; };
@@ -265,6 +267,10 @@
 		06B4A6471FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreateRoleTasklistRequest.m; sourceTree = "<group>"; };
 		06B4A6491FAD976D0081BBA7 /* TaskListDetailRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListDetailRequest.h; sourceTree = "<group>"; };
 		06B4A64A1FAD976D0081BBA7 /* TaskListDetailRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListDetailRequest.m; sourceTree = "<group>"; };
+		06B4A64C1FADC3570081BBA7 /* HandleRoleListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleRoleListRequest.h; sourceTree = "<group>"; };
+		06B4A64D1FADC3570081BBA7 /* HandleRoleListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandleRoleListRequest.m; sourceTree = "<group>"; };
+		06B4A64F1FADC4780081BBA7 /* LookRoleListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LookRoleListRequest.h; sourceTree = "<group>"; };
+		06B4A6501FADC4780081BBA7 /* LookRoleListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LookRoleListRequest.m; sourceTree = "<group>"; };
 		06C44BF91FA9A1DF0050FDBC /* TaskListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListTableViewCell.h; sourceTree = "<group>"; };
 		06C44BFA1FA9A1DF0050FDBC /* TaskListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListTableViewCell.m; sourceTree = "<group>"; };
 		06C44BFC1FA9A2A50050FDBC /* TaskListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListModel.h; sourceTree = "<group>"; };
@@ -725,6 +731,10 @@
 				06B4A6441FAD5C4B0081BBA7 /* AssignRoleTaskListRequest.m */,
 				06B4A6461FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.h */,
 				06B4A6471FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m */,
+				06B4A64C1FADC3570081BBA7 /* HandleRoleListRequest.h */,
+				06B4A64D1FADC3570081BBA7 /* HandleRoleListRequest.m */,
+				06B4A64F1FADC4780081BBA7 /* LookRoleListRequest.h */,
+				06B4A6501FADC4780081BBA7 /* LookRoleListRequest.m */,
 				06B4A6491FAD976D0081BBA7 /* TaskListDetailRequest.h */,
 				06B4A64A1FAD976D0081BBA7 /* TaskListDetailRequest.m */,
 			);
@@ -1251,6 +1261,7 @@
 				0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */,
 				06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */,
 				969A3C7E1FADAE1400EB95C9 /* NSArray+json.m in Sources */,
+				06B4A6511FADC4780081BBA7 /* LookRoleListRequest.m in Sources */,
 				066EA5571F6010DF0054264C /* ErrorDetailRequest.m in Sources */,
 				969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
@@ -1320,6 +1331,7 @@
 				06C44C051FA9E2990050FDBC /* TaskDetailView.m in Sources */,
 				969A3C571FAB324F00EB95C9 /* BindingPositionViewController.m in Sources */,
 				06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */,
+				06B4A64E1FADC3570081BBA7 /* HandleRoleListRequest.m in Sources */,
 				06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */,
 				96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */,
 				0677AC071FAB168800D494FE /* CityModel.m in Sources */,
