@@ -63,7 +63,6 @@
     self.sectionNum = 1;
     [self creatSubViews];
     
-    [self upLoadImageData];
     [self initInfor];
     // Do any additional setup after loading the view.
 }
@@ -97,6 +96,8 @@
 
 - (void)subMitDataRequest
 {
+    [self upLoadImageData];
+    
     NSDictionary *repairInforDicOne = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"这这是测试",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
     NSDictionary *repairInforDic = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"电源坏掉了",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
     NSArray *repairArray = [NSArray arrayWithObjects:repairInforDic,repairInforDicOne, nil];
