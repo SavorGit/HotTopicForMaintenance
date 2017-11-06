@@ -338,7 +338,7 @@
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
         [_tableView endUpdates];
         
-        // 请求改酒店版位
+        // 请求该酒店版位
          [self boxConfigRequest];
     };
 }
@@ -352,12 +352,16 @@
 
 - (void)creatMaskingView{
     
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    if ([keyWindow viewWithTag:1888] != nil ) {
+        return;
+    }
+    
     self.maskingView = [[UIView alloc] init];
     self.maskingView.tag = 1888;
     self.maskingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.maskingView.userInteractionEnabled = YES;
     self.maskingView.frame = CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight);
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     self.maskingView.top = keyWindow.bottom;
     [keyWindow addSubview:self.maskingView];
     
