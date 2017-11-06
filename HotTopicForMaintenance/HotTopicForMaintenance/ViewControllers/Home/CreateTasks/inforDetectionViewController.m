@@ -88,7 +88,7 @@
     NetworkTranTableViewCell *cellOne = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     NetworkTranTableViewCell *cellTwo = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
     NetworkTranTableViewCell *cellThree = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",@"repair_info",cellThree.inPutTextField.text,@"addr",cellOne.inPutTextField.text,@"contractor",cellTwo.inPutTextField.text,@"mobile", nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",cellThree.inPutTextField.text,@"addr",cellOne.inPutTextField.text,@"contractor",cellTwo.inPutTextField.text,@"mobile", nil];
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
