@@ -59,7 +59,12 @@
 
 - (void)pubBtnClicked
 {
-    [self subMitDataRequest];
+    if (self.currHotelId != nil) {
+        [self subMitDataRequest];
+    }else{
+        [MBProgressHUD showTextHUDWithText:@"请先选择酒楼" inView:self.view];
+    }
+    
 }
 
 -(void)creatSubViews{
