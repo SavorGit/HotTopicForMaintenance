@@ -14,7 +14,7 @@
 #import "MBProgressHUD+Custom.h"
 #import "NSArray+json.h"
 
-@interface inforDetectionViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface inforDetectionViewController ()<UITableViewDelegate,UITableViewDataSource,NetworkTranDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
@@ -36,6 +36,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self initInfor];
     [self creatSubViews];
     // Do any additional setup after loading the view.
 }
@@ -83,9 +85,9 @@
 
 - (void)subMitDataRequest
 {
-    NetworkTranTableViewCell *cellOne = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:1]];
-    NetworkTranTableViewCell *cellTwo = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:2]];
-    NetworkTranTableViewCell *cellThree = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathWithIndex:3]];
+    NetworkTranTableViewCell *cellOne = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    NetworkTranTableViewCell *cellTwo = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    NetworkTranTableViewCell *cellThree = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",@"repair_info",cellThree.inPutTextField.text,@"addr",cellOne.inPutTextField.text,@"contractor",cellTwo.inPutTextField.text,@"mobile", nil];
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -103,7 +105,6 @@
 }
 
 -(void)hotelPress:(NSIndexPath *)index{
-    
     
     SearchHotelViewController *shVC = [[SearchHotelViewController alloc] initWithClassType:1];
     [self.navigationController pushViewController:shVC animated:YES];
@@ -142,6 +143,7 @@
     if (cell == nil) {
         cell = [[NetworkTranTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
+    cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.backgroundColor = UIColorFromRGB(0xf6f2ed);
