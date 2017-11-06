@@ -17,12 +17,17 @@
 #import "Helper.h"
 #import "InstallProAlertView.h"
 #import "TaskListDetailRequest.h"
+#import "TaskRepairAlertModel.h"
+#import "GetBoxListRequest.h"
+#import "RestaurantRankModel.h"
+#import "PositionListViewController.h"
 
-@interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate>
+@interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate,UITextViewDelegate>
 
 @property (nonatomic, copy) NSString * taskID;
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, strong) NSMutableArray * dConfigData; //版位信息
 @property (nonatomic, strong) TaskModel * taskListModel;
 
 @property (nonatomic, strong) UIView *mListView;
@@ -32,6 +37,7 @@
 @property (nonatomic, strong) UIButton * unResolvedBtn;
 @property (nonatomic, strong) UIButton * resolvedBtn;
 @property (nonatomic, strong) UIButton * submitBtn;
+@property (nonatomic, strong) TaskRepairAlertModel *repairAlertModel;
 
 @property (nonatomic, strong) InstallProAlertView *inPAlertView;
 
@@ -58,6 +64,8 @@
     // Do any additional setup after loading the view.
     
     self.title = @"任务详情";
+    self.repairAlertModel = [[TaskRepairAlertModel alloc] init];
+    self.dConfigData = [[NSMutableArray alloc] init];
     [self setupDatas];
 //    [self setupViews];
 }
@@ -499,6 +507,81 @@
     
     [self showViewWithAnimationDuration:.3f];
     
+}
+
+- (void)ResolveClicked:(UIButton *)btn{
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        self.repairAlertModel.state = @"1";
+        btn.layer.borderWidth = 2.f;
+        if (self.unResolvedBtn.selected == YES) {
+            self.unResolvedBtn.selected = NO;
+            self.unResolvedBtn.layer.borderWidth = .5f;
+        }
+    }else{
+        self.repairAlertModel.state = @"";
+        btn.layer.borderWidth = .5f;
+    }
+}
+
+- (void)unResolveClicked:(UIButton *)btn{
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        self.repairAlertModel.state = @"2";
+        btn.layer.borderWidth = 2.f;
+        if (self.resolvedBtn.selected == YES) {
+            self.resolvedBtn.selected = NO;
+            self.resolvedBtn.layer.borderWidth = .5f;
+        }
+    }else{
+        self.repairAlertModel.state = @"";
+        btn.layer.borderWidth = .5f;
+    }
+}
+
+#pragma mark - 点击版位选择
+- (void)mReasonClicked{
+    
+    PositionListViewController *flVC = [[PositionListViewController alloc] init];
+    float version = [UIDevice currentDevice].systemVersion.floatValue;
+    if (version < 8.0) {
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    } else {;
+        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    flVC.dataSource = self.dConfigData;
+    [self presentViewController:flVC animated:YES completion:nil];
+    flVC.backDatas = ^(NSString *boxId,NSString *name) {
+        self.mReasonLab.text = name;
+    };
+}
+
+#pragma mark - 请求版位信息
+- (void)boxConfigRequest
+{
+    GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.self.taskListModel.cid];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray *listArray = [response objectForKey:@"result"];
+        
+        for (int i = 0; i < listArray.count; i ++) {
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
+            [self.dConfigData addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    }];
+}
+
+#pragma mark - 点击弹窗页面空白处
+- (void)mListClicked{
+    
+    [self.mListView endEditing:YES];
+    [self.sheetBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.mListView.centerY).offset(0);
+    }];
 }
 
 -(void)cancelClicked{

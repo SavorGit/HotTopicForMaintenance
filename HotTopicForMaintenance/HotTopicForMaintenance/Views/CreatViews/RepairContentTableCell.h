@@ -11,7 +11,7 @@
 
 @protocol RepairContentDelegate<NSObject>
 
-- (void)selectPosion:(UIButton *)btn;
+- (void)selectPosion:(UIButton *)btn andIndex:(NSIndexPath *)index;
 - (void)addImgPress:(NSIndexPath *)index;
 
 @end
@@ -21,6 +21,7 @@
 @property (nonatomic, weak) id <RepairContentDelegate> delegate;
 
 @property (nonatomic, strong) UIImageView *fImageView;
+@property (nonatomic, strong) UITextField *inPutTextField;
 
 - (void)configWithContent:(RepairContentModel *)model andIdexPath:(NSIndexPath *)index;
 

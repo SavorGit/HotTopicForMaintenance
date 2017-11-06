@@ -101,6 +101,7 @@
 		969A3C751FAC7A3500EB95C9 /* InstallProAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C731FAC7A3500EB95C9 /* InstallProAlertView.m */; };
 		969A3C781FAD651100EB95C9 /* PubTaskRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C771FAD651100EB95C9 /* PubTaskRequest.m */; };
 		969A3C7E1FADAE1400EB95C9 /* NSArray+json.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C7D1FADAE1400EB95C9 /* NSArray+json.m */; };
+		969A3C841FB036C000EB95C9 /* TaskRepairAlertModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C831FB036C000EB95C9 /* TaskRepairAlertModel.m */; };
 		96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19851F5FC38100C06CE8 /* FaultListViewController.m */; };
 		96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19871F5FC38100C06CE8 /* lookRestaurInforViewController.m */; };
 		96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19891F5FC38100C06CE8 /* RestaurantRankInforViewController.m */; };
@@ -335,6 +336,8 @@
 		969A3C771FAD651100EB95C9 /* PubTaskRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PubTaskRequest.m; sourceTree = "<group>"; };
 		969A3C7C1FADAE1400EB95C9 /* NSArray+json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+json.h"; sourceTree = "<group>"; };
 		969A3C7D1FADAE1400EB95C9 /* NSArray+json.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+json.m"; sourceTree = "<group>"; };
+		969A3C821FB036C000EB95C9 /* TaskRepairAlertModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskRepairAlertModel.h; sourceTree = "<group>"; };
+		969A3C831FB036C000EB95C9 /* TaskRepairAlertModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskRepairAlertModel.m; sourceTree = "<group>"; };
 		96AA19841F5FC38100C06CE8 /* FaultListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaultListViewController.h; sourceTree = "<group>"; };
 		96AA19851F5FC38100C06CE8 /* FaultListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaultListViewController.m; sourceTree = "<group>"; };
 		96AA19861F5FC38100C06CE8 /* lookRestaurInforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookRestaurInforViewController.h; sourceTree = "<group>"; };
@@ -533,6 +536,8 @@
 			children = (
 				069C38631FA85C26003F92EF /* TaskModel.h */,
 				069C38641FA85C26003F92EF /* TaskModel.m */,
+				969A3C821FB036C000EB95C9 /* TaskRepairAlertModel.h */,
+				969A3C831FB036C000EB95C9 /* TaskRepairAlertModel.m */,
 				06C44BFC1FA9A2A50050FDBC /* TaskListModel.h */,
 				06C44BFD1FA9A2A50050FDBC /* TaskListModel.m */,
 				06C44C061FA9F3F70050FDBC /* DeviceFaultModel.h */,
@@ -1239,6 +1244,7 @@
 				06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */,
 				969A3C531FAAF72C00EB95C9 /* RepairContentModel.m in Sources */,
 				069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */,
+				969A3C841FB036C000EB95C9 /* TaskRepairAlertModel.m in Sources */,
 				06B055F31F5D572500A9CE68 /* UIImage+Additional.m in Sources */,
 				969A3C381FA99AA700EB95C9 /* inforDetectionViewController.m in Sources */,
 				96AA199A1F5FC38C00C06CE8 /* lookRestTableViewCell.m in Sources */,

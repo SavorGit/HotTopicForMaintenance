@@ -20,6 +20,7 @@
 #import "MBProgressHUD+Custom.h"
 #import "NSArray+json.h"
 #import "HotTopicTools.h"
+#import "Helper.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -36,6 +37,7 @@
 @property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
+@property (nonatomic, strong) NSMutableArray *subMitPosionArray; //上传版位信息数据源
 @property (nonatomic, copy) NSString *currHotelId;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
@@ -89,6 +91,7 @@
     self.navigationItem.rightBarButtonItem = backItem;
     
     self.segTag = 3;
+    self.subMitPosionArray = [[NSMutableArray alloc] init];
     
 }
 
@@ -116,12 +119,27 @@
 
 - (void)upLoadImageData{
     
-    NSArray *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"selected"],[UIImage imageNamed:@"selected"], nil];
-    NSArray *pathArray = [NSArray arrayWithObjects:@"itisceshi",@"itisceshi1", nil];
-    [HotTopicTools uploadImageArray:imgArray withPath:pathArray progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+    NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
+    NSMutableArray *pathArr = [[NSMutableArray alloc] init];
+    for (int i = 0; i < self.sectionNum; i ++) {
+        RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:1]];
+        RepairContentModel *tmpModel = [self.titleArray objectAtIndex:i];
+        
+        tmpModel.upImgUrl = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
+        [upImageArr addObject:cell.fImageView.image];
+        [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
+        
+        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
+        [self.subMitPosionArray addObject:tmpDic];
+    }
+    
+                                    
+//    NSArray *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"selected"],[UIImage imageNamed:@"selected"], nil];
+//    NSArray *pathArray = [NSArray arrayWithObjects:@"itisceshi",@"itisceshi1", nil];
+    [HotTopicTools uploadImageArray:upImageArr withPath:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         
     } success:^(NSString *path) {
-        
+        NSLog(@"---上传成功！");
     } failure:^{
         
     }];
@@ -163,10 +181,6 @@
         make.left.mas_equalTo(0);
     }];
     
-    //    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 50 *8)];
-    //    headerView.backgroundColor = UIColorFromRGB(0xf8f6f1);
-    //    _tableView.tableHeaderView = headerView;
-    
 }
 
 - (void)addNPress{
@@ -191,7 +205,7 @@
     
 }
 
-- (void)selectPosion:(UIButton *)btn{
+- (void)selectPosion:(UIButton *)btn andIndex:(NSIndexPath *)index{
     
     PositionListViewController *flVC = [[PositionListViewController alloc] init];
     float version = [UIDevice currentDevice].systemVersion.floatValue;
@@ -203,8 +217,11 @@
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     flVC.dataSource = self.dConfigData;
     [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSString *damageIdString,NSString *name) {
+    flVC.backDatas = ^(NSString *boxId,NSString *name) {
         [btn setTitle:name forState:UIControlStateNormal];
+        RepairContentModel *cell = [self.titleArray objectAtIndex:index.row];
+        cell.boxId = boxId;
+        
     };
 }
 
@@ -237,7 +254,7 @@
     }else if (section == 1){
         return self.sectionNum;
     }else{
-        return self.otherTitleArray.count;
+        return 1;
     }
 }
 

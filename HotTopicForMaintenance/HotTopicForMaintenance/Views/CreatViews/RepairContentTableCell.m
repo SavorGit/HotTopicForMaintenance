@@ -11,7 +11,6 @@
 @interface RepairContentTableCell()
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UILabel *numLabel;
-@property (nonatomic, strong) UITextField *inPutTextField;
 
 @property (nonatomic, strong) UILabel *titlePosionLabel;
 @property (nonatomic, strong) UILabel *titleFaultLabel;
@@ -170,7 +169,7 @@
 
 - (void)selectPress:(UIButton *)btn{
     
-    [self.delegate selectPosion:btn];
+    [self.delegate selectPosion:btn andIndex:self.indexPath];
 }
 
 - (void)addImgPress:(NSIndexPath *)index{

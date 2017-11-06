@@ -10,7 +10,9 @@
 
 @interface RepairContentModel : Jastor
 
-@property (nonatomic, copy)NSString *title;
+@property (nonatomic, copy)   NSString *title;
 @property (nonatomic, assign) NSInteger imgHType;
+@property (nonatomic, copy)   NSString *upImgUrl;
+@property (nonatomic, copy)   NSString *boxId;
 
 @end
