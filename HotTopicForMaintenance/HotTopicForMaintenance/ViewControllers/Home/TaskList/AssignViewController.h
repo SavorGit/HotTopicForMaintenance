@@ -7,7 +7,10 @@
 //
 
 #import "BaseViewController.h"
+#import "TaskModel.h"
 
 @interface AssignViewController : BaseViewController
+
+- (instancetype)initWithTaskModel:(TaskModel *)model;
 
 @end

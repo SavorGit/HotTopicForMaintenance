@@ -9,7 +9,7 @@
 #import "AssignViewController.h"
 #import "HotTopicTools.h"
 
-@interface AssignViewController ()
+@interface AssignViewController ()<UITableViewDelegate, UITableViewDataSource>;
 
 @property (nonatomic, strong) UIView * headerView;
 @property (nonatomic, strong) UILabel * dateLabel;
@@ -17,9 +17,25 @@
 @property (nonatomic, strong) UIDatePicker * datePicker;
 @property (nonatomic, strong) UIView * blackView;
 
+@property (nonatomic, strong) TaskModel * model;
+
+@property (nonatomic, assign) BOOL isInstallTeam;
+@property (nonatomic, strong) UIImageView * installImageView;
+
+@property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) NSMutableArray * dataSource;
+
 @end
 
 @implementation AssignViewController
+
+- (instancetype)initWithTaskModel:(TaskModel *)model
+{
+    if (self = [super init]) {
+        self.model = model;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -134,6 +150,46 @@
         make.width.height.mas_equalTo(16.f * scale);
     }];
     
+    if (self.model.task_type_id == TaskType_Install) {
+        UIView * lineView3 = [[UIView alloc] initWithFrame:CGRectZero];
+        lineView3.backgroundColor = UIColorFromRGB(0xf5f5f5);
+        [self.headerView addSubview:lineView3];
+        [lineView3 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(timeView.mas_bottom).offset(0);
+            make.left.right.mas_equalTo(0);
+            make.height.mas_equalTo(5.f);
+        }];
+        
+        UIView * installView = [[UIView alloc] initWithFrame:CGRectZero];
+        installView.backgroundColor = UIColorFromRGB(0xffffff);
+        [self.headerView addSubview:installView];
+        [installView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(lineView3.mas_bottom);
+            make.left.right.mas_equalTo(0);
+            make.height.mas_equalTo(40.f * scale);
+        }];
+        UITapGestureRecognizer * tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(installViewDidTap)];
+        tap2.numberOfTapsRequired = 1;
+        [installView addGestureRecognizer:tap2];
+        
+        UILabel * installLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(16.f * scale) alignment:NSTextAlignmentLeft];
+        installLabel.text = @"带队安装";
+        [installView addSubview:installLabel];
+        [installLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.mas_equalTo(0);
+            make.left.mas_equalTo(15.f * scale);
+        }];
+        
+        self.installImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [installView addSubview:self.installImageView];
+        [self.installImageView setImage:[UIImage imageNamed:@"yes"]];
+        [self.installImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(0);
+            make.right.mas_equalTo(-17.f * scale);
+            make.width.height.mas_equalTo(20.f * scale);
+        }];
+    }
+    
     self.blackView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.blackView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6f];
     
@@ -152,6 +208,35 @@
     button.frame = CGRectMake(kMainBoundsWidth - 70, 10, 60, 40);
     [view addSubview:button];
     [button addTarget:self action:@selector(dateDidBeChoose) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self setupDatas];
+}
+
+- (void)setupDatas
+{
+    
+}
+
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+
+- (void)installViewDidTap
+{
+    self.isInstallTeam = !self.isInstallTeam;
+    if (self.isInstallTeam) {
+        [self.installImageView setImage:[UIImage imageNamed:@"yes_gl"]];
+    }else{
+        [self.installImageView setImage:[UIImage imageNamed:@"yes"]];
+    }
 }
 
 - (void)timeViewDidTap
@@ -178,6 +263,32 @@
         _datePicker.backgroundColor = UIColorFromRGB(0xffffff);
     }
     return _datePicker;
+}
+
+- (UITableView *)tableView
+{
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
+        _tableView.backgroundColor = [UIColor clearColor];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.showsVerticalScrollIndicator = NO;
+        [self.view addSubview:_tableView];
+        [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.headerView.mas_bottom);
+            make.left.right.bottom.mas_equalTo(0);
+        }];
+    }
+    return _tableView;
+}
+
+- (NSMutableArray *)dataSource
+{
+    if (!_dataSource) {
+        _dataSource = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 - (void)didReceiveMemoryWarning {

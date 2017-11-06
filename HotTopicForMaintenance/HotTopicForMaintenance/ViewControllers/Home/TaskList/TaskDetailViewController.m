@@ -207,7 +207,7 @@
 //去指派
 - (void)assignButtonDidClicked
 {
-    AssignViewController * vc = [[AssignViewController alloc] init];
+    AssignViewController * vc = [[AssignViewController alloc] initWithTaskModel:self.taskListModel];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
