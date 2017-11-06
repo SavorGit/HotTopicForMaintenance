@@ -74,10 +74,10 @@
 
 - (void)initInfor{
     
-    _imagePickerController = [[UIImagePickerController alloc] init];
-    _imagePickerController.delegate = self;
-    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    _imagePickerController.allowsEditing = YES;
+//    _imagePickerController = [[UIImagePickerController alloc] init];
+//    _imagePickerController.delegate = self;
+//    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//    _imagePickerController.allowsEditing = YES;
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.exclusiveTouch = YES;
@@ -103,6 +103,7 @@
     NSArray *repairArray = [NSArray arrayWithObjects:repairInforDic,repairInforDicOne, nil];
     
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[repairArray toReadableJSONString],@"repair_info",@"永峰写字楼",@"addr",@"独孤求败",@"contractor",@"18500000000",@"mobile", nil];
+    
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -127,7 +128,11 @@
         RepairContentModel *tmpModel = [self.titleArray objectAtIndex:i];
         
         tmpModel.upImgUrl = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
-        [upImageArr addObject:cell.fImageView.image];
+        if (cell.fImageView.image != nil) {
+            [upImageArr addObject:cell.fImageView.image];
+        }else{
+            [upImageArr addObject:[UIImage imageNamed:@"selected"]];
+        }
         [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
         
         NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
@@ -429,6 +434,12 @@
 - (void)selectImageFromCamera
 {
     [self dismissViewWithAnimationDuration:0.1];
+    
+    _imagePickerController = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.allowsEditing = YES;
+    
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     //设置摄像头模式拍照模式
     _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
