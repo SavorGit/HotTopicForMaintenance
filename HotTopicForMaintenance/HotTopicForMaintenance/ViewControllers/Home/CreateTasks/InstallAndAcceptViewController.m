@@ -32,9 +32,9 @@
 }
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
-@property (nonatomic, strong) NSMutableArray * titleArray; //表项标题
+@property (nonatomic, strong) NSArray *dataArr; //表项标题
 @property (nonatomic, strong) NSArray * contentArray; //表项标题
-@property (nonatomic, strong) NSArray * otherTitleArray; //表项标题
+@property (nonatomic, strong) NSMutableArray * otherContentArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 @property (nonatomic, strong) NSMutableArray *subMitPosionArray; //上传版位信息数据源
@@ -60,11 +60,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.sectionNum = 1;
-    [self creatSubViews];
-    
     [self initInfor];
-    // Do any additional setup after loading the view.
+    [self creatSubViews];
 }
 
 - (void)pubBtnClicked
@@ -73,11 +70,6 @@
 }
 
 - (void)initInfor{
-    
-//    _imagePickerController = [[UIImagePickerController alloc] init];
-//    _imagePickerController.delegate = self;
-//    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//    _imagePickerController.allowsEditing = YES;
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.exclusiveTouch = YES;
@@ -90,7 +82,9 @@
     self.navigationItem.rightBarButtonItem = backItem;
     
     self.segTag = 3;
+    self.sectionNum = 1;
     self.subMitPosionArray = [[NSMutableArray alloc] init];
+    self.otherContentArray = [[NSMutableArray alloc] init];
     
 }
 
@@ -121,7 +115,7 @@
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
     for (int i = 0; i < self.sectionNum; i ++) {
         RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:1]];
-        RepairContentModel *tmpModel = [self.titleArray objectAtIndex:i];
+        RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
         
         tmpModel.upImgUrl = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
         if (cell.fImageView.image != nil) {
@@ -147,24 +141,23 @@
 - (void)creatSubViews{
     
     _dConfigData = [[NSMutableArray alloc] init];
-    self.titleArray = [[NSMutableArray alloc] init];
+//    self.titleArray = [[NSMutableArray alloc] init];
     self.currHotelId = [[NSString alloc] init];
     self.title = @"安装与验收";
     if (self.taskType == 7) {
         self.title = @"维修";
     }
     
-     NSArray *dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",  nil];
+    self.dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",nil];
+//     for (int i = 0; i < 6; i ++) {
+//        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+//        tmpModel.title = dataArr[i];
+//        [self.titleArray addObject:tmpModel];
+//    }
    
-    for (int i = 0; i < 6; i ++) {
-        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
-        tmpModel.title = dataArr[i];
-        tmpModel.imgHType = 0;
-        
-        [self.titleArray addObject:tmpModel];
-    }
-   
-    self.otherTitleArray = [NSArray arrayWithObjects:@"版位名称",@"故障现象",@"故障照片", nil];
+    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+    tmpModel.imgHType = 0;
+    [self.otherContentArray addObject:tmpModel];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.dataSource = self;
@@ -186,6 +179,19 @@
     self.sectionNum = self.sectionNum + 1;
     [self.tableView endUpdates];
     
+    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+    tmpModel.imgHType = 0;
+    [self.otherContentArray addObject:tmpModel];
+    
+//    self.otherTitleArray = [NSArray arrayWithObjects:@"版位名称",@"故障现象",@"故障照片", nil];
+//    for (int i = 0; i < 6; i ++) {
+//        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+//        tmpModel.title = dataArr[i];
+//        tmpModel.imgHType = 0;
+//
+//        [self.titleArray addObject:tmpModel];
+//    }
+    
 }
 
 - (void)reduceNPress{
@@ -196,6 +202,8 @@
         [self.tableView  deleteRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
         self.sectionNum = self.sectionNum - 1;
         [self.tableView endUpdates];
+        
+        [self.otherContentArray removeLastObject];
     }
     
 }
@@ -214,7 +222,7 @@
     [self presentViewController:flVC animated:YES completion:nil];
     flVC.backDatas = ^(NSString *boxId,NSString *name) {
         [btn setTitle:name forState:UIControlStateNormal];
-        RepairContentModel *cell = [self.titleArray objectAtIndex:index.row];
+        RepairContentModel *cell = [self.otherContentArray objectAtIndex:index.row];
         cell.boxId = boxId;
         
     };
@@ -237,6 +245,10 @@
     }];
 }
 
+- (void)Segmented:(NSInteger)segTag{
+    self.segTag = segTag;
+}
+
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -245,7 +257,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return self.titleArray.count;
+        return self.dataArr.count;
     }else if (section == 1){
         return self.sectionNum;
     }else{
@@ -255,7 +267,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RepairContentModel *tmpModel = self.titleArray[indexPath.row];
     if (indexPath.section == 0) {
         static NSString *cellID = @"RepairHeaderCell";
         RepairHeaderTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
@@ -265,10 +276,10 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-        [cell configWithTitle:tmpModel.title andContent:self.contentArray[indexPath.row] andIdexPath:indexPath];
+        [cell configWithTitle:self.dataArr[indexPath.row] andContent:self.contentArray[indexPath.row] andPNum:[NSString stringWithFormat:@"%ld",self.sectionNum]  andIdexPath:indexPath];
         return cell;
     }else {
-        
+        RepairContentModel *tmpModel = self.otherContentArray[indexPath.row];
         static NSString *cellID = @"RestaurantRankCell";
         RepairContentTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
@@ -287,7 +298,7 @@
 {
     if (indexPath.section == 1) {
         CGFloat scale = kMainBoundsWidth / 375.f;
-        RepairContentModel *tmpModel = self.titleArray[indexPath.row];
+        RepairContentModel *tmpModel = self.otherContentArray[indexPath.row];
         if (tmpModel.imgHType == 0) {
             return 50 *3 + 10;
         }else{
@@ -447,7 +458,7 @@
 //该代理方法仅适用于只选取图片时
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
     
-    RepairContentModel *tmpModel = self.titleArray[self.indexPath.row];
+    RepairContentModel *tmpModel = self.otherContentArray[self.indexPath.row];
     tmpModel.imgHType = 1;
     [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
     RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];
@@ -459,7 +470,7 @@
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
-        RepairContentModel *tmpModel = self.titleArray[self.indexPath.row];
+        RepairContentModel *tmpModel = self.otherContentArray[self.indexPath.row];
         tmpModel.imgHType = 1;
         [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
         RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];

@@ -61,7 +61,7 @@
     }];
 }
 
-- (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index{
+- (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index{
   
     self.indexPath = index;
     self.reasonLabel.text = title;
@@ -108,6 +108,7 @@
         NSArray *array = [NSArray arrayWithObjects:@"紧急",@"正常", nil];
         self.segment = [[UISegmentedControl alloc]initWithItems:array];
         [self.segment addTarget:self action:@selector(change:) forControlEvents:UIControlEventValueChanged];
+        self.segment.selectedSegmentIndex = 1;
         [self addSubview:self.segment];
         [self.segment mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(140, 30));
@@ -128,14 +129,14 @@
         [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(30, 30));
             make.top.mas_equalTo(10);
-            make.right.mas_equalTo(- 145);
+            make.right.mas_equalTo(- 35);
         }];
         
         self.numLabel = [[UILabel alloc]init];
         self.numLabel.font = [UIFont systemFontOfSize:15];
         self.numLabel.textColor = [UIColor blackColor];
         self.numLabel.textAlignment = NSTextAlignmentCenter;
-        self.numLabel.text = @"1";
+        self.numLabel.text = numStr;
         [self addSubview:self.numLabel];
         [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(60, 20));
@@ -150,7 +151,7 @@
         [self.reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(30, 30));
             make.top.mas_equalTo(10);
-            make.right.mas_equalTo(- 35);
+            make.right.mas_equalTo(- 145);
         }];
     }else{
         self.rightImg.hidden = YES;
@@ -189,10 +190,15 @@
 }
 
 -(void)change:(UISegmentedControl *)sender{
-    NSLog(@"测试");
     if (sender.selectedSegmentIndex == 0) {
+        if ([self.delegate respondsToSelector:@selector(Segmented:)]) {
+            [self.delegate Segmented:2];
+        }
         NSLog(@"紧急");
     }else if (sender.selectedSegmentIndex == 1){
+        if ([self.delegate respondsToSelector:@selector(Segmented:)]) {
+            [self.delegate Segmented:3];
+        }
         NSLog(@"正常");
     }
 }

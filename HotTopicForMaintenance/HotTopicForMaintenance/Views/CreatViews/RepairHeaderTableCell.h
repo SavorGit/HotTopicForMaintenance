@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @protocol RepairHeaderTableDelegate<NSObject>
+
 - (void)addNPress;
 - (void)reduceNPress;
 - (void)hotelPress:(NSIndexPath *)index;
+- (void)Segmented:(NSInteger )segTag;
 
 @end
 
@@ -22,6 +24,6 @@
 @property (nonatomic, strong) UIButton *hotelBtn;
 @property (nonatomic, strong) UITextField *inPutTextField;
 
-- (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index;
+- (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index;
 
 @end
