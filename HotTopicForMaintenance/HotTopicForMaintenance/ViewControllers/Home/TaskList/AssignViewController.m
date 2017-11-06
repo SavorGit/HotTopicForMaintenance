@@ -8,6 +8,7 @@
 
 #import "AssignViewController.h"
 #import "HotTopicTools.h"
+#import "HandleTaskListCell.h"
 
 @interface AssignViewController ()<UITableViewDelegate, UITableViewDataSource>;
 
@@ -217,7 +218,12 @@
     
 }
 
-
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HandleTaskListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"HandleTaskListCell" forIndexPath:indexPath];
+    
+    return cell;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -274,6 +280,7 @@
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.showsVerticalScrollIndicator = NO;
+        [_tableView registerClass:[HandleTaskListCell class] forCellReuseIdentifier:@"HandleTaskListCell"];
         [self.view addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.headerView.mas_bottom);
@@ -288,7 +295,7 @@
     if (!_dataSource) {
         _dataSource = [[NSMutableArray alloc] init];
     }
-    return self;
+    return _dataSource;
 }
 
 - (void)didReceiveMemoryWarning {
