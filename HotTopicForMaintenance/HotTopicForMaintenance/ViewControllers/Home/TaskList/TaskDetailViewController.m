@@ -655,7 +655,7 @@
 {
     self.dataSource = [[NSMutableArray alloc] init];
     
-    TaskListDetailRequest * request = [[TaskListDetailRequest alloc] initWithTaskID:@"55"];
+    TaskListDetailRequest * request = [[TaskListDetailRequest alloc] initWithTaskID:self.taskID];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSDictionary * result = [response objectForKey:@"result"];
