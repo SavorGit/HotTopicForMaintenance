@@ -52,6 +52,7 @@
     
     self.inPutTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.inPutTextField.text = @"俏江南";
+    self.inPutTextField.font = [UIFont systemFontOfSize:14];
     self.inPutTextField.textAlignment = NSTextAlignmentRight;
     [self addSubview:self.inPutTextField];
     [self.inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -89,6 +90,7 @@
             [self.hotelBtn setTitle:contenStr forState:UIControlStateNormal];
         }
         [self.hotelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        self.hotelBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [self.hotelBtn addTarget:self action:@selector(hotelPress:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.hotelBtn];
         [self.hotelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -123,12 +125,12 @@
         self.segment.hidden = YES;
         
         self.addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.addBtn.backgroundColor = [UIColor blueColor];
+        [self.addBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
         [self.addBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.addBtn];
         [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(30, 30));
-            make.top.mas_equalTo(10);
+            make.size.mas_equalTo(CGSizeMake(16, 16));
+            make.top.mas_equalTo(17);
             make.right.mas_equalTo(- 35);
         }];
         
@@ -141,17 +143,17 @@
         [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(60, 20));
             make.top.mas_equalTo(15);
-            make.right.mas_equalTo(- 75);
+            make.right.mas_equalTo(self.addBtn.mas_left);
         }];
         
         self.reduceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.reduceBtn.backgroundColor = [UIColor cyanColor];
+        [self.reduceBtn setImage:[UIImage imageNamed:@"reduce"] forState:UIControlStateNormal];
         [self.reduceBtn addTarget:self action:@selector(reducePress) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.reduceBtn];
         [self.reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(30, 30));
-            make.top.mas_equalTo(10);
-            make.right.mas_equalTo(- 145);
+            make.size.mas_equalTo(CGSizeMake(16, 16));
+            make.top.mas_equalTo(17);
+            make.right.mas_equalTo(self.numLabel.mas_left);
         }];
     }else{
         self.rightImg.hidden = YES;

@@ -73,6 +73,7 @@
     UIButton *selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [selectBtn setTitle:@"请选择" forState:UIControlStateNormal];
     [selectBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    selectBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [selectBtn addTarget:self action:@selector(selectPress:) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:selectBtn];
     [selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -95,7 +96,8 @@
     }];
     
     self.inPutTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    self.inPutTextField.text = @"俏江南";
+    self.inPutTextField.text = @"描述";
+    self.inPutTextField.font = [UIFont systemFontOfSize:14];
     self.inPutTextField.textAlignment = NSTextAlignmentRight;
     [_bgView addSubview:self.inPutTextField];
     [self.inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -117,11 +119,11 @@
     }];
     
     self.addImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.addImgBtn.backgroundColor = [UIColor blueColor];
+    [self.addImgBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
     [self.addImgBtn addTarget:self action:@selector(addImgPress:) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:self.addImgBtn];
     [self.addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(30, 30));
+        make.size.mas_equalTo(CGSizeMake(16, 16));
         make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
         make.right.mas_equalTo(- 20);
     }];
