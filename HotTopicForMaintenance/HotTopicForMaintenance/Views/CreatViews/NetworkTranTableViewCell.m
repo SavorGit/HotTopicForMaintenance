@@ -98,6 +98,7 @@
             NSArray *array = [NSArray arrayWithObjects:@"紧急",@"正常", nil];
             self.segment = [[UISegmentedControl alloc]initWithItems:array];
             [self.segment addTarget:self action:@selector(change:) forControlEvents:UIControlEventValueChanged];
+            self.segment.selectedSegmentIndex = 1;
             [self addSubview:self.segment];
             [self.segment mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(140, 30));
