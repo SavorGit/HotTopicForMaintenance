@@ -98,11 +98,7 @@
 {
     [self upLoadImageData];
     
-    NSDictionary *repairInforDicOne = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"这这是测试",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
-    NSDictionary *repairInforDic = [NSDictionary dictionaryWithObjectsAndKeys:@"123456",@"box_id",@"电源坏掉了",@"fault_desc",@"http://pic.",@"fault_img_url", nil];
-    NSArray *repairArray = [NSArray arrayWithObjects:repairInforDic,repairInforDicOne, nil];
-    
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[repairArray toReadableJSONString],@"repair_info",@"永峰写字楼",@"addr",@"独孤求败",@"contractor",@"18500000000",@"mobile", nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",@"永峰写字楼",@"addr",@"独孤求败",@"contractor",@"18500000000",@"mobile", nil];
     
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -139,9 +135,6 @@
         [self.subMitPosionArray addObject:tmpDic];
     }
     
-                                    
-//    NSArray *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"selected"],[UIImage imageNamed:@"selected"], nil];
-//    NSArray *pathArray = [NSArray arrayWithObjects:@"itisceshi",@"itisceshi1", nil];
     [HotTopicTools uploadImageArray:upImageArr withPath:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         
     } success:^(NSString *path) {
@@ -400,6 +393,11 @@
         make.centerY.mas_equalTo(bgView.mas_centerY);
         make.centerX.mas_equalTo(bgView.mas_centerX).offset(80);
     }];
+    
+    _imagePickerController = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.allowsEditing = YES;
 }
 
 #pragma mark - show view
@@ -428,11 +426,6 @@
 - (void)selectImageFromCamera
 {
     [self dismissViewWithAnimationDuration:0.1];
-    
-    _imagePickerController = [[UIImagePickerController alloc] init];
-    _imagePickerController.delegate = self;
-    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    _imagePickerController.allowsEditing = YES;
     
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     //设置摄像头模式拍照模式
