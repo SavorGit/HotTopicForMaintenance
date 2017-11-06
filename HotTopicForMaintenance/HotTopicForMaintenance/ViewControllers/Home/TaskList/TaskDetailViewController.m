@@ -661,6 +661,7 @@
         NSDictionary * result = [response objectForKey:@"result"];
         if ([result isKindOfClass:[NSDictionary class]]) {
             self.taskListModel = [[TaskModel alloc] initWithDictionary:result];
+            self.taskListModel.cid = self.taskID;
         }
         
         NSArray * repairList = [result objectForKey:@"repair_list"];

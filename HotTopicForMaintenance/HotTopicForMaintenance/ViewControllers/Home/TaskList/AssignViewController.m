@@ -9,6 +9,7 @@
 #import "AssignViewController.h"
 #import "HotTopicTools.h"
 #import "HandleTaskListCell.h"
+#import "HandleTaskListRequest.h"
 
 @interface AssignViewController ()<UITableViewDelegate, UITableViewDataSource>;
 
@@ -47,14 +48,11 @@
 
 - (void)createHeaderView
 {
-    self.headerView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.headerView.backgroundColor = UIColorFromRGB(0xffffff);
-    [self.view addSubview:self.headerView];
-    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(0);
-    }];
     
     CGFloat scale = kMainBoundsWidth / 375.f;
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 138.f * scale)];
+    self.headerView.backgroundColor = UIColorFromRGB(0xffffff);
+    [self.view addSubview:self.headerView];
     
     UILabel * taskLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(16.f * scale) alignment:NSTextAlignmentLeft];
     taskLabel.text = @"任务详情";
@@ -62,7 +60,6 @@
     [taskLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20.f * scale);
         make.left.mas_equalTo(15.f * scale);
-        make.right.mas_equalTo(0);
         make.height.mas_equalTo(16.f * scale + 1);
     }];
     
@@ -189,6 +186,8 @@
             make.right.mas_equalTo(-17.f * scale);
             make.width.height.mas_equalTo(20.f * scale);
         }];
+        
+        self.headerView.frame = CGRectMake(0, 0, kMainBoundsWidth, 184.f * scale);
     }
     
     self.blackView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -210,17 +209,60 @@
     [view addSubview:button];
     [button addTarget:self action:@selector(dateDidBeChoose) forControlEvents:UIControlEventTouchUpInside];
     
-    [self setupDatas];
+    UIView * lineView4 = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView4.backgroundColor = UIColorFromRGB(0xf5f5f5);
+    [self.headerView addSubview:lineView4];
+    [lineView4 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(0);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(10.f);
+    }];
+    
+    self.tableView.tableHeaderView = self.headerView;
 }
 
 - (void)setupDatas
 {
+    NSString * date = self.dateLabel.text;
+    if (isEmptyString(date)) {
+        [MBProgressHUD showTextHUDWithText:@"请先选择日期" inView:self.view];
+        return;
+    }
     
+    HandleTaskListRequest * request = [[HandleTaskListRequest alloc] initWithDate:self.dateLabel.text installTeam:self.isInstallTeam taskID:self.model.cid];
+    
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取" inView:self.view];
+    [self.dataSource removeAllObjects];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray * result = [response objectForKey:@"result"];
+        [hud hideAnimated:YES];
+        
+        if ([result isKindOfClass:[NSArray class]] && result.count > 0) {
+            [self.dataSource addObjectsFromArray:result];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"暂时没有执行者信息" inView:self.view];
+        }
+        [self.tableView reloadData];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        [self.tableView reloadData];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [self.tableView reloadData];
+        
+    }];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HandleTaskListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"HandleTaskListCell" forIndexPath:indexPath];
+    
+    [cell configWithInfo:[self.dataSource objectAtIndex:indexPath.row] date:self.dateLabel.text taskID:self.model.cid];
     
     return cell;
 }
@@ -232,7 +274,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return self.dataSource.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    NSDictionary * info = [self.dataSource objectAtIndex:indexPath.row];
+    NSArray * list = [info objectForKey:@"task_info"];
+    CGFloat lineHeight = 25.f * scale;
+    CGFloat height = 75.f * scale + lineHeight * list.count;
+    
+    return height;
 }
 
 - (void)installViewDidTap
@@ -256,8 +310,9 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
     [formatter setDateFormat:@"yyyy-MM-dd"];
     self.dateLabel.text = [formatter stringFromDate:date];
-    
     [self.blackView removeFromSuperview];
+    
+    [self setupDatas];
 }
 
 - (UIDatePicker *)datePicker
@@ -283,8 +338,7 @@
         [_tableView registerClass:[HandleTaskListCell class] forCellReuseIdentifier:@"HandleTaskListCell"];
         [self.view addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.headerView.mas_bottom);
-            make.left.right.bottom.mas_equalTo(0);
+            make.edges.mas_equalTo(0);
         }];
     }
     return _tableView;
