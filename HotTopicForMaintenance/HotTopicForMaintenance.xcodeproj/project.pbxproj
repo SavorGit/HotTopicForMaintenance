@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */; };
 		0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEBD1F5E754600686790 /* RepairRecordViewController.m */; };
 		0626DEC11F5E860800686790 /* GetAllUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC01F5E860800686790 /* GetAllUserRequest.m */; };
 		0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC31F5EACED00686790 /* GetRepairRecordListRequest.m */; };
@@ -141,6 +142,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		062613781FB058AA00EA6AD7 /* HandleTaskListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListCell.h; sourceTree = "<group>"; };
+		062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandleTaskListCell.m; sourceTree = "<group>"; };
 		0626DEBC1F5E754600686790 /* RepairRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordViewController.h; sourceTree = "<group>"; };
 		0626DEBD1F5E754600686790 /* RepairRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordViewController.m; sourceTree = "<group>"; };
 		0626DEBF1F5E860800686790 /* GetAllUserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAllUserRequest.h; sourceTree = "<group>"; };
@@ -562,6 +565,8 @@
 				969A3C701FAC7A1600EB95C9 /* InstallAlerTableViewCell.m */,
 				06C44C091FA9F7000050FDBC /* DeviceFaultTableViewCell.h */,
 				06C44C0A1FA9F7000050FDBC /* DeviceFaultTableViewCell.m */,
+				062613781FB058AA00EA6AD7 /* HandleTaskListCell.h */,
+				062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -1287,6 +1292,7 @@
 				969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */,
 				969A3C631FAC407D00EB95C9 /* GetBoxListRequest.m in Sources */,
 				069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */,
+				0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */,
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
 				06844D021FAC436900E7A2CD /* DeviceManager.m in Sources */,

@@ -24,7 +24,7 @@
     
     self.title = @"选择城市";
     self.dataSource = [[NSMutableArray alloc] initWithArray:[UserManager manager].user.cityArray];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleDone target:self action:@selector(backButtonDidClicked)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(backButtonDidClicked)];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight) style:UITableViewStylePlain];
 //    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
