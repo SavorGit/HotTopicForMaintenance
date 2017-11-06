@@ -50,15 +50,11 @@
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = [UIColor whiteColor];
-    _tableView.backgroundView = nil;
+    _tableView.backgroundColor = [UIColor clearColor];
     _tableView.showsVerticalScrollIndicator = NO;
     [self.bgView addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 215));
-        make.top.mas_equalTo(15);
-        make.left.mas_equalTo(0);
+        make.edges.mas_equalTo(0);
     }];
 }
 
@@ -87,8 +83,6 @@
     }else{
         cell.selectImgView.hidden = YES;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     
     [cell configWithModel:model];

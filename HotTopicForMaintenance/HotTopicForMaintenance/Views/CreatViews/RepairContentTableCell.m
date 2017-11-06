@@ -32,9 +32,11 @@
 
 - (void)initWithSubView
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     _bgView = [[UIView alloc] init];
-    _bgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
-    _bgView.layer.borderColor = UIColorFromRGB(0xf6f2ed).CGColor;
+    _bgView.backgroundColor = UIColorFromRGB(0xffffff);
+    _bgView.layer.borderColor = UIColorFromRGB(0xffffff).CGColor;
     _bgView.layer.borderWidth = .5f;
     _bgView.layer.cornerRadius = 5.f;
     _bgView.layer.masksToBounds = YES;

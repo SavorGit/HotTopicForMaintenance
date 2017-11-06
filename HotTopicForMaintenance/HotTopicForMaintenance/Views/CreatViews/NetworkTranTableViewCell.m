@@ -29,6 +29,9 @@
 
 - (void)initWithSubView
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.backgroundColor = UIColorFromRGB(0xffffff);
+    
     self.reasonLabel = [[UILabel alloc]init];
     self.reasonLabel.font = [UIFont systemFontOfSize:14];
     self.reasonLabel.textColor = UIColorFromRGB(0x434343);
@@ -50,16 +53,6 @@
         make.centerY.mas_equalTo(self);
         make.right.mas_equalTo(- 20);
     }];
-    
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = [UIColor blackColor];
-    [self addSubview:lineView];
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 1));
-        make.top.mas_equalTo(self.mas_bottom);
-        make.left.mas_equalTo(0);
-    }];
-    
 }
 
 - (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andIdexPath:(NSIndexPath *)index{

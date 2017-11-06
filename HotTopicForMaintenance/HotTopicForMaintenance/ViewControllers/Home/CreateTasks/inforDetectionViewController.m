@@ -70,15 +70,11 @@
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = [UIColor whiteColor];
-    _tableView.backgroundView = nil;
+    _tableView.backgroundColor = [UIColor clearColor];
     _tableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
-        make.top.mas_equalTo(10);
-        make.left.mas_equalTo(0);
+        make.edges.mas_equalTo(0);
     }];
     
 }
@@ -144,9 +140,6 @@
         cell = [[NetworkTranTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     cell.delegate = self;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    cell.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [cell configWithTitle:self.titleArray[indexPath.row] andContent:self.contentArray[indexPath.row] andIdexPath:indexPath];
     
     return cell;
@@ -165,7 +158,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 5;
+    return 10;
 }
 
 - (void)didReceiveMemoryWarning {
