@@ -141,7 +141,6 @@
 - (void)creatSubViews{
     
     _dConfigData = [[NSMutableArray alloc] init];
-//    self.titleArray = [[NSMutableArray alloc] init];
     self.currHotelId = [[NSString alloc] init];
     self.title = @"安装与验收";
     if (self.taskType == 7) {
@@ -149,12 +148,6 @@
     }
     
     self.dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",nil];
-//     for (int i = 0; i < 6; i ++) {
-//        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
-//        tmpModel.title = dataArr[i];
-//        [self.titleArray addObject:tmpModel];
-//    }
-   
     RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
     tmpModel.imgHType = 0;
     [self.otherContentArray addObject:tmpModel];
@@ -173,24 +166,15 @@
 
 - (void)addNPress{
     
+    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+    tmpModel.imgHType = 0;
+    [self.otherContentArray addObject:tmpModel];
+    
     [self.tableView beginUpdates];
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.sectionNum inSection:1];
     [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
     self.sectionNum = self.sectionNum + 1;
     [self.tableView endUpdates];
-    
-    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
-    tmpModel.imgHType = 0;
-    [self.otherContentArray addObject:tmpModel];
-    
-//    self.otherTitleArray = [NSArray arrayWithObjects:@"版位名称",@"故障现象",@"故障照片", nil];
-//    for (int i = 0; i < 6; i ++) {
-//        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
-//        tmpModel.title = dataArr[i];
-//        tmpModel.imgHType = 0;
-//
-//        [self.titleArray addObject:tmpModel];
-//    }
     
 }
 
@@ -210,22 +194,27 @@
 
 - (void)selectPosion:(UIButton *)btn andIndex:(NSIndexPath *)index{
     
-    PositionListViewController *flVC = [[PositionListViewController alloc] init];
-    float version = [UIDevice currentDevice].systemVersion.floatValue;
-    if (version < 8.0) {
-        self.modalPresentationStyle = UIModalPresentationCurrentContext;
-    } else {;
-        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    if (self.dConfigData.count > 0) {
+        PositionListViewController *flVC = [[PositionListViewController alloc] init];
+        float version = [UIDevice currentDevice].systemVersion.floatValue;
+        if (version < 8.0) {
+            self.modalPresentationStyle = UIModalPresentationCurrentContext;
+        } else {;
+            flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        }
+        flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        flVC.dataSource = self.dConfigData;
+        [self presentViewController:flVC animated:YES completion:nil];
+        flVC.backDatas = ^(NSString *boxId,NSString *name) {
+            [btn setTitle:name forState:UIControlStateNormal];
+            RepairContentModel *cell = [self.otherContentArray objectAtIndex:index.row];
+            cell.boxId = boxId;
+            
+        };
+    }else{
+        [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
     }
-    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.dataSource = self.dConfigData;
-    [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSString *boxId,NSString *name) {
-        [btn setTitle:name forState:UIControlStateNormal];
-        RepairContentModel *cell = [self.otherContentArray objectAtIndex:index.row];
-        cell.boxId = boxId;
-        
-    };
+    
 }
 
 - (void)boxConfigRequest
