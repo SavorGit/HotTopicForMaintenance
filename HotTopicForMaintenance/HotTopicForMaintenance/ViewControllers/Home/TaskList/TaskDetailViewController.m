@@ -72,7 +72,6 @@
     self.dConfigData = [[NSMutableArray alloc] init];
     [self setupDatas];
     [self addNotification];
-//    [self setupViews];
 }
 
 - (void)removeNotification
@@ -575,25 +574,27 @@
 #pragma mark - 点击版位选择
 - (void)mReasonClicked{
     
-    PositionListViewController *flVC = [[PositionListViewController alloc] init];
-    float version = [UIDevice currentDevice].systemVersion.floatValue;
-    if (version < 8.0) {
-        self.modalPresentationStyle = UIModalPresentationCurrentContext;
-    } else {;
-        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    if (self.dConfigData.count > 0) {
+        PositionListViewController *flVC = [[PositionListViewController alloc] init];
+        float version = [UIDevice currentDevice].systemVersion.floatValue;
+        if (version < 8.0) {
+            self.modalPresentationStyle = UIModalPresentationCurrentContext;
+        } else {;
+            flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        }
+        flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        flVC.dataSource = self.dConfigData;
+        [self presentViewController:flVC animated:YES completion:nil];
+        flVC.backDatas = ^(NSString *boxId,NSString *name) {
+            self.mReasonLab.text = name;
+        };
     }
-    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.dataSource = self.dConfigData;
-    [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSString *boxId,NSString *name) {
-        self.mReasonLab.text = name;
-    };
 }
 
 #pragma mark - 请求版位信息
 - (void)boxConfigRequest
 {
-    GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.self.taskListModel.cid];
+    GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.taskListModel.cid];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSArray *listArray = [response objectForKey:@"result"];
@@ -719,6 +720,8 @@
         }
         
         [self setupViews];
+        // 请求版位信息
+        [self boxConfigRequest];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
