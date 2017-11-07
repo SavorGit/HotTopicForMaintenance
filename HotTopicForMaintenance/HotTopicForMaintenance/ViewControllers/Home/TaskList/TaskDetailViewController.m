@@ -22,6 +22,7 @@
 #import "RestaurantRankModel.h"
 #import "PositionListViewController.h"
 #import "RefuseRequest.h"
+#import "DeviceManager.h"
 
 @interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate,UITextViewDelegate>
 
@@ -33,6 +34,7 @@
 @property (nonatomic, strong) TaskModel * taskListModel;
 
 @property (nonatomic, assign) BOOL hasNotification;
+@property (nonatomic, assign) BOOL hasSearchHotel;
 
 @property (nonatomic, strong) UIView *mListView;
 @property (nonatomic, strong) UIImageView *sheetBgView;
@@ -50,6 +52,8 @@
 //点击拒绝的弹窗
 @property (nonatomic, strong) UIView * refuseView;
 @property (nonatomic, strong) RDTextView * refuseTextView;
+
+@property (nonatomic, copy) NSString * hotelID;
 
 @end
 
@@ -180,6 +184,7 @@
             
         case UserRoleType_HandleTask:
         {
+            [self addSearchHotelNotification];
             if (self.taskListModel.state_id == TaskStatusType_WaitHandle) {
                 if (self.taskListModel.task_type_id == TaskType_Repair) {
                     UIButton * repairButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"维修" cornerRadius:5.f];
@@ -233,6 +238,50 @@
             [self.bottomView removeFromSuperview];
             
             break;
+    }
+}
+
+- (void)addSearchHotelNotification
+{
+    if (!self.hasSearchHotel) {
+        [[DeviceManager manager] startSearchDecice];
+        [[DeviceManager manager] startMonitoring];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidSuccess) name:RDSearchDeviceSuccessNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidEnd) name:RDSearchDeviceDidEndNotification object:nil];
+    }
+}
+
+//发现了酒楼环境
+- (void)searchDeviceDidSuccess
+{
+    NSString * hotelID = [DeviceManager manager].hotelID;
+    if (!isEmptyString(hotelID)) {
+        if (![self.hotelID isEqualToString:hotelID]) {
+            self.hotelID = hotelID;
+        }
+    }
+}
+
+//搜索设备结束
+- (void)searchDeviceDidEnd
+{
+    if (![DeviceManager manager].isHotel) {
+        self.hotelID = @"";
+    }else{
+        NSString * hotelID = [DeviceManager manager].hotelID;
+        if (!isEmptyString(hotelID)) {
+            if (![self.hotelID isEqualToString:hotelID]) {
+                self.hotelID = hotelID;
+            }
+        }
+    }
+}
+
+- (void)removeSearchHotelNotification
+{
+    if (self.hasSearchHotel) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:RDSearchDeviceSuccessNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:RDSearchDeviceDidEndNotification object:nil];
     }
 }
 
@@ -802,9 +851,19 @@
     }];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    if ([self.navigationController.topViewController isKindOfClass:NSClassFromString(@"TaskListViewController")]) {
+        [[DeviceManager manager] stopMonitoring];
+        [[DeviceManager manager] stopSearchDevice];
+    }
+}
+
 - (void)dealloc
 {
     [self removeNotification];
+    [self removeSearchHotelNotification];
 }
 
 - (void)didReceiveMemoryWarning {
