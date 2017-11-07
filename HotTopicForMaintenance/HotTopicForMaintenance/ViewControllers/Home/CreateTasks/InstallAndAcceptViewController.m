@@ -26,7 +26,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface InstallAndAcceptViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate>
+@interface InstallAndAcceptViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate,UITextFieldDelegate>
 {
     UIImagePickerController *_imagePickerController;
 }
@@ -272,11 +272,12 @@
         static NSString *cellID = @"RestaurantRankCell";
         RepairContentTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
-            cell = [[RepairContentTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+            cell = [[RepairContentTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID andIdexPath:indexPath];
         }
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
+        cell.inPutTextField.delegate = self;
         [cell configWithContent:tmpModel  andIdexPath:indexPath];
         return cell;
     }
@@ -476,6 +477,23 @@
 
     }
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *textField.tag)) animated:YES];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSLog(@"%@",textField.text);
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
+    return [textField resignFirstResponder];
+    
 }
 
 - (void)didReceiveMemoryWarning {

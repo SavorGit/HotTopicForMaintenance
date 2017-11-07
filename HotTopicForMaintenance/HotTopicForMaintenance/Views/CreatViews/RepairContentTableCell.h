@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UIImageView *fImageView;
 @property (nonatomic, strong) UITextField *inPutTextField;
 
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andIdexPath:(NSIndexPath *)index;
+
 - (void)configWithContent:(RepairContentModel *)model andIdexPath:(NSIndexPath *)index;
 
 @end
