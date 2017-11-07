@@ -23,8 +23,9 @@
 
 @implementation RepairContentTableCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andIdexPath:(NSIndexPath *)index{
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
+        self.indexPath = index;
         [self initWithSubView];
     }
     return self;
@@ -97,6 +98,7 @@
     
     self.inPutTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.inPutTextField.text = @"描述";
+    self.inPutTextField.tag = self.indexPath.row;
     self.inPutTextField.font = [UIFont systemFontOfSize:14];
     self.inPutTextField.textAlignment = NSTextAlignmentRight;
     [_bgView addSubview:self.inPutTextField];
@@ -132,10 +134,12 @@
     self.fImageView.backgroundColor = [UIColor cyanColor];
     self.fImageView.userInteractionEnabled = YES;
     [_bgView addSubview:self.fImageView];
+    
+    
 }
 
 - (void)configWithContent:(RepairContentModel *)model andIdexPath:(NSIndexPath *)index{
-    self.indexPath = index;
+//    self.indexPath = index;
     if (model.imgHType == 1) {
         self.addImgBtn.hidden = YES;
         
