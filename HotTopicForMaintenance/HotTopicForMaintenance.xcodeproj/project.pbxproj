@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C41FB1831700D2A510 /* RefuseRequest.m */; };
 		0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */; };
+		0626137D1FB05EB700EA6AD7 /* HandleTaskListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626137C1FB05EB700EA6AD7 /* HandleTaskListRequest.m */; };
+		062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626137F1FB06F0200EA6AD7 /* AssignRequest.m */; };
 		0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEBD1F5E754600686790 /* RepairRecordViewController.m */; };
 		0626DEC11F5E860800686790 /* GetAllUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC01F5E860800686790 /* GetAllUserRequest.m */; };
 		0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626DEC31F5EACED00686790 /* GetRepairRecordListRequest.m */; };
@@ -142,8 +145,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		060A77C31FB1831700D2A510 /* RefuseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RefuseRequest.h; sourceTree = "<group>"; };
+		060A77C41FB1831700D2A510 /* RefuseRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RefuseRequest.m; sourceTree = "<group>"; };
 		062613781FB058AA00EA6AD7 /* HandleTaskListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListCell.h; sourceTree = "<group>"; };
 		062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandleTaskListCell.m; sourceTree = "<group>"; };
+		0626137B1FB05EB700EA6AD7 /* HandleTaskListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListRequest.h; sourceTree = "<group>"; };
+		0626137C1FB05EB700EA6AD7 /* HandleTaskListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandleTaskListRequest.m; sourceTree = "<group>"; };
+		0626137E1FB06F0200EA6AD7 /* AssignRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssignRequest.h; sourceTree = "<group>"; };
+		0626137F1FB06F0200EA6AD7 /* AssignRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignRequest.m; sourceTree = "<group>"; };
 		0626DEBC1F5E754600686790 /* RepairRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordViewController.h; sourceTree = "<group>"; };
 		0626DEBD1F5E754600686790 /* RepairRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordViewController.m; sourceTree = "<group>"; };
 		0626DEBF1F5E860800686790 /* GetAllUserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAllUserRequest.h; sourceTree = "<group>"; };
@@ -739,6 +748,12 @@
 				06B4A6501FADC4780081BBA7 /* LookRoleListRequest.m */,
 				06B4A6491FAD976D0081BBA7 /* TaskListDetailRequest.h */,
 				06B4A64A1FAD976D0081BBA7 /* TaskListDetailRequest.m */,
+				0626137B1FB05EB700EA6AD7 /* HandleTaskListRequest.h */,
+				0626137C1FB05EB700EA6AD7 /* HandleTaskListRequest.m */,
+				0626137E1FB06F0200EA6AD7 /* AssignRequest.h */,
+				0626137F1FB06F0200EA6AD7 /* AssignRequest.m */,
+				060A77C31FB1831700D2A510 /* RefuseRequest.h */,
+				060A77C41FB1831700D2A510 /* RefuseRequest.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -1266,6 +1281,7 @@
 				969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
+				062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
 				96AA19B31F600C8A00C06CE8 /* LookHotelInforModel.m in Sources */,
@@ -1320,12 +1336,14 @@
 				06B055D81F5D486800A9CE68 /* GCCGetInfo.m in Sources */,
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,
 				0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */,
+				060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */,
 				06B055DB1F5D48D800A9CE68 /* GCCKeyChain.m in Sources */,
 				066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */,
 				06844CFE1FAC12D700E7A2CD /* RDTextView.m in Sources */,
 				96AA199B1F5FC38C00C06CE8 /* RestaurantRankCell.m in Sources */,
 				06338BB91FA1C702003775B5 /* MenuModel.m in Sources */,
 				0626DECA1F5EC14500686790 /* RepairRecordModel.m in Sources */,
+				0626137D1FB05EB700EA6AD7 /* HandleTaskListRequest.m in Sources */,
 				96AA198F1F5FC38100C06CE8 /* SearchHotelViewController.m in Sources */,
 				96AA19991F5FC38C00C06CE8 /* FaultListTableViewCell.m in Sources */,
 				06C44C051FA9E2990050FDBC /* TaskDetailView.m in Sources */,

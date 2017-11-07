@@ -9,6 +9,7 @@
 #import "UserManager.h"
 
 NSString * const RDUserLoginStatusDidChange = @"RDUserLoginStatusDidChange";
+NSString * const RDTaskStatusDidChangeNotification = @"RDTaskStatusDidChangeNotification";
 
 @implementation UserManager
 

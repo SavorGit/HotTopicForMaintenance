@@ -11,6 +11,7 @@
 #import "UserNotificationModel.h"
 
 extern NSString * const RDUserLoginStatusDidChange; //用户登录状态改变
+extern NSString * const RDTaskStatusDidChangeNotification; //用户任务状态改变
 
 @interface UserManager : NSObject
 
