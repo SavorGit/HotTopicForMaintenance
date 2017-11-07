@@ -25,6 +25,7 @@
 #import "BindingPositionViewController.h"
 #import "UserCityViewController.h"
 #import "BaseNavigationController.h"
+#import "GetTaskCountRequest.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -308,11 +309,11 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     MenuModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    if (model.type == MenuModelType_TaskList) {
+    if (model.type == MenuModelType_TaskList || model.type == MenuModelType_MyTask) {
         HomeBadgeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeBadgeCollectionViewCell" forIndexPath:indexPath];
         [cell configWithModel:model];
-        [cell setBadgeNumber:9];
         self.badgeCell = cell;
+        [self requestTaskCount];
         
         return cell;
     }else{
@@ -423,6 +424,31 @@
         _dataSource = [NSMutableArray new];
     }
     return _dataSource;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self requestTaskCount];
+}
+
+- (void)requestTaskCount
+{
+    GetTaskCountRequest * request = [[GetTaskCountRequest alloc] initWithAreaID:[UserManager manager].user.currentCity.cid userID:[UserManager manager].user.userid];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            if (self.badgeCell) {
+                [self.badgeCell setBadgeNumber:[[result objectForKey:@"nums"] integerValue]];
+            }
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
 }
 
 - (void)dealloc
