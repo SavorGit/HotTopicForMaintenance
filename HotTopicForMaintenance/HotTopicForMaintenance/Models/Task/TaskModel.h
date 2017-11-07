@@ -34,6 +34,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) NSInteger task_emerge_id;
 
 @property (nonatomic, copy) NSString * cid;
+@property (nonatomic, copy) NSString * hotel_id;
 @property (nonatomic, copy) NSString * task_type;
 @property (nonatomic, copy) NSString * task_type_desc;
 @property (nonatomic, copy) NSString * state;

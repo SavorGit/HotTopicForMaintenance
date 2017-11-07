@@ -24,7 +24,14 @@
 #import "RefuseRequest.h"
 #import "DeviceManager.h"
 
-@interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate,UITextViewDelegate>
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+
+@interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate,UITextViewDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+{
+    UIImagePickerController *_imagePickerController;
+}
 
 @property (nonatomic, strong) TaskModel * tempModel;
 
@@ -44,6 +51,7 @@
 @property (nonatomic, strong) UIButton * resolvedBtn;
 @property (nonatomic, strong) UIButton * submitBtn;
 @property (nonatomic, strong) TaskRepairAlertModel *repairAlertModel;
+@property (nonatomic, assign) NSInteger selectImgTag;
 
 @property (nonatomic, strong) InstallProAlertView *inPAlertView;
 
@@ -533,7 +541,7 @@
         deleteImgBtn.layer.borderWidth = .5f;
         deleteImgBtn.layer.cornerRadius = 2.f;
         deleteImgBtn.layer.masksToBounds = YES;
-        [deleteImgBtn addTarget:self action:@selector(deleteClicked) forControlEvents:UIControlEventTouchUpInside];
+        [deleteImgBtn addTarget:self action:@selector(deleteClicked:) forControlEvents:UIControlEventTouchUpInside];
         [photoBgView addSubview:deleteImgBtn];
         CGFloat dWidth = (bgVideoWidth - 52 - 30)/3;
         [deleteImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -542,6 +550,10 @@
             make.width.mas_equalTo(dWidth);
             make.height.mas_equalTo(20);
         }];
+        
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addImagePress:)];
+        tap.numberOfTapsRequired = 1;
+        [fImageView addGestureRecognizer:tap];
     }
     
     UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -589,6 +601,102 @@
     [self showViewWithAnimationDuration:.3f];
     
 }
+
+- (void)deleteClicked:(UIButton *)Btn{
+    
+    UIImageView *selectImgView = [self.view viewWithTag:Btn.tag - 1000];
+    selectImgView.image = nil;
+}
+
+- (void)addImagePress:(id)sender{
+    
+    UITapGestureRecognizer *tap = (UITapGestureRecognizer*)sender;
+    UIView *views = (UIView*) tap.view;
+    NSUInteger tag = views.tag;
+    self.selectImgTag = tag;
+    [self creatPhotoSheet];
+    
+}
+
+#pragma mark 弹出相册或是相机选择页面
+- (void)creatPhotoSheet{
+    
+    UIActionSheet *photoSheet = [[UIActionSheet alloc] initWithTitle:@"选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册", @"拍照", nil];
+    [photoSheet showInView:self.view];
+ 
+    _imagePickerController = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.allowsEditing = YES;
+}
+
+// UIActionSheetDelegate实现代理方法
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"buttonIndex=%ld", buttonIndex);
+    if (0 == buttonIndex)
+    {
+        [self selectImageFromAlbum];
+        NSLog(@"点击了相册按钮");
+    }
+    else if (1 == buttonIndex)
+    {
+        [self selectImageFromCamera];
+        NSLog(@"点击了拍照按钮");
+    }
+    else if (2 == buttonIndex)
+    {
+        NSLog(@"点击了取消按钮");
+    }
+}
+
+#pragma mark 从摄像头获取图片或视频
+- (void)selectImageFromCamera
+{
+    _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //设置摄像头模式拍照模式
+    _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+    [_imagePickerController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self presentViewController:_imagePickerController animated:YES completion:nil];
+}
+
+#pragma mark 从相册获取图片或视频
+- (void)selectImageFromAlbum
+{
+    _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [_imagePickerController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self presentViewController:_imagePickerController animated:YES completion:nil];
+}
+
+#pragma mark UIImagePickerControllerDelegate
+//该代理方法仅适用于只选取图片时
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    
+    UIImageView *selectImgView = [self.view viewWithTag:self.selectImgTag];
+    selectImgView.image = image;
+    
+}
+
+//适用获取所有媒体资源，只需判断资源类型
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
+    //判断资源类型
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        
+        UIImageView *selectImgView = [self.view viewWithTag:self.selectImgTag];
+        selectImgView.image = info[UIImagePickerControllerEditedImage];
+        
+        //压缩图片
+        //        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
+        //上传图片
+        //        [self uploadImageWithData:fileData];
+        
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
 
 - (void)ResolveClicked:(UIButton *)btn{
     btn.selected = !btn.selected;
@@ -643,7 +751,7 @@
 #pragma mark - 请求版位信息
 - (void)boxConfigRequest
 {
-    GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.taskListModel.cid];
+    GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.taskListModel.hotel_id];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSArray *listArray = [response objectForKey:@"result"];
@@ -858,6 +966,42 @@
         [[DeviceManager manager] stopMonitoring];
         [[DeviceManager manager] stopSearchDevice];
     }
+}
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self.sheetBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.mListView.centerY).offset(- 50);
+    }];
+    if ([textView.text isEqualToString:@"备注，限制100字"]) {
+        self.remarkTextView.textColor = [UIColor grayColor];
+        textView.text = @"";
+    }
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if (range.location < 100)
+    {
+        return  YES;
+    } else  if ([textView.text isEqualToString:@"\n"]) {
+        //这里写按了ReturnKey 按钮后的代码
+        return NO;
+    }
+    if (textView.text.length == 100) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    NSLog(@"%lu",textView.text.length);
 }
 
 - (void)dealloc
