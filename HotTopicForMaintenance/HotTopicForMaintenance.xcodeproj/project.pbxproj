@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C41FB1831700D2A510 /* RefuseRequest.m */; };
 		0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */; };
 		0626137D1FB05EB700EA6AD7 /* HandleTaskListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626137C1FB05EB700EA6AD7 /* HandleTaskListRequest.m */; };
 		062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626137F1FB06F0200EA6AD7 /* AssignRequest.m */; };
@@ -144,6 +145,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		060A77C31FB1831700D2A510 /* RefuseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RefuseRequest.h; sourceTree = "<group>"; };
+		060A77C41FB1831700D2A510 /* RefuseRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RefuseRequest.m; sourceTree = "<group>"; };
 		062613781FB058AA00EA6AD7 /* HandleTaskListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListCell.h; sourceTree = "<group>"; };
 		062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandleTaskListCell.m; sourceTree = "<group>"; };
 		0626137B1FB05EB700EA6AD7 /* HandleTaskListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListRequest.h; sourceTree = "<group>"; };
@@ -749,6 +752,8 @@
 				0626137C1FB05EB700EA6AD7 /* HandleTaskListRequest.m */,
 				0626137E1FB06F0200EA6AD7 /* AssignRequest.h */,
 				0626137F1FB06F0200EA6AD7 /* AssignRequest.m */,
+				060A77C31FB1831700D2A510 /* RefuseRequest.h */,
+				060A77C41FB1831700D2A510 /* RefuseRequest.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -1331,6 +1336,7 @@
 				06B055D81F5D486800A9CE68 /* GCCGetInfo.m in Sources */,
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,
 				0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */,
+				060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */,
 				06B055DB1F5D48D800A9CE68 /* GCCKeyChain.m in Sources */,
 				066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */,
 				06844CFE1FAC12D700E7A2CD /* RDTextView.m in Sources */,

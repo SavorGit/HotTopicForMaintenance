@@ -284,7 +284,7 @@
     NSDictionary * info = [self.dataSource objectAtIndex:indexPath.row];
     NSArray * list = [info objectForKey:@"task_info"];
     CGFloat lineHeight = 25.f * scale;
-    CGFloat height = 75.f * scale + lineHeight * list.count;
+    CGFloat height = 65.f * scale + lineHeight * list.count;
     
     return height;
 }
@@ -296,6 +296,9 @@
         [self.installImageView setImage:[UIImage imageNamed:@"yes_gl"]];
     }else{
         [self.installImageView setImage:[UIImage imageNamed:@"yes"]];
+    }
+    if (!isEmptyString(self.dateLabel.text)) {
+        [self setupDatas];
     }
 }
 

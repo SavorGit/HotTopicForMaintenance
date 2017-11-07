@@ -21,14 +21,18 @@
 #import "GetBoxListRequest.h"
 #import "RestaurantRankModel.h"
 #import "PositionListViewController.h"
+#import "RefuseRequest.h"
 
 @interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate,UITextViewDelegate>
 
-@property (nonatomic, copy) NSString * taskID;
+@property (nonatomic, strong) TaskModel * tempModel;
+
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) NSMutableArray * dConfigData; //版位信息
 @property (nonatomic, strong) TaskModel * taskListModel;
+
+@property (nonatomic, assign) BOOL hasNotification;
 
 @property (nonatomic, strong) UIView *mListView;
 @property (nonatomic, strong) UIImageView *sheetBgView;
@@ -51,10 +55,10 @@
 
 @implementation TaskDetailViewController
 
-- (instancetype)initWithTaskID:(NSString *)taskID
+- (instancetype)initWithTaskModel:(TaskModel *)model
 {
     if (self = [super init]) {
-        self.taskID = taskID;
+        self.tempModel = model;
     }
     return self;
 }
@@ -67,7 +71,36 @@
     self.repairAlertModel = [[TaskRepairAlertModel alloc] init];
     self.dConfigData = [[NSMutableArray alloc] init];
     [self setupDatas];
+    [self addNotification];
 //    [self setupViews];
+}
+
+- (void)removeNotification
+{
+    if (self.hasNotification) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:RDTaskStatusDidChangeNotification object:nil];
+    }
+}
+
+- (void)addNotification
+{
+    if (!self.hasNotification) {
+        self.hasNotification = YES;
+        if ([UserManager manager].user.roletype == UserRoleType_AssignTask) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatusDidChange) name:RDTaskStatusDidChangeNotification object:nil];
+        }
+    }
+}
+
+- (void)taskStatusDidChange
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    [self.bottomView removeAllSubviews];
+    [self.bottomView removeFromSuperview];
+    [self.tableView removeFromSuperview];
+    
+    [self setupDatas];
 }
 
 - (void)setupViews
@@ -655,13 +688,22 @@
 {
     self.dataSource = [[NSMutableArray alloc] init];
     
-    TaskListDetailRequest * request = [[TaskListDetailRequest alloc] initWithTaskID:self.taskID];
+    TaskListDetailRequest * request = [[TaskListDetailRequest alloc] initWithTaskID:self.tempModel.cid];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSDictionary * result = [response objectForKey:@"result"];
         if ([result isKindOfClass:[NSDictionary class]]) {
             self.taskListModel = [[TaskModel alloc] initWithDictionary:result];
-            self.taskListModel.cid = self.taskID;
+            self.taskListModel.cid = self.tempModel.cid;
+            
+            self.tempModel.state_id = self.taskListModel.state_id;
+            self.tempModel.state = self.taskListModel.state;
+            self.tempModel.appoint_exe_time = self.taskListModel.appoint_exe_time;
+            self.tempModel.exeuser = self.taskListModel.exeuser;
+            self.tempModel.appoint_time = self.taskListModel.appoint_time;
+            self.tempModel.appoint_user = self.taskListModel.appoint_user;
+            self.tempModel.complete_time = self.taskListModel.complete_time;
+            self.tempModel.refuse_time = self.taskListModel.refuse_time;
         }
         
         NSArray * repairList = [result objectForKey:@"repair_list"];
@@ -721,7 +763,7 @@
         UIButton * okButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"提交" cornerRadius:5.f];
         okButton.layer.borderColor = UIColorFromRGB(0x444444).CGColor;
         okButton.layer.borderWidth = 1.f;
-        [okButton addTarget:_refuseView action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+        [okButton addTarget:self action:@selector(refuseTask) forControlEvents:UIControlEventTouchUpInside];
         [contenView addSubview:okButton];
         [okButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(0);
@@ -731,6 +773,35 @@
         }];
     }
     return _refuseView;
+}
+
+- (void)refuseTask
+{
+    [RefuseRequest cancelRequest];
+    RefuseRequest * request = [[RefuseRequest alloc] initWithDesc:self.refuseTextView.text taskID:self.taskListModel.cid userID:[UserManager manager].user.userid];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self.refuseView removeFromSuperview];
+        [self.bottomView removeAllSubviews];
+        [self.bottomView removeFromSuperview];
+        [self.tableView removeFromSuperview];
+        
+        [self setupDatas];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:[UIApplication sharedApplication].keyWindow];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"拒绝失败" inView:self.view];
+        }
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [MBProgressHUD showTextHUDWithText:@"拒绝失败" inView:self.view];
+    }];
+}
+
+- (void)dealloc
+{
+    [self removeNotification];
 }
 
 - (void)didReceiveMemoryWarning {

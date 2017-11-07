@@ -11,6 +11,7 @@
 #import "AssignRequest.h"
 #import "UserManager.h"
 #import "RDAlertView.h"
+#import "MBProgressHUD+Custom.h"
 
 @interface HandleTaskListCell ()
 
@@ -117,9 +118,19 @@
         AssignRequest * request = [[AssignRequest alloc] initWithDate:self.date assginID:[UserManager manager].user.userid handleID:handleID taskID:self.taskID];
         [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
+            [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
+            
         } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
+            if ([response objectForKey:@"msg"]) {
+                [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:[UIApplication sharedApplication].keyWindow];
+            }else{
+                [MBProgressHUD showTextHUDWithText:@"指派失败" inView:[UIApplication sharedApplication].keyWindow];
+            }
+            
         } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+            
+            [MBProgressHUD showTextHUDWithText:@"指派失败" inView:[UIApplication sharedApplication].keyWindow];
             
         }];
         
@@ -144,7 +155,7 @@
     NSArray * list = [info objectForKey:@"task_info"];
     CGFloat lineHeight = 25.f * scale;
     if ([list isKindOfClass:[NSArray class]] && list.count > 0) {
-        for (NSInteger i = 0; i < 6; i++) {
+        for (NSInteger i = 0; i < list.count; i++) {
             NSDictionary * dict = [list objectAtIndex:i];
             NSString * taskName = [dict objectForKey:@"task_type_desc"];
             NSString * hotelName = [dict objectForKey:@"hotel_name"];

@@ -25,6 +25,11 @@
 
 @property (nonatomic, assign) NSInteger page;
 
+@property (nonatomic, assign) BOOL hasNotification;
+
+@property (nonatomic, assign) BOOL isNeedUpdate;
+@property (nonatomic, assign) NSInteger updateIndex;
+
 @end
 
 @implementation TaskListViewController
@@ -65,7 +70,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TaskModel * model = [self.dataSource objectAtIndex:indexPath.section];
-    TaskDetailViewController * vc = [[TaskDetailViewController alloc] initWithTaskID:model.cid];
+    
+    self.isNeedUpdate = YES;
+    self.updateIndex = indexPath.section;
+    
+    TaskDetailViewController * vc = [[TaskDetailViewController alloc] initWithTaskModel:model];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -271,6 +280,20 @@
             
         default:
             break;
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (self.isNeedUpdate) {
+        
+        [UIView performWithoutAnimation:^{
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:self.updateIndex] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        
+        self.isNeedUpdate = NO;
     }
 }
 
