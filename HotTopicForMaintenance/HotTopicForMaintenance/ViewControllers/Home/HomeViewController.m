@@ -34,6 +34,8 @@
 
 @property (nonatomic, strong) NSMutableArray * dataSource;
 
+@property (nonatomic, strong) HomeBadgeCollectionViewCell * badgeCell;
+
 @end
 
 @implementation HomeViewController
@@ -71,6 +73,7 @@
     MenuModel * bindDeviceModel = [[MenuModel alloc] initWithMenuType:MenuModelType_BindDevice];
     MenuModel * myTaskModel = [[MenuModel alloc] initWithMenuType:MenuModelType_MyTask];
     
+    self.badgeCell = nil;
     [self.dataSource removeAllObjects];
     switch ([UserManager manager].user.roletype) {
         case UserRoleType_CreateTask:
@@ -309,6 +312,7 @@
         HomeBadgeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeBadgeCollectionViewCell" forIndexPath:indexPath];
         [cell configWithModel:model];
         [cell setBadgeNumber:9];
+        self.badgeCell = cell;
         
         return cell;
     }else{
