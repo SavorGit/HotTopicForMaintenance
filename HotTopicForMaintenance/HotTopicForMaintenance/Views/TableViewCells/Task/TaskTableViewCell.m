@@ -58,8 +58,8 @@
 
 - (void)configWithModel:(TaskListModel *)model
 {
-    self.typeDescLabel.text = model.type_Desc;
-    self.typeLogoLabel.text = model.logo_Desc;
+    self.typeDescLabel.text = model.type_name;
+    self.typeLogoLabel.text = model.bref;
 }
 
 - (void)awakeFromNib {

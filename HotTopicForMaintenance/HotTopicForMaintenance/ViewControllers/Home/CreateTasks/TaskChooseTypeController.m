@@ -11,10 +11,11 @@
 #import "NetworkTransforViewController.h"
 #import "InstallAndAcceptViewController.h"
 #import "inforDetectionViewController.h"
+#import "GetCreateTaskListRequest.h"
 
 @interface TaskChooseTypeController ()<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) NSArray * datsSource;
+@property (nonatomic, strong) NSMutableArray * datsSource;
 @property (nonatomic, strong) UITableView * tableView;
 
 @end
@@ -27,17 +28,39 @@
     self.title = @"选择任务类型";
     
     [self setupDatas];
-    [self createTaskChooseView];
 }
 
 - (void)setupDatas
 {
-    TaskListModel * model1 = [[TaskListModel alloc] initWithType:TaskType_Install];
-    TaskListModel * model2 = [[TaskListModel alloc] initWithType:TaskType_InfoCheck];
-    TaskListModel * model3 = [[TaskListModel alloc] initWithType:TaskType_NetTransform];
-    TaskListModel * model4 = [[TaskListModel alloc] initWithType:TaskType_Repair];
-    
-    self.datsSource = [NSArray arrayWithObjects:model1, model2, model3, model4, nil];
+    self.datsSource = [[NSMutableArray alloc] init];
+    GetCreateTaskListRequest * request = [[GetCreateTaskListRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSArray class]] && result.count > 0) {
+            for (NSInteger i = 0; i < result.count; i++) {
+                NSDictionary * dict = [result objectAtIndex:i];
+                if ([dict isKindOfClass:[NSDictionary class]]) {
+                    TaskListModel * model = [[TaskListModel alloc] initWithDictionary:dict];
+                    [self.datsSource addObject:model];
+                }
+            }
+        }
+        [self createTaskChooseView];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取任务类型失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"获取任务类型失败" inView:self.view];
+        
+    }];
 }
 
 - (void)createTaskChooseView
@@ -89,21 +112,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.section == 0) {
+    TaskListModel * model = [self.datsSource objectAtIndex:indexPath.section];
+    if (model.type_id == TaskType_Install) {
         // 安装
         InstallAndAcceptViewController *ia = [[InstallAndAcceptViewController alloc] initWithTaskType:TaskType_Install];
+        ia.title = model.type_name;
         [self.navigationController pushViewController:ia animated:YES];
-    }else if (indexPath.section == 1){
+    }else if (model.type_id == TaskType_InfoCheck){
         // 巡检
         inforDetectionViewController *iv = [[inforDetectionViewController alloc] initWithTaskType:TaskType_InfoCheck];
+        iv.title = model.type_name;
         [self.navigationController pushViewController:iv animated:YES];
-    }else if (indexPath.section == 2){
+    }else if (model.type_id == TaskType_NetTransform){
         // 网络
         NetworkTransforViewController *nt = [[NetworkTransforViewController alloc] initWithTaskType:TaskType_NetTransform];
+        nt.title = model.type_name;
         [self.navigationController pushViewController:nt animated:YES];
-    }else if (indexPath.section == 3){
+    }else if (model.type_id == TaskType_Repair){
         // 维修
         InstallAndAcceptViewController *rc = [[InstallAndAcceptViewController alloc] initWithTaskType:TaskType_Repair];
+        rc.title = model.type_name;
         [self.navigationController pushViewController:rc animated:YES];
     }
 }

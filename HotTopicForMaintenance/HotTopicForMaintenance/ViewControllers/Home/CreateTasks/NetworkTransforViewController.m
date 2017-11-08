@@ -69,7 +69,6 @@
 
 -(void)creatSubViews{
     
-    self.title = @"网络改造";
     self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度", nil];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
