@@ -28,6 +28,7 @@
 		06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D431F5D964900242940 /* HotelIndexRequest.m */; };
 		06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */; };
 		0650F38C1FA96ADC0086B794 /* SystemStatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650F38B1FA96ADC0086B794 /* SystemStatusController.m */; };
+		065FDA141FB29AD700B6DF9C /* GetCreateTaskListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 065FDA131FB29AD700B6DF9C /* GetCreateTaskListRequest.m */; };
 		066278321F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */; };
 		066278341F61634600B2B8E8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278331F61634600B2B8E8 /* UserNotifications.framework */; };
 		066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */; };
@@ -189,6 +190,8 @@
 		06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelInfoTableViewCell.m; sourceTree = "<group>"; };
 		0650F38A1FA96ADC0086B794 /* SystemStatusController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusController.h; sourceTree = "<group>"; };
 		0650F38B1FA96ADC0086B794 /* SystemStatusController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusController.m; sourceTree = "<group>"; };
+		065FDA121FB29AD700B6DF9C /* GetCreateTaskListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetCreateTaskListRequest.h; sourceTree = "<group>"; };
+		065FDA131FB29AD700B6DF9C /* GetCreateTaskListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetCreateTaskListRequest.m; sourceTree = "<group>"; };
 		066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.5.0.a; sourceTree = "<group>"; };
 		066278311F61632E00B2B8E8 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		066278331F61634600B2B8E8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -764,6 +767,8 @@
 				0626137F1FB06F0200EA6AD7 /* AssignRequest.m */,
 				060A77C31FB1831700D2A510 /* RefuseRequest.h */,
 				060A77C41FB1831700D2A510 /* RefuseRequest.m */,
+				065FDA121FB29AD700B6DF9C /* GetCreateTaskListRequest.h */,
+				065FDA131FB29AD700B6DF9C /* GetCreateTaskListRequest.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -1306,6 +1311,7 @@
 				066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */,
 				066EA54E1F5FEE6B0054264C /* ErrorReportModel.m in Sources */,
 				96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */,
+				065FDA141FB29AD700B6DF9C /* GetCreateTaskListRequest.m in Sources */,
 				06356D381F5D7B2400242940 /* RDAlertView.m in Sources */,
 				06B4A6481FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m in Sources */,
 				06B055D11F5D46BF00A9CE68 /* UserLoginRequest.m in Sources */,

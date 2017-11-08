@@ -11,10 +11,8 @@
 
 @interface TaskListModel : Jastor
 
-- (instancetype)initWithType:(TaskType)type;
-
-@property (nonatomic, assign) TaskType type;
-@property (nonatomic, copy) NSString * type_Desc;
-@property (nonatomic, copy) NSString * logo_Desc;
+@property (nonatomic, assign) NSInteger type_id;
+@property (nonatomic, copy) NSString * type_name;
+@property (nonatomic, copy) NSString * bref;
 
 @end

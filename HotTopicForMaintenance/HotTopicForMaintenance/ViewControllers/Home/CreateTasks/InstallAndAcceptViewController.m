@@ -143,10 +143,6 @@
     
     _dConfigData = [[NSMutableArray alloc] init];
     self.currHotelId = [[NSString alloc] init];
-    self.title = @"安装与验收";
-    if (self.taskType == TaskType_Repair) {
-        self.title = @"维修";
-    }
     
     self.dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",nil];
     RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
