@@ -10,9 +10,9 @@
 #import "InstallAlerTableViewCell.h"
 #import "Helper.h"
 
-@interface InstallProAlertView ()<UITableViewDelegate, UITableViewDataSource>
+@interface InstallProAlertView ()<UITableViewDelegate, UITableViewDataSource,InstallCellDelegate>
 
-@property (nonatomic, strong) UITableView * alertTableView;
+@property (nonatomic, strong) NSArray    *titleArray;
 @property (nonatomic, assign) NSInteger totalCount;
 @property (nonatomic, strong) UIImageView *sheetBgView;
 @property (nonatomic, strong) UIButton *submitBtn;
@@ -21,10 +21,10 @@
 
 @implementation InstallProAlertView
 
-- (instancetype)initWithTotalCount:(NSInteger )totalCount;{
+- (instancetype)initWithTotalCount:(NSInteger )totalCount andTitleArray:(NSArray *)titleArray{
     
     if (self = [super init]) {
-        
+        self.titleArray = titleArray;
         self.totalCount = totalCount;
         [self creatSubViews];
     }
@@ -122,6 +122,9 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.backgroundColor = [UIColor clearColor];
+    if (self.titleArray != nil) {
+        [cell configWithContent:self.titleArray[indexPath.row] andIdexPath:indexPath];
+    }
     return cell;
 }
 
@@ -132,7 +135,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    if ([self.delegate respondsToSelector:@selector(creatPhotoOrCamaraView:)]) {
+        [self.delegate creatPhotoOrCamaraView:indexPath];
+    }
+}
+
+- (void)addImgPress:(NSIndexPath *)index{
+    if ([self.delegate respondsToSelector:@selector(creatPhotoOrCamaraView:)]) {
+        [self.delegate creatPhotoOrCamaraView:index];
+    }
 }
 
 - (void)submitClicked{

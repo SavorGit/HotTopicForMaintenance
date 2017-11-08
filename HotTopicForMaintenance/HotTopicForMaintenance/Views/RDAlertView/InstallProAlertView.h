@@ -10,6 +10,7 @@
 
 @protocol InstallProAlertDelegate<NSObject>
 
+- (void)creatPhotoOrCamaraView:(NSIndexPath *)index;
 - (void)subMitData;
 - (void)cancel;
 
@@ -19,6 +20,8 @@
 
 @property (nonatomic, weak) id <InstallProAlertDelegate> delegate;
 
-- (instancetype)initWithTotalCount:(NSInteger )totalCount;
+@property (nonatomic, strong) UITableView * alertTableView;
+
+- (instancetype)initWithTotalCount:(NSInteger )totalCount andTitleArray:(NSArray *)titleArray;
 
 @end
