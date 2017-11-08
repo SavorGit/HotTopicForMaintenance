@@ -8,6 +8,9 @@
 
 #import "BindPositionTableViewCell.h"
 #import "HotTopicTools.h"
+#import "BindBoxRequest.h"
+#import "DeviceManager.h"
+#import "MBProgressHUD+Custom.h"
 
 @interface BindPositionTableViewCell()
 
@@ -22,6 +25,8 @@
 @property (nonatomic, strong) UILabel *macAddressLabel;
 
 @property (nonatomic, strong) UIButton *bindBtn;
+
+@property (nonatomic, strong) BindDeviceModel * model;
 
 @end
 
@@ -128,11 +133,29 @@
 
 - (void)bindButtonDidBeClicked
 {
-    
+    [BindBoxRequest cancelRequest];
+    BindBoxRequest * request = [[BindBoxRequest alloc] initWithHotelID:[DeviceManager manager].hotelID roomID:[DeviceManager manager].roomID boxID:self.model.box_id mac:self.model.box_mac];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD showTextHUDWithText:@"绑定成功" inView:[UIApplication sharedApplication].keyWindow];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:[UIApplication sharedApplication].keyWindow];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"绑定失败" inView:[UIApplication sharedApplication].keyWindow];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"绑定失败" inView:[UIApplication sharedApplication].keyWindow];
+        
+    }];
 }
 
-- (void)configWithModel:(RestaurantRankModel *)model{
-    
+- (void)configWithModel:(BindDeviceModel *)model{
+    self.model = model;
 }
 
 - (void)awakeFromNib {

@@ -274,6 +274,10 @@
 
 - (void)autoCollectionViewSize
 {
+    if (self.dataSource.count == 0) {
+        return;
+    }
+    
     NSInteger numberLines;
     if (self.dataSource.count % 2 == 0) {
         numberLines = self.dataSource.count / 2;

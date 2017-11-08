@@ -39,6 +39,7 @@
     }];
     self.badgeLabel.layer.cornerRadius = 9;
     self.badgeLabel.layer.masksToBounds = YES;
+    self.badgeLabel.hidden = YES;
 }
 
 - (void)setBadgeNumber:(NSInteger)number
