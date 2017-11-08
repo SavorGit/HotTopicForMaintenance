@@ -12,7 +12,6 @@
 @interface InstallAlerTableViewCell()
 
 @property (nonatomic, strong) UIView *bgView;
-@property (nonatomic, strong) UIImageView *instaImg;
 @property (nonatomic, strong) UILabel *titlePosionLabel;
 @property (nonatomic, strong) UIButton *addImgBtn;
 @property (nonatomic, strong) NSIndexPath *indexPath;
@@ -21,7 +20,7 @@
 
 @implementation InstallAlerTableViewCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         [self initWithSubView];
     }
@@ -52,7 +51,7 @@
     [_bgView addSubview:self.instaImg];
     CGFloat scale = kMainBoundsWidth/375.f;
     [self.instaImg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100 *scale, 60 *scale));
+        make.size.mas_equalTo(CGSizeMake(150 *scale, 60 *scale));
         make.top.mas_equalTo(10);
         make.centerX.mas_equalTo(_bgView);
     }];
@@ -76,11 +75,12 @@
 
 - (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index{
 
+    self.titlePosionLabel.text = titleString;
 }
 
 - (void)addImgPress{
-    if ([self.delegate respondsToSelector:@selector(addImgPress)]) {
-        [self.delegate addImgPress];
+    if ([self.delegate respondsToSelector:@selector(addImgPress:)]) {
+        [self.delegate addImgPress:self.indexPath];
     }
 }
 

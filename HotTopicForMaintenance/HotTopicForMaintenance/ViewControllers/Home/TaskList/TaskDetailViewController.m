@@ -25,6 +25,7 @@
 #import "DeviceManager.h"
 #import "SubmitTaskRequest.h"
 #import "NSArray+json.h"
+#import "InstallAlerTableViewCell.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -55,6 +56,8 @@
 @property (nonatomic, strong) UIButton * submitBtn;
 @property (nonatomic, strong) TaskRepairAlertModel *repairAlertModel;
 @property (nonatomic, assign) NSInteger selectImgTag;
+@property (nonatomic, strong) NSIndexPath *selectImgIndex;
+@property (nonatomic, assign) NSInteger totalAlertCount;
 @property (nonatomic, copy) NSString * currentBoxId;
 
 @property (nonatomic, strong) InstallProAlertView *inPAlertView;
@@ -318,7 +321,7 @@
 //安装验收
 - (void)installButtonButtonDidClicked
 {
-    [self creatInstallListView:10];
+    [self creatInstallListView:10 andTitArray:nil];
 }
 
 //维修
@@ -330,19 +333,20 @@
 //网络改造处理完成
 - (void)netWorkButtonButtonDidClicked
 {
-    [self creatInstallListView:2];
+    [self creatInstallListView:2 andTitArray:[NSArray arrayWithObjects:@"改造设备图",@"网络改造检验单", nil]];
 }
 
 //信息检测
 - (void)checkButtonButtonDidClicked
 {
-    [self creatInstallListView:2];
+    [self creatInstallListView:1 andTitArray:[NSArray arrayWithObjects:@"信息检验单", nil]];
 }
 
 #pragma mark - 弹出安装验收，网络改造，信息检测窗口
-- (void)creatInstallListView:(NSUInteger )totalCount{
+- (void)creatInstallListView:(NSUInteger )totalCount andTitArray:(NSArray *)titleArray{
     
-    self.inPAlertView = [[InstallProAlertView alloc] initWithTotalCount:totalCount];
+    self.totalAlertCount = totalCount;
+    self.inPAlertView = [[InstallProAlertView alloc] initWithTotalCount:totalCount andTitleArray:titleArray];
     self.inPAlertView.tag = 2888;
     self.inPAlertView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.inPAlertView.userInteractionEnabled = YES;
@@ -356,12 +360,21 @@
     }];
 }
 
-#pragma mark - 提交上传照片
-- (void)subMitData{
-    [self dismissInstallAlertViewWithDuration:0.3f];
+#pragma mark - 点击安装验收图片来源
+- (void)creatPhotoOrCamaraView:(NSIndexPath *)index{
+    
+    self.selectImgIndex = index;
+    [self creatPhotoSheet];
+    
 }
 
-#pragma mark - 取消上传照片
+#pragma mark - 提交安装验收上传照片
+- (void)subMitData{
+    [self subMitDataRequest];
+//    [self dismissInstallAlertViewWithDuration:0.3f];
+}
+
+#pragma mark - 取消安装验收上传照片
 - (void)cancel{
      [self dismissInstallAlertViewWithDuration:0.3f];
 }
@@ -527,7 +540,7 @@
         
         UIImageView *fImageView  = [[UIImageView alloc] init];
         fImageView.tag = 1999 + i;
-        fImageView.backgroundColor = [UIColor cyanColor];
+        fImageView.backgroundColor = [UIColor lightGrayColor];
         fImageView.userInteractionEnabled = YES;
         [photoBgView addSubview:fImageView];
         CGFloat fWidth = (bgVideoWidth - 40 - 30)/3;
@@ -639,7 +652,6 @@
 // UIActionSheetDelegate实现代理方法
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"buttonIndex=%ld", buttonIndex);
     if (0 == buttonIndex)
     {
         [self selectImageFromAlbum];
@@ -649,10 +661,6 @@
     {
         [self selectImageFromCamera];
         NSLog(@"点击了拍照按钮");
-    }
-    else if (2 == buttonIndex)
-    {
-        NSLog(@"点击了取消按钮");
     }
 }
 
@@ -689,13 +697,16 @@
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
         
-        UIImageView *selectImgView = [self.view viewWithTag:self.selectImgTag];
-        selectImgView.image = info[UIImagePickerControllerEditedImage];
-        
+        if (self.taskListModel.task_type_id == 4) {
+            UIImageView *selectImgView = [self.view viewWithTag:self.selectImgTag];
+            selectImgView.image = info[UIImagePickerControllerEditedImage];
+        }else{
+            InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:self.selectImgIndex];
+            cell.instaImg.image = info[UIImagePickerControllerEditedImage];
+            NSLog(@"");
+        }
         //压缩图片
-        //        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
-        //上传图片
-        //        [self uploadImageWithData:fileData];
+        //NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
         
     }
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -784,14 +795,11 @@
 }
 
 -(void)cancelClicked{
-    
     [self dismissViewWithAnimationDuration:0.3f];
-    
 }
 
 -(void)submitClicked{
     [self subMitDataRequest];
-//    [self dismissViewWithAnimationDuration:0.3f];
 }
 
 #pragma mark - show view
@@ -851,12 +859,42 @@
     return height;
 }
 
+#pragma mark - 弹窗数据提交
 - (void)subMitDataRequest
 {
-//    [self upLoadImageData];
-    
-    NSArray *imgArr = [NSArray arrayWithObjects:@"http:www.img1",@"http:www.img2",@"http:www.img3", nil];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currentBoxId,@"box_id",self.repairAlertModel.state,@"state",@"7",@"task_type",[UserManager manager].user.userid,@"user_id",self.taskListModel.cid,@"task_id",[imgArr toReadableJSONString],@"repair_img",@"这是备注",@"remark", nil];
+
+    NSString *taskType = [NSString stringWithFormat:@"%ld",self.taskListModel.task_type_id];
+    if (isEmptyString(taskType)) {
+        taskType = @"";
+    }
+    NSString *userId = [UserManager manager].user.userid;
+    if (isEmptyString(userId)) {
+        userId = @"";
+    }
+    NSString *boxId = self.currentBoxId;
+    if (isEmptyString(boxId)) {
+        boxId = @"";
+    }
+    NSString *taskId = self.taskListModel.cid;
+    if (isEmptyString(taskId)) {
+        taskId = @"";
+    }
+    NSString *repairState = self.repairAlertModel.state;
+    if (isEmptyString(repairState)) {
+        repairState = @"";
+    }
+    NSString *textViewStr = self.remarkTextView.text;
+    if (isEmptyString(textViewStr)) {
+        textViewStr = @"";
+    }
+    NSDictionary *dic;
+    if (self.taskListModel.task_type_id == 4) {
+        [self upLoadImageData];
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toReadableJSONString],@"repair_img",textViewStr,@"remark", nil];
+    }else{
+        [self upLoadIntallImageData];
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toReadableJSONString],@"repair_img",textViewStr,@"remark", nil];
+    }
     
     SubmitTaskRequest * request = [[SubmitTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -864,6 +902,11 @@
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
         if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+            if (self.taskListModel.task_type_id == 4){
+                [self dismissViewWithAnimationDuration:0.3];
+            }else{
+                [self dismissInstallAlertViewWithDuration:0.3];
+            }
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -873,31 +916,69 @@
     }];
 }
 
+#pragma mark - 安装检测等弹窗图片上传
+- (void)upLoadIntallImageData{
+    
+    [self.subMitPosionArray removeAllObjects];
+    NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
+    NSMutableArray *pathArr = [[NSMutableArray alloc] init];
+    for (int i = 0; i < self.totalAlertCount; i ++) {
+        
+        InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        UIImage *selectImg = cell.instaImg.image;
+        if (selectImg != nil) {
+            [upImageArr addObject:selectImg];
+        }else{
+            [upImageArr addObject:[UIImage imageNamed:@"selected"]];
+        }
+        [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
+        
+        NSString *urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
+        if (self.taskListModel.task_type_id == 8) {
+            NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i + 1],@"type",urlPath,@"img", nil];
+            [self.subMitPosionArray addObject:tmpDic];
+        }else{
+            [self.subMitPosionArray addObject:urlPath];
+        }
+    }
+    
+    [HotTopicTools uploadImageArray:upImageArr withPath:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        
+    } success:^(NSString *path) {
+        NSLog(@"---上传成功！");
+    } failure:^{
+        
+    }];
+}
+
+#pragma mark - 维修弹窗图片上传
 - (void)upLoadImageData{
 
-//    NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
-//    NSMutableArray *pathArr = [[NSMutableArray alloc] init];
-//    for (int i = 0; i < 3; i ++) {
-//
-//        if (cell.fImageView.image != nil) {
-//            [upImageArr addObject:cell.fImageView.image];
-//        }else{
-//            [upImageArr addObject:[UIImage imageNamed:@"selected"]];
-//        }
-//        [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
-//
-//        NSString *urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
-//        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
-//        [self.subMitPosionArray addObject:tmpDic];
-//    }
-//
-//    [HotTopicTools uploadImageArray:upImageArr withPath:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-//
-//    } success:^(NSString *path) {
-//        NSLog(@"---上传成功！");
-//    } failure:^{
-//
-//    }];
+    [self.subMitPosionArray removeAllObjects];
+    NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
+    NSMutableArray *pathArr = [[NSMutableArray alloc] init];
+    NSArray *imgTagArr = [NSArray arrayWithObjects:@"1999",@"2000",@"2001", nil];
+    for (int i = 0; i < imgTagArr.count; i ++) {
+
+        UIImageView *selectImgView = [self.view viewWithTag:[imgTagArr[i] integerValue]];
+        if (selectImgView.image != nil) {
+            [upImageArr addObject:selectImgView.image];
+        }else{
+            [upImageArr addObject:[UIImage imageNamed:@"selected"]];
+        }
+        [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
+
+        NSString *urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
+        [self.subMitPosionArray addObject:urlPath];
+    }
+
+    [HotTopicTools uploadImageArray:upImageArr withPath:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+
+    } success:^(NSString *path) {
+        NSLog(@"---上传成功！");
+    } failure:^{
+
+    }];
 }
 
 - (void)setupDatas
