@@ -101,7 +101,7 @@
     
     RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
     if (_backDatas) {
-        _backDatas(model.cid,model.box_name);
+        _backDatas(model.box_id,model.box_name);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     

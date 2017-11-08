@@ -90,16 +90,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        InstallAndAcceptViewController *ia = [[InstallAndAcceptViewController alloc] initWithTaskType:6];
+        // 安装
+        InstallAndAcceptViewController *ia = [[InstallAndAcceptViewController alloc] initWithTaskType:TaskType_Install];
         [self.navigationController pushViewController:ia animated:YES];
     }else if (indexPath.section == 1){
-        inforDetectionViewController *iv = [[inforDetectionViewController alloc] initWithTaskType:3];
+        // 巡检
+        inforDetectionViewController *iv = [[inforDetectionViewController alloc] initWithTaskType:TaskType_InfoCheck];
         [self.navigationController pushViewController:iv animated:YES];
     }else if (indexPath.section == 2){
-        NetworkTransforViewController *nt = [[NetworkTransforViewController alloc] initWithTaskType:4];
+        // 网络
+        NetworkTransforViewController *nt = [[NetworkTransforViewController alloc] initWithTaskType:TaskType_NetTransform];
         [self.navigationController pushViewController:nt animated:YES];
     }else if (indexPath.section == 3){
-        InstallAndAcceptViewController *rc = [[InstallAndAcceptViewController alloc] initWithTaskType:7];
+        // 维修
+        InstallAndAcceptViewController *rc = [[InstallAndAcceptViewController alloc] initWithTaskType:TaskType_Repair];
         [self.navigationController pushViewController:rc animated:YES];
     }
 }

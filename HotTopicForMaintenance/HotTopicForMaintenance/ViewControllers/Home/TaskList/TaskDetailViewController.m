@@ -23,6 +23,8 @@
 #import "PositionListViewController.h"
 #import "RefuseRequest.h"
 #import "DeviceManager.h"
+#import "SubmitTaskRequest.h"
+#import "NSArray+json.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -38,6 +40,7 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) NSMutableArray * dConfigData; //版位信息
+@property (nonatomic, strong) NSMutableArray * subMitPosionArray; //提交维修信息
 @property (nonatomic, strong) TaskModel * taskListModel;
 
 @property (nonatomic, assign) BOOL hasNotification;
@@ -52,6 +55,7 @@
 @property (nonatomic, strong) UIButton * submitBtn;
 @property (nonatomic, strong) TaskRepairAlertModel *repairAlertModel;
 @property (nonatomic, assign) NSInteger selectImgTag;
+@property (nonatomic, copy) NSString * currentBoxId;
 
 @property (nonatomic, strong) InstallProAlertView *inPAlertView;
 
@@ -82,6 +86,8 @@
     self.title = @"任务详情";
     self.repairAlertModel = [[TaskRepairAlertModel alloc] init];
     self.dConfigData = [[NSMutableArray alloc] init];
+    self.subMitPosionArray = [[NSMutableArray alloc] init];
+    self.currentBoxId = [[NSString alloc] init];
     [self setupDatas];
     [self addNotification];
 }
@@ -744,6 +750,8 @@
         [self presentViewController:flVC animated:YES completion:nil];
         flVC.backDatas = ^(NSString *boxId,NSString *name) {
             self.mReasonLab.text = name;
+            self.currentBoxId = boxId;
+            
         };
     }
 }
@@ -782,7 +790,8 @@
 }
 
 -(void)submitClicked{
-    [self dismissViewWithAnimationDuration:0.3f];
+    [self subMitDataRequest];
+//    [self dismissViewWithAnimationDuration:0.3f];
 }
 
 #pragma mark - show view
@@ -840,6 +849,55 @@
     height += descHeight;
     
     return height;
+}
+
+- (void)subMitDataRequest
+{
+//    [self upLoadImageData];
+    
+    NSArray *imgArr = [NSArray arrayWithObjects:@"http:www.img1",@"http:www.img2",@"http:www.img3", nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currentBoxId,@"box_id",self.repairAlertModel.state,@"state",@"7",@"task_type",[UserManager manager].user.userid,@"user_id",self.taskListModel.cid,@"task_id",[imgArr toReadableJSONString],@"repair_img",@"这是备注",@"remark", nil];
+    
+    SubmitTaskRequest * request = [[SubmitTaskRequest alloc] initWithPubData:dic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
+        if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+}
+
+- (void)upLoadImageData{
+
+//    NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
+//    NSMutableArray *pathArr = [[NSMutableArray alloc] init];
+//    for (int i = 0; i < 3; i ++) {
+//
+//        if (cell.fImageView.image != nil) {
+//            [upImageArr addObject:cell.fImageView.image];
+//        }else{
+//            [upImageArr addObject:[UIImage imageNamed:@"selected"]];
+//        }
+//        [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
+//
+//        NSString *urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
+//        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
+//        [self.subMitPosionArray addObject:tmpDic];
+//    }
+//
+//    [HotTopicTools uploadImageArray:upImageArr withPath:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+//
+//    } success:^(NSString *path) {
+//        NSLog(@"---上传成功！");
+//    } failure:^{
+//
+//    }];
 }
 
 - (void)setupDatas

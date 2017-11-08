@@ -43,14 +43,14 @@
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) UIView *maskingView;
 
-@property (nonatomic, assign) NSInteger taskType;
+@property (nonatomic, assign) TaskType taskType;
 @property (nonatomic, assign) NSInteger segTag;
 
 @end
 
 @implementation InstallAndAcceptViewController
 
--(instancetype)initWithTaskType:(NSInteger )taskType{
+-(instancetype)initWithTaskType:(TaskType )taskType{
     if (self = [super init]) {
         self.taskType = taskType;
     }
@@ -111,6 +111,7 @@
 
 - (void)upLoadImageData{
     
+    [self.subMitPosionArray removeAllObjects];
     NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
     for (int i = 0; i < self.sectionNum; i ++) {
@@ -143,7 +144,7 @@
     _dConfigData = [[NSMutableArray alloc] init];
     self.currHotelId = [[NSString alloc] init];
     self.title = @"安装与验收";
-    if (self.taskType == 7) {
+    if (self.taskType == TaskType_Repair) {
         self.title = @"维修";
     }
     

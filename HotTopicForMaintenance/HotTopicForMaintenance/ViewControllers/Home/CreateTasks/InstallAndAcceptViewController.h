@@ -7,9 +7,10 @@
 //
 
 #import "BaseViewController.h"
+#import "TaskListModel.h"
 
 @interface InstallAndAcceptViewController : BaseViewController
 
--(instancetype)initWithTaskType:(NSInteger )taskType;
+-(instancetype)initWithTaskType:(TaskType )taskType;
 
 @end
