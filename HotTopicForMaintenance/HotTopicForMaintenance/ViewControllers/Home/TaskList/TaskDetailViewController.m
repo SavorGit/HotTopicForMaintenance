@@ -944,8 +944,8 @@
     
     [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         
-    } success:^(NSString *path) {
-        NSLog(@"---上传成功！");
+    } success:^(NSString *path, NSString *boxID) {
+        NSLog(@"图片上传成功");
     } failure:^{
         
     }];
@@ -974,7 +974,7 @@
 
     [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
 
-    } success:^(NSString *path) {
+    } success:^(NSString *path, NSString *boxID) {
         NSLog(@"---上传成功！");
     } failure:^{
 

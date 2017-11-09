@@ -66,7 +66,7 @@
 {
     if (![DeviceManager manager].isHotel || ![DeviceManager manager].isRoom) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD showTextHUDWithText:@"未检测到设备环境" inView:self.view];
+        [MBProgressHUD showTextHUDWithText:@"请连接酒楼wifi后继续操作" inView:self.navigationController.view];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

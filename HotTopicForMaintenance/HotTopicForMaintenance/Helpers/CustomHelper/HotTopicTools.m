@@ -234,7 +234,7 @@
     
 }
 
-+ (void)uploadImage:(UIImage *)image withBoxID:(NSString *)boxID progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
++ (void)uploadImage:(UIImage *)image withBoxID:(NSString *)boxID progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *, NSString *))successBlock failure:(void (^)())failureBlock
 {
     NSString *endpoint = AliynEndPoint;
     
@@ -263,14 +263,14 @@
             }
         }else{
             if (successBlock) {
-                successBlock([AliynEndPoint stringByAppendingString:put.objectKey]);
+                successBlock([AliynEndPoint stringByAppendingString:put.objectKey], boxID);
             }
         }
         return nil;
     }];
 }
 
-+ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *, NSString *))successBlock failure:(void (^)())failureBlock
 {
     for (NSInteger i = 0; i < images.count; i++) {
         UIImage * image = [images objectAtIndex:i];
