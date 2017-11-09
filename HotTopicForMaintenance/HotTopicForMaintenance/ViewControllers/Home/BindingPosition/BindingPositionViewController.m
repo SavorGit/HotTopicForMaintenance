@@ -10,11 +10,17 @@
 #import "BindPositionTableViewCell.h"
 #import "HotTopicTools.h"
 #import "DeviceManager.h"
+#import "GetBindListReuqest.h"
+#import "BindDeviceModel.h"
 
 @interface BindingPositionViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
-@property (nonatomic, strong) NSArray * titleArray; //表项标题
+@property (nonatomic, strong) NSMutableArray * dataSource;
+
+@property (nonatomic, copy) NSString * hotelID;
+@property (nonatomic, copy) NSString * roomID;
+@property (nonatomic, copy) NSString * hotelName;
 
 @property (nonatomic, strong) UILabel *hotelLabel;
 @property (nonatomic, strong) UILabel *wifiLabel;
@@ -27,31 +33,84 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"绑定版位";
+    
+    [MBProgressHUD showLoadingHUDWithText:@"正在获取版位信息" inView:self.view];
     [[DeviceManager manager] startSearchDecice];
     [[DeviceManager manager] startMonitoring];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidSuccess) name:RDSearchDeviceSuccessNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidEnd) name:RDSearchDeviceDidEndNotification object:nil];
     
-    [self creatSubViews];
     // Do any additional setup after loading the view.
 }
 
 //发现了酒楼环境
 - (void)searchDeviceDidSuccess
 {
-    
+    if ([DeviceManager manager].isHotel && [DeviceManager manager].isRoom) {
+        if (![self.hotelID isEqualToString:[DeviceManager manager].hotelID] ||
+            ![self.roomID isEqualToString:[DeviceManager manager].roomID]) {
+            self.hotelID = [DeviceManager manager].hotelID;
+            self.roomID = [DeviceManager manager].roomID;
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self setupDatas];
+        }
+    }
 }
 
 //搜索设备结束
 - (void)searchDeviceDidEnd
 {
+    if (![DeviceManager manager].isHotel || ![DeviceManager manager].isRoom) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD showTextHUDWithText:@"未检测到设备环境" inView:self.view];
+    }
+}
+
+- (void)setupDatas
+{
+    if (_tableView.superview) {
+        [_tableView.tableHeaderView removeAllSubviews];
+        [_tableView removeFromSuperview];
+    }
     
+    GetBindListReuqest * request = [[GetBindListReuqest alloc] initWithHotelId:self.hotelID roomID:self.roomID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            self.hotelName = [result objectForKey:@"hotel_name"];
+            
+            NSArray * list = [result objectForKey:@"list"];
+            if ([list isKindOfClass:[NSArray class]]) {
+                [self.dataSource removeAllObjects];
+                for (NSInteger i = 0; i < list.count; i++) {
+                    NSDictionary * info = [list objectAtIndex:i];
+                    BindDeviceModel * model = [[BindDeviceModel alloc] initWithDictionary:info];
+                    [self.dataSource addObject:model];
+                }
+            }
+        }
+        [self creatSubViews];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"获取失败" inView:self.view];
+        
+    }];
 }
 
 - (void)creatSubViews{
     
     self.title = @"绑定包间版位";
-    self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度", nil];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.dataSource = self;
@@ -103,7 +162,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return self.titleArray.count;
+    return 10;
     
 }
 
@@ -148,6 +207,14 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDSearchDeviceSuccessNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDSearchDeviceDidEndNotification object:nil];
+}
+
+- (NSMutableArray *)dataSource
+{
+    if (!_dataSource) {
+        _dataSource = [[NSMutableArray alloc] init];
+    }
+    return _dataSource;
 }
 
 - (void)didReceiveMemoryWarning {
