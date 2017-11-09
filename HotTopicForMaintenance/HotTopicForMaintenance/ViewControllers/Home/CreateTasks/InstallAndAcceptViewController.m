@@ -32,13 +32,13 @@
 }
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
-@property (nonatomic, strong) NSArray *dataArr; //表项标题
 @property (nonatomic, strong) NSArray * contentArray; //表项标题
 @property (nonatomic, strong) NSMutableArray * otherContentArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 @property (nonatomic, strong) NSMutableArray *subMitPosionArray; //上传版位信息数据源
 @property (nonatomic, copy) NSString *currHotelId;
+@property (nonatomic, strong) RepairContentModel *headDataModel;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) UIView *maskingView;
@@ -71,20 +71,17 @@
 
 - (void)initInfor{
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.exclusiveTouch = YES;
-    [button setTitle:@"发布" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0, 0, 40, 44);
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
-    [button addTarget:self action:@selector(pubBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    button.backgroundColor = [UIColor clearColor];
-    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.rightBarButtonItem = backItem;
-    
     self.segTag = 3;
     self.sectionNum = 1;
     self.subMitPosionArray = [[NSMutableArray alloc] init];
     self.otherContentArray = [[NSMutableArray alloc] init];
+    _dConfigData = [[NSMutableArray alloc] init];
+    self.currHotelId = [[NSString alloc] init];
+    self.headDataModel = [[RepairContentModel alloc] init];
+    
+    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+    tmpModel.imgHType = 0;
+    [self.otherContentArray addObject:tmpModel];
     
 }
 
@@ -92,7 +89,7 @@
 {
     [self upLoadImageData];
     
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",@"永峰写字楼",@"addr",@"令狐冲",@"contractor",@"18500000",@"mobile", nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",self.headDataModel.addr,@"addr",self.headDataModel.contractor,@"contractor",self.headDataModel.mobile,@"mobile", nil];
     
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -141,15 +138,17 @@
 
 - (void)creatSubViews{
     
-    _dConfigData = [[NSMutableArray alloc] init];
-    self.currHotelId = [[NSString alloc] init];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.exclusiveTouch = YES;
+    [button setTitle:@"发布" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, 40, 44);
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    [button addTarget:self action:@selector(pubBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    button.backgroundColor = [UIColor clearColor];
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = backItem;
     
-    self.dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",nil];
-    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
-    tmpModel.imgHType = 0;
-    [self.otherContentArray addObject:tmpModel];
-    
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.backgroundColor = [UIColor clearColor];
@@ -158,7 +157,6 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
-    
 }
 
 - (void)addNPress{
@@ -243,7 +241,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return self.dataArr.count;
+        return 1;
     }else if (section == 1){
         return self.sectionNum;
     }else{
@@ -255,14 +253,15 @@
 {
     if (indexPath.section == 0) {
         static NSString *cellID = @"RepairHeaderCell";
-        RepairHeaderTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+       RepairHeaderTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
             cell = [[RepairHeaderTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;  
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-        [cell configWithTitle:self.dataArr[indexPath.row] andContent:self.contentArray[indexPath.row] andPNum:[NSString stringWithFormat:@"%ld",self.sectionNum]  andIdexPath:indexPath];
+        [cell configWithContent:self.headDataModel andPNum:[NSString stringWithFormat:@"%ld",self.sectionNum]  andIdexPath:indexPath];
         return cell;
     }else {
         RepairContentModel *tmpModel = self.otherContentArray[indexPath.row];
@@ -292,7 +291,7 @@
             return 50 *3 + 10 + 84.5 *scale;
         }
     }
-    return 50;
+    return 50 *6;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -301,7 +300,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 10;
+    return 5;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -330,7 +329,11 @@
     shVC.backHotel = ^(RestaurantRankModel *model){
         
         self.currHotelId = model.cid;
-        self.contentArray = [NSArray arrayWithObjects:model.name != nil?model.name:@"",model.contractor != nil?model.contractor:@"",model.mobile != nil?model.mobile:@"",model.addr != nil?model.addr:@"",@"紧急程度",@"版位数量", nil];
+        self.headDataModel.name = model.name != nil?model.name:@"";
+        self.headDataModel.contractor = model.contractor != nil?model.contractor:@"";
+        self.headDataModel.mobile = model.mobile != nil?model.mobile:@"";
+        self.headDataModel.addr = model.addr != nil?model.addr:@"";
+        
         [_tableView beginUpdates];
         NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -345,56 +348,14 @@
     
     self.indexPath = index;
     
-    [self creatMaskingView];
+    [self creatPhotoSheet];
 }
 
-- (void)creatMaskingView{
+#pragma mark 弹出相册或是相机选择页面
+- (void)creatPhotoSheet{
     
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    if ([keyWindow viewWithTag:1888] != nil ) {
-        return;
-    }
-    
-    self.maskingView = [[UIView alloc] init];
-    self.maskingView.tag = 1888;
-    self.maskingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    self.maskingView.userInteractionEnabled = YES;
-    self.maskingView.frame = CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight);
-    self.maskingView.top = keyWindow.bottom;
-    [keyWindow addSubview:self.maskingView];
-    
-    [self showViewWithAnimationDuration:.3f];
-    
-    UIView *bgView = [[UIView alloc] init];
-    bgView.backgroundColor = [UIColor whiteColor];
-    [self.maskingView addSubview:bgView];
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 80));
-        make.bottom.mas_equalTo(self.maskingView.mas_bottom);
-        make.left.mas_equalTo(0);
-    }];
-    
-    UIButton *cameraBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [cameraBtn setTitle:@"相机" forState:UIControlStateNormal];
-    [cameraBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [cameraBtn addTarget:self action:@selector(selectImageFromCamera) forControlEvents:UIControlEventTouchUpInside];
-    [bgView addSubview:cameraBtn];
-    [cameraBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(80, 50));
-        make.centerY.mas_equalTo(bgView.mas_centerY);
-        make.centerX.mas_equalTo(bgView.centerX).offset(- 80);
-    }];
-    
-    UIButton *imgAlbumBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [imgAlbumBtn setTitle:@"相册" forState:UIControlStateNormal];
-    [imgAlbumBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [imgAlbumBtn addTarget:self action:@selector(selectImageFromAlbum) forControlEvents:UIControlEventTouchUpInside];
-    [bgView addSubview:imgAlbumBtn];
-    [imgAlbumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(80, 50));
-        make.centerY.mas_equalTo(bgView.mas_centerY);
-        make.centerX.mas_equalTo(bgView.mas_centerX).offset(80);
-    }];
+    UIActionSheet *photoSheet = [[UIActionSheet alloc] initWithTitle:@"选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册", @"拍照", nil];
+    [photoSheet showInView:self.view];
     
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
@@ -402,33 +363,22 @@
     _imagePickerController.allowsEditing = YES;
 }
 
-#pragma mark - show view
--(void)showViewWithAnimationDuration:(float)duration{
-    
-    [UIView animateWithDuration:duration animations:^{
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-        self.maskingView.top = keyWindow.top;
-    } completion:^(BOOL finished) {
-    }];
-}
-
--(void)dismissViewWithAnimationDuration:(float)duration{
-    
-    [UIView animateWithDuration:duration animations:^{
-        
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-        self.maskingView.top = keyWindow.bottom;
-        
-    } completion:^(BOOL finished) {
-        [self.maskingView removeFromSuperview];
-    }];
+// UIActionSheetDelegate实现代理方法
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (0 == buttonIndex)
+    {
+        [self selectImageFromAlbum];
+    }
+    else if (1 == buttonIndex)
+    {
+        [self selectImageFromCamera];
+    }
 }
 
 #pragma mark 从摄像头获取图片或视频
 - (void)selectImageFromCamera
 {
-    [self dismissViewWithAnimationDuration:0.1];
-    
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     //设置摄像头模式拍照模式
     _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
@@ -439,7 +389,6 @@
 #pragma mark 从相册获取图片或视频
 - (void)selectImageFromAlbum
 {
-    [self dismissViewWithAnimationDuration:0.1];
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     [_imagePickerController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentViewController:_imagePickerController animated:YES completion:nil];
@@ -469,8 +418,6 @@
         
         //压缩图片
 //        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
-        //上传图片
-//        [self uploadImageWithData:fileData];
 
     }
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -488,6 +435,8 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
+    tmpModel.title = textField.text;
     [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
     return [textField resignFirstResponder];
     

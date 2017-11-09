@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RepairContentModel.h"
 
 @protocol RepairHeaderTableDelegate<NSObject>
 
@@ -24,6 +25,6 @@
 @property (nonatomic, strong) UIButton *hotelBtn;
 @property (nonatomic, strong) UITextField *inPutTextField;
 
-- (void)configWithTitle:(NSString *)title andContent:(NSString *)contenStr andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index;
+- (void)configWithContent:(RepairContentModel *)model andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index;
 
 @end
