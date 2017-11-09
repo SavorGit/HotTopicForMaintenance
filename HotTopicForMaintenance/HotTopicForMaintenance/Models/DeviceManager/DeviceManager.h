@@ -18,6 +18,7 @@ extern NSString * const RDSearchDeviceDidEndNotification; //搜索到酒楼ID或
 
 @property (nonatomic, copy, readonly) NSString * hotelID;
 @property (nonatomic, copy, readonly) NSString * roomID;
+@property (nonatomic, copy, readonly) NSString * macAddress;
 @property (nonatomic, assign, readonly) BOOL isHotel;
 @property (nonatomic, assign, readonly) BOOL isRoom;
 

@@ -12,6 +12,7 @@
 #import "DeviceManager.h"
 #import "GetBindListReuqest.h"
 #import "BindDeviceModel.h"
+#import "Helper.h"
 
 @interface BindingPositionViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -20,6 +21,7 @@
 
 @property (nonatomic, copy) NSString * hotelID;
 @property (nonatomic, copy) NSString * roomID;
+@property (nonatomic, copy) NSString * macAddress;
 @property (nonatomic, copy) NSString * hotelName;
 
 @property (nonatomic, strong) UILabel *hotelLabel;
@@ -52,6 +54,7 @@
             ![self.roomID isEqualToString:[DeviceManager manager].roomID]) {
             self.hotelID = [DeviceManager manager].hotelID;
             self.roomID = [DeviceManager manager].roomID;
+            self.macAddress = [DeviceManager manager].macAddress;
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self setupDatas];
         }
@@ -64,6 +67,7 @@
     if (![DeviceManager manager].isHotel || ![DeviceManager manager].isRoom) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [MBProgressHUD showTextHUDWithText:@"未检测到设备环境" inView:self.view];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -129,7 +133,7 @@
     _tableView.tableHeaderView = headView;
     
     self.hotelLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
-    self.hotelLabel.text = @"当前酒楼：";
+    self.hotelLabel.text = [NSString stringWithFormat:@"当前酒楼：%@", self.hotelName];
     [headView addSubview:self.hotelLabel];
     [self.hotelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
@@ -137,7 +141,7 @@
     }];
     
     self.wifiLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
-    self.wifiLabel.text = @"当前WIFI：";
+    self.wifiLabel.text = [NSString stringWithFormat:@"当前WIFI：%@", [Helper getWifiName]];
     [headView addSubview:self.wifiLabel];
     [self.wifiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.hotelLabel.mas_bottom).offset(10);
@@ -145,7 +149,7 @@
     }];
     
     self.boxLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f) alignment:NSTextAlignmentLeft];
-    self.boxLabel.text = @"当前机顶盒MAC：";
+    self.boxLabel.text = [NSString stringWithFormat:@"当前机顶盒MAC：%@", self.macAddress];
     [headView addSubview:self.boxLabel];
     [self.boxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.wifiLabel.mas_bottom).offset(10);
@@ -162,7 +166,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;
+    return self.dataSource.count;
     
 }
 
@@ -173,9 +177,12 @@
     if (cell == nil) {
         cell = [[BindPositionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
+    
+    BindDeviceModel * model =  [self.dataSource objectAtIndex:indexPath.row];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [cell configWithModel:nil];
+    [cell configWithModel:model];
     
     return cell;
     
