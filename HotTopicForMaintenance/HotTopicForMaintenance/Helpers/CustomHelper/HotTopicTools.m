@@ -234,7 +234,7 @@
     
 }
 
-+ (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
++ (void)uploadImage:(UIImage *)image withBoxID:(NSString *)boxID progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
 {
     NSString *endpoint = AliynEndPoint;
     
@@ -248,7 +248,7 @@
     
     OSSPutObjectRequest * put = [OSSPutObjectRequest new];
     put.bucketName = AliyunBucketName;
-    put.objectKey = [NSString stringWithFormat:@"log/mobile/ios/MaintenanceImage/%@/%@", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], path];
+    put.objectKey = [NSString stringWithFormat:@"log/resource/operation/mobile/%@/%@_%@", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
     put.uploadingData = UIImageJPEGRepresentation(image, 1);
     put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         if (progress) {
@@ -270,12 +270,12 @@
     }];
 }
 
-+ (void)uploadImageArray:(NSArray<UIImage *> *)images withPath:(NSArray *)pathArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)())failureBlock
 {
     for (NSInteger i = 0; i < images.count; i++) {
         UIImage * image = [images objectAtIndex:i];
-        NSString * pathString = [pathArray objectAtIndex:i];
-        [self uploadImage:image withPath:[pathString stringByAppendingFormat:@"%ld.jpg", i] progress:progress success:successBlock failure:failureBlock];
+        NSString * pathString = [boxIDArray objectAtIndex:i];
+        [self uploadImage:image withBoxID:[pathString stringByAppendingFormat:@"%ld.jpg", i] progress:progress success:successBlock failure:failureBlock];
     }
 }
 
