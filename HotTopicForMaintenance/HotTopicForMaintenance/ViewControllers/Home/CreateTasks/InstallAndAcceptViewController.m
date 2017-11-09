@@ -32,13 +32,13 @@
 }
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
-@property (nonatomic, strong) NSArray *dataArr; //表项标题
 @property (nonatomic, strong) NSArray * contentArray; //表项标题
 @property (nonatomic, strong) NSMutableArray * otherContentArray; //表项标题
 @property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 @property (nonatomic, strong) NSMutableArray *subMitPosionArray; //上传版位信息数据源
 @property (nonatomic, copy) NSString *currHotelId;
+@property (nonatomic, strong) RepairContentModel *headDataModel;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) UIView *maskingView;
@@ -71,20 +71,17 @@
 
 - (void)initInfor{
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.exclusiveTouch = YES;
-    [button setTitle:@"发布" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0, 0, 40, 44);
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
-    [button addTarget:self action:@selector(pubBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    button.backgroundColor = [UIColor clearColor];
-    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.rightBarButtonItem = backItem;
-    
     self.segTag = 3;
     self.sectionNum = 1;
     self.subMitPosionArray = [[NSMutableArray alloc] init];
     self.otherContentArray = [[NSMutableArray alloc] init];
+    _dConfigData = [[NSMutableArray alloc] init];
+    self.currHotelId = [[NSString alloc] init];
+    self.headDataModel = [[RepairContentModel alloc] init];
+    
+    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+    tmpModel.imgHType = 0;
+    [self.otherContentArray addObject:tmpModel];
     
 }
 
@@ -141,15 +138,17 @@
 
 - (void)creatSubViews{
     
-    _dConfigData = [[NSMutableArray alloc] init];
-    self.currHotelId = [[NSString alloc] init];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.exclusiveTouch = YES;
+    [button setTitle:@"发布" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, 40, 44);
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    [button addTarget:self action:@selector(pubBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    button.backgroundColor = [UIColor clearColor];
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = backItem;
     
-    self.dataArr = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度",@"版位数量",nil];
-    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
-    tmpModel.imgHType = 0;
-    [self.otherContentArray addObject:tmpModel];
-    
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.backgroundColor = [UIColor clearColor];
@@ -158,7 +157,6 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
-    
 }
 
 - (void)addNPress{
@@ -243,7 +241,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return self.dataArr.count;
+        return 1;
     }else if (section == 1){
         return self.sectionNum;
     }else{
@@ -255,14 +253,15 @@
 {
     if (indexPath.section == 0) {
         static NSString *cellID = @"RepairHeaderCell";
-        RepairHeaderTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+       RepairHeaderTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
             cell = [[RepairHeaderTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;  
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-        [cell configWithTitle:self.dataArr[indexPath.row] andContent:self.contentArray[indexPath.row] andPNum:[NSString stringWithFormat:@"%ld",self.sectionNum]  andIdexPath:indexPath];
+        [cell configWithContent:self.headDataModel andPNum:[NSString stringWithFormat:@"%ld",self.sectionNum]  andIdexPath:indexPath];
         return cell;
     }else {
         RepairContentModel *tmpModel = self.otherContentArray[indexPath.row];
@@ -292,7 +291,7 @@
             return 50 *3 + 10 + 84.5 *scale;
         }
     }
-    return 50;
+    return 50 *6;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -301,7 +300,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 10;
+    return 5;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -330,7 +329,11 @@
     shVC.backHotel = ^(RestaurantRankModel *model){
         
         self.currHotelId = model.cid;
-        self.contentArray = [NSArray arrayWithObjects:model.name != nil?model.name:@"",model.contractor != nil?model.contractor:@"",model.mobile != nil?model.mobile:@"",model.addr != nil?model.addr:@"",@"紧急程度",@"版位数量", nil];
+        self.headDataModel.name = model.name != nil?model.name:@"";
+        self.headDataModel.contractor = model.contractor != nil?model.contractor:@"";
+        self.headDataModel.mobile = model.mobile != nil?model.mobile:@"";
+        self.headDataModel.addr = model.addr != nil?model.addr:@"";
+        
         [_tableView beginUpdates];
         NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
         [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -488,6 +491,8 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
+    tmpModel.title = textField.text;
     [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
     return [textField resignFirstResponder];
     
