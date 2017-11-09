@@ -121,7 +121,7 @@
         [self.subMitPosionArray addObject:tmpDic];
     }
     
-    [HotTopicTools uploadImageArray:upImageArr withPath:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+    [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         
     } success:^(NSString *path) {
         NSLog(@"---上传成功！");
