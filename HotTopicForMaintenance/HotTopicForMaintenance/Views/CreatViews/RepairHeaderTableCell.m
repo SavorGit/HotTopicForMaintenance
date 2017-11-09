@@ -239,7 +239,10 @@
 - (void)configWithContent:(RepairContentModel *)model andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index;{
   
     self.indexPath = index;
-    [self.hotelBtn setTitle:model.name forState:UIControlStateNormal];
+     [self.hotelBtn setTitle:model.name forState:UIControlStateNormal];
+    if (isEmptyString(model.name)) {
+        [self.hotelBtn setTitle:@"请选择酒楼" forState:UIControlStateNormal];
+    }
     self.contactField.text = model.contractor;
     self.phoneField.text = model.mobile;
     self.addressField.text = model.addr;
