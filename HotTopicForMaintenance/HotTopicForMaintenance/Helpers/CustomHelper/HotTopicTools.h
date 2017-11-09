@@ -32,8 +32,8 @@
 
 + (void)checkUpdate;
 
-+ (void)uploadImage:(UIImage *)image withBoxID:(NSString *)boxID progress:(void (^)(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend))progress success:(void (^)(NSString *path))successBlock failure:(void (^)())failureBlock;
++ (void)uploadImage:(UIImage *)image withBoxID:(NSString *)boxID progress:(void (^)(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend))progress success:(void (^)(NSString *path, NSString * boxID))successBlock failure:(void (^)())failureBlock;
 
-+ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend))progress success:(void (^)(NSString *path))successBlock failure:(void (^)())failureBlock;
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend))progress success:(void (^)(NSString *path, NSString * boxID))successBlock failure:(void (^)())failureBlock;
 
 @end
