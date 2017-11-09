@@ -24,6 +24,7 @@
 #import "RefuseRequest.h"
 #import "DeviceManager.h"
 #import "SubmitTaskRequest.h"
+#import "BoxDataRequest.h"
 #import "NSArray+json.h"
 #import "InstallAlerTableViewCell.h"
 
@@ -40,7 +41,7 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
-@property (nonatomic, strong) NSMutableArray * dConfigData; //版位信息
+@property (nonatomic, strong) NSMutableArray * dConfigData; //版位选择信息
 @property (nonatomic, strong) NSMutableArray * subMitPosionArray; //提交维修信息
 @property (nonatomic, strong) TaskModel * taskListModel;
 
@@ -321,7 +322,7 @@
 //安装验收
 - (void)installButtonButtonDidClicked
 {
-    [self creatInstallListView:10 andTitArray:nil];
+    [self creatInstallListView:self.dConfigData.count andTitArray:nil];
 }
 
 //维修
@@ -346,7 +347,7 @@
 - (void)creatInstallListView:(NSUInteger )totalCount andTitArray:(NSArray *)titleArray{
     
     self.totalAlertCount = totalCount;
-    self.inPAlertView = [[InstallProAlertView alloc] initWithTotalCount:totalCount andTitleArray:titleArray];
+    self.inPAlertView = [[InstallProAlertView alloc] initWithTotalCount:totalCount andTitleArray:titleArray andDataArr:self.dConfigData];
     self.inPAlertView.tag = 2888;
     self.inPAlertView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.inPAlertView.userInteractionEnabled = YES;
@@ -371,7 +372,6 @@
 #pragma mark - 提交安装验收上传照片
 - (void)subMitData{
     [self subMitDataRequest];
-//    [self dismissInstallAlertViewWithDuration:0.3f];
 }
 
 #pragma mark - 取消安装验收上传照片
@@ -767,24 +767,6 @@
     }
 }
 
-#pragma mark - 请求版位信息
-- (void)boxConfigRequest
-{
-    GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.taskListModel.hotel_id];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        NSArray *listArray = [response objectForKey:@"result"];
-        
-        for (int i = 0; i < listArray.count; i ++) {
-            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
-            [self.dConfigData addObject:tmpModel];
-        }
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-    }];
-}
-
 #pragma mark - 点击弹窗页面空白处
 - (void)mListClicked{
     
@@ -937,6 +919,10 @@
         if (self.taskListModel.task_type_id == 8) {
             NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i + 1],@"type",urlPath,@"img", nil];
             [self.subMitPosionArray addObject:tmpDic];
+        }else if (self.taskListModel.task_type_id == 2){
+            RestaurantRankModel *tmpModel = self.dConfigData[i];
+            NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.box_id,@"boxId",urlPath,@"img", nil];
+            [self.subMitPosionArray addObject:tmpDic];
         }else{
             [self.subMitPosionArray addObject:urlPath];
         }
@@ -951,6 +937,41 @@
     }];
 }
 
+#pragma mark - 获取版位信息
+- (void)getBoxIdData{
+    NSString *taskType = [NSString stringWithFormat:@"%ld",self.taskListModel.task_type_id];
+    if (isEmptyString(taskType)) {
+        taskType = @"";
+    }
+    NSString *userId = [UserManager manager].user.userid;
+    if (isEmptyString(userId)) {
+        userId = @"";
+    }
+//    NSString *taskId = self.taskListModel.cid;
+//    if (isEmptyString(taskId)) {
+//        taskId = @"";
+//    }
+    NSString *taskId = @"1";
+    
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:taskType,@"task_type",userId,@"user_id",taskId,@"task_id", nil];
+    BoxDataRequest * request = [[BoxDataRequest alloc] initWithParamData:dic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
+        NSDictionary *resultDic = dadaDic[@"result"];
+        NSArray *listArr = resultDic[@"list"];
+        for (int i = 0; i < listArr.count; i ++) {
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArr[i]];
+            tmpModel.repair_img = @"http://a3.topitme.com/0/1c/12/1128107705fd5121c0l.jpg";
+            [self.dConfigData addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+}
 #pragma mark - 维修弹窗图片上传
 - (void)upLoadImageData{
 
@@ -1016,8 +1037,12 @@
         }
         
         [self setupViews];
-        // 请求版位信息
-        [self boxConfigRequest];
+        
+        if (self.taskListModel.task_type_id == 2 || self.taskListModel.task_type_id == 4 ) {
+            // 请求维修版位信息
+            [self getBoxIdData];
+        }
+        
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         

@@ -16,16 +16,18 @@
 @property (nonatomic, assign) NSInteger totalCount;
 @property (nonatomic, strong) UIImageView *sheetBgView;
 @property (nonatomic, strong) UIButton *submitBtn;
+@property (nonatomic, strong) NSArray *dataArray;
 
 @end
 
 @implementation InstallProAlertView
 
-- (instancetype)initWithTotalCount:(NSInteger )totalCount andTitleArray:(NSArray *)titleArray{
+- (instancetype)initWithTotalCount:(NSInteger )totalCount andTitleArray:(NSArray *)titleArray  andDataArr:(NSArray *)dataArray{
     
     if (self = [super init]) {
         self.titleArray = titleArray;
         self.totalCount = totalCount;
+        self.dataArray = dataArray;
         [self creatSubViews];
     }
     return self;
@@ -123,7 +125,11 @@
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     if (self.titleArray != nil) {
-        [cell configWithContent:self.titleArray[indexPath.row] andIdexPath:indexPath];
+        RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
+        [cell configWithContent:self.titleArray[indexPath.row] andIdexPath:indexPath andDataModel:tmpModel];
+    }else{
+        RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
+        [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:tmpModel];
     }
     return cell;
 }

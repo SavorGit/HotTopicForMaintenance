@@ -8,6 +8,7 @@
 
 #import "InstallAlerTableViewCell.h"
 #import "Helper.h"
+#import "UIImageView+WebCache.h"
 
 @interface InstallAlerTableViewCell()
 
@@ -73,9 +74,10 @@
     [self.instaImg addGestureRecognizer:tap];
 }
 
-- (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index{
+- (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index andDataModel:(RestaurantRankModel *)model{
 
     self.titlePosionLabel.text = titleString;
+    [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img]];
 }
 
 - (void)addImgPress{

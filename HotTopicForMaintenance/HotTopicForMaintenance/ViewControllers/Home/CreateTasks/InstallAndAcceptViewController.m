@@ -200,6 +200,7 @@
         flVC.dataSource = self.dConfigData;
         [self presentViewController:flVC animated:YES completion:nil];
         flVC.backDatas = ^(NSString *boxId,NSString *name) {
+            [btn setTitle:name forState:UIControlStateNormal];
             RepairContentModel *cell = [self.otherContentArray objectAtIndex:index.row];
             cell.boxName = name;
             cell.boxId = boxId;
