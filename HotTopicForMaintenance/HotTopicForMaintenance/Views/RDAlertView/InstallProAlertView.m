@@ -54,7 +54,7 @@
     _alertTableView.dataSource = self;
     _alertTableView.delegate = self;
     _alertTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _alertTableView.backgroundColor = [UIColor cyanColor];
+    _alertTableView.backgroundColor = [UIColor  clearColor];
     _alertTableView.backgroundView = nil;
     _alertTableView.showsVerticalScrollIndicator = NO;
     [self.sheetBgView  addSubview:_alertTableView];

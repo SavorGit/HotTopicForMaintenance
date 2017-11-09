@@ -51,7 +51,7 @@
     [_bgView addSubview:self.instaImg];
     CGFloat scale = kMainBoundsWidth/375.f;
     [self.instaImg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(150 *scale, 60 *scale));
+        make.size.mas_equalTo(CGSizeMake((bgVideoWidth - 60) *scale, 60 *scale));
         make.top.mas_equalTo(10);
         make.centerX.mas_equalTo(_bgView);
     }];
