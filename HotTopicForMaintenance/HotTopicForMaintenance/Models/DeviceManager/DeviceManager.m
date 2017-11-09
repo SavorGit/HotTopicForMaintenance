@@ -24,6 +24,7 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
 
 @property (nonatomic, copy, readwrite) NSString * hotelID;
 @property (nonatomic, copy, readwrite) NSString * roomID;
+@property (nonatomic, copy, readwrite) NSString * macAddress;
 @property (nonatomic, assign, readwrite) BOOL isHotel;
 @property (nonatomic, assign, readwrite) BOOL isRoom;
 
@@ -177,6 +178,12 @@ withFilterContext:(nullable id)filterContext{
                 self.roomID = roomID;
                 self.isRoom = YES;
             }
+            
+            NSString * mac = [dict objectForKey:@"Savor-Box-MAC"];
+            if (!isEmptyString(mac)) {
+                self.macAddress = mac;
+            }
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:RDSearchDeviceSuccessNotification object:nil];
         }else{
             NSString * hotelID = [dict objectForKey:@"Savor-Hotel-ID"];
