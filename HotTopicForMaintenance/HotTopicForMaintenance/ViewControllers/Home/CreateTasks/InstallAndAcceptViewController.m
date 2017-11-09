@@ -26,7 +26,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface InstallAndAcceptViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate,UITextFieldDelegate>
+@interface InstallAndAcceptViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate,UITextFieldDelegate,UIActionSheetDelegate>
 {
     UIImagePickerController *_imagePickerController;
 }
@@ -64,11 +64,6 @@
     [self creatSubViews];
 }
 
-- (void)pubBtnClicked
-{
-    [self subMitDataRequest];
-}
-
 - (void)initInfor{
     
     self.segTag = 3;
@@ -82,7 +77,6 @@
     RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
     tmpModel.imgHType = 0;
     [self.otherContentArray addObject:tmpModel];
-    
 }
 
 - (void)subMitDataRequest
@@ -123,7 +117,7 @@
         }
         [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
         
-        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
+        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",[tmpModel.upImgUrl stringByAppendingString:@".jpg"],@"fault_img_url", nil];
         [self.subMitPosionArray addObject:tmpDic];
     }
     
@@ -157,6 +151,11 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+}
+
+- (void)pubBtnClicked
+{
+    [self subMitDataRequest];
 }
 
 - (void)addNPress{
@@ -201,10 +200,16 @@
         flVC.dataSource = self.dConfigData;
         [self presentViewController:flVC animated:YES completion:nil];
         flVC.backDatas = ^(NSString *boxId,NSString *name) {
-            [btn setTitle:name forState:UIControlStateNormal];
             RepairContentModel *cell = [self.otherContentArray objectAtIndex:index.row];
+            cell.boxName = name;
             cell.boxId = boxId;
             
+//            cell.imgHType = 0;
+//            cell.title = @"";
+//            cell.upImgUrl = @"";
+//            [_tableView beginUpdates];
+//            [_tableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
+//            [_tableView endUpdates];
         };
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
@@ -322,6 +327,7 @@
     return view;
 }
 
+#pragma mark ---选择酒楼
 - (void)hotelPress:(NSIndexPath *)index{
     
     SearchHotelViewController *shVC = [[SearchHotelViewController alloc] initWithClassType:1];
@@ -334,11 +340,18 @@
         self.headDataModel.mobile = model.mobile != nil?model.mobile:@"";
         self.headDataModel.addr = model.addr != nil?model.addr:@"";
         
-        [_tableView beginUpdates];
-        NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
-        [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-        [_tableView endUpdates];
+//        [_tableView beginUpdates];
+//        NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
+//        [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+//        [_tableView endUpdates];
         
+        //选择酒楼后重新初始化版位信息
+        [self.otherContentArray removeAllObjects];
+        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+        tmpModel.imgHType = 0;
+        [self.otherContentArray addObject:tmpModel];
+        
+        [_tableView reloadData];
         // 请求该酒店版位
          [self boxConfigRequest];
     };
@@ -435,8 +448,10 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     tmpModel.title = textField.text;
+    
     [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
     return [textField resignFirstResponder];
     

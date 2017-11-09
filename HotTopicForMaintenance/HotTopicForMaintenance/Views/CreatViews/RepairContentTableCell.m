@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UILabel *titleFaultLabel;
 @property (nonatomic, strong) UILabel *titlePhotoLabel;
 @property (nonatomic, strong) UIButton *addImgBtn;
+@property (nonatomic, strong) UIButton *selectBtn;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
@@ -71,13 +72,13 @@
         make.right.mas_equalTo(- 20);
     }];
     
-    UIButton *selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [selectBtn setTitle:@"请选择" forState:UIControlStateNormal];
-    [selectBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    selectBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [selectBtn addTarget:self action:@selector(selectPress:) forControlEvents:UIControlEventTouchUpInside];
-    [_bgView addSubview:selectBtn];
-    [selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.selectBtn setTitle:@"请选择" forState:UIControlStateNormal];
+    [self.selectBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.selectBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [self.selectBtn addTarget:self action:@selector(selectPress:) forControlEvents:UIControlEventTouchUpInside];
+    [_bgView addSubview:self.selectBtn];
+    [self.selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 30));
         make.top.mas_equalTo(10);
         make.right.mas_equalTo(- 40);
@@ -139,9 +140,14 @@
 }
 
 - (void)configWithContent:(RepairContentModel *)model andIdexPath:(NSIndexPath *)index{
-//    self.indexPath = index;
     if (model.imgHType == 1) {
         self.addImgBtn.hidden = YES;
+        
+        [self.selectBtn setTitle:model.boxName forState:UIControlStateNormal];
+        if (isEmptyString(model.boxName)) {
+            [self.selectBtn setTitle:@"请选择" forState:UIControlStateNormal];
+        }
+        self.inPutTextField.text = model.title;
         
         CGFloat scale = kMainBoundsWidth / 375.f;
         [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -163,15 +169,19 @@
         
     }else{
         self.addImgBtn.hidden = NO;
+        
+        [self.selectBtn setTitle:model.boxName forState:UIControlStateNormal];
+        if (isEmptyString(model.boxName)) {
+            [self.selectBtn setTitle:@"请选择" forState:UIControlStateNormal];
+        }
+        self.inPutTextField.text = model.title;
+        
         [_bgView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(kMainBoundsWidth - 30);
             make.height.mas_equalTo(50 *3);
             make.top.mas_equalTo(10);
             make.left.mas_equalTo(15);
         }];
-    }
-    if (index.row == 1) {
-        self.inPutTextField.text = model.title;
     }
 }
 
