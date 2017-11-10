@@ -105,6 +105,7 @@
 - (void)removeNotification
 {
     if (self.hasNotification) {
+        self.hasNotification = NO;
         [[NSNotificationCenter defaultCenter] removeObserver:self name:RDTaskStatusDidChangeNotification object:nil];
     }
 }
@@ -113,9 +114,7 @@
 {
     if (!self.hasNotification) {
         self.hasNotification = YES;
-        if ([UserManager manager].user.roletype == UserRoleType_AssignTask) {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatusDidChange) name:RDTaskStatusDidChangeNotification object:nil];
-        }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatusDidChange) name:RDTaskStatusDidChangeNotification object:nil];
     }
 }
 
@@ -184,9 +183,7 @@
         make.height.mas_equalTo(1.f);
     }];
     
-    if (self.taskListModel.state_id == TaskStatusType_WaitHandle) {
-        [self addNotification];
-    }
+    [self addNotification];
     
     [self createRolesHandleView];
 }
