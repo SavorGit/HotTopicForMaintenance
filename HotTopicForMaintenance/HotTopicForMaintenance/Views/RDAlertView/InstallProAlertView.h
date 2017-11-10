@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RestaurantRankModel.h"
 
 @protocol InstallProAlertDelegate<NSObject>
 
@@ -22,6 +23,6 @@
 
 @property (nonatomic, strong) UITableView * alertTableView;
 
-- (instancetype)initWithTotalCount:(NSInteger )totalCount andTitleArray:(NSArray *)titleArray;
+- (instancetype)initWithTotalCount:(NSInteger )totalCount andTitleArray:(NSArray *)titleArray andDataArr:(NSArray *)dataArray;
 
 @end

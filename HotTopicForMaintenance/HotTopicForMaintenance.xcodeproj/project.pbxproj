@@ -95,6 +95,7 @@
 		06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECDC8D1F596DCD007FBD83 /* ConverUtil.m */; };
 		06ECDC911F596DCD007FBD83 /* DesUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECDC8F1F596DCD007FBD83 /* DesUtil.m */; };
 		88A5533C69257F91FBC76C5E /* libPods-HotTopicForMaintenance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 943310C53F8C67DA52F2D82C /* libPods-HotTopicForMaintenance.a */; };
+		964B10561FB441D400DE706F /* BoxDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B10551FB441D400DE706F /* BoxDataRequest.m */; };
 		969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */; };
 		969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */; };
 		969A3C351FA995E900EB95C9 /* NetworkTranTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C341FA995E900EB95C9 /* NetworkTranTableViewCell.m */; };
@@ -335,6 +336,8 @@
 		1A452788AF09D343D0F3EABA /* Pods-HotTopicForMaintenance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicForMaintenance.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicForMaintenance/Pods-HotTopicForMaintenance.debug.xcconfig"; sourceTree = "<group>"; };
 		3F947E8C600EAFB6DB1B0E66 /* Pods-HotTopicForMaintenance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicForMaintenance.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicForMaintenance/Pods-HotTopicForMaintenance.release.xcconfig"; sourceTree = "<group>"; };
 		943310C53F8C67DA52F2D82C /* libPods-HotTopicForMaintenance.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicForMaintenance.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		964B10541FB441D400DE706F /* BoxDataRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxDataRequest.h; sourceTree = "<group>"; };
+		964B10551FB441D400DE706F /* BoxDataRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxDataRequest.m; sourceTree = "<group>"; };
 		969A3C2D1FA97A2B00EB95C9 /* NetworkTransforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTransforViewController.h; sourceTree = "<group>"; };
 		969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallAndAcceptViewController.m; sourceTree = "<group>"; };
 		969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkTransforViewController.m; sourceTree = "<group>"; };
@@ -776,6 +779,8 @@
 				06B4A64A1FAD976D0081BBA7 /* TaskListDetailRequest.m */,
 				0626137B1FB05EB700EA6AD7 /* HandleTaskListRequest.h */,
 				0626137C1FB05EB700EA6AD7 /* HandleTaskListRequest.m */,
+				964B10541FB441D400DE706F /* BoxDataRequest.h */,
+				964B10551FB441D400DE706F /* BoxDataRequest.m */,
 				969A3C851FB1A9C000EB95C9 /* SubmitTaskRequest.h */,
 				969A3C861FB1A9C000EB95C9 /* SubmitTaskRequest.m */,
 				0626137E1FB06F0200EA6AD7 /* AssignRequest.h */,
@@ -1372,6 +1377,7 @@
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,
 				0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */,
 				060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */,
+				964B10561FB441D400DE706F /* BoxDataRequest.m in Sources */,
 				06B055DB1F5D48D800A9CE68 /* GCCKeyChain.m in Sources */,
 				066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */,
 				060A77C81FB1980F00D2A510 /* GetTaskCountRequest.m in Sources */,

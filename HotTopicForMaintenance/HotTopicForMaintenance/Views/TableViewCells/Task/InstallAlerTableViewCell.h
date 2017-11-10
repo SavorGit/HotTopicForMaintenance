@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RestaurantRankModel.h"
 
 @protocol InstallCellDelegate<NSObject>
 
@@ -22,6 +23,6 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
-- (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index;
+- (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index andDataModel:(RestaurantRankModel *)model;
 
 @end
