@@ -27,9 +27,6 @@
 
 @property (nonatomic, assign) BOOL hasNotification;
 
-@property (nonatomic, assign) BOOL isNeedUpdate;
-@property (nonatomic, assign) NSInteger updateIndex;
-
 @end
 
 @implementation TaskListViewController
@@ -62,17 +59,31 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    [self addNotification];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMore)];
 }
 
+- (void)removeNotification
+{
+    if (self.hasNotification) {
+        self.hasNotification = NO;
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:RDTaskStatusDidChangeNotification object:nil];
+    }
+}
+
+- (void)addNotification
+{
+    if (!self.hasNotification) {
+        self.hasNotification = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:RDTaskStatusDidChangeNotification object:nil];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TaskModel * model = [self.dataSource objectAtIndex:indexPath.section];
-    
-    self.isNeedUpdate = YES;
-    self.updateIndex = indexPath.section;
     
     TaskDetailViewController * vc = [[TaskDetailViewController alloc] initWithTaskModel:model];
     [self.navigationController pushViewController:vc animated:YES];
@@ -283,18 +294,9 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)dealloc
 {
-    [super viewWillAppear:animated];
-    
-    if (self.isNeedUpdate) {
-        
-        [UIView performWithoutAnimation:^{
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:self.updateIndex] withRowAnimation:UITableViewRowAnimationNone];
-        }];
-        
-        self.isNeedUpdate = NO;
-    }
+    [self removeNotification];
 }
 
 - (void)didReceiveMemoryWarning {
