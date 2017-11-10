@@ -109,15 +109,15 @@
         RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:1]];
         RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
         
-        tmpModel.upImgUrl = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
+        tmpModel.upImgUrl = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/resource/operation/mobile/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], tmpModel.boxId, [Helper getTimeStampMS]];
         if (cell.fImageView.image != nil) {
             [upImageArr addObject:cell.fImageView.image];
         }else{
             [upImageArr addObject:[UIImage imageNamed:@"selected"]];
         }
-        [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
+        [pathArr addObject:tmpModel.boxId];
         
-        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",[tmpModel.upImgUrl stringByAppendingString:@".jpg"],@"fault_img_url", nil];
+        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
         [self.subMitPosionArray addObject:tmpDic];
     }
     

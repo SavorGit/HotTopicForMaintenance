@@ -248,7 +248,7 @@
     
     OSSPutObjectRequest * put = [OSSPutObjectRequest new];
     put.bucketName = AliyunBucketName;
-    put.objectKey = [NSString stringWithFormat:@"log/resource/operation/mobile/%@/%@_%@", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
+    put.objectKey = [NSString stringWithFormat:@"log/resource/operation/mobile/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
     put.uploadingData = UIImageJPEGRepresentation(image, 1);
     put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         if (progress) {
@@ -275,7 +275,7 @@
     for (NSInteger i = 0; i < images.count; i++) {
         UIImage * image = [images objectAtIndex:i];
         NSString * pathString = [boxIDArray objectAtIndex:i];
-        [self uploadImage:image withBoxID:[pathString stringByAppendingFormat:@"%ld.jpg", i] progress:progress success:successBlock failure:failureBlock];
+        [self uploadImage:image withBoxID:pathString  progress:progress success:successBlock failure:failureBlock];
     }
 }
 
