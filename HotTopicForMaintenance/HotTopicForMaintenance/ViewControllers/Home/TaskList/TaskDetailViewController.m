@@ -951,7 +951,6 @@
     if (isEmptyString(boxId)) {
         boxId = @"";
     }
-//    NSString *taskId = @"17";
     NSString *taskId = self.taskListModel.cid;
     if (isEmptyString(taskId)) {
         taskId = @"";
@@ -978,6 +977,7 @@
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
         if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+            [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
             if (self.taskListModel.task_type_id == 4){
                 [self dismissViewWithAnimationDuration:0.3];
             }else{
