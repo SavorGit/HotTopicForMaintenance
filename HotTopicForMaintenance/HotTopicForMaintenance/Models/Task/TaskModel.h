@@ -10,9 +10,9 @@
 
 typedef enum : NSUInteger {
     TaskType_InfoCheck = 1,     //信息检测
-    TaskType_NetTransform = 8,  //网络改造
     TaskType_Install = 2,       //安装验收
-    TaskType_Repair = 4         //维修
+    TaskType_Repair = 4,        //维修
+    TaskType_NetTransform = 8   //网络改造
 } TaskType;
 
 typedef enum : NSUInteger {
