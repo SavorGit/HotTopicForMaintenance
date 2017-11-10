@@ -123,9 +123,9 @@
     
     [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         
-    } success:^(NSString *path, NSString *boxID) {
+    } success:^(NSString *path) {
         NSLog(@"---上传成功！");
-    } failure:^{
+    } failure:^(NSError *error, NSInteger index) {
         
     }];
 }

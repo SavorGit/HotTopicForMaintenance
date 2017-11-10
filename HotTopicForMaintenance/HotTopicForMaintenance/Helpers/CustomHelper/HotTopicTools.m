@@ -234,7 +234,49 @@
     
 }
 
-+ (void)uploadImage:(UIImage *)image withBoxID:(NSString *)boxID progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *, NSString *))successBlock failure:(void (^)())failureBlock
++ (void)uploadImage:(UIImage *)image withBoxID:(NSString *)boxID progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *))failureBlock
+{
+    NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
+    
+    [self uploadImage:image withPath:path progress:progress success:successBlock failure:failureBlock];
+}
+
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *, NSInteger))failureBlock
+{
+    for (NSInteger i = 0; i < images.count; i++) {
+        UIImage * image = [images objectAtIndex:i];
+        NSString * boxID = [boxIDArray objectAtIndex:i];
+        NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/box/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
+        [self uploadImage:image withPath:path progress:progress success:successBlock failure:^(NSError *error) {
+            if (failureBlock) {
+                failureBlock(error, i);
+            }
+        }];
+    }
+}
+
++ (void)uploadImage:(UIImage *)image withHotelID:(NSString *)hotelID progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *))failureBlock
+{
+    NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/hotel/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], hotelID, [Helper getTimeStampMS]];
+    
+    [self uploadImage:image withPath:path progress:progress success:successBlock failure:failureBlock];
+}
+
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withHotelIDArray:(NSArray *)hotelIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *, NSInteger))failureBlock
+{
+    for (NSInteger i = 0; i < images.count; i++) {
+        UIImage * image = [images objectAtIndex:i];
+        NSString * hotelID = [hotelIDArray objectAtIndex:i];
+        NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/hotel/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], hotelID, [Helper getTimeStampMS]];
+        [self uploadImage:image withPath:path progress:progress success:successBlock failure:^(NSError *error) {
+            if (failureBlock) {
+                failureBlock(error, index);
+            }
+        }];
+    }
+}
+
++ (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *error))failureBlock
 {
     NSString *endpoint = AliynEndPoint;
     
@@ -248,35 +290,26 @@
     
     OSSPutObjectRequest * put = [OSSPutObjectRequest new];
     put.bucketName = AliyunBucketName;
-    put.objectKey = [NSString stringWithFormat:@"log/resource/operation/mobile/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
+    put.objectKey = path;
     put.uploadingData = UIImageJPEGRepresentation(image, 1);
     put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         if (progress) {
-             progress(bytesSent, totalBytesSent, totalBytesExpectedToSend);
+            progress(bytesSent, totalBytesSent, totalBytesExpectedToSend);
         }
     };
     OSSTask * putTask = [client putObject:put];
     [putTask continueWithBlock:^id _Nullable(OSSTask * _Nonnull task) {
         if (task.error) {
             if (failureBlock) {
-                failureBlock();
+                failureBlock(task.error);
             }
         }else{
             if (successBlock) {
-                successBlock([AliynEndPoint stringByAppendingString:put.objectKey], boxID);
+                successBlock([AliynEndPoint stringByAppendingString:put.objectKey]);
             }
         }
         return nil;
     }];
-}
-
-+ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *, NSString *))successBlock failure:(void (^)())failureBlock
-{
-    for (NSInteger i = 0; i < images.count; i++) {
-        UIImage * image = [images objectAtIndex:i];
-        NSString * pathString = [boxIDArray objectAtIndex:i];
-        [self uploadImage:image withBoxID:pathString  progress:progress success:successBlock failure:failureBlock];
-    }
 }
 
 @end
