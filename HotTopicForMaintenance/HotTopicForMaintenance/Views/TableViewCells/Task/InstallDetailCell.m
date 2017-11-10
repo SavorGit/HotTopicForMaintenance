@@ -72,12 +72,13 @@
     
     self.photoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.photoImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.photoImageView.clipsToBounds = YES;
     [self.baseView addSubview:self.photoImageView];
     [self.photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.f*scale);
         make.top.mas_equalTo(self.timeLabel.mas_bottom).offset(6.f * scale);
         make.right.mas_equalTo(-15.f * scale);
-        make.height.mas_equalTo(80.f * scale);
+        make.height.mas_equalTo(120.f * scale);
     }];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoDidClicked)];
     tap.numberOfTapsRequired = 1;

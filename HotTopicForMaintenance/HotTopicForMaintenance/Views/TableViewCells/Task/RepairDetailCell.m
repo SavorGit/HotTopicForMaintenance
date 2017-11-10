@@ -108,6 +108,7 @@
     
     self.Photo1 = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.Photo1.tag = 100;
+    self.Photo1.clipsToBounds = YES;
     self.Photo1.contentMode = UIViewContentModeScaleAspectFill;
     [self.baseView addSubview:self.Photo1];
     [self.Photo1 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -119,6 +120,7 @@
     
     self.Photo2 = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.Photo2.tag = 101;
+    self.Photo2.clipsToBounds = YES;
     self.Photo2.contentMode = UIViewContentModeScaleAspectFill;
     [self.baseView addSubview:self.Photo2];
     [self.Photo2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -130,6 +132,7 @@
     
     self.Photo3 = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.Photo3.tag = 102;
+    self.Photo3.clipsToBounds = YES;
     self.Photo3.contentMode = UIViewContentModeScaleAspectFill;
     [self.baseView addSubview:self.Photo3];
     [self.Photo3 mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -913,11 +913,11 @@
             
             return 160.f * scale + height;
         }else if (self.taskListModel.task_type_id == TaskType_InfoCheck) {
-            return 160.f * scale;
+            return 200.f * scale;
         }else if (self.taskListModel.task_type_id == TaskType_NetTransform) {
-            return 280.f * scale;
+            return 360.f * scale;
         }else if (self.taskListModel.task_type_id == TaskType_Install) {
-            return 140.f * scale;
+            return 180.f * scale;
         }
     }
     
