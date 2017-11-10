@@ -952,7 +952,6 @@
     if (isEmptyString(boxId)) {
         boxId = @"";
     }
-//    NSString *taskId = @"17";
     NSString *taskId = self.taskListModel.cid;
     if (isEmptyString(taskId)) {
         taskId = @"";
