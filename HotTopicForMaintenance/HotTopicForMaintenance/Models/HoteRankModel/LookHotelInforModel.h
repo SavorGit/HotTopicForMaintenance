@@ -11,6 +11,7 @@
 @interface LookHotelInforModel : Jastor
 
 @property(nonatomic, copy) NSString *hotel_name;
+@property(nonatomic, copy) NSString *hotel_id;
 @property(nonatomic, copy) NSString *hotel_addr;
 
 @property(nonatomic, copy) NSString *area_name;

@@ -397,7 +397,7 @@
 
 #pragma mark - 提交安装验收上传照片
 - (void)subMitData{
-    [self subMitDataRequest];
+    [self upLoadIntallImageData];
 }
 
 #pragma mark - 取消安装验收上传照片
@@ -822,8 +822,17 @@
     [self dismissViewWithAnimationDuration:0.3f];
 }
 
+#pragma mark - 维修弹窗提交数据
 -(void)submitClicked{
-    [self subMitDataRequest];
+    
+    if (isEmptyString(self.currentBoxId)){
+        [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
+    }else if (isEmptyString(self.repairAlertModel.state)) {
+        [MBProgressHUD showTextHUDWithText:@"请选择是否解决" inView:self.view];
+    }else{
+        [self upLoadImageData];
+    }
+    
 }
 
 #pragma mark - show view
@@ -943,11 +952,11 @@
     if (isEmptyString(boxId)) {
         boxId = @"";
     }
-    NSString *taskId = @"17";
-//    NSString *taskId = self.taskListModel.cid;
-//    if (isEmptyString(taskId)) {
-//        taskId = @"";
-//    }
+//    NSString *taskId = @"17";
+    NSString *taskId = self.taskListModel.cid;
+    if (isEmptyString(taskId)) {
+        taskId = @"";
+    }
     NSString *repairState = self.repairAlertModel.state;
     if (isEmptyString(repairState)) {
         repairState = @"";
@@ -957,11 +966,10 @@
         textViewStr = @"";
     }
     NSDictionary *dic;
+    // 4 为维修类型
     if (self.taskListModel.task_type_id == 4) {
-        [self upLoadImageData];
         dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toJSONString],@"repair_img",textViewStr,@"remark", nil];
     }else{
-        [self upLoadIntallImageData];
         dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toJSONString],@"repair_img",textViewStr,@"remark", nil];
     }
     
@@ -994,10 +1002,12 @@
     [self.subMitPosionArray removeAllObjects];
     NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
+    UIImage *selectImg;
+    __block int upCount = 0;
     for (int i = 0; i < self.totalAlertCount; i ++) {
         
         InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        UIImage *selectImg = cell.instaImg.image;
+         selectImg = cell.instaImg.image;
         if (selectImg != nil) {
             [upImageArr addObject:selectImg];
         }else{
@@ -1005,30 +1015,99 @@
         }
     
 
-        NSString *urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
+        NSString *urlPath = @"http://devp.oss.littlehotspot.com";
+        
         if (self.taskListModel.task_type_id == 8) {
-            urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
-            NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i + 1],@"type",urlPath,@"img", nil];
+            
+            [pathArr addObject:self.taskListModel.hotel_id];
+            
+            NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i + 1],@"type",urlPath,@"img", nil];
             [self.subMitPosionArray addObject:tmpDic];
         }else if (self.taskListModel.task_type_id == 2){
             
             RestaurantRankModel *tmpModel = self.dConfigData[i];
             [pathArr addObject:tmpModel.box_id];
-            NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.box_id,@"box_id",urlPath,@"img", nil];
+            
+            NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.box_id,@"box_id",urlPath,@"img", nil];
             [self.subMitPosionArray addObject:tmpDic];
+            
         }else{
             [self.subMitPosionArray addObject:urlPath];
         }
-
     }
     
-//    [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-//
-//    } success:^(NSString *path, NSString *boxID) {
-//        NSLog(@"图片上传成功");
-//    } failure:^{
-//
-//    }];
+    if (self.taskListModel.task_type_id == 8) {
+        
+        if (upImageArr.count > 0) {
+            [HotTopicTools uploadImageArray:upImageArr withHotelIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+                
+            } success:^(NSString *path, NSInteger index) {
+                NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
+                [tmpDic setObject:path forKey:@"img"];
+                
+                upCount++;
+                if (upCount == upImageArr.count) {
+                    [self subMitDataRequest];
+                }
+                
+            } failure:^(NSError *error, NSInteger index) {
+                NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
+                [tmpDic setObject:@"" forKey:@"img"];
+                
+                upCount++;
+                if (upCount == upImageArr.count) {
+                    [self subMitDataRequest];
+                }
+                
+            }];
+        }
+        
+      }else if (self.taskListModel.task_type_id == 2){
+        if (upImageArr.count > 0) {
+            [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+            } success:^(NSString *path, NSInteger index) {
+                NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
+                [tmpDic setObject:path forKey:@"img"];
+                NSLog(@"---上传成功！");
+                
+                upCount++;
+                if (upCount == upImageArr.count) {
+                    [self subMitDataRequest];
+                }
+                
+            } failure:^(NSError *error, NSInteger index) {
+                NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
+                [tmpDic setObject:@"" forKey:@"img"];
+                NSLog(@"---上传失败！");
+                
+                upCount++;
+                if (upCount == upImageArr.count) {
+                    [self subMitDataRequest];
+                }
+                
+            }];
+        }
+        
+    }else{
+        if (upImageArr.count > 0) {
+            [HotTopicTools  uploadImage:selectImg withHotelID:self.taskListModel.hotel_id progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+            } success:^(NSString *path) {
+                [self.subMitPosionArray removeAllObjects];
+                [self.subMitPosionArray addObject:path];
+                NSLog(@"---上传成功！");
+                
+                 [self subMitDataRequest];
+                
+            } failure:^(NSError *error) {
+                [self.subMitPosionArray removeAllObjects];
+                [self.subMitPosionArray addObject:@""];
+                NSLog(@"---上传失败！");
+                
+                 [self subMitDataRequest];
+                
+            }];
+        }
+    }
 }
 
 #pragma mark - 获取版位信息
@@ -1041,11 +1120,11 @@
     if (isEmptyString(userId)) {
         userId = @"";
     }
-//    NSString *taskId = self.taskListModel.cid;
-//    if (isEmptyString(taskId)) {
-//        taskId = @"";
-//    }
-    NSString *taskId = @"1";
+    NSString *taskId = self.taskListModel.cid;
+    if (isEmptyString(taskId)) {
+        taskId = @"";
+    }
+//    NSString *taskId = @"1";
     
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:taskType,@"task_type",userId,@"user_id",taskId,@"task_id", nil];
     BoxDataRequest * request = [[BoxDataRequest alloc] initWithParamData:dic];
@@ -1073,6 +1152,8 @@
     NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
     NSArray *imgTagArr = [NSArray arrayWithObjects:@"1999",@"2000",@"2001", nil];
+    
+    __block int upCount = 0;
     for (int i = 0; i < imgTagArr.count; i ++) {
 
         UIImageView *selectImgView = [self.view viewWithTag:[imgTagArr[i] integerValue]];
@@ -1081,19 +1162,31 @@
         }else{
             [upImageArr addObject:[UIImage imageNamed:@"selected"]];
         }
-        [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
-
-        NSString *urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
-        [self.subMitPosionArray addObject:urlPath];
+        [pathArr addObject:self.currentBoxId];
     }
-
-    [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-        
-    } success:^(NSString *path) {
-        NSLog(@"---上传成功！");
-    } failure:^(NSError *error, NSInteger index) {
-        
-    }];
+    
+    if (upImageArr.count > 0) {
+        [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        } success:^(NSString *path, NSInteger index) {
+            [self.subMitPosionArray addObject:path];
+            NSLog(@"---上传成功！");
+            
+            upCount++;
+            if (upCount == upImageArr.count) {
+                [self subMitDataRequest];
+            }
+            
+        } failure:^(NSError *error, NSInteger index) {
+            [self.subMitPosionArray addObject:@""];
+            NSLog(@"---上传失败！");
+            
+            upCount++;
+            if (upCount == upImageArr.count) {
+                [self subMitDataRequest];
+            }
+            
+        }];
+    }
 }
 
 - (void)setupDatas

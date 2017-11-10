@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) UILabel *baseInforLab;
 @property (nonatomic, strong) UILabel *hotelNameLab;
+@property (nonatomic, strong) UILabel *hotelIdLab;
 @property (nonatomic, strong) UILabel *locationLab;
 @property (nonatomic, strong) UILabel *wifiNameLab;
 @property (nonatomic, strong) UILabel *listNameLab;
@@ -146,7 +147,7 @@
 
 -(void)setUpTableHeaderView{
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 455)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 480)];
     
     self.baseInforLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.baseInforLab.backgroundColor = [UIColor clearColor];
@@ -161,6 +162,19 @@
         make.height.mas_equalTo(20);
     }];
     
+    self.hotelIdLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.hotelIdLab.backgroundColor = [UIColor clearColor];
+    self.hotelIdLab.font = [UIFont systemFontOfSize:14];
+    self.hotelIdLab.textColor = [UIColor blackColor];
+    self.hotelIdLab.text = [NSString stringWithFormat:@"酒店ID:%@",self.topHeaderModel.hotel_id];
+    [headView addSubview:self.hotelIdLab];
+    [self.hotelIdLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.baseInforLab.mas_bottom).offset(5);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
+        make.height.mas_equalTo(20);
+    }];
+    
     self.hotelNameLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.hotelNameLab.backgroundColor = [UIColor clearColor];
     self.hotelNameLab.font = [UIFont systemFontOfSize:14];
@@ -168,7 +182,7 @@
     self.hotelNameLab.text = [NSString stringWithFormat:@"酒店名称:%@",self.topHeaderModel.hotel_name ];
     [headView addSubview:self.hotelNameLab];
     [self.hotelNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.baseInforLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.hotelIdLab.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(kMainBoundsWidth - 30);
         make.height.mas_equalTo(20);
@@ -187,7 +201,7 @@
         make.height.mas_equalTo(20);
     }];
     
-    CGFloat topHeight = 75.0;
+    CGFloat topHeight = 100.0;
     NSArray *leftArr = [NSArray arrayWithObjects:@"所属区域：",@"酒楼级别：",@"安装日期：",@"酒楼联系人：",@"合作维护人：",@"座机：",@"手机：",nil];
     NSArray *leftValueArr = [NSArray arrayWithObjects:self.topHeaderModel.area_name,self.topHeaderModel.level,self.topHeaderModel.install_date,self.topHeaderModel.contractor,self.topHeaderModel.maintainer,self.topHeaderModel.tel,self.topHeaderModel.mobile,nil];
     for (int i = 0; i < leftValueArr.count; i ++) {
@@ -225,7 +239,7 @@
     self.macNameLab.text = [NSString stringWithFormat:@"小平台MAC地址:%@",self.topHeaderModel.mac_addr];
     [headView addSubview:self.macNameLab];
     [self.macNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(250 + 5);
+        make.top.mas_equalTo(275 + 5);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(kMainBoundsWidth - 30);
         make.height.mas_equalTo(20);
