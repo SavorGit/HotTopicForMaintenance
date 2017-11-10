@@ -857,10 +857,11 @@
     if (isEmptyString(boxId)) {
         boxId = @"";
     }
-    NSString *taskId = self.taskListModel.cid;
-    if (isEmptyString(taskId)) {
-        taskId = @"";
-    }
+    NSString *taskId = @"17";
+//    NSString *taskId = self.taskListModel.cid;
+//    if (isEmptyString(taskId)) {
+//        taskId = @"";
+//    }
     NSString *repairState = self.repairAlertModel.state;
     if (isEmptyString(repairState)) {
         repairState = @"";
@@ -872,10 +873,10 @@
     NSDictionary *dic;
     if (self.taskListModel.task_type_id == 4) {
         [self upLoadImageData];
-        dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toReadableJSONString],@"repair_img",textViewStr,@"remark", nil];
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toJSONString],@"repair_img",textViewStr,@"remark", nil];
     }else{
         [self upLoadIntallImageData];
-        dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toReadableJSONString],@"repair_img",textViewStr,@"remark", nil];
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toJSONString],@"repair_img",textViewStr,@"remark", nil];
     }
     
     SubmitTaskRequest * request = [[SubmitTaskRequest alloc] initWithPubData:dic];
@@ -892,6 +893,9 @@
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
+        [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
@@ -913,28 +917,32 @@
         }else{
             [upImageArr addObject:[UIImage imageNamed:@"selected"]];
         }
-        [pathArr addObject:[NSString stringWithFormat:@"upImg%i",i]];
-        
+    
+
         NSString *urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
         if (self.taskListModel.task_type_id == 8) {
+            urlPath = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/mobile/ios/MaintenanceImage/%@/upImg%i",[Helper getCurrentTimeWithFormat:@"yyyyMMdd"],i];
             NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i + 1],@"type",urlPath,@"img", nil];
             [self.subMitPosionArray addObject:tmpDic];
         }else if (self.taskListModel.task_type_id == 2){
+            
             RestaurantRankModel *tmpModel = self.dConfigData[i];
-            NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.box_id,@"boxId",urlPath,@"img", nil];
+            [pathArr addObject:tmpModel.box_id];
+            NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.box_id,@"box_id",urlPath,@"img", nil];
             [self.subMitPosionArray addObject:tmpDic];
         }else{
             [self.subMitPosionArray addObject:urlPath];
         }
+
     }
     
-    [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-        
-    } success:^(NSString *path, NSString *boxID) {
-        NSLog(@"图片上传成功");
-    } failure:^{
-        
-    }];
+//    [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+//
+//    } success:^(NSString *path, NSString *boxID) {
+//        NSLog(@"图片上传成功");
+//    } failure:^{
+//
+//    }];
 }
 
 #pragma mark - 获取版位信息

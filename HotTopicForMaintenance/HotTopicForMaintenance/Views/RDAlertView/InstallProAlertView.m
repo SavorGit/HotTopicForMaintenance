@@ -125,8 +125,7 @@
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     if (self.titleArray != nil) {
-        RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
-        [cell configWithContent:self.titleArray[indexPath.row] andIdexPath:indexPath andDataModel:tmpModel];
+        [cell configWithContent:self.titleArray[indexPath.row] andIdexPath:indexPath andDataModel:nil];
     }else{
         RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
         [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:tmpModel];
