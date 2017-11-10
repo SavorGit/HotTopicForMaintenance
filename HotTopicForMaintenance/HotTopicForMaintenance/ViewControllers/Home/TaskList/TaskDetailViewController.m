@@ -1065,7 +1065,7 @@
         NSArray *listArr = resultDic[@"list"];
         for (int i = 0; i < listArr.count; i ++) {
             RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArr[i]];
-            tmpModel.repair_img = @"http://a3.topitme.com/0/1c/12/1128107705fd5121c0l.jpg";
+//            tmpModel.repair_img = @"http://a3.topitme.com/0/1c/12/1128107705fd5121c0l.jpg";
             [self.dConfigData addObject:tmpModel];
         }
         
