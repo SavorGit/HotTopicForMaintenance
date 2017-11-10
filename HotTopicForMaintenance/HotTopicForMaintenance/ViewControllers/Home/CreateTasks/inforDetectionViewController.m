@@ -96,6 +96,7 @@
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
         if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+            [self.navigationController popViewControllerAnimated:YES];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

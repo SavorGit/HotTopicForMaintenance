@@ -640,7 +640,14 @@
 #pragma mark 弹出相册或是相机选择页面
 - (void)creatPhotoSheet{
     
-    UIActionSheet *photoSheet = [[UIActionSheet alloc] initWithTitle:@"选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册", @"拍照", nil];
+    InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:self.selectImgIndex];
+    
+    UIActionSheet *photoSheet;
+    if (cell.instaImg.image == nil) {
+        photoSheet = [[UIActionSheet alloc] initWithTitle:@"选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册", @"拍照",nil];
+    }else{
+        photoSheet = [[UIActionSheet alloc] initWithTitle:@"选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册", @"拍照",@"删除",nil];
+    }
     [photoSheet showInView:self.view];
  
     _imagePickerController = [[UIImagePickerController alloc] init];
@@ -661,6 +668,15 @@
     {
         [self selectImageFromCamera];
         NSLog(@"点击了拍照按钮");
+    }else if (2 == buttonIndex)
+    {
+        NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
+        if ([title isEqualToString:@"删除"]) {
+            InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:self.selectImgIndex];
+            cell.instaImg.image = nil;
+            NSLog(@"点击了删除按钮");
+        }
+        
     }
 }
 
