@@ -120,7 +120,9 @@
 
 - (void)taskStatusDidChange
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.taskListModel.state_id == TaskStatusType_WaitAssign) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     
     [self.bottomView removeAllSubviews];
     [self.bottomView removeFromSuperview];
