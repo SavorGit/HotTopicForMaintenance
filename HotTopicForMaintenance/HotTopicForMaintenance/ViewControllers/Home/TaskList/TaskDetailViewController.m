@@ -921,7 +921,7 @@
     CGFloat height = 0.f;
     
     DeviceFaultModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    if (isEmptyString(model.fault_image_url)) {
+    if (isEmptyString(model.fault_img_url)) {
         height = 117 * scale;
     }else{
         height = 186 * scale;
@@ -1007,29 +1007,26 @@
          selectImg = cell.instaImg.image;
         if (selectImg != nil) {
             [upImageArr addObject:selectImg];
-        }else{
-            [upImageArr addObject:[UIImage imageNamed:@"selected"]];
-        }
-    
-
-        NSString *urlPath = @"http://devp.oss.littlehotspot.com";
-        
-        if (self.taskListModel.task_type_id == 8) {
             
-            [pathArr addObject:self.taskListModel.hotel_id];
+            NSString *urlPath = @"http://devp.oss.littlehotspot.com";
             
-            NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i + 1],@"type",urlPath,@"img", nil];
-            [self.subMitPosionArray addObject:tmpDic];
-        }else if (self.taskListModel.task_type_id == 2){
-            
-            RestaurantRankModel *tmpModel = self.dConfigData[i];
-            [pathArr addObject:tmpModel.box_id];
-            
-            NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.box_id,@"box_id",urlPath,@"img", nil];
-            [self.subMitPosionArray addObject:tmpDic];
-            
-        }else{
-            [self.subMitPosionArray addObject:urlPath];
+            if (self.taskListModel.task_type_id == 8) {
+                
+                [pathArr addObject:self.taskListModel.hotel_id];
+                
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i + 1],@"type",urlPath,@"img", nil];
+                [self.subMitPosionArray addObject:tmpDic];
+            }else if (self.taskListModel.task_type_id == 2){
+                
+                RestaurantRankModel *tmpModel = self.dConfigData[i];
+                [pathArr addObject:tmpModel.box_id];
+                
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.box_id,@"box_id",urlPath,@"img", nil];
+                [self.subMitPosionArray addObject:tmpDic];
+                
+            }else{
+                [self.subMitPosionArray addObject:urlPath];
+            }
         }
     }
     
@@ -1121,7 +1118,6 @@
     if (isEmptyString(taskId)) {
         taskId = @"";
     }
-//    NSString *taskId = @"1";
     
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:taskType,@"task_type",userId,@"user_id",taskId,@"task_id", nil];
     BoxDataRequest * request = [[BoxDataRequest alloc] initWithParamData:dic];
@@ -1132,7 +1128,6 @@
         NSArray *listArr = resultDic[@"list"];
         for (int i = 0; i < listArr.count; i ++) {
             RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArr[i]];
-//            tmpModel.repair_img = @"http://a3.topitme.com/0/1c/12/1128107705fd5121c0l.jpg";
             [self.dConfigData addObject:tmpModel];
         }
         
@@ -1155,11 +1150,10 @@
 
         UIImageView *selectImgView = [self.view viewWithTag:[imgTagArr[i] integerValue]];
         if (selectImgView.image != nil) {
+            
             [upImageArr addObject:selectImgView.image];
-        }else{
-            [upImageArr addObject:[UIImage imageNamed:@"selected"]];
+            [pathArr addObject:self.currentBoxId];
         }
-        [pathArr addObject:self.currentBoxId];
     }
     
     if (upImageArr.count > 0) {
