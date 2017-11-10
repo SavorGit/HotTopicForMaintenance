@@ -72,13 +72,14 @@
     }];
     
     self.photoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.photoImageView.clipsToBounds = YES;
     self.photoImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.baseView addSubview:self.photoImageView];
     [self.photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.f*scale);
         make.top.mas_equalTo(self.timeLabel.mas_bottom).offset(6.f * scale);
         make.right.mas_equalTo(-15.f * scale);
-        make.height.mas_equalTo(80.f * scale);
+        make.height.mas_equalTo(120.f * scale);
     }];
     
     UILabel * transformLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentCenter];
@@ -102,13 +103,14 @@
     }];
     
     self.listImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.listImageView.clipsToBounds = YES;
     self.listImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.baseView addSubview:self.listImageView];
     [self.listImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.f*scale);
         make.top.mas_equalTo(transformLabel.mas_bottom).offset(20.f * scale);
         make.right.mas_equalTo(-15.f * scale);
-        make.height.mas_equalTo(80.f * scale);
+        make.height.mas_equalTo(120.f * scale);
     }];
     
     UILabel * listLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentCenter];
