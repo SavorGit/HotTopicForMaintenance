@@ -109,27 +109,32 @@
     for (int i = 0; i < self.sectionNum; i ++) {
         RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:1]];
         RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
-        
-        tmpModel.upImgUrl = [NSString stringWithFormat:@"http://devp.oss.littlehotspot.com/log/resource/operation/mobile/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], tmpModel.boxId, [Helper getTimeStampMS]];
-        if (cell.fImageView.image != nil) {
-            [upImageArr addObject:cell.fImageView.image];
-            [pathArr addObject:tmpModel.boxId];
-        }else{
-            [upImageArr addObject:[UIImage imageNamed:@"selected"]];
-            [pathArr addObject:@"noData_boxID"];
+        if (!isEmptyString(tmpModel.boxId)) {
+            tmpModel.upImgUrl = @"http://devp.oss.littlehotspot.com";
+            if (cell.fImageView.image != nil) {
+                [upImageArr addObject:cell.fImageView.image];
+                [pathArr addObject:tmpModel.boxId];
+            }else{
+                [upImageArr addObject:[UIImage imageNamed:@"selected"]];
+                [pathArr addObject:@"noData_boxID"];
+            }
+            
+            NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
+            [self.subMitPosionArray addObject:tmpDic];
         }
-        
-        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
-        [self.subMitPosionArray addObject:tmpDic];
+    }
+    if (upImageArr.count > 0) {
+        [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        } success:^(NSString *path, NSInteger index) {
+            NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
+            [tmpDic setObject:path forKey:@"fault_img_url"];
+            NSLog(@"---上传成功！");
+        } failure:^(NSError *error, NSInteger index) {
+            NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
+            [tmpDic setObject:@"" forKey:@"fault_img_url"];
+        }];
     }
     
-    [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-        
-    } success:^(NSString *path) {
-        NSLog(@"---上传成功！");
-    } failure:^(NSError *error, NSInteger index) {
-        
-    }];
 }
 
 - (void)creatSubViews{

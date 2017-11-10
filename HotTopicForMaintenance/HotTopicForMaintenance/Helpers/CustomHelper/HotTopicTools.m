@@ -241,16 +241,24 @@
     [self uploadImage:image withPath:path progress:progress success:successBlock failure:failureBlock];
 }
 
-+ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *, NSInteger))failureBlock
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withBoxIDArray:(NSArray *)boxIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *, NSInteger))successBlock failure:(void (^)(NSError *, NSInteger))failureBlock
 {
     for (NSInteger i = 0; i < images.count; i++) {
         UIImage * image = [images objectAtIndex:i];
         NSString * boxID = [boxIDArray objectAtIndex:i];
         NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/box/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
-        [self uploadImage:image withPath:path progress:progress success:successBlock failure:^(NSError *error) {
+        [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
+            
+            if (successBlock) {
+                successBlock(path, i);
+            }
+            
+        } failure:^(NSError *error) {
+            
             if (failureBlock) {
                 failureBlock(error, i);
             }
+            
         }];
     }
 }
@@ -259,24 +267,44 @@
 {
     NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/hotel/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], hotelID, [Helper getTimeStampMS]];
     
-    [self uploadImage:image withPath:path progress:progress success:successBlock failure:failureBlock];
+    [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
+        
+        if (successBlock) {
+            successBlock(path);
+        }
+        
+    } failure:^(NSError *error) {
+        
+        if (failureBlock) {
+            failureBlock(error);
+        }
+        
+    }];
 }
 
-+ (void)uploadImageArray:(NSArray<UIImage *> *)images withHotelIDArray:(NSArray *)hotelIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *, NSInteger))failureBlock
++ (void)uploadImageArray:(NSArray<UIImage *> *)images withHotelIDArray:(NSArray *)hotelIDArray progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *, NSInteger))successBlock failure:(void (^)(NSError *, NSInteger))failureBlock
 {
     for (NSInteger i = 0; i < images.count; i++) {
         UIImage * image = [images objectAtIndex:i];
         NSString * hotelID = [hotelIDArray objectAtIndex:i];
         NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/hotel/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], hotelID, [Helper getTimeStampMS]];
-        [self uploadImage:image withPath:path progress:progress success:successBlock failure:^(NSError *error) {
-            if (failureBlock) {
-                failureBlock(error, index);
+        [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
+            
+            if (successBlock) {
+                successBlock(path, i);
             }
+            
+        } failure:^(NSError *error) {
+            
+            if (failureBlock) {
+                failureBlock(error, i);
+            }
+            
         }];
     }
 }
 
-+ (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *error))failureBlock
++ (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *path))successBlock failure:(void (^)(NSError *error))failureBlock
 {
     NSString *endpoint = AliynEndPoint;
     
