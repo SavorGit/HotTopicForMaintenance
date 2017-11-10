@@ -81,9 +81,7 @@
 
 - (void)subMitDataRequest
 {
-    [self upLoadImageData];
-    
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",self.headDataModel.addr,@"addr",self.headDataModel.contractor,@"contractor",self.headDataModel.mobile,@"mobile", nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",self.headDataModel.addr,@"addr",self.headDataModel.contractor,@"contractor",self.headDataModel.mobile,@"mobile",nil];
     
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -106,6 +104,8 @@
     [self.subMitPosionArray removeAllObjects];
     NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
+    
+    __block int upCount = 0;
     for (int i = 0; i < self.sectionNum; i ++) {
         RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:1]];
         RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
@@ -129,9 +129,20 @@
             NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
             [tmpDic setObject:path forKey:@"fault_img_url"];
             NSLog(@"---上传成功！");
+            
+            upCount ++;
+            if (upImageArr.count == upCount) {
+                [self subMitDataRequest];
+            }
         } failure:^(NSError *error, NSInteger index) {
             NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
             [tmpDic setObject:@"" forKey:@"fault_img_url"];
+            
+            upCount ++;
+            if (upImageArr.count == upCount) {
+                [self subMitDataRequest];
+            }
+            
         }];
     }
     
@@ -163,7 +174,7 @@
 - (void)pubBtnClicked
 {
     if (!isEmptyString(self.currHotelId)) {
-         [self subMitDataRequest];
+        [self upLoadImageData];
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
     }
