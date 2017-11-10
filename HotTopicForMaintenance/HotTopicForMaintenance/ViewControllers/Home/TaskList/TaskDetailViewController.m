@@ -32,6 +32,11 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+#import "RepairDetailCell.h"
+#import "CheckDetailCell.h"
+#import "NetworkDetailCell.h"
+#import "InstallDetailCell.h"
+
 @interface TaskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,InstallProAlertDelegate,UITextViewDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     UIImagePickerController *_imagePickerController;
@@ -41,6 +46,7 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, strong) NSMutableArray * executeSource;
 @property (nonatomic, strong) NSMutableArray * dConfigData; //版位选择信息
 @property (nonatomic, strong) NSMutableArray * subMitPosionArray; //提交维修信息
 @property (nonatomic, strong) TaskModel * taskListModel;
@@ -89,11 +95,11 @@
     
     self.title = @"任务详情";
     self.repairAlertModel = [[TaskRepairAlertModel alloc] init];
+    self.executeSource = [[NSMutableArray alloc] init];
     self.dConfigData = [[NSMutableArray alloc] init];
     self.subMitPosionArray = [[NSMutableArray alloc] init];
     self.currentBoxId = [[NSString alloc] init];
     [self setupDatas];
-    [self addNotification];
 }
 
 - (void)removeNotification
@@ -129,10 +135,23 @@
     //tableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight) style:UITableViewStyleGrouped];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    self.tableView.backgroundColor = VCBackgroundColor;
     [self.tableView registerClass:[DeviceFaultTableViewCell class] forCellReuseIdentifier:@"DeviceFaultTableViewCell"];
+    self.tableView.backgroundColor = VCBackgroundColor;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    if (self.taskListModel.state_id == TaskStatusType_Completed) {
+        if (self.taskListModel.task_type_id == TaskType_Repair) {
+            [self.tableView registerClass:[RepairDetailCell class] forCellReuseIdentifier:@"RepairDetailCell"];
+        }else if (self.taskListModel.task_type_id == TaskType_InfoCheck) {
+            [self.tableView registerClass:[CheckDetailCell class] forCellReuseIdentifier:@"CheckDetailCell"];
+        }else if (self.taskListModel.task_type_id == TaskType_NetTransform) {
+            [self.tableView registerClass:[NetworkDetailCell class] forCellReuseIdentifier:@"NetworkDetailCell"];
+        }else if (self.taskListModel.task_type_id == TaskType_Install) {
+            [self.tableView registerClass:[InstallDetailCell class] forCellReuseIdentifier:@"InstallDetailCell"];
+            
+        }
+    }
     
     TaskDetailView * view = [[TaskDetailView alloc] initWithTaskModel:self.taskListModel];
     self.tableView.tableHeaderView = view;
@@ -143,7 +162,10 @@
     }];
     
     CGFloat scale = kMainBoundsWidth / 375.f;
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 98.f * scale)];
+    if (self.taskListModel.state_id == TaskStatusType_WaitAssign ||
+        self.taskListModel.state_id == TaskStatusType_WaitHandle) {
+        self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 98.f * scale)];
+    }
     
     //底部角色操作栏
     self.bottomView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -161,6 +183,10 @@
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(1.f);
     }];
+    
+    if (self.taskListModel.state_id == TaskStatusType_WaitHandle) {
+        [self addNotification];
+    }
     
     [self createRolesHandleView];
 }
@@ -826,11 +852,36 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.taskListModel.state_id == TaskStatusType_Completed) {
+        return self.executeSource.count;
+    }
+    
     return self.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.taskListModel.state_id == TaskStatusType_Completed) {
+        NSDictionary * info = [self.executeSource objectAtIndex:indexPath.row];
+        if (self.taskListModel.task_type_id == TaskType_Repair) {
+            RepairDetailCell * repairCell = [tableView dequeueReusableCellWithIdentifier:@"RepairDetailCell" forIndexPath:indexPath];
+            [repairCell configWithInfo:info];
+            return repairCell;
+        }else if (self.taskListModel.task_type_id == TaskType_InfoCheck) {
+            CheckDetailCell * checkCell = [tableView dequeueReusableCellWithIdentifier:@"CheckDetailCell" forIndexPath:indexPath];
+            [checkCell configWithInfo:info];
+            return checkCell;
+        }else if (self.taskListModel.task_type_id == TaskType_NetTransform) {
+            NetworkDetailCell * netWorkCell = [tableView dequeueReusableCellWithIdentifier:@"NetworkDetailCell" forIndexPath:indexPath];
+            [netWorkCell configWithInfo:info];
+            return netWorkCell;
+        }else if (self.taskListModel.task_type_id == TaskType_Install) {
+            InstallDetailCell * installCell = [tableView dequeueReusableCellWithIdentifier:@"InstallDetailCell" forIndexPath:indexPath];
+            [installCell configWithInfo:info];
+            return installCell;
+        }
+    }
+    
     DeviceFaultTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DeviceFaultTableViewCell" forIndexPath:indexPath];
     
     DeviceFaultModel * model = [self.dataSource objectAtIndex:indexPath.row];
@@ -841,9 +892,28 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    if (self.taskListModel.state_id == TaskStatusType_Completed) {
+        if (self.taskListModel.task_type_id == TaskType_Repair) {
+            
+            NSDictionary * info = [self.executeSource objectAtIndex:indexPath.row];
+            NSString * remark = [NSString stringWithFormat:@"备注：%@", [info objectForKey:@"remark"]];
+            
+            CGFloat height = [HotTopicTools getHeightByWidth:(kMainBoundsWidth - 54.f) * scale title:remark font:kPingFangRegular(15.f * scale)];
+            
+            return 160.f * scale + height;
+        }else if (self.taskListModel.task_type_id == TaskType_InfoCheck) {
+            return 160.f * scale;
+        }else if (self.taskListModel.task_type_id == TaskType_NetTransform) {
+            return 280.f * scale;
+        }else if (self.taskListModel.task_type_id == TaskType_Install) {
+            return 140.f * scale;
+        }
+    }
+    
     CGFloat height = 0.f;
     
-    CGFloat scale = kMainBoundsWidth / 375.f;
     DeviceFaultModel * model = [self.dataSource objectAtIndex:indexPath.row];
     if (isEmptyString(model.fault_image_url)) {
         height = 117 * scale;
@@ -1057,6 +1127,14 @@
                     DeviceFaultModel * model = [[DeviceFaultModel alloc] initWithDictionary:device];
                     [self.dataSource addObject:model];
                 }
+            }
+        }
+        
+        [self.executeSource removeAllObjects];
+        if (self.taskListModel.state_id == TaskStatusType_Completed) {
+            NSArray * execute = [result objectForKey:@"execute"];
+            if ([execute isKindOfClass:[NSArray class]]) {
+                [self.executeSource addObjectsFromArray:execute];
             }
         }
         

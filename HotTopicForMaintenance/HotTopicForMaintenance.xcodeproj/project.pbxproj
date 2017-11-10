@@ -32,6 +32,11 @@
 		065FDA171FB2EE2D00B6DF9C /* BindDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 065FDA161FB2EE2D00B6DF9C /* BindDeviceModel.m */; };
 		065FDA1A1FB2EEF600B6DF9C /* GetBindListReuqest.m in Sources */ = {isa = PBXBuildFile; fileRef = 065FDA191FB2EEF600B6DF9C /* GetBindListReuqest.m */; };
 		065FDA1D1FB2F4B800B6DF9C /* BindBoxRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 065FDA1C1FB2F4B800B6DF9C /* BindBoxRequest.m */; };
+		066006151FB55659007F94D2 /* RepairDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066006141FB55659007F94D2 /* RepairDetailCell.m */; };
+		066006181FB5715F007F94D2 /* CheckDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066006171FB5715F007F94D2 /* CheckDetailCell.m */; };
+		0660061B1FB575EF007F94D2 /* BaseDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0660061A1FB575EF007F94D2 /* BaseDetailCell.m */; };
+		0660061E1FB57B0D007F94D2 /* NetworkDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0660061D1FB57B0D007F94D2 /* NetworkDetailCell.m */; };
+		066006211FB583B3007F94D2 /* InstallDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066006201FB583B3007F94D2 /* InstallDetailCell.m */; };
 		066278321F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */; };
 		066278341F61634600B2B8E8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278331F61634600B2B8E8 /* UserNotifications.framework */; };
 		066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */; };
@@ -202,6 +207,16 @@
 		065FDA191FB2EEF600B6DF9C /* GetBindListReuqest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetBindListReuqest.m; sourceTree = "<group>"; };
 		065FDA1B1FB2F4B800B6DF9C /* BindBoxRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BindBoxRequest.h; sourceTree = "<group>"; };
 		065FDA1C1FB2F4B800B6DF9C /* BindBoxRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BindBoxRequest.m; sourceTree = "<group>"; };
+		066006131FB55659007F94D2 /* RepairDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RepairDetailCell.h; sourceTree = "<group>"; };
+		066006141FB55659007F94D2 /* RepairDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RepairDetailCell.m; sourceTree = "<group>"; };
+		066006161FB5715F007F94D2 /* CheckDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckDetailCell.h; sourceTree = "<group>"; };
+		066006171FB5715F007F94D2 /* CheckDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckDetailCell.m; sourceTree = "<group>"; };
+		066006191FB575EF007F94D2 /* BaseDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDetailCell.h; sourceTree = "<group>"; };
+		0660061A1FB575EF007F94D2 /* BaseDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDetailCell.m; sourceTree = "<group>"; };
+		0660061C1FB57B0D007F94D2 /* NetworkDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkDetailCell.h; sourceTree = "<group>"; };
+		0660061D1FB57B0D007F94D2 /* NetworkDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkDetailCell.m; sourceTree = "<group>"; };
+		0660061F1FB583B3007F94D2 /* InstallDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InstallDetailCell.h; sourceTree = "<group>"; };
+		066006201FB583B3007F94D2 /* InstallDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InstallDetailCell.m; sourceTree = "<group>"; };
 		066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.5.0.a; sourceTree = "<group>"; };
 		066278311F61632E00B2B8E8 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		066278331F61634600B2B8E8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -603,6 +618,16 @@
 				06C44C0A1FA9F7000050FDBC /* DeviceFaultTableViewCell.m */,
 				062613781FB058AA00EA6AD7 /* HandleTaskListCell.h */,
 				062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */,
+				066006191FB575EF007F94D2 /* BaseDetailCell.h */,
+				0660061A1FB575EF007F94D2 /* BaseDetailCell.m */,
+				066006131FB55659007F94D2 /* RepairDetailCell.h */,
+				066006141FB55659007F94D2 /* RepairDetailCell.m */,
+				066006161FB5715F007F94D2 /* CheckDetailCell.h */,
+				066006171FB5715F007F94D2 /* CheckDetailCell.m */,
+				0660061C1FB57B0D007F94D2 /* NetworkDetailCell.h */,
+				0660061D1FB57B0D007F94D2 /* NetworkDetailCell.m */,
+				0660061F1FB583B3007F94D2 /* InstallDetailCell.h */,
+				066006201FB583B3007F94D2 /* InstallDetailCell.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -1305,11 +1330,13 @@
 				06ECDC511F5969AB007FBD83 /* AppDelegate.m in Sources */,
 				969A3C531FAAF72C00EB95C9 /* RepairContentModel.m in Sources */,
 				069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */,
+				066006151FB55659007F94D2 /* RepairDetailCell.m in Sources */,
 				969A3C841FB036C000EB95C9 /* TaskRepairAlertModel.m in Sources */,
 				06B055F31F5D572500A9CE68 /* UIImage+Additional.m in Sources */,
 				969A3C381FA99AA700EB95C9 /* inforDetectionViewController.m in Sources */,
 				96AA199A1F5FC38C00C06CE8 /* lookRestTableViewCell.m in Sources */,
 				0626DEC41F5EACED00686790 /* GetRepairRecordListRequest.m in Sources */,
+				0660061B1FB575EF007F94D2 /* BaseDetailCell.m in Sources */,
 				06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */,
 				969A3C7E1FADAE1400EB95C9 /* NSArray+json.m in Sources */,
 				06B4A6511FADC4780081BBA7 /* LookRoleListRequest.m in Sources */,
@@ -1320,6 +1347,7 @@
 				062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
+				066006181FB5715F007F94D2 /* CheckDetailCell.m in Sources */,
 				96AA19B31F600C8A00C06CE8 /* LookHotelInforModel.m in Sources */,
 				969A3C781FAD651100EB95C9 /* PubTaskRequest.m in Sources */,
 				06B055C31F5D00D600A9CE68 /* BaseViewController.m in Sources */,
@@ -1331,6 +1359,7 @@
 				06C44C081FA9F3F70050FDBC /* DeviceFaultModel.m in Sources */,
 				066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */,
 				066EA54E1F5FEE6B0054264C /* ErrorReportModel.m in Sources */,
+				066006211FB583B3007F94D2 /* InstallDetailCell.m in Sources */,
 				96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */,
 				065FDA141FB29AD700B6DF9C /* GetCreateTaskListRequest.m in Sources */,
 				06356D381F5D7B2400242940 /* RDAlertView.m in Sources */,
@@ -1389,6 +1418,7 @@
 				96AA198F1F5FC38100C06CE8 /* SearchHotelViewController.m in Sources */,
 				96AA19991F5FC38C00C06CE8 /* FaultListTableViewCell.m in Sources */,
 				06C44C051FA9E2990050FDBC /* TaskDetailView.m in Sources */,
+				0660061E1FB57B0D007F94D2 /* NetworkDetailCell.m in Sources */,
 				969A3C571FAB324F00EB95C9 /* BindingPositionViewController.m in Sources */,
 				06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */,
 				06B4A64E1FADC3570081BBA7 /* HandleRoleListRequest.m in Sources */,
