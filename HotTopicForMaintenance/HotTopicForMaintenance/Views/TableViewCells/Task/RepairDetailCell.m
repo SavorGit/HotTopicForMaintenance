@@ -87,14 +87,14 @@
     }];
     
     self.remarkLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.remarkLabel.numberOfLines = 0;
     self.remarkLabel.text = @"备注：";
-    CGFloat height = [HotTopicTools getHeightByWidth:(kMainBoundsWidth - 54.f) * scale title:self.remarkLabel.text font:self.remarkLabel.font];
     [self.baseView addSubview:self.remarkLabel];
     [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.stateLabel.mas_bottom).offset(6.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.right.mas_equalTo(-12.f * scale);
-        make.height.mas_equalTo(height);
+        make.height.mas_equalTo(15.f + 1);
     }];
     
     UILabel * photoLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
@@ -193,6 +193,12 @@
     }
     self.remarkLabel.text = [NSString stringWithFormat:@"备注：%@", remark];
     self.handleTimeLabel.text = [NSString stringWithFormat:@"操作时间：%@", time];
+    
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    CGFloat height = [HotTopicTools getHeightByWidth:(kMainBoundsWidth - 54.f) * scale title:self.remarkLabel.text font:self.remarkLabel.font];
+    [self.remarkLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(height);
+    }];
     
     if ([imageArray isKindOfClass:[NSArray class]]) {
         for (NSInteger i = 0; i < imageArray.count; i++) {
