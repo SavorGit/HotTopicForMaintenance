@@ -195,8 +195,8 @@
     [self.addBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.addBtn];
     [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(16, 16));
-        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(17 + 15);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(10 + 15);
         make.right.mas_equalTo(- 35);
     }];
     
@@ -217,8 +217,8 @@
     [self.reduceBtn addTarget:self action:@selector(reducePress) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.reduceBtn];
     [self.reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(16, 16));
-        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(17 + 15);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(10 + 15);
         make.right.mas_equalTo(self.numLabel.mas_left);
     }];
     

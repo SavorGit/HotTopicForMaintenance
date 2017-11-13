@@ -207,6 +207,7 @@
 
 - (void)dealloc
 {
+    [self closeKeyBorad];
     [SearchHotelRequest cancelRequest];
 }
 

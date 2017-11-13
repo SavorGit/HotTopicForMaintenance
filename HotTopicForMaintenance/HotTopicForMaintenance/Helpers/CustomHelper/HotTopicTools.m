@@ -27,6 +27,8 @@
     //设置标题颜色和字体
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : kNavTitleColor, NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
     
+    [[UINavigationBar appearance] setTintColor:kNavTitleColor];
+    
     NSString* identifierNumber = [[UIDevice currentDevice].identifierForVendor UUIDString];
     if (![GCCKeyChain load:keychainID]) {
         [GCCKeyChain save:keychainID data:identifierNumber];

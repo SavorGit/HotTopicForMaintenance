@@ -126,8 +126,8 @@
     [self.addImgBtn addTarget:self action:@selector(addImgPress:) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:self.addImgBtn];
     [self.addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(16, 16));
-        make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+        make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(24);
         make.right.mas_equalTo(- 20);
     }];
 

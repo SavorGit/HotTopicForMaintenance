@@ -8,6 +8,7 @@
 
 #import "TaskDetailView.h"
 #import "HotTopicTools.h"
+#import "MBProgressHUD+Custom.h"
 
 @interface TaskDetailView ()
 
@@ -207,6 +208,12 @@
 
 - (void)contactButtonDidClicked
 {
+    NSString * telNumber = self.model.hotel_linkman_tel;
+    if (isEmptyString(telNumber)) {
+        [MBProgressHUD showTextHUDWithText:@"电话号码不存在" inView:[UIApplication sharedApplication].keyWindow];
+        return;
+    }
+    
     [HotTopicTools callPhoneByNumber:self.model.hotel_linkman_tel];
 }
 
