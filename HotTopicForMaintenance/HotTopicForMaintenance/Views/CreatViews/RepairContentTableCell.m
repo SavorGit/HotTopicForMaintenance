@@ -132,7 +132,7 @@
     }];
 
     self.fImageView  = [[UIImageView alloc] init];
-    self.fImageView.backgroundColor = [UIColor cyanColor];
+    self.fImageView.backgroundColor = [UIColor clearColor];
     self.fImageView.userInteractionEnabled = YES;
     [_bgView addSubview:self.fImageView];
     
@@ -140,8 +140,14 @@
 }
 
 - (void)configWithContent:(RepairContentModel *)model andIdexPath:(NSIndexPath *)index{
+    
+    self.indexPath = index;
+    self.inPutTextField.tag = self.indexPath.row;
+    
     if (model.imgHType == 1) {
         self.addImgBtn.hidden = YES;
+        
+        self.fImageView.image = model.pubImg;
         
         [self.selectBtn setTitle:model.boxName forState:UIControlStateNormal];
         if (isEmptyString(model.boxName)) {
@@ -169,6 +175,7 @@
         
     }else{
         self.addImgBtn.hidden = NO;
+        self.fImageView.image = nil;
         
         [self.selectBtn setTitle:model.boxName forState:UIControlStateNormal];
         if (isEmptyString(model.boxName)) {
@@ -190,7 +197,7 @@
     [self.delegate selectPosion:btn andIndex:self.indexPath];
 }
 
-- (void)addImgPress:(NSIndexPath *)index{
+- (void)addImgPress:(UIButton *)btn{
     
     [self.delegate addImgPress:self.indexPath];
     
