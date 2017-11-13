@@ -34,7 +34,6 @@
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSArray * contentArray; //表项标题
 @property (nonatomic, strong) NSMutableArray * otherContentArray; //表项标题
-@property (nonatomic, assign) NSInteger sectionNum; //组数
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 @property (nonatomic, strong) NSMutableArray *subMitPosionArray; //上传版位信息数据源
 @property (nonatomic, copy) NSString *currHotelId;
@@ -67,7 +66,6 @@
 - (void)initInfor{
     
     self.segTag = 3;
-    self.sectionNum = 1;
     self.subMitPosionArray = [[NSMutableArray alloc] init];
     self.otherContentArray = [[NSMutableArray alloc] init];
     _dConfigData = [[NSMutableArray alloc] init];
@@ -106,21 +104,17 @@
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
     
     __block int upCount = 0;
-    for (int i = 0; i < self.sectionNum; i ++) {
-        RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:1]];
+    for (int i = 0; i < self.otherContentArray.count; i ++) {
         RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
         if (!isEmptyString(tmpModel.boxId)) {
             tmpModel.upImgUrl = @"http://devp.oss.littlehotspot.com";
-            if (cell.fImageView.image != nil) {
-                [upImageArr addObject:cell.fImageView.image];
+            if (tmpModel.pubImg != nil) {
+                
+                [upImageArr addObject:tmpModel.pubImg];
                 [pathArr addObject:tmpModel.boxId];
-            }else{
-                [upImageArr addObject:[UIImage imageNamed:@"selected"]];
-                [pathArr addObject:@"noData_boxID"];
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",tmpModel.title,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
+                [self.subMitPosionArray addObject:tmpDic];
             }
-            
-            NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",cell.inPutTextField.text,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
-            [self.subMitPosionArray addObject:tmpDic];
         }
     }
     if (upImageArr.count > 0) {
@@ -187,28 +181,37 @@
     tmpModel.imgHType = 0;
     [self.otherContentArray addObject:tmpModel];
     
+    NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+    RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
+    cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+
     [self.tableView beginUpdates];
-    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.sectionNum inSection:1];
+    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.otherContentArray.count - 1 inSection:1];
     [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-    self.sectionNum = self.sectionNum + 1;
     [self.tableView endUpdates];
     
 }
 
 - (void)reduceNPress{
     
-    if (self.sectionNum > 1) {
+    if (self.otherContentArray.count > 1) {
+        
         [self.tableView beginUpdates];
-        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.sectionNum - 1 inSection:1];
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.otherContentArray.count - 1  inSection:1];
         [self.tableView  deleteRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-        self.sectionNum = self.sectionNum - 1;
+        [self.otherContentArray removeLastObject];
         [self.tableView endUpdates];
         
-        [self.otherContentArray removeLastObject];
+        NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+        RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
+        cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+        
+        
     }
     
 }
 
+#pragma mark ---选择酒楼版位
 - (void)selectPosion:(UIButton *)btn andIndex:(NSIndexPath *)index{
     
     if (self.dConfigData.count > 0) {
@@ -223,17 +226,13 @@
         flVC.dataSource = self.dConfigData;
         [self presentViewController:flVC animated:YES completion:nil];
         flVC.backDatas = ^(NSString *boxId,NSString *name) {
-            [btn setTitle:name forState:UIControlStateNormal];
-            RepairContentModel *cell = [self.otherContentArray objectAtIndex:index.row];
-            cell.boxName = name;
-            cell.boxId = boxId;
             
-//            cell.imgHType = 0;
-//            cell.title = @"";
-//            cell.upImgUrl = @"";
-//            [_tableView beginUpdates];
-//            [_tableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
-//            [_tableView endUpdates];
+            [btn setTitle:name forState:UIControlStateNormal];
+            
+            RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:index.row];
+            tmpModel.boxName = name;
+            tmpModel.boxId = boxId;
+            
         };
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
@@ -272,7 +271,7 @@
     if (section == 0) {
         return 1;
     }else if (section == 1){
-        return self.sectionNum;
+        return self.otherContentArray.count;
     }else{
         return 1;
     }
@@ -290,10 +289,10 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;  
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-        [cell configWithContent:self.headDataModel andPNum:[NSString stringWithFormat:@"%ld",self.sectionNum]  andIdexPath:indexPath];
+        [cell configWithContent:self.headDataModel andPNum:[NSString stringWithFormat:@"%ld",self.otherContentArray.count]  andIdexPath:indexPath];
         return cell;
     }else {
-        RepairContentModel *tmpModel = self.otherContentArray[indexPath.row];
+        
         static NSString *cellID = @"RestaurantRankCell";
         RepairContentTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil) {
@@ -303,6 +302,8 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
         cell.inPutTextField.delegate = self;
+        
+        RepairContentModel *tmpModel = self.otherContentArray[indexPath.row];
         [cell configWithContent:tmpModel  andIdexPath:indexPath];
         return cell;
     }
@@ -322,10 +323,6 @@
     }
     return 50 *6;
 }
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -364,11 +361,6 @@
         self.headDataModel.mobile = model.mobile != nil?model.mobile:@"";
         self.headDataModel.addr = model.addr != nil?model.addr:@"";
         
-//        [_tableView beginUpdates];
-//        NSIndexSet *indexSet=[[NSIndexSet alloc] initWithIndex:0];
-//        [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-//        [_tableView endUpdates];
-        
         //选择酒楼后重新初始化版位信息
         [self.otherContentArray removeAllObjects];
         RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
@@ -385,7 +377,13 @@
     
     self.indexPath = index;
     
-    [self creatPhotoSheet];
+    RepairContentModel *tmpModel = self.otherContentArray[index.row];
+    if (!isEmptyString(tmpModel.boxName)) {
+        [self creatPhotoSheet];
+    }else{
+        [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
+    }
+    
 }
 
 #pragma mark 弹出相册或是相机选择页面
@@ -453,9 +451,12 @@
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
         RepairContentModel *tmpModel = self.otherContentArray[self.indexPath.row];
         tmpModel.imgHType = 1;
+        tmpModel.pubImg = info[UIImagePickerControllerEditedImage];
         [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-        RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];
-        cell.fImageView.image = info[UIImagePickerControllerEditedImage];
+        
+//        RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];
+//        cell.fImageView.image = info[UIImagePickerControllerEditedImage];
+        
         
         //压缩图片
 //        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
@@ -465,7 +466,15 @@
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-    [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *textField.tag)) animated:YES];
+    
+    RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
+    if (!isEmptyString(tmpModel.boxName)) {
+        [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *textField.tag)) animated:YES];
+        return YES;
+    }else{
+        [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
+        return NO;
+    }
     return YES;
 }
 
@@ -479,6 +488,9 @@
     
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     tmpModel.title = textField.text;
+    NSLog(@"%@",textField.text);
+    NSIndexPath *currentIndex = [NSIndexPath indexPathForRow:textField.tag inSection:1];
+    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
     
     [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
     return [textField resignFirstResponder];

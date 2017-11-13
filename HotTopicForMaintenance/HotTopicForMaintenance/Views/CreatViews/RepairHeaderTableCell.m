@@ -22,8 +22,6 @@
 @property (nonatomic, strong) UITextField *addressField;
 
 @property (nonatomic, strong) UILabel *reasonLabel;
-@property (nonatomic, strong) UILabel *numLabel;
-@property (nonatomic, assign) int  posionNum;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
 @property (nonatomic, strong) UIImageView *rightImg;
@@ -38,7 +36,6 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         
-        self.posionNum = 1;
         [self initWithSubView];
     }
     return self;
@@ -236,7 +233,7 @@
     }
 }
 
-- (void)configWithContent:(RepairContentModel *)model andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index;{
+- (void)configWithContent:(RepairContentModel *)model andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index{
   
     self.indexPath = index;
      [self.hotelBtn setTitle:model.name forState:UIControlStateNormal];
@@ -246,6 +243,7 @@
     self.contactField.text = model.contractor;
     self.phoneField.text = model.mobile;
     self.addressField.text = model.addr;
+    self.numLabel.text = numStr;
 
 }
 
@@ -254,16 +252,10 @@
 }
 
 - (void)addPress{
-    self.posionNum ++;
-    self.numLabel.text =  [NSString stringWithFormat:@"%d", self.posionNum];
     [self.delegate addNPress];
 }
 
 - (void)reducePress{
-    if (self.posionNum != 1) {
-        self.posionNum --;
-    }
-    self.numLabel.text =  [NSString stringWithFormat:@"%d", self.posionNum];
     [self.delegate reduceNPress];
 }
 
