@@ -480,7 +480,6 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
-    NSLog(@"%@",textField.text);
     return YES;
 }
 
@@ -488,7 +487,6 @@
     
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     tmpModel.title = textField.text;
-    NSLog(@"%@",textField.text);
     NSIndexPath *currentIndex = [NSIndexPath indexPathForRow:textField.tag inSection:1];
     [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
     
