@@ -788,7 +788,7 @@
 
 #pragma mark - 点击版位选择
 - (void)mReasonClicked{
-    
+
     if (self.dConfigData.count > 0) {
         PositionListViewController *flVC = [[PositionListViewController alloc] init];
         float version = [UIDevice currentDevice].systemVersion.floatValue;
@@ -1125,6 +1125,8 @@
     BoxDataRequest * request = [[BoxDataRequest alloc] initWithParamData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [self.dConfigData removeAllObjects];
+        
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
         NSDictionary *resultDic = dadaDic[@"result"];
         NSArray *listArr = resultDic[@"list"];
@@ -1356,6 +1358,9 @@
     NSLog(@"%lu",textView.text.length);
 }
 
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    [textView resignFirstResponder];
+}
 - (void)dealloc
 {
     [self removeNotification];
