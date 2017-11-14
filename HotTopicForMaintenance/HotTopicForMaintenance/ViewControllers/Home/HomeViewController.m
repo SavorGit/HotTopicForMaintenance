@@ -436,6 +436,18 @@
     [self requestTaskCount];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
 - (void)requestTaskCount
 {
     GetTaskCountRequest * request = [[GetTaskCountRequest alloc] initWithAreaID:[UserManager manager].user.currentCity.cid userID:[UserManager manager].user.userid];
@@ -450,7 +462,11 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [self.badgeCell setBadgeNumber:0];
+        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [self.badgeCell setBadgeNumber:0];
         
     }];
 }
