@@ -35,6 +35,7 @@
 @property (nonatomic, strong) NSArray * contentArray; //表项标题
 @property (nonatomic, strong) NSMutableArray * otherContentArray; //表项标题
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
+@property (nonatomic, strong) NSMutableArray * sePosionData; //已经选择版位数据源
 @property (nonatomic, strong) NSMutableArray *subMitPosionArray; //上传版位信息数据源
 @property (nonatomic, copy) NSString *currHotelId;
 @property (nonatomic, strong) RepairContentModel *headDataModel;
@@ -68,6 +69,7 @@
     self.segTag = 3;
     self.subMitPosionArray = [[NSMutableArray alloc] init];
     self.otherContentArray = [[NSMutableArray alloc] init];
+    self.sePosionData = [[NSMutableArray alloc] init];
     _dConfigData = [[NSMutableArray alloc] init];
     self.currHotelId = [[NSString alloc] init];
     self.headDataModel = [[RepairContentModel alloc] init];
@@ -75,6 +77,10 @@
     RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
     tmpModel.imgHType = 0;
     [self.otherContentArray addObject:tmpModel];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tap.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)subMitDataRequest
@@ -258,6 +264,7 @@
         }
         flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         flVC.dataSource = self.dConfigData;
+        flVC.seDataArray = self.sePosionData;
         [self presentViewController:flVC animated:YES completion:nil];
         flVC.backDatas = ^(NSString *boxId,NSString *name) {
             
@@ -266,6 +273,7 @@
             RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:index.row];
             tmpModel.boxName = name;
             tmpModel.boxId = boxId;
+            [self.sePosionData addObject:boxId];
             
         };
     }else{
@@ -530,6 +538,13 @@
     
     [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
     return [textField resignFirstResponder];
+}
+
+//点击空白处的手势要实现的方法
+-(void)viewTapped:(UITapGestureRecognizer*)tap
+{
+    [self.view endEditing:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {

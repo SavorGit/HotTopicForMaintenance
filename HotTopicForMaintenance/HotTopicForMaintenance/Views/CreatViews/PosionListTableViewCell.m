@@ -14,8 +14,6 @@
 
 @property (nonatomic, strong) UILabel *reasonLabel;
 
-@property (nonatomic, strong) UIImageView *leftImage;
-
 
 @end
 
@@ -68,16 +66,16 @@
         make.left.mas_equalTo(self.leftImage.mas_right).offset(10);
     }];
     
-    self.selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.selectImgView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.selectImgView setImage:[UIImage imageNamed:@"selected"]];
-    [_bgView addSubview:self.selectImgView];
-    self.selectImgView.hidden = YES;
-    [self.selectImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(16, 16));
-        make.top.mas_equalTo(11);
-        make.right.mas_equalTo(- 15);
-    }];
+//    self.selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    self.selectImgView.contentMode = UIViewContentModeScaleAspectFit;
+//    [self.selectImgView setImage:[UIImage imageNamed:@"selected"]];
+//    [_bgView addSubview:self.selectImgView];
+//    self.selectImgView.hidden = YES;
+//    [self.selectImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(16, 16));
+//        make.top.mas_equalTo(11);
+//        make.right.mas_equalTo(- 15);
+//    }];
     
 }
 

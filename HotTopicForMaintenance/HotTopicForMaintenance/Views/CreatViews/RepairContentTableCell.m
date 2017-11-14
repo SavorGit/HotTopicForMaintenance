@@ -104,7 +104,7 @@
     self.inPutTextField.textAlignment = NSTextAlignmentRight;
     [_bgView addSubview:self.inPutTextField];
     [self.inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 20 - 30 - 80, 20));
         make.top.mas_equalTo(self.titlePosionLabel.mas_bottom).offset(30);
         make.right.mas_equalTo(- 20);
     }];
