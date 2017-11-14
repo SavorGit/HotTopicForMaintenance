@@ -48,6 +48,9 @@
         if (!isEmptyString([dataDic objectForKey:@"repair_info"])) {
             [self setValue:[dataDic objectForKey:@"repair_info"] forParamKey:@"repair_info"];
         }
+        if (!isEmptyString([dataDic objectForKey:@"tv_nums"])) {
+            [self setValue:[dataDic objectForKey:@"tv_nums"] forParamKey:@"tv_nums"];
+        }
     }
     return self;
 }
