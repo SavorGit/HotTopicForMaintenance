@@ -79,7 +79,12 @@
 
 - (void)subMitDataRequest
 {
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",self.headDataModel.addr,@"addr",self.headDataModel.contractor,@"contractor",self.headDataModel.mobile,@"mobile",nil];
+    NSDictionary *dic;
+    if (self.taskType == TaskType_Install){
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",self.headDataModel.addr,@"addr",self.headDataModel.contractor,@"contractor",self.headDataModel.mobile,@"mobile",self.headDataModel.posionNum,@"tv_nums",nil];
+    }else{
+       dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",self.headDataModel.addr,@"addr",self.headDataModel.contractor,@"contractor",self.headDataModel.mobile,@"mobile",self.headDataModel.posionNum,@"tv_nums",nil];
+    }
     
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -182,7 +187,11 @@
 - (void)pubBtnClicked
 {
     if (!isEmptyString(self.currHotelId)) {
-        [self upLoadImageData];
+        if (self.taskType == TaskType_Install) {
+            [self subMitDataRequest];
+        }else{
+            [self upLoadImageData];
+        }
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
     }
@@ -207,6 +216,7 @@
         [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];
     }
+    self.headDataModel.posionNum = cell.numLabel.text;
 }
 
 - (void)reduceNPress{
@@ -217,6 +227,7 @@
             NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
             RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
             cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+            self.headDataModel.posionNum = cell.numLabel.text;
         }
     }else if (self.taskType == TaskType_Repair){
         if (self.otherContentArray.count > 1) {
@@ -229,6 +240,7 @@
             NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
             RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
             cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+            self.headDataModel.posionNum = cell.numLabel.text;
         }
     }
 }
