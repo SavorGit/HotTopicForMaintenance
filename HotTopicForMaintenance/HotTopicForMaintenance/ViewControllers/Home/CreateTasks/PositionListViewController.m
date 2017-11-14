@@ -10,7 +10,7 @@
 #import "RestaurantRankModel.h"
 #import "PosionListTableViewCell.h"
 
-@interface PositionListViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface PositionListViewController ()<UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) UIView *bgView;
@@ -22,46 +22,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self initInfo];
     [self creatSubViews];
     
     // Do any additional setup after loading the view.
 }
 
-//- (void)initInfo{
-//
-//    UIView *bigBgView = [[UIView alloc] init];
-//    bigBgView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-//    [self.view addSubview:bigBgView];
-//    [bigBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
-//        make.center.mas_equalTo(self.view);
-//    }];
-//
-////    self.view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
-//    tap.numberOfTapsRequired = 1;
-//    [bigBgView addGestureRecognizer:tap];
-//}
-
 - (void)creatSubViews{
-    
-//    UIView *bigBgView = [[UIView alloc] init];
-//    bigBgView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-//    [self.view addSubview:bigBgView];
-//    [bigBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
-//        make.center.mas_equalTo(self.view);
-//    }];
-//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
-//    tap.numberOfTapsRequired = 1;
-//    [bigBgView addGestureRecognizer:tap];
     
     self.view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
     
-//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
-//    tap.numberOfTapsRequired = 1;
-//    [self.view addGestureRecognizer:tap];
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
+    tap.numberOfTapsRequired = 1;
+    tap.delegate = self;
+    [self.view addGestureRecognizer:tap];
     
     self.bgView = [[UIView alloc] initWithFrame:CGRectZero];
     self.bgView.backgroundColor = [UIColor whiteColor];
@@ -107,24 +80,24 @@
     }
     cell.leftImage.hidden = YES;
     cell.backgroundColor = [UIColor clearColor];
+    cell.tag = indexPath.row;
     
     [cell configWithModel:model];
+    
+    UITapGestureRecognizer * tapCell = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCell:)];
+    tapCell.numberOfTapsRequired = 1;
+    tapCell.delegate = self;
+    [cell addGestureRecognizer:tapCell];
     
     return cell;
     
 }
 
-#pragma mark - UITableViewDelegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 40;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tapCell:(UIGestureRecognizer *)gesture{
     
-    PosionListTableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
+    PosionListTableViewCell *cell = (PosionListTableViewCell *)gesture.view;
     cell.leftImage.hidden = NO;
-    RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    RestaurantRankModel * model = [self.dataSource objectAtIndex:gesture.view.tag];
     if ([self.seDataArray containsObject:model.box_id]) {
         [MBProgressHUD showTextHUDWithText:@"请不要选择重复版位" inView:self.view];
     }else{
@@ -136,7 +109,13 @@
 }
 
 - (void)back{
-     [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
 }
 
 - (void)didReceiveMemoryWarning {

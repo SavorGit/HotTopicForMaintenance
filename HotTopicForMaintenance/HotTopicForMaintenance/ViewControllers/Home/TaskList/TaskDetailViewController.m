@@ -962,7 +962,7 @@
         repairState = @"";
     }
     NSString *textViewStr = self.remarkTextView.text;
-    if (isEmptyString(textViewStr)) {
+    if (isEmptyString(textViewStr) || [self.remarkTextView.text isEqualToString:@"备注，限制100字"]) {
         textViewStr = @"";
     }
     NSDictionary *dic;
