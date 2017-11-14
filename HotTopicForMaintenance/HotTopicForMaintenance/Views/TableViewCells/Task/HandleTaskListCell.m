@@ -68,7 +68,7 @@
     }];
     
     self.nameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f * scale) alignment:NSTextAlignmentLeft];
-    self.nameLabel.text = @"成通";
+    self.nameLabel.text = @"";
     [self.baseView addSubview:self.nameLabel];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10.f * scale);
@@ -77,12 +77,12 @@
     }];
     
     self.dateLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f * scale) alignment:NSTextAlignmentLeft];
-    self.dateLabel.text = @"2017-12-25的任务:";
+    self.dateLabel.text = @"";
     [self.baseView addSubview:self.dateLabel];
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10.f * scale);
-        make.left.mas_equalTo(self.nameLabel.mas_right).offset(15.f * scale);
-        make.height.mas_equalTo(20.f * scale);
+        make.top.mas_equalTo(self.nameLabel.mas_bottom).offset(5.f * scale);
+        make.left.mas_equalTo(10.f * scale);
+        make.height.mas_equalTo(15.f * scale);
     }];
     
     UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16.f * scale) backgroundColor:kNavBackGround title:@"指派" cornerRadius:5.f];
@@ -98,7 +98,7 @@
     self.listView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.baseView addSubview:self.listView];
     [self.listView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.nameLabel.mas_bottom).offset(10.f * scale);
+        make.top.mas_equalTo(self.dateLabel.mas_bottom).offset(10.f * scale);
         make.left.mas_equalTo(15.f * scale);
         make.right.mas_equalTo(-15.f * scale);
         make.bottom.mas_equalTo(0);

@@ -530,7 +530,6 @@
     
     [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
     return [textField resignFirstResponder];
-    
 }
 
 - (void)didReceiveMemoryWarning {

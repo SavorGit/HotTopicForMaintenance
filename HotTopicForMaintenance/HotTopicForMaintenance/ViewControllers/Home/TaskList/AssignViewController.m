@@ -81,7 +81,7 @@
     }];
     
     UILabel * taskNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    taskNameLabel.text = @"";
+    taskNameLabel.text = self.model.task_type;
     [taskView addSubview:taskNameLabel];
     [taskNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(25.f * scale);
@@ -89,7 +89,7 @@
     }];
     
     UILabel * hotelNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    hotelNameLabel.text = @"";
+    hotelNameLabel.text = self.model.hotel_name;
     [taskView addSubview:hotelNameLabel];
     [hotelNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(taskNameLabel.mas_right).offset(15.f * scale);
@@ -97,7 +97,9 @@
     }];
     
     UILabel * deviceNumberLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    deviceNumberLabel.text = @"";
+    if (!isEmptyString(self.model.tv_nums)) {
+        deviceNumberLabel.text = [NSString stringWithFormat:@"版位数量:%@", self.model.tv_nums];
+    }
     [taskView addSubview:deviceNumberLabel];
     [deviceNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(hotelNameLabel.mas_right).offset(15.f * scale);
@@ -284,7 +286,7 @@
     NSDictionary * info = [self.dataSource objectAtIndex:indexPath.row];
     NSArray * list = [info objectForKey:@"task_info"];
     CGFloat lineHeight = 25.f * scale;
-    CGFloat height = 65.f * scale + lineHeight * list.count;
+    CGFloat height = 80.f * scale + lineHeight * list.count;
     
     return height;
 }

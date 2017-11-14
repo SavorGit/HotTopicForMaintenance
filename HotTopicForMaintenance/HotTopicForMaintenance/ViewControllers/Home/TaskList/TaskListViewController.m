@@ -14,6 +14,7 @@
 #import "AssignRoleTaskListRequest.h"
 #import "CreateRoleTasklistRequest.h"
 #import "HandleRoleListRequest.h"
+#import "LookRoleListRequest.h"
 #import "UserManager.h"
 
 @interface TaskListViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -288,6 +289,12 @@
             [list sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:businessFailureBlock];
         }
             break;
+            
+        case UserRoleType_LookTask:
+        {
+            LookRoleListRequest * list = [[LookRoleListRequest alloc] initWithPage:page state:self.taskType userID:[UserManager manager].user.userid];
+            [list sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:businessFailureBlock];
+        }
             
         default:
             break;
