@@ -7,6 +7,7 @@
 //
 
 #import "RepairHeaderTableCell.h"
+#import "RepairContentModel.h"
 
 @interface RepairHeaderTableCell()<UITextFieldDelegate>
 
@@ -28,6 +29,8 @@
 @property (nonatomic, strong) UISegmentedControl *segment;
 @property (nonatomic, strong) UIButton *addBtn;
 @property (nonatomic, strong) UIButton *reduceBtn;
+
+@property (nonatomic, strong) RepairContentModel *repairModel;
 
 @end
 
@@ -94,6 +97,7 @@
     
     self.contactField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.contactField.text = @"俏江南";
+    self.contactField.tag = 6000;
     self.contactField.delegate = self;
     self.contactField.font = [UIFont systemFontOfSize:14];
     self.contactField.textAlignment = NSTextAlignmentRight;
@@ -118,6 +122,7 @@
     
     self.phoneField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.phoneField.text = @"俏江南";
+    self.phoneField.tag = 6001;
     self.phoneField.delegate = self;
     self.phoneField.font = [UIFont systemFontOfSize:14];
     self.phoneField.textAlignment = NSTextAlignmentRight;
@@ -142,6 +147,7 @@
     
     self.addressField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.addressField.text = @"俏江南";
+    self.phoneField.tag = 6002;
     self.addressField.delegate = self;
     self.addressField.font = [UIFont systemFontOfSize:14];
     self.addressField.textAlignment = NSTextAlignmentRight;
@@ -235,6 +241,7 @@
 
 - (void)configWithContent:(RepairContentModel *)model andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index{
   
+    self.repairModel = model;
     self.indexPath = index;
      [self.hotelBtn setTitle:model.name forState:UIControlStateNormal];
     if (isEmptyString(model.name)) {
@@ -279,10 +286,31 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSLog(@"%@",textField.text);
+    
+    if (textField.tag == 6000) {
+        self.repairModel.contractor = textField.text;
+    }else if (textField.tag == 6001){
+        self.repairModel.mobile = textField.text;
+    }else if (textField.tag == 6002){
+        self.repairModel.addr = textField.text;
+    }
+    
     return YES;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.tag == 6000) {
+        self.repairModel.contractor = textField.text;
+    }else if (textField.tag == 6001){
+        self.repairModel.mobile = textField.text;
+    }else if (textField.tag == 6002){
+        self.repairModel.addr = textField.text;
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
     return [textField resignFirstResponder];
     
 }

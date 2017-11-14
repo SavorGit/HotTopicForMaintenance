@@ -43,17 +43,7 @@
         make.top.mas_equalTo(2);
         make.left.mas_equalTo(15);
     }];
-    
-    self.leftImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.leftImage.contentMode = UIViewContentModeScaleAspectFit;
-    [self.leftImage setImage:[UIImage imageNamed:@"selected"]];
-    [_bgView addSubview:self.leftImage];
-    [self.leftImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(16, 16));
-        make.top.mas_equalTo(11);
-        make.left.mas_equalTo(15);
-    }];
-    
+
     self.reasonLabel = [[UILabel alloc]init];
     self.reasonLabel.font = [UIFont systemFontOfSize:14];
     self.reasonLabel.textColor = UIColorFromRGB(0x434343);
@@ -63,20 +53,18 @@
     [self.reasonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 20 - 60), 20));
         make.top.mas_equalTo(9);
-        make.left.mas_equalTo(self.leftImage.mas_right).offset(10);
+        make.centerX.mas_equalTo(self);
     }];
     
-//    self.selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-//    self.selectImgView.contentMode = UIViewContentModeScaleAspectFit;
-//    [self.selectImgView setImage:[UIImage imageNamed:@"selected"]];
-//    [_bgView addSubview:self.selectImgView];
-//    self.selectImgView.hidden = YES;
-//    [self.selectImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(16, 16));
-//        make.top.mas_equalTo(11);
-//        make.right.mas_equalTo(- 15);
-//    }];
-    
+    self.leftImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.leftImage.contentMode = UIViewContentModeScaleAspectFit;
+    [self.leftImage setImage:[UIImage imageNamed:@"selected"]];
+    [_bgView addSubview:self.leftImage];
+    [self.leftImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.top.mas_equalTo(11);
+        make.left.mas_equalTo(self.reasonLabel.mas_right).offset(20);
+    }];
 }
 
 - (void)configWithModel:(RestaurantRankModel *)model{
