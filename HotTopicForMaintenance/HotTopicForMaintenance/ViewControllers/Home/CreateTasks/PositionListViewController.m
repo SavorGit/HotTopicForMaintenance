@@ -59,18 +59,6 @@
     }];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    // 输出点击的view的类名
-    NSLog(@"%@", NSStringFromClass([touch.view class]));
-    
-    // 若为UITableViewCellContentView（即点击了tableViewCell），则不截获Touch事件
-    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
-        return NO;
-    }
-    return  YES;
-}
-
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -92,24 +80,24 @@
     }
     cell.leftImage.hidden = YES;
     cell.backgroundColor = [UIColor clearColor];
+    cell.tag = indexPath.row;
     
     [cell configWithModel:model];
+    
+    UITapGestureRecognizer * tapCell = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCell:)];
+    tapCell.numberOfTapsRequired = 1;
+    tapCell.delegate = self;
+    [cell addGestureRecognizer:tapCell];
     
     return cell;
     
 }
 
-#pragma mark - UITableViewDelegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 40;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tapCell:(UIGestureRecognizer *)gesture{
     
-    PosionListTableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
+    PosionListTableViewCell *cell = (PosionListTableViewCell *)gesture.view;
     cell.leftImage.hidden = NO;
-    RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    RestaurantRankModel * model = [self.dataSource objectAtIndex:gesture.view.tag];
     if ([self.seDataArray containsObject:model.box_id]) {
         [MBProgressHUD showTextHUDWithText:@"请不要选择重复版位" inView:self.view];
     }else{
@@ -121,7 +109,13 @@
 }
 
 - (void)back{
-     [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
 }
 
 - (void)didReceiveMemoryWarning {
