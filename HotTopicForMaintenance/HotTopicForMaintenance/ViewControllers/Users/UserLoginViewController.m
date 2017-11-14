@@ -170,10 +170,12 @@
         if (RoleList && [RoleList isKindOfClass:[NSDictionary class]]) {
             NSDictionary * roleInfo = [RoleList objectForKey:@"role_info"];
             if (roleInfo && [roleInfo isKindOfClass:[NSDictionary class]]) {
-                NSInteger roleType = [[roleInfo objectForKey:@"id"] integerValue];
+                if (![[roleInfo objectForKey:@"id"] isKindOfClass:[NSNull class]]) {
+                    NSInteger roleType = [[roleInfo objectForKey:@"id"] integerValue];
+                    user.roletype = roleType;
+                }
                 NSString * roleName = [roleInfo objectForKey:@"name"];
                 if (!isEmptyString(roleName)) {
-                    user.roletype = roleType;
                     user.roleName = roleName;
                 }
             }
