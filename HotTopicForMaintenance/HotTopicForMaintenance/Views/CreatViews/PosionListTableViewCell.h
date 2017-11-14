@@ -11,7 +11,8 @@
 
 @interface PosionListTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UIImageView *selectImgView;
+//@property (nonatomic, strong) UIImageView *selectImgView;
+@property (nonatomic, strong) UIImageView *leftImage;
 
 - (void)configWithModel:(RestaurantRankModel *)model;
 

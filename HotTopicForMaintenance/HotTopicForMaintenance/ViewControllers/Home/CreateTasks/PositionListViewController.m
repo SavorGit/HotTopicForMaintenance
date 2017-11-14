@@ -22,18 +22,46 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initInfo];
+//    [self initInfo];
     [self creatSubViews];
     
     // Do any additional setup after loading the view.
 }
 
-- (void)initInfo{
-    
-    self.view.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.0];
-}
+//- (void)initInfo{
+//
+//    UIView *bigBgView = [[UIView alloc] init];
+//    bigBgView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+//    [self.view addSubview:bigBgView];
+//    [bigBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
+//        make.center.mas_equalTo(self.view);
+//    }];
+//
+////    self.view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
+//    tap.numberOfTapsRequired = 1;
+//    [bigBgView addGestureRecognizer:tap];
+//}
 
 - (void)creatSubViews{
+    
+//    UIView *bigBgView = [[UIView alloc] init];
+//    bigBgView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+//    [self.view addSubview:bigBgView];
+//    [bigBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
+//        make.center.mas_equalTo(self.view);
+//    }];
+//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
+//    tap.numberOfTapsRequired = 1;
+//    [bigBgView addGestureRecognizer:tap];
+    
+    self.view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+    
+//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
+//    tap.numberOfTapsRequired = 1;
+//    [self.view addGestureRecognizer:tap];
     
     self.bgView = [[UIView alloc] initWithFrame:CGRectZero];
     self.bgView.backgroundColor = [UIColor whiteColor];
@@ -46,7 +74,7 @@
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60,kMainBoundsHeight - 180));
         make.center.mas_equalTo(self.view);
     }];
-    
+ 
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
@@ -77,12 +105,7 @@
     if (cell == nil) {
         cell = [[PosionListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    
-    if (model.selectType == YES) {
-        cell.selectImgView.hidden = NO;
-    }else{
-        cell.selectImgView.hidden = YES;
-    }
+    cell.leftImage.hidden = YES;
     cell.backgroundColor = [UIColor clearColor];
     
     [cell configWithModel:model];
@@ -99,12 +122,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    PosionListTableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
+    cell.leftImage.hidden = NO;
     RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    if (_backDatas) {
-        _backDatas(model.box_id,model.box_name);
+    if ([self.seDataArray containsObject:model.box_id]) {
+        [MBProgressHUD showTextHUDWithText:@"请不要选择重复版位" inView:self.navigationController.view];
+    }else{
+        if (_backDatas) {
+            _backDatas(model.box_id,model.box_name);
+        }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
+}
+
+- (void)back{
+     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

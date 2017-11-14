@@ -14,6 +14,8 @@ typedef void (^backData)(NSString *damIdString,NSString *name);
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
+@property (nonatomic, strong) NSArray *seDataArray;
+
 @property(nonatomic, copy) backData backDatas;
 
 @end
