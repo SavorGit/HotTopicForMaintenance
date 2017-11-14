@@ -523,6 +523,12 @@
     return YES;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
+    tmpModel.title = textField.text;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];

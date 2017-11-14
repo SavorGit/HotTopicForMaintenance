@@ -81,7 +81,7 @@
     }];
     
     UILabel * taskNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    taskNameLabel.text = @"维修";
+    taskNameLabel.text = @"";
     [taskView addSubview:taskNameLabel];
     [taskNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(25.f * scale);
@@ -89,7 +89,7 @@
     }];
     
     UILabel * hotelNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    hotelNameLabel.text = @"旺顺阁鱼头泡饼王府井店";
+    hotelNameLabel.text = @"";
     [taskView addSubview:hotelNameLabel];
     [hotelNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(taskNameLabel.mas_right).offset(15.f * scale);
@@ -97,7 +97,7 @@
     }];
     
     UILabel * deviceNumberLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    deviceNumberLabel.text = @"版位数量：13";
+    deviceNumberLabel.text = @"";
     [taskView addSubview:deviceNumberLabel];
     [deviceNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(hotelNameLabel.mas_right).offset(15.f * scale);
