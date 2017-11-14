@@ -126,7 +126,7 @@
     cell.leftImage.hidden = NO;
     RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
     if ([self.seDataArray containsObject:model.box_id]) {
-        [MBProgressHUD showTextHUDWithText:@"请不要选择重复版位" inView:self.navigationController.view];
+        [MBProgressHUD showTextHUDWithText:@"请不要选择重复版位" inView:self.view];
     }else{
         if (_backDatas) {
             _backDatas(model.box_id,model.box_name);
