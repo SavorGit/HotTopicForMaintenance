@@ -544,7 +544,6 @@
     
     [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
     return [textField resignFirstResponder];
-    
 }
 
 //点击空白处的手势要实现的方法

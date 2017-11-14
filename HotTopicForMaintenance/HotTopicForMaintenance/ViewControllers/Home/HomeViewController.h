@@ -6,8 +6,8 @@
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface HomeViewController : BaseViewController
+@interface HomeViewController : UIViewController
 
 @end
