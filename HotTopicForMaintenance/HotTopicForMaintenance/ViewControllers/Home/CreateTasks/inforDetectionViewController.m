@@ -86,6 +86,7 @@
 
 - (void)subMitDataRequest
 {
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
     NetworkTranTableViewCell *cellOne = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     NetworkTranTableViewCell *cellTwo = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
     NetworkTranTableViewCell *cellThree = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
@@ -99,9 +100,18 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
         
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"发布成功" inView:self.navigationController.view];
+        
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"发布失败" inView:self.navigationController.view];
+        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"发布失败" inView:self.navigationController.view];
         
     }];
 }

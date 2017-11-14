@@ -94,23 +94,29 @@
             [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
             [self.navigationController popViewControllerAnimated:YES];
         }
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+        [MBProgressHUD showTextHUDWithText:@"发布成功" inView:self.navigationController.view];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
         }else{
-            [MBProgressHUD showTextHUDWithText:@"发布失败，服务器正在休息~" inView:self.view];
+            [MBProgressHUD showTextHUDWithText:@"发布失败" inView:self.navigationController.view];
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
-        [MBProgressHUD showTextHUDWithText:@"发布失败，网络出现问题了~" inView:self.view];
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+        [MBProgressHUD showTextHUDWithText:@"发布失败" inView:self.navigationController.view];
         
     }];
 }
 
 - (void)upLoadImageData{
+    
+    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
     
     [self.subMitPosionArray removeAllObjects];
     NSMutableArray *upImageArr = [[NSMutableArray alloc] init];

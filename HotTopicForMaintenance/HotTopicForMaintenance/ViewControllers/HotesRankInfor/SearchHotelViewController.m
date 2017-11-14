@@ -58,6 +58,7 @@
     self.searchField.placeholder = @"搜索酒楼";
     self.searchField.returnKeyType = UIReturnKeySearch;
     self.searchField.delegate = self;
+    self.searchField.tintColor = kNavBackGround;
     [searchView addSubview:self.searchField];
     [self.searchField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
@@ -77,6 +78,11 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    if (isEmptyString(self.searchField.text)) {
+        [MBProgressHUD showTextHUDWithText:@"请输入酒楼名称" inView:self.view];
+        return NO;
+    }
     
     [self dataRequest];
     [self closeKeyBorad];
