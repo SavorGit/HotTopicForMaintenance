@@ -95,7 +95,11 @@
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-        [MBProgressHUD showTextHUDWithText:@"发布失败" inView:self.navigationController.view];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"发布失败" inView:self.navigationController.view];
+        }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
@@ -195,30 +199,38 @@
     RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
     cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
 
-    [self.tableView beginUpdates];
-    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.otherContentArray.count - 1 inSection:1];
-    [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView endUpdates];
-    
+    if (self.taskType == TaskType_Install) {
+        cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+    }else if (self.taskType == TaskType_Repair){
+        [self.tableView beginUpdates];
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.otherContentArray.count - 1 inSection:1];
+        [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+    }
 }
 
 - (void)reduceNPress{
     
-    if (self.otherContentArray.count > 1) {
-        
-        [self.tableView beginUpdates];
-        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.otherContentArray.count - 1  inSection:1];
-        [self.tableView  deleteRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self.otherContentArray removeLastObject];
-        [self.tableView endUpdates];
-        
-        NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
-        RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
-        cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
-        
-        
+    if (self.taskType == TaskType_Install) {
+        if (self.otherContentArray.count > 1) {
+            [self.otherContentArray removeLastObject];
+            NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+            RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
+            cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+        }
+    }else if (self.taskType == TaskType_Repair){
+        if (self.otherContentArray.count > 1) {
+            [self.tableView beginUpdates];
+            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.otherContentArray.count - 1  inSection:1];
+            [self.tableView  deleteRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.otherContentArray removeLastObject];
+            [self.tableView endUpdates];
+            
+            NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+            RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
+            cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+        }
     }
-    
 }
 
 #pragma mark ---选择酒楼版位
@@ -274,6 +286,9 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (self.taskType == TaskType_Install) {
+        return 1;
+    }
     return 2;
 }
 
@@ -386,14 +401,12 @@
 - (void)addImgPress:(NSIndexPath *)index{
     
     self.indexPath = index;
-    
     RepairContentModel *tmpModel = self.otherContentArray[index.row];
     if (!isEmptyString(tmpModel.boxName)) {
         [self creatPhotoSheet];
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
     }
-    
 }
 
 #pragma mark 弹出相册或是相机选择页面
@@ -433,6 +446,7 @@
     _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
     [_imagePickerController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentViewController:_imagePickerController animated:YES completion:nil];
+    
 }
 
 #pragma mark 从相册获取图片或视频
@@ -441,6 +455,7 @@
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     [_imagePickerController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self presentViewController:_imagePickerController animated:YES completion:nil];
+    
 }
 
 #pragma mark UIImagePickerControllerDelegate
@@ -463,11 +478,6 @@
         tmpModel.imgHType = 1;
         tmpModel.pubImg = info[UIImagePickerControllerEditedImage];
         [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-        
-//        RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];
-//        cell.fImageView.image = info[UIImagePickerControllerEditedImage];
-        
-        
         //压缩图片
 //        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
 
