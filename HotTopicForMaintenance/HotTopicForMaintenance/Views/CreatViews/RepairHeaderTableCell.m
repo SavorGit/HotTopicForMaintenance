@@ -147,7 +147,7 @@
     
     self.addressField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.addressField.text = @"俏江南";
-    self.phoneField.tag = 6002;
+    self.addressField.tag = 6002;
     self.addressField.delegate = self;
     self.addressField.font = [UIFont systemFontOfSize:14];
     self.addressField.textAlignment = NSTextAlignmentRight;

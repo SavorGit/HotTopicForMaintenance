@@ -277,7 +277,9 @@
             [self.sePosionData removeAllObjects];
             for (int i = 0; i < self.otherContentArray.count; i ++ ) {
                 RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
-                 [self.sePosionData addObject:tmpModel.boxId];
+                if (!isEmptyString(tmpModel.boxId)) {
+                    [self.sePosionData addObject:tmpModel.boxId];
+                }
             }
         };
     }else{

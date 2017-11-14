@@ -1022,10 +1022,9 @@
                 [self.subMitPosionArray addObject:tmpDic];
             }else if (self.taskListModel.task_type_id == 2){
                 
-                RestaurantRankModel *tmpModel = self.dConfigData[i];
-                [pathArr addObject:tmpModel.box_id];
+                [pathArr addObject:self.taskListModel.hotel_id];
                 
-                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.box_id,@"box_id",urlPath,@"img", nil];
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:urlPath,@"img", nil];
                 [self.subMitPosionArray addObject:tmpDic];
                 
             }else{
