@@ -10,7 +10,7 @@
 #import "RestaurantRankModel.h"
 #import "PosionListTableViewCell.h"
 
-@interface PositionListViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface PositionListViewController ()<UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) UIView *bgView;
@@ -22,46 +22,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self initInfo];
     [self creatSubViews];
     
     // Do any additional setup after loading the view.
 }
 
-//- (void)initInfo{
-//
-//    UIView *bigBgView = [[UIView alloc] init];
-//    bigBgView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-//    [self.view addSubview:bigBgView];
-//    [bigBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
-//        make.center.mas_equalTo(self.view);
-//    }];
-//
-////    self.view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
-//    tap.numberOfTapsRequired = 1;
-//    [bigBgView addGestureRecognizer:tap];
-//}
-
 - (void)creatSubViews{
-    
-//    UIView *bigBgView = [[UIView alloc] init];
-//    bigBgView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-//    [self.view addSubview:bigBgView];
-//    [bigBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
-//        make.center.mas_equalTo(self.view);
-//    }];
-//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
-//    tap.numberOfTapsRequired = 1;
-//    [bigBgView addGestureRecognizer:tap];
     
     self.view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
     
-//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
-//    tap.numberOfTapsRequired = 1;
-//    [self.view addGestureRecognizer:tap];
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back)];
+    tap.numberOfTapsRequired = 1;
+    tap.delegate = self;
+    [self.view addGestureRecognizer:tap];
     
     self.bgView = [[UIView alloc] initWithFrame:CGRectZero];
     self.bgView.backgroundColor = [UIColor whiteColor];
@@ -84,6 +57,18 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    // 输出点击的view的类名
+    NSLog(@"%@", NSStringFromClass([touch.view class]));
+    
+    // 若为UITableViewCellContentView（即点击了tableViewCell），则不截获Touch事件
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
+        return NO;
+    }
+    return  YES;
 }
 
 #pragma mark - UITableViewDataSource

@@ -273,8 +273,12 @@
             RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:index.row];
             tmpModel.boxName = name;
             tmpModel.boxId = boxId;
-            [self.sePosionData addObject:boxId];
             
+            [self.sePosionData removeAllObjects];
+            for (int i = 0; i < self.otherContentArray.count; i ++ ) {
+                RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
+                 [self.sePosionData addObject:tmpModel.boxId];
+            }
         };
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
