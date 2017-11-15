@@ -985,15 +985,28 @@
         
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
         if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
-            [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
-            [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
-            if (self.taskListModel.task_type_id == 4){
-                [self dismissViewWithAnimationDuration:0.3];
-            }else{
-                [self dismissInstallAlertViewWithDuration:0.3];
+            NSDictionary *resuDic = dadaDic[@"result"];
+            if (resuDic[@"state"]) {
+                if ([resuDic[@"state"] intValue] == 4) {
+                    [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
+                    if (self.taskListModel.task_type_id == 4){
+                        [self dismissViewWithAnimationDuration:0.3];
+                    }else{
+                        [self dismissInstallAlertViewWithDuration:0.3];
+                    }
+                }else{
+                    [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+                    if (self.taskListModel.task_type_id == 4){
+                        [self dismissViewWithAnimationDuration:0.3];
+                    }else{
+                        [self dismissInstallAlertViewWithDuration:0.3];
+                    }
+                    // 重新获取版位信息
+                    [self getBoxIdData];
+                }
             }
         }
-        
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];

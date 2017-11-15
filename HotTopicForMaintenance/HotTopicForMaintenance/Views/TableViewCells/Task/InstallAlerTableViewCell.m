@@ -48,8 +48,7 @@
     
     self.instaImg = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.instaImg.contentMode = UIViewContentModeScaleAspectFit;
-    [self.instaImg setBackgroundColor:[UIColor lightGrayColor]];
-//    [self.instaImg setImage:[UIImage imageNamed:@"selected"]];
+    [self.instaImg setBackgroundColor:[UIColor clearColor]];
     [_bgView addSubview:self.instaImg];
     CGFloat scale = kMainBoundsWidth/375.f;
     [self.instaImg mas_makeConstraints:^(MASConstraintMaker *make) {
