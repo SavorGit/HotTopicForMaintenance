@@ -416,6 +416,7 @@
         self.headDataModel.contractor = model.contractor != nil?model.contractor:@"";
         self.headDataModel.mobile = model.mobile != nil?model.mobile:@"";
         self.headDataModel.addr = model.addr != nil?model.addr:@"";
+        self.headDataModel.posionNum = @"1";
         
         //选择酒楼后重新初始化版位信息
         [self.otherContentArray removeAllObjects];
