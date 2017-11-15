@@ -1138,9 +1138,11 @@
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
         NSDictionary *resultDic = dadaDic[@"result"];
         NSArray *listArr = resultDic[@"list"];
-        for (int i = 0; i < listArr.count; i ++) {
-            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArr[i]];
-            [self.dConfigData addObject:tmpModel];
+        if ([listArr isKindOfClass:[NSArray class]]) {
+            for (int i = 0; i < listArr.count; i ++) {
+                RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArr[i]];
+                [self.dConfigData addObject:tmpModel];
+            }
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

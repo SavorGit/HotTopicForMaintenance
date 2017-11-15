@@ -67,6 +67,10 @@
 
 - (void)showWindowImage:(NSString *)url
 {
+    if (isEmptyString(url)) {
+        return;
+    }
+    
     self.isBigPhoto = YES;
     self.bigScrollView.zoomScale = 1.f;
     [self.bigImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage new] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
