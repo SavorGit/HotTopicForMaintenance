@@ -97,9 +97,18 @@
 - (void)configWithInfo:(NSDictionary *)info
 {
     self.info = info;
-    NSString * userName = [info objectForKey:@"username"];
     NSString * time = [info objectForKey:@"repair_time"];
-    NSString * imageURL = [info objectForKey:@"repair_img"];
+    NSArray * imageTemp = [info objectForKey:@"repair_img"];
+    
+    NSString * imageURL = @"";
+    if ([imageTemp isKindOfClass:[NSArray class]]) {
+        if (imageTemp.count > 0) {
+            NSDictionary * dict = [imageTemp firstObject];
+            if ([dict isKindOfClass:[NSDictionary class]]) {
+                imageURL = [dict objectForKey:@"img"];
+            }
+        }
+    }
     self.timeLabel.text = [NSString stringWithFormat:@"操作时间 %@", time];
     [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
 }

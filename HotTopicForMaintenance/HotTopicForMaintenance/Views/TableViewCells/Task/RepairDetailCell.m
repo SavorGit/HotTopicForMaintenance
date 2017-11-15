@@ -182,7 +182,17 @@
     NSString * boxName = [info objectForKey:@"box_name"];
     NSString * state = [info objectForKey:@"state"];
     NSString * remark = [info objectForKey:@"remark"];
-    NSArray * imageArray = [info objectForKey:@"repair_img"];
+    NSArray * imageTemp = [info objectForKey:@"repair_img"];
+    NSMutableArray * imageArray = [[NSMutableArray alloc] init];
+    
+    if ([imageTemp isKindOfClass:[NSArray class]]) {
+        for (NSDictionary * dict in imageTemp) {
+            if ([dict isKindOfClass:[NSDictionary class]]) {
+                NSString * imageURL = [dict objectForKey:@"img"];
+                [imageArray addObject:imageURL];
+            }
+        }
+    }
     
     self.userNameLabel.text = [NSString stringWithFormat:@"执行人：%@", userName];
     self.boxNameLabel.text = [NSString stringWithFormat:@"维修版位：%@", boxName];

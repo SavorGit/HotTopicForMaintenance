@@ -188,7 +188,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [cell configWithModel:model];
+    [cell configWithModel:model andMacAddress:self.macAddress];
     
     return cell;
     

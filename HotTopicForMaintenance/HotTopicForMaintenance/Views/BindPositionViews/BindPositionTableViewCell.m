@@ -25,6 +25,8 @@
 
 @property (nonatomic, strong) BindDeviceModel * model;
 
+@property (nonatomic, copy) NSString * macAddress;
+
 @end
 
 @implementation BindPositionTableViewCell
@@ -117,7 +119,7 @@
 - (void)bindButtonDidBeClicked
 {
     [BindBoxRequest cancelRequest];
-    BindBoxRequest * request = [[BindBoxRequest alloc] initWithHotelID:[DeviceManager manager].hotelID roomID:[DeviceManager manager].roomID boxID:self.model.box_id mac:self.model.box_mac];
+    BindBoxRequest * request = [[BindBoxRequest alloc] initWithHotelID:[DeviceManager manager].hotelID roomID:[DeviceManager manager].roomID boxID:self.model.box_id mac:self.macAddress];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [MBProgressHUD showTextHUDWithText:@"绑定成功" inView:[UIApplication sharedApplication].keyWindow];
@@ -137,8 +139,10 @@
     }];
 }
 
-- (void)configWithModel:(BindDeviceModel *)model{
+- (void)configWithModel:(BindDeviceModel *)model andMacAddress:(NSString *)macAddress
+{
     self.model = model;
+    self.macAddress = macAddress;
     
     self.tvNameLabel.text = [NSString stringWithFormat:@"电视名称：%@", model.tv_brand];
     self.roomNameLabel.text = [NSString stringWithFormat:@"包间名称：%@", model.room_name];

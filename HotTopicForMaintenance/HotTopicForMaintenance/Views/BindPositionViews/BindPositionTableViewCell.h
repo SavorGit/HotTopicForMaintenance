@@ -11,6 +11,6 @@
 
 @interface BindPositionTableViewCell : UITableViewCell
 
-- (void)configWithModel:(BindDeviceModel *)model;
+- (void)configWithModel:(BindDeviceModel *)model andMacAddress:(NSString *)macAddress;
 
 @end

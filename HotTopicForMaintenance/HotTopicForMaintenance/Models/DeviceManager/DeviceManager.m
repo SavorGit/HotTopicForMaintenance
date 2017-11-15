@@ -218,7 +218,7 @@ withFilterContext:(nullable id)filterContext{
 - (void)stopSearchDevice
 {
     [HotelGetIPRequest cancelRequest];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopSearchDevice) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(SearchDeviceDidEnd) object:nil];
     if (!self.socket.isClosed) {
         [self.socket pauseReceiving];
         [self.socket close];
