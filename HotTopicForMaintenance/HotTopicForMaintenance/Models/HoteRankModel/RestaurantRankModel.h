@@ -21,6 +21,7 @@
 @property(nonatomic, copy) NSString *mobile;
 @property(nonatomic, copy) NSString *addr;
 @property(nonatomic, copy) NSString *area_id;
+@property(nonatomic, copy) NSString *tv_nums;
 
 //酒楼版位列表
 @property(nonatomic, copy) NSString *box_id;
