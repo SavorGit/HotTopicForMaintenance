@@ -52,20 +52,12 @@
     self.baseView.layer.cornerRadius = 10.f;
     self.baseView.layer.masksToBounds = YES;
     
-    self.userNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    self.userNameLabel.text = @"执行人：";
-    [self.baseView addSubview:self.userNameLabel];
-    [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(12.f * scale);
-        make.left.mas_equalTo(12.f * scale);
-        make.height.mas_equalTo(15.f * scale + 1);
-    }];
-    
     self.timeLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
     self.timeLabel.text = @"操作时间 ";
     [self.baseView addSubview:self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(12.f * scale);
+        make.top.mas_equalTo(20.f * scale);
+        make.left.mas_equalTo(12.f * scale);
         make.right.mas_equalTo(-12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
     }];
@@ -76,7 +68,7 @@
     [self.baseView addSubview:self.photoImageView];
     [self.photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.f*scale);
-        make.top.mas_equalTo(self.timeLabel.mas_bottom).offset(6.f * scale);
+        make.top.mas_equalTo(self.timeLabel.mas_bottom).offset(16.f * scale);
         make.right.mas_equalTo(-15.f * scale);
         make.height.mas_equalTo(120.f * scale);
     }];

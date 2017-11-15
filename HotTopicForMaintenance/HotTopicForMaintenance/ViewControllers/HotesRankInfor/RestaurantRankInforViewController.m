@@ -297,7 +297,7 @@
     self.lastApkVerLab.backgroundColor = [UIColor clearColor];
     self.lastApkVerLab.font = [UIFont systemFontOfSize:14];
     self.lastApkVerLab.textColor = [UIColor blackColor];
-    self.lastApkVerLab.text = [NSString stringWithFormat:@"小平台最后心跳时间:%@",self.lastHeartTModel.ltime];;
+    self.lastApkVerLab.text = [NSString stringWithFormat:@"小平台最后心跳时间:%@",self.lastHeartTModel.ltime];
     [headView addSubview:self.lastApkVerLab];
     [self.lastApkVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.lastPlatformVerLab.mas_bottom).offset(5);
@@ -425,7 +425,7 @@
     self.dUploadModel.userid = [UserManager manager].user.userid;
     self.dUploadModel.hotel_id = self.cid;
     self.dUploadModel.type = @"1";
-    self.dUploadModel.box_mac = self.lastSmallModel.small_mac;;
+    self.dUploadModel.box_mac = self.lastSmallModel.small_mac;
     
     [self creatMListView];
 }

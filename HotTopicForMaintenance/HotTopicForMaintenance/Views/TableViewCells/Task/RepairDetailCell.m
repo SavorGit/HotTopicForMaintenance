@@ -62,7 +62,7 @@
     self.userNameLabel.text = @"执行人：";
     [self.baseView addSubview:self.userNameLabel];
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(12.f * scale);
+        make.top.mas_equalTo(20.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.right.mas_equalTo(-12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
@@ -72,7 +72,7 @@
     self.boxNameLabel.text = @"维修版位：";
     [self.baseView addSubview:self.boxNameLabel];
     [self.boxNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.userNameLabel.mas_bottom).offset(6.f * scale);
+        make.top.mas_equalTo(self.userNameLabel.mas_bottom).offset(16.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.right.mas_equalTo(-12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
@@ -81,7 +81,7 @@
     self.stateLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
     [self.baseView addSubview:self.stateLabel];
     [self.stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.userNameLabel.mas_bottom).offset(6.f * scale);
+        make.top.mas_equalTo(self.userNameLabel.mas_bottom).offset(16.f * scale);
         make.left.mas_equalTo(self.boxNameLabel.mas_right).offset(12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
     }];
@@ -91,16 +91,26 @@
     self.remarkLabel.text = @"备注：";
     [self.baseView addSubview:self.remarkLabel];
     [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.stateLabel.mas_bottom).offset(6.f * scale);
+        make.top.mas_equalTo(self.stateLabel.mas_bottom).offset(16.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.right.mas_equalTo(-12.f * scale);
         make.height.mas_equalTo(15.f + 1);
     }];
     
+    self.handleTimeLabel =[HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.handleTimeLabel.text = @"操作时间：";
+    [self.baseView addSubview:self.handleTimeLabel];
+    [self.handleTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.remarkLabel.mas_bottom).mas_equalTo(16.f * scale);
+        make.left.mas_equalTo(12.f * scale);
+        make.height.mas_equalTo(15.f * scale + 1);
+        make.right.mas_equalTo(-12.f * scale);
+    }];
+    
     UILabel * photoLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
     [self.baseView addSubview:photoLabel];
     [photoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.remarkLabel.mas_bottom).offset(6.f * scale);
+        make.top.mas_equalTo(self.handleTimeLabel.mas_bottom).offset(16.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
     }];
@@ -113,7 +123,7 @@
     [self.baseView addSubview:self.Photo1];
     [self.Photo1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(photoLabel.mas_right).offset(6.f*scale);
-        make.top.mas_equalTo(self.remarkLabel.mas_bottom).offset(6.f * scale);
+        make.top.mas_equalTo(self.handleTimeLabel.mas_bottom).offset(16.f * scale);
         make.width.mas_equalTo(80.f * scale);
         make.height.mas_equalTo(self.Photo1.mas_width).multipliedBy(17.f/30.f);
     }];
@@ -125,7 +135,7 @@
     [self.baseView addSubview:self.Photo2];
     [self.Photo2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.Photo1.mas_right).offset(6.f*scale);
-        make.top.mas_equalTo(self.remarkLabel.mas_bottom).offset(6.f * scale);
+        make.top.mas_equalTo(self.handleTimeLabel.mas_bottom).offset(16.f * scale);
         make.width.mas_equalTo(80.f * scale);
         make.height.mas_equalTo(self.Photo1.mas_width).multipliedBy(17.f/30.f);
     }];
@@ -137,19 +147,9 @@
     [self.baseView addSubview:self.Photo3];
     [self.Photo3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.Photo2.mas_right).offset(6.f*scale);
-        make.top.mas_equalTo(self.remarkLabel.mas_bottom).offset(6.f * scale);
+        make.top.mas_equalTo(self.handleTimeLabel.mas_bottom).offset(16.f * scale);
         make.width.mas_equalTo(80.f * scale);
         make.height.mas_equalTo(self.Photo1.mas_width).multipliedBy(17.f/30.f);
-    }];
-    
-    self.handleTimeLabel =[HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    self.handleTimeLabel.text = @"操作时间：";
-    [self.baseView addSubview:self.handleTimeLabel];
-    [self.handleTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.Photo1.mas_bottom).mas_equalTo(6.f * scale);
-        make.left.mas_equalTo(12.f * scale);
-        make.height.mas_equalTo(15.f * scale + 1);
-        make.right.mas_equalTo(-12.f * scale);
     }];
     
     UITapGestureRecognizer * tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoDidClicked:)];
