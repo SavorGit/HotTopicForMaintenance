@@ -1275,13 +1275,25 @@
         self.refuseTextView.layer.borderWidth = 1.f;
         [contenView addSubview:self.refuseTextView];
         
+        UIButton * cancleButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"取消" cornerRadius:5.f];
+        cancleButton.layer.borderColor = UIColorFromRGB(0x444444).CGColor;
+        cancleButton.layer.borderWidth = .5f;
+        [cancleButton addTarget:_refuseView action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+        [contenView addSubview:cancleButton];
+        [cancleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(-contenView.frame.size.width / 4);
+            make.bottom.mas_equalTo(-10.f);
+            make.width.mas_equalTo(80);
+            make.height.mas_equalTo(40);
+        }];
+        
         UIButton * okButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"提交" cornerRadius:5.f];
         okButton.layer.borderColor = UIColorFromRGB(0x444444).CGColor;
-        okButton.layer.borderWidth = 1.f;
+        okButton.layer.borderWidth = .5f;
         [okButton addTarget:self action:@selector(refuseTask) forControlEvents:UIControlEventTouchUpInside];
         [contenView addSubview:okButton];
         [okButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(0);
+            make.centerX.mas_equalTo(contenView.frame.size.width / 4);
             make.bottom.mas_equalTo(-10.f);
             make.width.mas_equalTo(80);
             make.height.mas_equalTo(40);

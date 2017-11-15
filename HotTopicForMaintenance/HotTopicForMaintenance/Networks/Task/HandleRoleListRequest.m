@@ -8,6 +8,7 @@
 
 #import "HandleRoleListRequest.h"
 #import "Helper.h"
+#import "UserManager.h"
 
 @implementation HandleRoleListRequest
 
@@ -19,6 +20,11 @@
         [self setIntegerValue:page forParamKey:@"page"];
         [self setIntegerValue:state forParamKey:@"state"];
         [self setValue:userID forParamKey:@"user_id"];
+        
+        NSString * cityID = [UserManager manager].user.currentCity.cid;
+        if (!isEmptyString(cityID)) {
+            [self setValue:cityID forParamKey:@"city_id"];
+        }
     }
     return self;
 }

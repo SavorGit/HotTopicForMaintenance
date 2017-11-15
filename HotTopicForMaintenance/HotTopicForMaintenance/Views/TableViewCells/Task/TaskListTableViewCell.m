@@ -239,7 +239,7 @@
         case TaskStatusType_Refuse:
         {
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
-            self.refuseLabel.text = [NSString stringWithFormat:@"拒绝时间：%@", model.refuse_time];
+            self.refuseLabel.text = [NSString stringWithFormat:@"拒绝时间：%@ (%@)", model.refuse_time, model.appoint_user];
             [self.timeView addSubview:self.createLabel];
             [self.timeView addSubview:self.refuseLabel];
             

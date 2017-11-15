@@ -172,11 +172,15 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        NSString * msg = [response objectForKey:@"msg"];
-        if (isEmptyString(msg)) {
-            [MBProgressHUD showTextHUDWithText:msg inView:self.view];
-        }else{
+        if ([response isKindOfClass:[NSError class]]) {
             [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+        }else{
+            NSString * msg = [response objectForKey:@"msg"];
+            if (isEmptyString(msg)) {
+                [MBProgressHUD showTextHUDWithText:msg inView:self.view];
+            }else{
+                [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+            }
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
