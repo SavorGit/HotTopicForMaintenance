@@ -347,7 +347,14 @@
 //安装验收
 - (void)installButtonButtonDidClicked
 {
-    [self creatInstallListView:self.dConfigData.count andTitArray:nil];
+    if (self.taskListModel.tv_nums > 0) {
+        [self creatInstallListView:[self.taskListModel.tv_nums integerValue] andTitArray:nil];
+    }else{
+        [MBProgressHUD showTextHUDWithText:@"获取安装版位信息失败" inView:self.view];
+        // 重新获取版位信息
+        [self getBoxIdData];
+    }
+    
 }
 
 //维修

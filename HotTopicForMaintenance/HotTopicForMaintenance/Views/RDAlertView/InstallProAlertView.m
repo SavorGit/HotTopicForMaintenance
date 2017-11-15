@@ -127,8 +127,17 @@
     if (self.titleArray != nil) {
         [cell configWithContent:self.titleArray[indexPath.row] andIdexPath:indexPath andDataModel:nil];
     }else{
-        RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
-        [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:tmpModel];
+        if (self.dataArray.count > 0) {
+            if (indexPath.row < self.dataArray.count) {
+                RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
+                [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:tmpModel];
+            }else{
+                [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:nil];
+            }
+        }else{
+             [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:nil];
+        }
+        
     }
     return cell;
 }
