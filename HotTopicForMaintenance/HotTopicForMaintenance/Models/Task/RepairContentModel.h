@@ -15,6 +15,7 @@
 @property (nonatomic, copy)   NSString *mobile;
 @property (nonatomic, copy)   NSString *addr;
 @property (nonatomic, copy)   NSString *posionNum;
+@property (nonatomic, copy)   NSString *tv_nums;
 
 @property (nonatomic, copy)   NSString *title;
 @property (nonatomic, assign) NSInteger imgHType;

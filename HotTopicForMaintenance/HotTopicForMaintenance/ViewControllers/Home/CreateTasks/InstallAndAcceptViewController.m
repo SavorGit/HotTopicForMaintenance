@@ -210,11 +210,16 @@
 }
 
 - (void)addNPress{
+
+    if (self.otherContentArray.count + 1 > [self.headDataModel.tv_nums intValue]) {
+        
+        [MBProgressHUD showTextHUDWithText:@"不能大于该酒楼总版位数量" inView:self.view];
+        return;
+    }
     
     RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
     tmpModel.imgHType = 0;
     [self.otherContentArray addObject:tmpModel];
-    
     NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
     RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
     cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
@@ -416,6 +421,7 @@
         self.headDataModel.contractor = model.contractor != nil?model.contractor:@"";
         self.headDataModel.mobile = model.mobile != nil?model.mobile:@"";
         self.headDataModel.addr = model.addr != nil?model.addr:@"";
+        self.headDataModel.tv_nums = model.tv_nums != nil?model.tv_nums:@"";
         self.headDataModel.posionNum = @"1";
         
         //选择酒楼后重新初始化版位信息
