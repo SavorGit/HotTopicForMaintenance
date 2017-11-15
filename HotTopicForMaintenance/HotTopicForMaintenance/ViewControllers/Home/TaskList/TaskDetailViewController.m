@@ -260,7 +260,7 @@
                         make.height.mas_equalTo(44.f * scale);
                     }];
                 }else if (self.taskListModel.task_type_id == TaskType_InfoCheck) {
-                    UIButton * checkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"处理完成" cornerRadius:5.f];
+                    UIButton * checkButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"填写检测信息" cornerRadius:5.f];
                     [checkButton addTarget:self action:@selector(checkButtonButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
                     [self.bottomView addSubview:checkButton];
                     [checkButton mas_makeConstraints:^(MASConstraintMaker *make) {

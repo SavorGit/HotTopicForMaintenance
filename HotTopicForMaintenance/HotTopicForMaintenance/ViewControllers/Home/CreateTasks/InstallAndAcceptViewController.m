@@ -199,7 +199,12 @@
             [self upLoadImageData];
         }
     }else{
-        [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
+        if (isEmptyString(self.currHotelId)) {
+            [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取版位信息失败" inView:self.view];
+        }
+        
     }
    
 }
