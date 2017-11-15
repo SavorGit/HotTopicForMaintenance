@@ -116,7 +116,7 @@
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(10);
         make.right.mas_equalTo(-10);
-        make.bottom.equalTo(dateLabel.mas_top).offset(-5);;
+        make.bottom.equalTo(dateLabel.mas_top).offset(-5);
     }];
     
     self.tableView.tableHeaderView = headerView;

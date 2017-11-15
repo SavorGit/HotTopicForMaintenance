@@ -912,13 +912,13 @@
             
             CGFloat height = [HotTopicTools getHeightByWidth:(kMainBoundsWidth - 54.f) * scale title:remark font:kPingFangRegular(15.f * scale)];
             
-            return 160.f * scale + height;
+            return 208.f * scale + height;
         }else if (self.taskListModel.task_type_id == TaskType_InfoCheck) {
-            return 200.f * scale;
+            return 218.f * scale;
         }else if (self.taskListModel.task_type_id == TaskType_NetTransform) {
-            return 360.f * scale;
+            return 378.f * scale;
         }else if (self.taskListModel.task_type_id == TaskType_Install) {
-            return 180.f * scale;
+            return 198.f * scale;
         }
     }
     
