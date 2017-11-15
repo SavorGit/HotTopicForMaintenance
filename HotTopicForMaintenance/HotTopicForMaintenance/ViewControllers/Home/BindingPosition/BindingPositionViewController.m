@@ -72,7 +72,7 @@
 {
     if (![DeviceManager manager].isHotel || ![DeviceManager manager].isRoom) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD showTextHUDWithText:@"请连接酒楼wifi后继续操作" inView:self.navigationController.view];
+        [MBProgressHUD showTextHUDWithText:@"请连接酒楼wifi后继续操作" inView:[UIApplication sharedApplication].keyWindow];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
