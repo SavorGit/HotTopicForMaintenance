@@ -132,9 +132,7 @@
 }
 
 - (void)upLoadImageData{
-    
-    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
-    
+
     [self.subMitPosionArray removeAllObjects];
     NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
@@ -151,6 +149,9 @@
                 NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",tmpModel.title,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
                 [self.subMitPosionArray addObject:tmpDic];
             }
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"数据不完整，请填写信息" inView:self.navigationController.view];
+            return;
         }
     }
     
@@ -171,6 +172,7 @@
         }
     }
     
+    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
     if (upImageArr.count > 0) {
         [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         } success:^(NSString *path, NSInteger index) {
@@ -192,6 +194,8 @@
             }
             
         }];
+    }else{
+        [self subMitDataRequest];
     }
     
 }
@@ -297,6 +301,14 @@
             RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
             cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
             self.headDataModel.posionNum = cell.numLabel.text;
+            
+            [self.sePosionData  removeAllObjects];
+            for (int i = 0; i < self.otherContentArray.count; i ++ ) {
+                RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
+                if (!isEmptyString(tmpModel.boxId)) {
+                    [self.sePosionData addObject:tmpModel.boxId];
+                }
+            }
         }
     }
 }
