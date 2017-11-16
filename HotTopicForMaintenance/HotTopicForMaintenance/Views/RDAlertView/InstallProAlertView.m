@@ -67,7 +67,11 @@
     }];
     
     self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    if (self.dataArray.count > 0) {
+        [self.submitBtn setTitle:@"保存" forState:UIControlStateNormal];
+    }else{
+        [self.submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    }
     self.submitBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     self.submitBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
     [self.submitBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
