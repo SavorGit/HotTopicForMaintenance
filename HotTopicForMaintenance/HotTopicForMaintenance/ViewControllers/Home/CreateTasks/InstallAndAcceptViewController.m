@@ -233,9 +233,7 @@
         }else{
             [MBProgressHUD showTextHUDWithText:@"获取版位信息失败" inView:self.view];
         }
-        
     }
-   
 }
 
 - (void)addNPress{
