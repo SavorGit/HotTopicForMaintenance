@@ -126,7 +126,7 @@
         if ([result isKindOfClass:[NSDictionary class]]) {
             if ([[result objectForKey:@"type"] integerValue] == 1) {
                 [MBProgressHUD showTextHUDWithText:@"绑定成功" inView:[UIApplication sharedApplication].keyWindow];
-            }else if ([[result objectForKey:@"type"] integerValue] == 1){
+            }else if ([[result objectForKey:@"type"] integerValue] == 2){
                 [MBProgressHUD showTextHUDWithText:[result objectForKey:@"err_msg"] inView:[UIApplication sharedApplication].keyWindow];
             }
         }
