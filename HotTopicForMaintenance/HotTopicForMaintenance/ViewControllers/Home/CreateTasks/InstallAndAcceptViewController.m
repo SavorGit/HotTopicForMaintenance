@@ -211,6 +211,12 @@
 
 - (void)addNPress{
 
+    //先确保已经选择了酒楼
+    if (isEmptyString(self.currHotelId)) {
+        [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
+        return;
+    }
+    //确保数量不会大于酒楼版位总数
     if (self.otherContentArray.count + 1 > [self.headDataModel.tv_nums intValue]) {
         
         [MBProgressHUD showTextHUDWithText:@"不能大于该酒楼总版位数量" inView:self.view];
