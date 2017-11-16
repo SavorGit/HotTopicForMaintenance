@@ -110,7 +110,7 @@
     }
     self.userNameLabel.text = [NSString stringWithFormat:@"执行人：%@", userName];
     self.timeLabel.text = [NSString stringWithFormat:@"操作时间 %@", time];
-    [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
+    [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"zanwu"]];
 }
 
 - (void)awakeFromNib {

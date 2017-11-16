@@ -919,7 +919,12 @@
             
             CGFloat height = [HotTopicTools getHeightByWidth:(kMainBoundsWidth - 54.f) * scale title:remark font:kPingFangRegular(15.f * scale)];
             
-            return 208.f * scale + height;
+            NSString * faultImageURL = [info objectForKey:@"fault_img_url"];
+            if (isEmptyString(faultImageURL)) {
+                return 262.f * scale + height;
+            }else{
+                return 331.f * scale + height;
+            }
         }else if (self.taskListModel.task_type_id == TaskType_InfoCheck) {
             return 218.f * scale;
         }else if (self.taskListModel.task_type_id == TaskType_NetTransform) {
@@ -1235,29 +1240,39 @@
             self.tempModel.refuse_time = self.taskListModel.refuse_time;
         }
         
-        NSArray * repairList = [result objectForKey:@"repair_list"];
-        if ([repairList isKindOfClass:[NSArray class]] && repairList.count > 0) {
+        if (self.taskListModel.state_id == TaskStatusType_Completed &&
+            self.taskListModel.task_type_id == TaskType_Repair) {
             
-            for (NSInteger i = 0; i < repairList.count; i++) {
-                NSDictionary * device = [repairList objectAtIndex:i];
-                if ([device isKindOfClass:[NSDictionary class]]) {
-                    DeviceFaultModel * model = [[DeviceFaultModel alloc] initWithDictionary:device];
-                    [self.dataSource addObject:model];
+            NSArray * repairList = [result objectForKey:@"repair_list"];
+            if ([repairList isKindOfClass:[NSArray class]]) {
+                [self.executeSource addObjectsFromArray:repairList];
+            }
+            
+        }else{
+            NSArray * repairList = [result objectForKey:@"repair_list"];
+            if ([repairList isKindOfClass:[NSArray class]] && repairList.count > 0) {
+                
+                for (NSInteger i = 0; i < repairList.count; i++) {
+                    NSDictionary * device = [repairList objectAtIndex:i];
+                    if ([device isKindOfClass:[NSDictionary class]]) {
+                        DeviceFaultModel * model = [[DeviceFaultModel alloc] initWithDictionary:device];
+                        [self.dataSource addObject:model];
+                    }
                 }
             }
-        }
-        
-        [self.executeSource removeAllObjects];
-        if (self.taskListModel.state_id == TaskStatusType_Completed) {
-            NSArray * execute = [result objectForKey:@"execute"];
-            if ([execute isKindOfClass:[NSArray class]]) {
-                [self.executeSource addObjectsFromArray:execute];
+            
+            [self.executeSource removeAllObjects];
+            if (self.taskListModel.state_id == TaskStatusType_Completed) {
+                NSArray * execute = [result objectForKey:@"execute"];
+                if ([execute isKindOfClass:[NSArray class]]) {
+                    [self.executeSource addObjectsFromArray:execute];
+                }
             }
         }
         
         [self setupViews];
         
-        if (self.taskListModel.task_type_id == 2 || self.taskListModel.task_type_id == 4 ) {
+        if (self.taskListModel.task_type_id == TaskType_Install || self.taskListModel.task_type_id == TaskType_Repair ) {
             // 请求维修版位信息
             [self getBoxIdData];
         }

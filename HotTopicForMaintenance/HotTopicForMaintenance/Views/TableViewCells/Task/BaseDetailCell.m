@@ -73,7 +73,7 @@
     
     self.isBigPhoto = YES;
     self.bigScrollView.zoomScale = 1.f;
-    [self.bigImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage new] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [self.bigImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         
         if (image) {
             CGFloat scale = self.bigScrollView.frame.size.width / self.bigScrollView.frame.size.height;
