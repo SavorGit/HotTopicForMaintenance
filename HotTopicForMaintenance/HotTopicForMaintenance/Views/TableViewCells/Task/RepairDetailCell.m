@@ -170,7 +170,17 @@
 
 - (void)photoDidClicked:(UITapGestureRecognizer *)tap
 {
-    NSArray * imageArray = [self.info objectForKey:@"repair_img"];
+    NSArray * imageTemp = [self.info objectForKey:@"repair_img"];
+    NSMutableArray * imageArray = [[NSMutableArray alloc] init];
+    
+    if ([imageTemp isKindOfClass:[NSArray class]]) {
+        for (NSDictionary * dict in imageTemp) {
+            if ([dict isKindOfClass:[NSDictionary class]]) {
+                NSString * imageURL = [dict objectForKey:@"img"];
+                [imageArray addObject:imageURL];
+            }
+        }
+    }
     [self showWindowImage:[imageArray objectAtIndex:tap.view.tag - 100]];
 }
 
