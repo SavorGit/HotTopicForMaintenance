@@ -132,9 +132,7 @@
 }
 
 - (void)upLoadImageData{
-    
-    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
-    
+
     [self.subMitPosionArray removeAllObjects];
     NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
@@ -151,6 +149,9 @@
                 NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",tmpModel.title,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
                 [self.subMitPosionArray addObject:tmpDic];
             }
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"数据不完整，请填写信息" inView:self.navigationController.view];
+            return;
         }
     }
     
@@ -171,6 +172,7 @@
         }
     }
     
+    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
     if (upImageArr.count > 0) {
         [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         } success:^(NSString *path, NSInteger index) {
@@ -192,6 +194,8 @@
             }
             
         }];
+    }else{
+        [self subMitDataRequest];
     }
     
 }
@@ -233,9 +237,7 @@
         }else{
             [MBProgressHUD showTextHUDWithText:@"获取版位信息失败" inView:self.view];
         }
-        
     }
-   
 }
 
 - (void)addNPress{
@@ -245,23 +247,30 @@
         [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
         return;
     }
-    //确保数量不会大于酒楼版位总数
-    if (self.otherContentArray.count + 1 > [self.headDataModel.tv_nums intValue]) {
         
-        [MBProgressHUD showTextHUDWithText:@"不能大于该酒楼总版位数量" inView:self.view];
-        return;
-    }
-    
-    RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
-    tmpModel.imgHType = 0;
-    [self.otherContentArray addObject:tmpModel];
     NSIndexPath *numIndex = [NSIndexPath indexPathForRow:0 inSection:0];
     RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
-    cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
 
     if (self.taskType == TaskType_Install) {
+        
+        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+        tmpModel.imgHType = 0;
+        [self.otherContentArray addObject:tmpModel];
         cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+        
     }else if (self.taskType == TaskType_Repair){
+        
+        //确保数量不会大于酒楼版位总数
+        if (self.otherContentArray.count + 1 > [self.headDataModel.tv_nums intValue]) {
+            [MBProgressHUD showTextHUDWithText:@"不能大于该酒楼总版位数量" inView:self.view];
+            return;
+        }
+        
+        RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
+        tmpModel.imgHType = 0;
+        [self.otherContentArray addObject:tmpModel];
+        cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
+        
         [self.tableView beginUpdates];
         NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.otherContentArray.count - 1 inSection:1];
         [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -292,6 +301,14 @@
             RepairHeaderTableCell *cell = [self.tableView cellForRowAtIndexPath:numIndex];
             cell.numLabel.text = [NSString stringWithFormat:@"%ld",self.otherContentArray.count];
             self.headDataModel.posionNum = cell.numLabel.text;
+            
+            [self.sePosionData  removeAllObjects];
+            for (int i = 0; i < self.otherContentArray.count; i ++ ) {
+                RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
+                if (!isEmptyString(tmpModel.boxId)) {
+                    [self.sePosionData addObject:tmpModel.boxId];
+                }
+            }
         }
     }
 }
