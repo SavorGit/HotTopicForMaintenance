@@ -41,7 +41,7 @@
         make.centerY.mas_equalTo(0);
         make.width.height.mas_equalTo(32);
     }];
-    self.typeLogoLabel.layer.cornerRadius = 16;
+    self.typeLogoLabel.layer.cornerRadius = 10.f;
     self.typeLogoLabel.layer.masksToBounds = YES;
     
     self.typeDescLabel = [[UILabel alloc] initWithFrame:CGRectZero];
