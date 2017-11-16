@@ -45,6 +45,7 @@
 
 @property (nonatomic, assign) TaskType taskType;
 @property (nonatomic, assign) NSInteger segTag;
+@property (nonatomic, assign) NSInteger cuSTextFieldTag;
 
 @end
 
@@ -64,6 +65,15 @@
     [self creatSubViews];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:)  name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)initInfor{
     
     self.segTag = 3;
@@ -81,6 +91,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     tap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tap];
+    
 }
 
 - (void)subMitDataRequest
@@ -211,6 +222,12 @@
 
 - (void)addNPress{
 
+    //先确保已经选择了酒楼
+    if (isEmptyString(self.currHotelId)) {
+        [MBProgressHUD showTextHUDWithText:@"请选择酒楼" inView:self.view];
+        return;
+    }
+    //确保数量不会大于酒楼版位总数
     if (self.otherContentArray.count + 1 > [self.headDataModel.tv_nums intValue]) {
         
         [MBProgressHUD showTextHUDWithText:@"不能大于该酒楼总版位数量" inView:self.view];
@@ -525,9 +542,9 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
+    self.cuSTextFieldTag = textField.tag;
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     if (!isEmptyString(tmpModel.boxName)) {
-        [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *textField.tag)) animated:YES];
         return YES;
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
@@ -551,18 +568,40 @@
     
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     tmpModel.title = textField.text;
-    NSIndexPath *currentIndex = [NSIndexPath indexPathForRow:textField.tag inSection:1];
-    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
     
-    [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
-    return [textField resignFirstResponder];
+     return [textField resignFirstResponder];
+    
+//    [_tableView beginUpdates];
+//    NSIndexPath *currentIndex = [NSIndexPath indexPathForRow:textField.tag inSection:1];
+//    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
+//    [_tableView endUpdates];
+
 }
 
 //点击空白处的手势要实现的方法
 -(void)viewTapped:(UITapGestureRecognizer*)tap
 {
     [self.view endEditing:YES];
-    
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification{
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat height = keyboardFrame.origin.y;
+    CGFloat textField_maxY = (self.cuSTextFieldTag + 1) * 160 + 50 *6;
+    CGFloat space = - self.tableView.contentOffset.y + textField_maxY;
+    CGFloat transformY = height - space;
+    if (transformY < 0) {
+        CGRect frame = self.view.frame;
+        frame.origin.y = transformY ;
+        self.view.frame = frame;
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    //恢复到默认y为0的状态，有时候要考虑导航栏要+64
+    CGRect frame = self.view.frame;
+    frame.origin.y = 64;
+    self.view.frame = frame;
 }
 
 - (void)didReceiveMemoryWarning {
