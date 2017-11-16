@@ -45,6 +45,7 @@
 
 @property (nonatomic, assign) TaskType taskType;
 @property (nonatomic, assign) NSInteger segTag;
+@property (nonatomic, assign) NSInteger cuSTextFieldTag;
 
 @end
 
@@ -64,6 +65,15 @@
     [self creatSubViews];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:)  name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)initInfor{
     
     self.segTag = 3;
@@ -81,6 +91,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     tap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tap];
+    
 }
 
 - (void)subMitDataRequest
@@ -531,14 +542,9 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
+    self.cuSTextFieldTag = textField.tag;
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     if (!isEmptyString(tmpModel.boxName)) {
-        NSTimeInterval animationDuration = 0.30f;
-        [UIView beginAnimations:@ "ResizeForKeyboard" context:nil];
-        [UIView setAnimationDuration:animationDuration];
-        //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
-        self.view.frame = CGRectMake(0.0f, -(271/2.0 + 64), self.view.frame.size.width, self.view.frame.size.height);
-        [UIView commitAnimations];
         return YES;
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
@@ -563,33 +569,39 @@
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     tmpModel.title = textField.text;
     
+     return [textField resignFirstResponder];
+    
 //    [_tableView beginUpdates];
 //    NSIndexPath *currentIndex = [NSIndexPath indexPathForRow:textField.tag inSection:1];
 //    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
 //    [_tableView endUpdates];
-    
-    //滑动效果
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@ "ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    //恢复屏幕
-    self.view.frame = CGRectMake(0.0f, 64.0f, self.view.frame.size.width, self.view.frame.size.height);
-    [UIView commitAnimations];
-    
-    return [textField resignFirstResponder];
+
 }
 
 //点击空白处的手势要实现的方法
 -(void)viewTapped:(UITapGestureRecognizer*)tap
 {
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@ "ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    //恢复屏幕
-    self.view.frame = CGRectMake(0.0f, 64.0f, self.view.frame.size.width, self.view.frame.size.height);
-    [UIView commitAnimations];
     [self.view endEditing:YES];
-    
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification{
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat height = keyboardFrame.origin.y;
+    CGFloat textField_maxY = (self.cuSTextFieldTag + 1) * 160 + 50 *6;
+    CGFloat space = - self.tableView.contentOffset.y + textField_maxY;
+    CGFloat transformY = height - space;
+    if (transformY < 0) {
+        CGRect frame = self.view.frame;
+        frame.origin.y = transformY ;
+        self.view.frame = frame;
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    //恢复到默认y为0的状态，有时候要考虑导航栏要+64
+    CGRect frame = self.view.frame;
+    frame.origin.y = 64;
+    self.view.frame = frame;
 }
 
 - (void)didReceiveMemoryWarning {
