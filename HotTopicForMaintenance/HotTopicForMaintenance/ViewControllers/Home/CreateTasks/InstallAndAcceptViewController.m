@@ -143,7 +143,7 @@
     for (int i = 0; i < self.otherContentArray.count; i ++) {
         RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
         if (!isEmptyString(tmpModel.boxId)) {
-            tmpModel.upImgUrl = @"http://devp.oss.littlehotspot.com";
+            tmpModel.upImgUrl = @"";
             if (tmpModel.pubImg != nil) {
                 
                 [upImageArr addObject:tmpModel.pubImg];
@@ -153,6 +153,24 @@
             }
         }
     }
+    
+    for (int i = 0; i < self.otherContentArray.count; i ++) {
+        RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
+        if (!isEmptyString(tmpModel.boxId)) {
+            tmpModel.upImgUrl = @"";
+            if (tmpModel.pubImg == nil) {
+                NSString *title;
+                if (isEmptyString(tmpModel.title)) {
+                    title = @"";
+                }else{
+                    title = tmpModel.title;
+                }
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",title,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
+                [self.subMitPosionArray addObject:tmpDic];
+            }
+        }
+    }
+    
     if (upImageArr.count > 0) {
         [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         } success:^(NSString *path, NSInteger index) {

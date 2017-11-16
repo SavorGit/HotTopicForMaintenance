@@ -1077,6 +1077,8 @@
                 }
                 
             }];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"请至少选择一张照片" inView:self.view];
         }
         
       }else if (self.taskListModel.task_type_id == 2){
@@ -1103,6 +1105,8 @@
                 }
                 
             }];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"请至少选择一张照片" inView:self.view];
         }
         
     }else{
@@ -1204,6 +1208,8 @@
             }
             
         }];
+    }else{
+        [MBProgressHUD showTextHUDWithText:@"请至少选择一张照片" inView:self.view];
     }
 }
 
