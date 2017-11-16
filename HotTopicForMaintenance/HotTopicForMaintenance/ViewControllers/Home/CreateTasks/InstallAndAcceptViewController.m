@@ -527,7 +527,7 @@
     
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     if (!isEmptyString(tmpModel.boxName)) {
-        [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *textField.tag)) animated:YES];
+        [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *(textField.tag + 1))) animated:YES];
         return YES;
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
@@ -551,10 +551,14 @@
     
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     tmpModel.title = textField.text;
-    NSIndexPath *currentIndex = [NSIndexPath indexPathForRow:textField.tag inSection:1];
-    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
     
-    [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
+//    [_tableView beginUpdates];
+//    NSIndexPath *currentIndex = [NSIndexPath indexPathForRow:textField.tag inSection:1];
+//    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
+//    [_tableView endUpdates];
+    
+    [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *textField.tag)) animated:YES];
+//    [_tableView setContentOffset:CGPointMake(0,64) animated:NO];
     return [textField resignFirstResponder];
 }
 
