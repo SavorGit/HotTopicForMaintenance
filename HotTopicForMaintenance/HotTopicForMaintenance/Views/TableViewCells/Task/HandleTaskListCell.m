@@ -119,6 +119,7 @@
         [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
             [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
+            [MBProgressHUD showTextHUDWithText:@"指派成功" inView:[UIApplication sharedApplication].keyWindow];
             
         } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             

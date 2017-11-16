@@ -74,12 +74,14 @@
     
     self.selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.selectBtn setTitle:@"请选择" forState:UIControlStateNormal];
+    self.selectBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    self.selectBtn.titleLabel.lineBreakMode =  NSLineBreakByTruncatingTail;
     [self.selectBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.selectBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [self.selectBtn addTarget:self action:@selector(selectPress:) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:self.selectBtn];
     [self.selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(60, 30));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 20 - 30 - 100, 30));
         make.top.mas_equalTo(10);
         make.right.mas_equalTo(- 40);
     }];

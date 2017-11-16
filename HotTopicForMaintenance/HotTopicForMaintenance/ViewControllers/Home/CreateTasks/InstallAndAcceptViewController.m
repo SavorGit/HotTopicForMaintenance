@@ -37,7 +37,7 @@
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 @property (nonatomic, strong) NSMutableArray * sePosionData; //已经选择版位数据源
 @property (nonatomic, strong) NSMutableArray *subMitPosionArray; //上传版位信息数据源
-@property (nonatomic, copy) NSString *currHotelId;
+@property (nonatomic, copy)   NSString *currHotelId;
 @property (nonatomic, strong) RepairContentModel *headDataModel;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
@@ -45,7 +45,7 @@
 
 @property (nonatomic, assign) TaskType taskType;
 @property (nonatomic, assign) NSInteger segTag;
-@property (nonatomic, assign) NSInteger cuSTextFieldTag;
+@property (nonatomic, copy) NSString *cuSTextFieldTagStr;
 
 @end
 
@@ -82,6 +82,7 @@
     self.sePosionData = [[NSMutableArray alloc] init];
     _dConfigData = [[NSMutableArray alloc] init];
     self.currHotelId = [[NSString alloc] init];
+    self.cuSTextFieldTagStr = [[NSString alloc] init];
     self.headDataModel = [[RepairContentModel alloc] init];
     
     RepairContentModel * tmpModel = [[RepairContentModel alloc] init];
@@ -577,7 +578,7 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
-    self.cuSTextFieldTag = textField.tag;
+    self.cuSTextFieldTagStr = [NSString stringWithFormat:@"%ld",textField.tag] ;
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     if (!isEmptyString(tmpModel.boxName)) {
         return YES;
@@ -620,15 +621,19 @@
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification{
-    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat height = keyboardFrame.origin.y;
-    CGFloat textField_maxY = (self.cuSTextFieldTag + 1) * 160 + 50 *6;
-    CGFloat space = - self.tableView.contentOffset.y + textField_maxY;
-    CGFloat transformY = height - space;
-    if (transformY < 0) {
-        CGRect frame = self.view.frame;
-        frame.origin.y = transformY ;
-        self.view.frame = frame;
+    
+    if (!isEmptyString(self.cuSTextFieldTagStr)) {
+        CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        CGFloat height = keyboardFrame.origin.y;
+        CGFloat textField_maxY = ([self.cuSTextFieldTagStr integerValue] + 1) * 160 + 50 *6;
+        CGFloat space = - self.tableView.contentOffset.y + textField_maxY;
+        CGFloat transformY = height - space;
+        if (transformY < 0) {
+            CGRect frame = self.view.frame;
+            frame.origin.y = transformY ;
+            self.view.frame = frame;
+        }
+    }else{
     }
 }
 
@@ -637,6 +642,7 @@
     CGRect frame = self.view.frame;
     frame.origin.y = 64;
     self.view.frame = frame;
+    self.cuSTextFieldTagStr = @"";
 }
 
 - (void)didReceiveMemoryWarning {
