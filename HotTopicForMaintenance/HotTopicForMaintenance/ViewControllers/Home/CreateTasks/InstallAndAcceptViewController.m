@@ -527,7 +527,12 @@
     
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     if (!isEmptyString(tmpModel.boxName)) {
-        [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *(textField.tag + 1))) animated:YES];
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@ "ResizeForKeyboard" context:nil];
+        [UIView setAnimationDuration:animationDuration];
+        //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
+        self.view.frame = CGRectMake(0.0f, -(271/2.0 + 64), self.view.frame.size.width, self.view.frame.size.height);
+        [UIView commitAnimations];
         return YES;
     }else{
         [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
@@ -557,14 +562,26 @@
 //    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
 //    [_tableView endUpdates];
     
-    [_tableView setContentOffset:CGPointMake(0,(271/2 + 271/2 *textField.tag)) animated:YES];
-//    [_tableView setContentOffset:CGPointMake(0,64) animated:NO];
+    //滑动效果
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@ "ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    //恢复屏幕
+    self.view.frame = CGRectMake(0.0f, 64.0f, self.view.frame.size.width, self.view.frame.size.height);
+    [UIView commitAnimations];
+    
     return [textField resignFirstResponder];
 }
 
 //点击空白处的手势要实现的方法
 -(void)viewTapped:(UITapGestureRecognizer*)tap
 {
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@ "ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    //恢复屏幕
+    self.view.frame = CGRectMake(0.0f, 64.0f, self.view.frame.size.width, self.view.frame.size.height);
+    [UIView commitAnimations];
     [self.view endEditing:YES];
     
 }
