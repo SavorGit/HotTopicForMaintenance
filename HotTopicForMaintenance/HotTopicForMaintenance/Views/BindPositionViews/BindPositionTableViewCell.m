@@ -122,7 +122,14 @@
     BindBoxRequest * request = [[BindBoxRequest alloc] initWithHotelID:[DeviceManager manager].hotelID roomID:[DeviceManager manager].roomID boxID:self.model.box_id mac:self.macAddress];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        [MBProgressHUD showTextHUDWithText:@"绑定成功" inView:[UIApplication sharedApplication].keyWindow];
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            if ([[result objectForKey:@"type"] integerValue] == 1) {
+                [MBProgressHUD showTextHUDWithText:@"绑定成功" inView:[UIApplication sharedApplication].keyWindow];
+            }else if ([[result objectForKey:@"type"] integerValue] == 2){
+                [MBProgressHUD showTextHUDWithText:[result objectForKey:@"err_msg"] inView:[UIApplication sharedApplication].keyWindow];
+            }
+        }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         

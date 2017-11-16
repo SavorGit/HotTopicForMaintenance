@@ -90,7 +90,16 @@
 
 - (void)photoDidClicked
 {
-    [self showWindowImage:[self.info objectForKey:@"repair_img"]];
+    NSArray * imageTemp = [self.info objectForKey:@"repair_img"];
+    
+    if ([imageTemp isKindOfClass:[NSArray class]]) {
+        if (imageTemp.count > 0) {
+            NSDictionary * dict = [imageTemp firstObject];
+            if ([dict isKindOfClass:[NSDictionary class]]) {
+                [self showWindowImage:[dict objectForKey:@"img"]];
+            }
+        }
+    }
 }
 
 
