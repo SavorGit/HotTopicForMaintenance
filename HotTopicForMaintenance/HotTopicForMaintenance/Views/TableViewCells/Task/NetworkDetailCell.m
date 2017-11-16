@@ -162,9 +162,9 @@
                 NSString * type = [dict objectForKey:@"type"];
                 NSString * imageURL = [dict objectForKey:@"img"];
                 if ([type isEqualToString:@"1"]) {
-                    [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
+                    [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"zanwu"]];
                 }else if ([type isEqualToString:@"2"]) {
-                    [self.listImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
+                    [self.listImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"zanwu"]];
                 }
             }
         }

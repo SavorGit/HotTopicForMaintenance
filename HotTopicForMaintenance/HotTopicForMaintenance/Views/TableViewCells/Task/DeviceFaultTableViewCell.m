@@ -86,8 +86,9 @@
     }];
     
     self.photoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.photoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.photoImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.photoImageView.userInteractionEnabled = YES;
+    self.photoImageView.clipsToBounds = YES;
     UITapGestureRecognizer * tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoDidClicked)];
     tap1.numberOfTapsRequired = 1;
     [self.photoImageView addGestureRecognizer:tap1];
@@ -171,7 +172,7 @@
         self.photoLabel.text = @"故障照片：无";
     }else{
         self.photoLabel.text = @"故障照片：";
-        [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:model.fault_img_url]];
+        [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:model.fault_img_url] placeholderImage:[UIImage imageNamed:@"zanwu"]];
         if (!self.photoImageView.superview) {
             [self.baseView addSubview:self.photoImageView];
             [self.photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {

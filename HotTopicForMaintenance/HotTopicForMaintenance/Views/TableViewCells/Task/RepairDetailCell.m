@@ -13,6 +13,10 @@
 
 @property (nonatomic, strong) UIView * baseView;
 
+@property (nonatomic, strong) UILabel * descLabel;
+@property (nonatomic, strong) UILabel * photoLabel;
+@property (nonatomic, strong) UIImageView * photoImageView;
+
 @property (nonatomic, strong) UILabel * userNameLabel;
 @property (nonatomic, strong) UILabel * boxNameLabel;
 @property (nonatomic, strong) UILabel * stateLabel;
@@ -57,22 +61,55 @@
     }];
     self.baseView.layer.cornerRadius = 10.f;
     self.baseView.layer.masksToBounds = YES;
-
-    self.userNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    self.userNameLabel.text = @"执行人：";
-    [self.baseView addSubview:self.userNameLabel];
-    [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    self.boxNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.boxNameLabel.text = @"维修版位：";
+    [self.baseView addSubview:self.boxNameLabel];
+    [self.boxNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.right.mas_equalTo(-12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
     }];
     
-    self.boxNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    self.boxNameLabel.text = @"维修版位：";
-    [self.baseView addSubview:self.boxNameLabel];
-    [self.boxNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.userNameLabel.mas_bottom).offset(16.f * scale);
+    self.descLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.descLabel.numberOfLines = 0;
+    [self.baseView addSubview:self.descLabel];
+    [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.boxNameLabel.mas_bottom).offset(16.f * scale);
+        make.left.mas_equalTo(12.f * scale);
+        make.right.mas_equalTo(-12.f * scale);
+        make.height.mas_equalTo(15.f * scale + 1);
+    }];
+    
+    self.photoLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    [self.baseView addSubview:self.photoLabel];
+    [self.photoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.descLabel.mas_bottom).offset(16.f * scale);
+        make.left.mas_equalTo(12.f * scale);
+        make.height.mas_equalTo(15.f * scale + 1);
+    }];
+    
+    self.photoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.photoImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.photoImageView.userInteractionEnabled = YES;
+    self.photoImageView.clipsToBounds = YES;
+    [self.contentView addSubview:self.photoImageView];
+    [self.photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.descLabel.mas_bottom).offset(16.f * scale);
+        make.left.mas_equalTo(self.photoLabel.mas_right).offset(10.f * scale);
+        make.width.mas_equalTo(150.f * scale);
+        make.height.mas_equalTo(150.f * scale * (169.f/300.f));
+    }];
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(faultPhotoDidClicked)];
+    tap.numberOfTapsRequired = 1;
+    [self.photoImageView addGestureRecognizer:tap];
+
+    self.userNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.userNameLabel.text = @"执行人：";
+    [self.baseView addSubview:self.userNameLabel];
+    [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.photoImageView.mas_bottom).offset(16.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.right.mas_equalTo(-12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
@@ -81,7 +118,7 @@
     self.stateLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
     [self.baseView addSubview:self.stateLabel];
     [self.stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.userNameLabel.mas_bottom).offset(16.f * scale);
+        make.top.mas_equalTo(20.f * scale);
         make.left.mas_equalTo(self.boxNameLabel.mas_right).offset(12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
     }];
@@ -91,7 +128,7 @@
     self.remarkLabel.text = @"备注：";
     [self.baseView addSubview:self.remarkLabel];
     [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.stateLabel.mas_bottom).offset(16.f * scale);
+        make.top.mas_equalTo(self.userNameLabel.mas_bottom).offset(16.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.right.mas_equalTo(-12.f * scale);
         make.height.mas_equalTo(15.f + 1);
@@ -168,6 +205,11 @@
     [self.Photo3 addGestureRecognizer:tap3];
 }
 
+- (void)faultPhotoDidClicked
+{
+    [self showWindowImage:[self.info objectForKey:@"fault_img_url"]];
+}
+
 - (void)photoDidClicked:(UITapGestureRecognizer *)tap
 {
     NSArray * imageTemp = [self.info objectForKey:@"repair_img"];
@@ -181,7 +223,11 @@
             }
         }
     }
-    [self showWindowImage:[imageArray objectAtIndex:tap.view.tag - 100]];
+    
+    NSInteger index = tap.view.tag - 100;
+    if (index < imageArray.count) {
+        [self showWindowImage:[imageArray objectAtIndex:tap.view.tag - 100]];
+    }
 }
 
 - (void)configWithInfo:(NSDictionary *)info
@@ -193,6 +239,27 @@
     NSString * state = [info objectForKey:@"state"];
     NSString * remark = [info objectForKey:@"remark"];
     NSArray * imageTemp = [info objectForKey:@"repair_img"];
+    NSString * faultImageURL = [info objectForKey:@"fault_img_url"];
+    NSString * faultDesc = [info objectForKey:@"fault_desc"];
+    
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    if (isEmptyString(faultImageURL)) {
+        [self.photoImageView setImage:[UIImage new]];
+        self.photoLabel.text = @"故障照片：无";
+        [self.photoImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(16.f * scale);
+        }];
+    }else{
+        self.photoLabel.text = @"故障照片：";
+        [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:faultImageURL] placeholderImage:[UIImage imageNamed:@"zanwu"]];
+        [self.photoImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(150.f * scale * (169.f/300.f));
+        }];
+    }
+    
+    self.descLabel.text = [NSString stringWithFormat:@"故障现象：%@", faultDesc];
+    
     NSMutableArray * imageArray = [[NSMutableArray alloc] init];
     
     if ([imageTemp isKindOfClass:[NSArray class]]) {
@@ -214,7 +281,6 @@
     self.remarkLabel.text = [NSString stringWithFormat:@"备注：%@", remark];
     self.handleTimeLabel.text = [NSString stringWithFormat:@"操作时间：%@", time];
     
-    CGFloat scale = kMainBoundsWidth / 375.f;
     CGFloat height = [HotTopicTools getHeightByWidth:(kMainBoundsWidth - 54.f) * scale title:self.remarkLabel.text font:self.remarkLabel.font];
     [self.remarkLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(height);
