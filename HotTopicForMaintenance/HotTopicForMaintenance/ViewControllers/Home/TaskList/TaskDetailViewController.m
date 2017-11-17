@@ -459,9 +459,10 @@
         make.left.right.top.mas_equalTo(0);
     }];
     
+    CGFloat scale = kMainBoundsWidth / 375.f;
     self.sheetBgView = [[UIImageView alloc] init];
-    float bgVideoHeight = [Helper autoHeightWith:320];
-    float bgVideoWidth = [Helper autoWidthWith:266];
+    float bgVideoHeight = 360 *scale;
+    float bgVideoWidth = 266 *scale;
     self.self.sheetBgView.frame = CGRectZero;
     self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
     self.sheetBgView.backgroundColor = [UIColor whiteColor];
@@ -489,10 +490,10 @@
     self.mReasonLab.userInteractionEnabled = YES;
     [self.sheetBgView addSubview:self.mReasonLab];
     [self.mReasonLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
+        make.top.mas_equalTo(10 *scale);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     self.unResolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -506,10 +507,10 @@
     [self.unResolvedBtn addTarget:self action:@selector(unResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.unResolvedBtn];
     [self.unResolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( - (10 + 40));
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(40 *scale);
     }];
     
     self.resolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -523,10 +524,10 @@
     [self.resolvedBtn addTarget:self action:@selector(ResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.resolvedBtn];
     [self.resolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( 10 + 40);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(40 *scale);
     }];
     
     self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
@@ -545,10 +546,10 @@
     self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self.sheetBgView addSubview:self.remarkTextView];
     [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.resolvedBtn.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.resolvedBtn.mas_bottom).offset(10 *scale);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
-        make.height.mas_equalTo(70);
+        make.height.mas_equalTo(70 *scale);
     }];
     
     UIView *photoBgView = [[UIView alloc] init];
@@ -557,10 +558,10 @@
     photoBgView.layer.cornerRadius =5;
     [self.sheetBgView addSubview:photoBgView];
     [photoBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(10 *scale);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
-        make.height.mas_equalTo(120);
+        make.height.mas_equalTo(120 *scale);
     }];
     
     UILabel *mTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -627,10 +628,10 @@
     [cancelBtn addTarget:self action:@selector(cancelClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(photoBgView.mas_bottom).offset(15);
+        make.top.mas_equalTo(photoBgView.mas_bottom).offset(15 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -644,10 +645,10 @@
     [self.submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.submitBtn];
     [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(photoBgView.mas_bottom).offset(15);
+        make.top.mas_equalTo(photoBgView.mas_bottom).offset(15 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mReasonClicked)];
