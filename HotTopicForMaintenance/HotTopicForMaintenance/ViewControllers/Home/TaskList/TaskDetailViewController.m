@@ -403,7 +403,16 @@
 
 #pragma mark - 提交安装验收上传照片
 - (void)subMitData{
-    [self upLoadIntallImageData];
+    
+    if (self.taskListModel.task_type_id == 2) {
+        if ([DeviceManager manager].isHotel == YES) {
+            [self upLoadIntallImageData];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"请连接酒楼Wifi后继续操作" inView:self.view];
+        }
+    }else{
+        [self upLoadIntallImageData];
+    }
 }
 
 #pragma mark - 取消安装验收上传照片

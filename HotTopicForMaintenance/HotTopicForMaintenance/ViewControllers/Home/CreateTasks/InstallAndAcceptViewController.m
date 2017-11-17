@@ -98,10 +98,43 @@
 - (void)subMitDataRequest
 {
     NSDictionary *dic;
+    NSString *hotelId = self.currHotelId;
+    if (isEmptyString(hotelId)) {
+        hotelId = @"";
+    }
+    NSString *segTagStr = [NSString stringWithFormat:@"%ld",self.segTag];
+    if (isEmptyString(segTagStr)) {
+        segTagStr = @"";
+    }
+    NSString *taskTypeStr = [NSString stringWithFormat:@"%ld",self.taskType];
+    if (isEmptyString(taskTypeStr)) {
+        taskTypeStr = @"";
+    }
+    NSString *userIdStr = [UserManager manager].user.userid;
+    if (isEmptyString(userIdStr)) {
+        userIdStr = @"";
+    }
+    NSString *addrStr = self.headDataModel.addr;
+    if (isEmptyString(addrStr)) {
+        addrStr = @"";
+    }
+    NSString *contractStr = self.headDataModel.contractor;
+    if (isEmptyString(contractStr)) {
+        contractStr = @"";
+    }
+    NSString *mobileStr = self.headDataModel.mobile;
+    if (isEmptyString(mobileStr)) {
+        mobileStr = @"";
+    }
+    NSString *posionNumStr = self.headDataModel.posionNum;
+    if (isEmptyString(posionNumStr)) {
+        posionNumStr = @"";
+    }
+    
     if (self.taskType == TaskType_Install){
-        dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",self.headDataModel.addr,@"addr",self.headDataModel.contractor,@"contractor",self.headDataModel.mobile,@"mobile",self.headDataModel.posionNum,@"tv_nums",nil];
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",nil];
     }else{
-       dic = [NSDictionary dictionaryWithObjectsAndKeys:self.currHotelId,@"hotel_id",[NSString stringWithFormat:@"%ld",self.segTag],@"task_emerge",[NSString stringWithFormat:@"%ld",self.taskType],@"task_type",[UserManager manager].user.userid,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",self.headDataModel.addr,@"addr",self.headDataModel.contractor,@"contractor",self.headDataModel.mobile,@"mobile",self.headDataModel.posionNum,@"tv_nums",nil];
+       dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",nil];
     }
     
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
@@ -147,7 +180,7 @@
                 
                 [upImageArr addObject:tmpModel.pubImg];
                 [pathArr addObject:tmpModel.boxId];
-                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",tmpModel.title,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",tmpModel.title != nil ?tmpModel.title:@"",@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
                 [self.subMitPosionArray addObject:tmpDic];
             }else{
                 [upImageArr addObject:@""];
@@ -159,7 +192,7 @@
                 }else{
                     title = tmpModel.title;
                 }
-                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",title,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",tmpModel.title != nil ?tmpModel.title:@"",@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
                 [self.subMitPosionArray addObject:tmpDic];
             }
         }else{
@@ -601,11 +634,6 @@
     tmpModel.title = textField.text;
     
      return [textField resignFirstResponder];
-    
-//    [_tableView beginUpdates];
-//    NSIndexPath *currentIndex = [NSIndexPath indexPathForRow:textField.tag inSection:1];
-//    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:currentIndex,nil] withRowAnimation:UITableViewRowAnimationNone];
-//    [_tableView endUpdates];
 
 }
 
@@ -618,9 +646,24 @@
 - (void)keyboardWillShow:(NSNotification *)notification{
     
     if (!isEmptyString(self.cuSTextFieldTagStr)) {
+        
+        CGFloat scale = kMainBoundsWidth / 375.f;
+        // 底部Cell的总高度
+        CGFloat cellTotalHeight = 0;
+        for (int i = 0; i < [self.cuSTextFieldTagStr integerValue] + 1; i ++) {
+            RepairContentModel *tmpModel = self.otherContentArray[i];
+            CGFloat tmpHeight;
+            if (tmpModel.imgHType == 0) {
+                tmpHeight = 50 *3 + 10;
+            }else{
+                tmpHeight = 50 *3 + 10 + 84.5 *scale - 20;
+            }
+            cellTotalHeight = tmpHeight + cellTotalHeight;
+        }
+        
         CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
         CGFloat height = keyboardFrame.origin.y;
-        CGFloat textField_maxY = ([self.cuSTextFieldTagStr integerValue] + 1) * 160 + 50 *6;
+        CGFloat textField_maxY = cellTotalHeight + 50 *6;
         CGFloat space = - self.tableView.contentOffset.y + textField_maxY;
         CGFloat transformY = height - space;
         if (transformY < 0) {
