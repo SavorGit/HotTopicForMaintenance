@@ -567,7 +567,7 @@
     UILabel *mTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
     mTitleLab.backgroundColor = [UIColor clearColor];
     mTitleLab.font = [UIFont systemFontOfSize:14];
-    mTitleLab.textColor = [UIColor blackColor];
+    mTitleLab.textColor = [UIColor grayColor];
     mTitleLab.text = @"最多上传三张照片";
     mTitleLab.textAlignment = NSTextAlignmentCenter;
     [photoBgView addSubview:mTitleLab];
@@ -582,7 +582,7 @@
         
         UIImageView *fImageView  = [[UIImageView alloc] init];
         fImageView.tag = 1999 + i;
-        fImageView.backgroundColor = [UIColor lightGrayColor];
+        fImageView.backgroundColor = UIColorFromRGB(0xf6f2ed);
         fImageView.userInteractionEnabled = YES;
         [photoBgView addSubview:fImageView];
         CGFloat fWidth = (bgVideoWidth - 40 - 30)/3;
@@ -1142,6 +1142,8 @@
                  [self subMitDataRequest];
                 
             }];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"请选择一张照片" inView:self.view];
         }
     }
 }
