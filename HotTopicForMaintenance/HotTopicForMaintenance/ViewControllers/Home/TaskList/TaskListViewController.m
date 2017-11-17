@@ -195,8 +195,8 @@
     [self requestWithPage:1 success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSArray * taskList = [response objectForKey:@"result"];
+        [self.dataSource removeAllObjects];
         if ([taskList isKindOfClass:[NSArray class]] && taskList.count > 0) {
-            [self.dataSource removeAllObjects];
             for (NSInteger i = 0; i < taskList.count; i++) {
                 
                 NSDictionary * task = [taskList objectAtIndex:i];
