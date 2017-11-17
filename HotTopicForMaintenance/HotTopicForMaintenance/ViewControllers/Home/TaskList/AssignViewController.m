@@ -264,7 +264,7 @@
 {
     HandleTaskListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"HandleTaskListCell" forIndexPath:indexPath];
     
-    [cell configWithInfo:[self.dataSource objectAtIndex:indexPath.row] date:self.dateLabel.text taskID:self.model.cid];
+    [cell configWithInfo:[self.dataSource objectAtIndex:indexPath.row] date:self.dateLabel.text taskID:self.model.cid isInstallTeam:self.isInstallTeam];
     
     return cell;
 }

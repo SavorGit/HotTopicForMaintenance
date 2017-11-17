@@ -25,6 +25,7 @@
 @property (nonatomic, copy) NSString * taskID;
 @property (nonatomic, copy) NSString * date;
 @property (nonatomic, strong) NSDictionary * info;
+@property (nonatomic, assign) NSInteger installTeam;
 
 @end
 
@@ -115,7 +116,7 @@
     } bold:NO];
     RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
         
-        AssignRequest * request = [[AssignRequest alloc] initWithDate:self.date assginID:[UserManager manager].user.userid handleID:handleID taskID:self.taskID];
+        AssignRequest * request = [[AssignRequest alloc] initWithDate:self.date assginID:[UserManager manager].user.userid handleID:handleID taskID:self.taskID isInstallTeam:self.installTeam];
         [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
             [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
@@ -142,8 +143,9 @@
     [alert show];
 }
 
-- (void)configWithInfo:(NSDictionary *)info date:(NSString *)date taskID:(NSString *)taskID
+- (void)configWithInfo:(NSDictionary *)info date:(NSString *)date taskID:(NSString *)taskID isInstallTeam:(NSInteger)installTeam
 {
+    self.installTeam = installTeam;
     self.info = info;
     [self.listView removeAllSubviews];
     

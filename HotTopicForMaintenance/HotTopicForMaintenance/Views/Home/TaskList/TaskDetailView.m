@@ -32,6 +32,10 @@
 @property (nonatomic, strong) UILabel * completeLabel;
 @property (nonatomic, strong) UILabel * refuseLabel;
 
+@property (nonatomic, strong) UILabel * installTeamLabel;
+
+@property (nonatomic, strong) UILabel * refuseReasonLabel;
+
 @property (nonatomic, strong) UILabel * contactsLabel;
 
 @end
@@ -50,7 +54,13 @@
             break;
             
         case TaskStatusType_WaitHandle:
-            height = 246.f * scale + 3;
+        {
+            if (model.task_type_id == TaskType_Install) {
+                height = 275.f * scale + 3;
+            }else{
+                height = 245.f * scale + 2;
+            }
+        }
             break;
             
         case TaskStatusType_Completed:
@@ -58,7 +68,7 @@
             break;
             
         case TaskStatusType_Refuse:
-            height = 222.f * scale + 2;
+            height = 252.f * scale + 2;
             break;
             
         default:
@@ -174,7 +184,7 @@
     contactButton.titleLabel.font = kPingFangRegular(15.f * scale);
     [self.bottomView addSubview:contactButton];
     [contactButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(0);
+        make.top.mas_equalTo(bottomLine.mas_bottom).offset(10.f * scale);
         make.right.mas_equalTo(-20.f * scale);
         make.width.mas_equalTo(56.f * scale);
         make.height.mas_equalTo(25.f * scale);
@@ -186,8 +196,10 @@
     self.contactsLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
     [self.bottomView addSubview:self.contactsLabel];
     [self.contactsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(20);
-        make.top.bottom.right.mas_equalTo(0);
+        make.top.mas_equalTo(bottomLine.mas_bottom).offset(15.f * scale);
+        make.left.mas_equalTo(20 * scale);
+        make.right.mas_equalTo(-20 * scale);
+        make.height.mas_equalTo(15.f * scale + 1);
     }];
     
     self.timeView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -198,6 +210,45 @@
         make.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.bottomView.mas_top);
     }];
+    
+    if (self.model.state_id == TaskStatusType_WaitHandle &&
+        self.model.task_type_id == TaskType_Install) {
+        
+        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo((79.f) * scale);
+        }];
+        
+        self.installTeamLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+        [self.bottomView addSubview:self.installTeamLabel];
+        [self.installTeamLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contactsLabel.mas_bottom).offset(15.f * scale);
+            make.left.mas_equalTo(20 * scale);
+            make.right.mas_equalTo(-20 * scale);
+            make.height.mas_equalTo(15.f * scale + 1);
+        }];
+        if (self.model.is_lead_install == 1) {
+            self.installTeamLabel.text = @"带队安装：需要";
+        }else{
+            self.installTeamLabel.text = @"带队安装：不需要";
+        }
+    }
+    
+    if (self.model.state_id == TaskStatusType_Refuse) {
+        
+        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo((79.f) * scale);
+        }];
+        
+        self.refuseReasonLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+        [self.bottomView addSubview:self.refuseReasonLabel];
+        [self.refuseReasonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contactsLabel.mas_bottom).offset(15.f * scale);
+            make.left.mas_equalTo(20 * scale);
+            make.right.mas_equalTo(-20 * scale);
+            make.height.mas_equalTo(15.f * scale + 1);
+        }];
+        self.refuseReasonLabel.text = [NSString stringWithFormat:@"拒绝原因：%@", self.model.refuse_desc];
+    }
     
     self.assignHandelLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
     self.createLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
