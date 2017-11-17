@@ -27,6 +27,8 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 
+@property (nonatomic, strong) UILabel * excureTotalLabel;
+
 @end
 
 @implementation AssignViewController
@@ -149,6 +151,10 @@
         make.centerY.mas_equalTo(0);
         make.width.height.mas_equalTo(16.f * scale);
     }];
+
+    UIView * lineView5 = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView5.backgroundColor = UIColorFromRGB(0xf5f5f5);
+    [self.headerView addSubview:lineView5];
     
     if (self.model.task_type_id == TaskType_Install) {
         UIView * lineView3 = [[UIView alloc] initWithFrame:CGRectZero];
@@ -189,9 +195,52 @@
             make.width.height.mas_equalTo(20.f * scale);
         }];
         
-        self.headerView.frame = CGRectMake(0, 0, kMainBoundsWidth, 184.f * scale);
+        [lineView5 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(installView.mas_bottom).offset(0);
+            make.left.right.mas_equalTo(0);
+            make.height.mas_equalTo(5.f);
+        }];
+        
+        self.headerView.frame = CGRectMake(0, 0, kMainBoundsWidth, (184.f + 45.f) * scale);
+    }else{
+        [lineView5 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(timeView.mas_bottom).offset(0);
+            make.left.right.mas_equalTo(0);
+            make.height.mas_equalTo(5.f);
+        }];
+        
+        self.headerView.frame = CGRectMake(0, 0, kMainBoundsWidth, (138.f + 45.f) * scale);
     }
     
+    UIView * refreshView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.headerView addSubview:refreshView];
+    refreshView.backgroundColor = [UIColor whiteColor];
+    [refreshView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(lineView5.mas_bottom).offset(0);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(40.f * scale);
+    }];
+    
+    self.excureTotalLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(14.f * scale) alignment:NSTextAlignmentLeft];
+    self.excureTotalLabel.text = @"共0个执行者";
+    [refreshView addSubview:self.excureTotalLabel];
+    [self.excureTotalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(0);
+        make.left.mas_equalTo(15.f * scale);
+    }];
+    
+    UIButton *refreshBtn = [HotTopicTools buttonWithTitleColor:[UIColor blackColor] font:kPingFangMedium(14.f * scale) backgroundColor:[UIColor whiteColor] title:@"刷新" cornerRadius:5.0];
+    refreshBtn.layer.borderWidth = 1.0f;
+    refreshBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    [refreshView addSubview:refreshBtn];
+    [refreshBtn addTarget:self action:@selector(refrePress) forControlEvents:UIControlEventTouchUpInside];
+    [refreshBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(10);
+        make.right.mas_equalTo(-17.f * scale);
+        make.width.mas_equalTo(60.f * scale);
+        make.height.mas_equalTo(25.f * scale);
+    }];
+
     self.blackView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.blackView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6f];
     
@@ -223,6 +272,10 @@
     self.tableView.tableHeaderView = self.headerView;
 }
 
+- (void)refrePress{
+    
+    [self setupDatas];
+}
 - (void)setupDatas
 {
     NSString * date = self.dateLabel.text;
@@ -242,6 +295,7 @@
         
         if ([result isKindOfClass:[NSArray class]] && result.count > 0) {
             [self.dataSource addObjectsFromArray:result];
+            self.excureTotalLabel.text = [NSString stringWithFormat:@"共%ld个执行者",result.count];
         }else{
             [MBProgressHUD showTextHUDWithText:@"暂时没有执行者信息" inView:self.view];
         }
