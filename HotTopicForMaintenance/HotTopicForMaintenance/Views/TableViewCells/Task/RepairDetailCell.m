@@ -68,7 +68,6 @@
     [self.boxNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20.f * scale);
         make.left.mas_equalTo(12.f * scale);
-        make.right.mas_equalTo(-12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
     }];
     
@@ -115,7 +114,7 @@
         make.height.mas_equalTo(15.f * scale + 1);
     }];
     
-    self.stateLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.stateLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15.f * scale) alignment:NSTextAlignmentLeft];
     [self.baseView addSubview:self.stateLabel];
     [self.stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20.f * scale);
