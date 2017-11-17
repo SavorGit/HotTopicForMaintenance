@@ -149,18 +149,10 @@
                 [pathArr addObject:tmpModel.boxId];
                 NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",tmpModel.title,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
                 [self.subMitPosionArray addObject:tmpDic];
-            }
-        }else{
-            [MBProgressHUD showTextHUDWithText:@"数据不完整，请填写信息" inView:self.navigationController.view];
-            return;
-        }
-    }
-    
-    for (int i = 0; i < self.otherContentArray.count; i ++) {
-        RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
-        if (!isEmptyString(tmpModel.boxId)) {
-            tmpModel.upImgUrl = @"";
-            if (tmpModel.pubImg == nil) {
+            }else{
+                [upImageArr addObject:@""];
+                [pathArr addObject:@""];
+                
                 NSString *title;
                 if (isEmptyString(tmpModel.title)) {
                     title = @"";
@@ -170,6 +162,9 @@
                 NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.boxId,@"box_id",title,@"fault_desc",tmpModel.upImgUrl,@"fault_img_url", nil];
                 [self.subMitPosionArray addObject:tmpDic];
             }
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"数据不完整，请填写信息" inView:self.navigationController.view];
+            return;
         }
     }
     
@@ -432,7 +427,7 @@
         if (tmpModel.imgHType == 0) {
             return 50 *3 + 10;
         }else{
-            return 50 *3 + 10 + 84.5 *scale;
+            return 50 *3 + 10 + 84.5 *scale - 20;
         }
     }
     return 50 *6;
