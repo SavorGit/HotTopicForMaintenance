@@ -247,21 +247,29 @@
 {
     for (NSInteger i = 0; i < images.count; i++) {
         UIImage * image = [images objectAtIndex:i];
-        NSString * boxID = [boxIDArray objectAtIndex:i];
-        NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/box/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
-        [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
+        if ([image isKindOfClass:[UIImage class]]) {
             
+            NSString * boxID = [boxIDArray objectAtIndex:i];
+            NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/box/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
+            [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
+                
+                if (successBlock) {
+                    successBlock(path, i);
+                }
+                
+            } failure:^(NSError *error) {
+                
+                if (failureBlock) {
+                    failureBlock(error, i);
+                }
+                
+            }];
+        }else{
             if (successBlock) {
-                successBlock(path, i);
+                successBlock(@"", i);
             }
-            
-        } failure:^(NSError *error) {
-            
-            if (failureBlock) {
-                failureBlock(error, i);
-            }
-            
-        }];
+        }
+        
     }
 }
 
