@@ -382,6 +382,7 @@
 - (void)boxConfigRequest
 {
     GetBoxListRequest * request = [[GetBoxListRequest alloc] initWithHotelId:self.currHotelId];
+    [self.dConfigData removeAllObjects];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSArray *listArray = [response objectForKey:@"result"];

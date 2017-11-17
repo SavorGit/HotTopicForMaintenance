@@ -55,10 +55,13 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString * complete_time;
 
 @property (nonatomic, copy) NSString * refuse_time;
+@property (nonatomic, copy) NSString * refuse_desc;
 
 @property (nonatomic, copy) NSString * hotel_address;
 
 @property (nonatomic, copy) NSString * hotel_linkman;
 @property (nonatomic, copy) NSString * hotel_linkman_tel;
+
+@property (nonatomic, assign) NSInteger is_lead_install;
 
 @end

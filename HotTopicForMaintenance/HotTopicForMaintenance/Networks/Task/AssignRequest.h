@@ -10,6 +10,6 @@
 
 @interface AssignRequest : BGNetworkRequest
 
-- (instancetype)initWithDate:(NSString *)date assginID:(NSString *)assignID handleID:(NSString *)handleID taskID:(NSString *)taskID;
+- (instancetype)initWithDate:(NSString *)date assginID:(NSString *)assignID handleID:(NSString *)handleID taskID:(NSString *)taskID isInstallTeam:(NSInteger)installTeam;
 
 @end

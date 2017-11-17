@@ -10,6 +10,6 @@
 
 @interface HandleTaskListCell : UITableViewCell
 
-- (void)configWithInfo:(NSDictionary *)info date:(NSString *)date taskID:(NSString *)taskID;
+- (void)configWithInfo:(NSDictionary *)info date:(NSString *)date taskID:(NSString *)taskID isInstallTeam:(NSInteger)installTeam;
 
 @end

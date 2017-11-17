@@ -155,6 +155,8 @@
     NSString * time = [info objectForKey:@"repair_time"];
     self.timeLabel.text = [NSString stringWithFormat:@"操作时间 %@", time];
     
+    [self.photoImageView setImage:[UIImage imageNamed:@"zanwu"]];
+    [self.listImageView setImage:[UIImage imageNamed:@"zanwu"]];
     NSArray * imageArray = [info objectForKey:@"repair_img"];
     if ([imageArray isKindOfClass:[NSArray class]]) {
         for (NSDictionary * dict in imageArray) {

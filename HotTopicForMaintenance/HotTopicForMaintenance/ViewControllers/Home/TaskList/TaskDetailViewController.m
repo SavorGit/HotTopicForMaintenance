@@ -1369,6 +1369,7 @@
         [self.tableView removeFromSuperview];
         
         [self setupDatas];
+        [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         if ([response objectForKey:@"msg"]) {
