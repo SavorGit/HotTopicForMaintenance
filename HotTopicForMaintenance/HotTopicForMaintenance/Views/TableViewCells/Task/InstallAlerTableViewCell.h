@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) UIImageView *instaImg;
 
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 - (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index andDataModel:(RestaurantRankModel *)model;

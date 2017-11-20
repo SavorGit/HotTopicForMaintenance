@@ -77,7 +77,11 @@
 - (void)configWithContent:(NSString *)titleString andIdexPath:(NSIndexPath *)index andDataModel:(RestaurantRankModel *)model{
 
     self.titlePosionLabel.text = titleString;
-    [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img]];
+    if (!isEmptyString(model.repair_img)) {
+        [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img]];
+    }else{
+        [self.instaImg setImage:model.seRepairImg];
+    }
 }
 
 - (void)addImgPress{

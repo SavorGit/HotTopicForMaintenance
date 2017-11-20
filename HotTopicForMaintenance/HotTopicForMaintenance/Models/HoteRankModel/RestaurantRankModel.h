@@ -27,6 +27,7 @@
 @property(nonatomic, copy) NSString *box_id;
 @property(nonatomic, copy) NSString *box_name;
 @property(nonatomic, copy) NSString *repair_img;
+@property(nonatomic, strong) UIImage *seRepairImg;
 
 //酒楼版位信息
 @property(nonatomic, copy) NSString *boxname;

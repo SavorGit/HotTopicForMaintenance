@@ -132,12 +132,8 @@
         [cell configWithContent:self.titleArray[indexPath.row] andIdexPath:indexPath andDataModel:nil];
     }else{
         if (self.dataArray.count > 0) {
-            if (indexPath.row < self.dataArray.count) {
-                RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
-                [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:tmpModel];
-            }else{
-                [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:nil];
-            }
+            RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
+            [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:tmpModel];
         }else{
              [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:nil];
         }

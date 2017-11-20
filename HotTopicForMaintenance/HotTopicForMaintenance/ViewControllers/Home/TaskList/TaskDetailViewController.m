@@ -348,6 +348,12 @@
 - (void)installButtonButtonDidClicked
 {
     if (self.taskListModel.tv_nums > 0) {
+        for (int i = 0; i < [self.taskListModel.tv_nums integerValue] + 1; i ++ ) {
+            if (i > self.dConfigData.count) {
+                RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc ] init];
+                [self.dConfigData addObject:tmpModel];
+            }
+        }
         [self creatInstallListView:[self.taskListModel.tv_nums integerValue] andTitArray:nil];
     }else{
         [MBProgressHUD showTextHUDWithText:@"获取安装版位信息失败" inView:self.view];
@@ -761,8 +767,12 @@
             UIImageView *selectImgView = [self.view viewWithTag:self.selectImgTag];
             selectImgView.image = info[UIImagePickerControllerEditedImage];
         }else{
+            
+            RestaurantRankModel *tmpModel = [self.dConfigData objectAtIndex:self.selectImgIndex.row];
             InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:self.selectImgIndex];
             cell.instaImg.image = info[UIImagePickerControllerEditedImage];
+            tmpModel.seRepairImg = info[UIImagePickerControllerEditedImage];
+            
             NSLog(@"");
         }
         //压缩图片
