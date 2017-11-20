@@ -14,6 +14,7 @@
 #import "Helper.h"
 #import "RDAlertView.h"
 #import <AliyunOSSiOS/OSSService.h>
+#import "MBProgressHUD+Custom.h"
 
 @implementation HotTopicTools
 
@@ -259,9 +260,11 @@
                 
             } failure:^(NSError *error) {
                 
-                if (failureBlock) {
-                    failureBlock(error, i);
-                }
+                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",i] inView:[UIApplication sharedApplication].keyWindow];
+                return;
+//                if (failureBlock) {
+//                    failureBlock(error, i);
+//                }
                 
             }];
         }else{
@@ -306,9 +309,11 @@
             
         } failure:^(NSError *error) {
             
-            if (failureBlock) {
-                failureBlock(error, i);
-            }
+            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",i] inView:[UIApplication sharedApplication].keyWindow];
+            return;
+//            if (failureBlock) {
+//                failureBlock(error, i);
+//            }
             
         }];
     }

@@ -1085,11 +1085,11 @@
             } failure:^(NSError *error, NSInteger index) {
                 NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
                 [tmpDic setObject:@"" forKey:@"img"];
-                
                 upCount++;
-                if (upCount == upImageArr.count) {
-                    [self subMitDataRequest];
-                }
+                
+//                if (upCount == upImageArr.count) {
+//                    [self subMitDataRequest];
+//                }
                 
             }];
         }else{
@@ -1113,11 +1113,11 @@
                 NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
                 [tmpDic setObject:@"" forKey:@"img"];
                 NSLog(@"---上传失败！");
-                
                 upCount++;
-                if (upCount == upImageArr.count) {
-                    [self subMitDataRequest];
-                }
+                
+//                if (upCount == upImageArr.count) {
+//                    [self subMitDataRequest];
+//                }
                 
             }];
         }else{
@@ -1135,11 +1135,14 @@
                  [self subMitDataRequest];
                 
             } failure:^(NSError *error) {
-                [self.subMitPosionArray removeAllObjects];
-                [self.subMitPosionArray addObject:@""];
-                NSLog(@"---上传失败！");
                 
-                 [self subMitDataRequest];
+                [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
+                
+//                [self.subMitPosionArray removeAllObjects];
+//                [self.subMitPosionArray addObject:@""];
+//                NSLog(@"---上传失败！");
+//
+//                 [self subMitDataRequest];
                 
             }];
         }else{
@@ -1218,11 +1221,12 @@
         } failure:^(NSError *error, NSInteger index) {
             [self.subMitPosionArray addObject:@""];
             NSLog(@"---上传失败！");
-            
             upCount++;
-            if (upCount == upImageArr.count) {
-                [self subMitDataRequest];
-            }
+
+//            upCount++;
+//            if (upCount == upImageArr.count) {
+//                [self subMitDataRequest];
+//            }
             
         }];
     }else{

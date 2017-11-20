@@ -216,11 +216,11 @@
         } failure:^(NSError *error, NSInteger index) {
             NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
             [tmpDic setObject:@"" forKey:@"fault_img_url"];
-            
             upCount ++;
-            if (upImageArr.count == upCount) {
-                [self subMitDataRequest];
-            }
+            
+//            if (upImageArr.count == upCount) {
+//                [self subMitDataRequest];
+//            }
             
         }];
     }else{
