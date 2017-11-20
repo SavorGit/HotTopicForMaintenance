@@ -61,6 +61,7 @@
 @property (nonatomic, strong) UIButton * unResolvedBtn;
 @property (nonatomic, strong) UIButton * resolvedBtn;
 @property (nonatomic, strong) UIButton * submitBtn;
+@property (nonatomic, strong) UIButton * installSubBtn;
 @property (nonatomic, strong) TaskRepairAlertModel *repairAlertModel;
 @property (nonatomic, assign) NSInteger selectImgTag;
 @property (nonatomic, strong) NSIndexPath *selectImgIndex;
@@ -408,8 +409,10 @@
 }
 
 #pragma mark - 提交安装验收上传照片
-- (void)subMitData{
+- (void)subMitData:(UIButton *)Btn{
     
+    self.installSubBtn = Btn;
+    Btn.userInteractionEnabled = NO;
     if (self.taskListModel.task_type_id == 2) {
         if ([DeviceManager manager].isHotel == YES) {
             [self upLoadIntallImageData];
@@ -847,15 +850,20 @@
 }
 
 -(void)cancelClicked{
+    self.currentBoxId = @"";
+    self.repairAlertModel.state = @"";
     [self dismissViewWithAnimationDuration:0.3f];
 }
 
 #pragma mark - 维修弹窗提交数据
 -(void)submitClicked{
     
+    self.submitBtn.userInteractionEnabled = NO;
     if (isEmptyString(self.currentBoxId)){
+        self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"请选择版位" inView:self.view];
     }else if (isEmptyString(self.repairAlertModel.state)) {
+        self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"请选择是否解决" inView:self.view];
     }else{
         [self upLoadImageData];
@@ -1008,6 +1016,10 @@
     SubmitTaskRequest * request = [[SubmitTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        self.submitBtn.userInteractionEnabled = YES;
+        self.installSubBtn.userInteractionEnabled = YES;
+        [self clearData];
+        
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
         if ([[dadaDic objectForKey:@"code"] integerValue] == 10000) {
             NSDictionary *resuDic = dadaDic[@"result"];
@@ -1033,15 +1045,21 @@
             }
         }
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
+        self.submitBtn.userInteractionEnabled = YES;
+        self.installSubBtn.userInteractionEnabled = YES;
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
         [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
+        self.submitBtn.userInteractionEnabled = YES;
+        self.installSubBtn.userInteractionEnabled = YES;
     }];
 }
 
+- (void)clearData{
+    self.currentBoxId = @"";
+    self.repairAlertModel.state = @"";
+}
 #pragma mark - 安装检测等弹窗图片上传
 - (void)upLoadIntallImageData{
     
@@ -1093,13 +1111,10 @@
                 }
                 
             } failure:^(NSError *error, NSInteger index) {
-                NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
-                [tmpDic setObject:@"" forKey:@"img"];
-                upCount++;
-                
-//                if (upCount == upImageArr.count) {
-//                    [self subMitDataRequest];
-//                }
+                self.installSubBtn.userInteractionEnabled = YES;
+                [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+                return;
                 
             }];
         }else{
@@ -1120,14 +1135,10 @@
                 }
                 
             } failure:^(NSError *error, NSInteger index) {
-                NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
-                [tmpDic setObject:@"" forKey:@"img"];
-                NSLog(@"---上传失败！");
-                upCount++;
-                
-//                if (upCount == upImageArr.count) {
-//                    [self subMitDataRequest];
-//                }
+                self.installSubBtn.userInteractionEnabled = YES;
+                [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+                return;
                 
             }];
         }else{
@@ -1145,14 +1156,8 @@
                  [self subMitDataRequest];
                 
             } failure:^(NSError *error) {
-                
+                self.installSubBtn.userInteractionEnabled = YES;
                 [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
-                
-//                [self.subMitPosionArray removeAllObjects];
-//                [self.subMitPosionArray addObject:@""];
-//                NSLog(@"---上传失败！");
-//
-//                 [self subMitDataRequest];
                 
             }];
         }else{
@@ -1229,18 +1234,14 @@
             }
             
         } failure:^(NSError *error, NSInteger index) {
-            [self.subMitPosionArray addObject:@""];
-            NSLog(@"---上传失败！");
-            upCount++;
-
-//            upCount++;
-//            if (upCount == upImageArr.count) {
-//                [self subMitDataRequest];
-//            }
+            self.submitBtn.userInteractionEnabled = YES;
+            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+            return;
             
         }];
     }else{
-        [MBProgressHUD showTextHUDWithText:@"请至少选择一张照片" inView:self.view];
+        [self subMitDataRequest];
     }
 }
 

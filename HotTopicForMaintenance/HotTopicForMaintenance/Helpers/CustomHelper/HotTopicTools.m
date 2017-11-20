@@ -260,11 +260,12 @@
                 
             } failure:^(NSError *error) {
                 
-                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",i] inView:[UIApplication sharedApplication].keyWindow];
-                return;
-//                if (failureBlock) {
-//                    failureBlock(error, i);
-//                }
+//                [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+//                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",i + 1] inView:[UIApplication sharedApplication].keyWindow];
+//                return;
+                if (failureBlock) {
+                    failureBlock(error, i);
+                }
                 
             }];
         }else{
@@ -309,11 +310,12 @@
             
         } failure:^(NSError *error) {
             
-            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",i] inView:[UIApplication sharedApplication].keyWindow];
-            return;
-//            if (failureBlock) {
-//                failureBlock(error, i);
-//            }
+//            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+//            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",i + 1] inView:[UIApplication sharedApplication].keyWindow];
+//            return;
+            if (failureBlock) {
+                failureBlock(error, i);
+            }
             
         }];
     }

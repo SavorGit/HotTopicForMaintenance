@@ -78,7 +78,7 @@
     self.submitBtn.layer.borderWidth = .5f;
     self.submitBtn.layer.cornerRadius = 2.f;
     self.submitBtn.layer.masksToBounds = YES;
-    [self.submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.submitBtn addTarget:self action:@selector(submitClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.submitBtn];
     [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_alertTableView.mas_bottom).offset(10);
@@ -160,9 +160,9 @@
     }
 }
 
-- (void)submitClicked{
-    if ([self.delegate respondsToSelector:@selector(subMitData)]) {
-         [self.delegate subMitData];
+- (void)submitClicked:(UIButton *)Btn{
+    if ([self.delegate respondsToSelector:@selector(subMitData:)]) {
+        [self.delegate subMitData:Btn];
     }
 }
 

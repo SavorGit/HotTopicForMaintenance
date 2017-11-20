@@ -214,14 +214,10 @@
                 [self subMitDataRequest];
             }
         } failure:^(NSError *error, NSInteger index) {
-            NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
-            [tmpDic setObject:@"" forKey:@"fault_img_url"];
-            upCount ++;
             
-//            if (upImageArr.count == upCount) {
-//                [self subMitDataRequest];
-//            }
-            
+            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+            return;
         }];
     }else{
         [self subMitDataRequest];
