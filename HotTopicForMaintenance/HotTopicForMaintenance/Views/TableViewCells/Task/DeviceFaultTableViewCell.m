@@ -141,21 +141,23 @@
         self.bigScrollView.zoomScale = 1.f;
         [self.bigImageView sd_setImageWithURL:[NSURL URLWithString:self.model.fault_img_url] placeholderImage:[UIImage new] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             
-            CGFloat scale = self.bigScrollView.frame.size.width / self.bigScrollView.frame.size.height;
-            CGFloat imageScale = image.size.width / image.size.height;
-            
-            CGRect frame;
-            if (imageScale > scale) {
-                CGFloat width = self.bigScrollView.frame.size.width;
-                CGFloat height = self.bigScrollView.frame.size.width / image.size.width * image.size.height;
-                frame = CGRectMake(0, 0, width, height);
-            }else{
-                CGFloat height = self.bigScrollView.frame.size.height;
-                CGFloat width = self.bigScrollView.frame.size.height / image.size.height * image.size.width;
-                frame = CGRectMake(0, 0, width, height);
+            if (image) {
+                CGFloat scale = self.bigScrollView.frame.size.width / self.bigScrollView.frame.size.height;
+                CGFloat imageScale = image.size.width / image.size.height;
+                
+                CGRect frame;
+                if (imageScale > scale) {
+                    CGFloat width = self.bigScrollView.frame.size.width;
+                    CGFloat height = self.bigScrollView.frame.size.width / image.size.width * image.size.height;
+                    frame = CGRectMake(0, 0, width, height);
+                }else{
+                    CGFloat height = self.bigScrollView.frame.size.height;
+                    CGFloat width = self.bigScrollView.frame.size.height / image.size.height * image.size.width;
+                    frame = CGRectMake(0, 0, width, height);
+                }
+                self.bigImageView.frame = frame;
+                self.bigImageView.center = self.bigScrollView.center;
             }
-            self.bigImageView.frame = frame;
-            self.bigImageView.center = self.bigScrollView.center;
         }];
         
         [[UIApplication sharedApplication].keyWindow addSubview:self.bigScrollView];
