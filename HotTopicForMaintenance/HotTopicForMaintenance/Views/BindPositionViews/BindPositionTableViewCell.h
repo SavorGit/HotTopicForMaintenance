@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BindDeviceModel.h"
 
+extern NSString * const RDBoxDidBindMacNotification;
+
 @interface BindPositionTableViewCell : UITableViewCell
 
 - (void)configWithModel:(BindDeviceModel *)model andMacAddress:(NSString *)macAddress;

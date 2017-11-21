@@ -42,6 +42,7 @@
     [[DeviceManager manager] startMonitoring];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidSuccess) name:RDSearchDeviceSuccessNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidEnd) name:RDSearchDeviceDidEndNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupDatas) name:RDBoxDidBindMacNotification object:nil];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleDone target:self action:@selector(reloadMyself)];
     // Do any additional setup after loading the view.
@@ -218,6 +219,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDSearchDeviceSuccessNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDSearchDeviceDidEndNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDBoxDidBindMacNotification object:nil];
 }
 
 - (NSMutableArray *)dataSource

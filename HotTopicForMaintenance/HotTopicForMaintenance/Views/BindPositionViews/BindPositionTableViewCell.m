@@ -11,6 +11,9 @@
 #import "BindBoxRequest.h"
 #import "DeviceManager.h"
 #import "MBProgressHUD+Custom.h"
+#import "RDAlertView.h"
+
+NSString * const RDBoxDidBindMacNotification = @"RDBoxDidBindMacNotification";
 
 @interface BindPositionTableViewCell()
 
@@ -118,32 +121,45 @@
 
 - (void)bindButtonDidBeClicked
 {
-    [BindBoxRequest cancelRequest];
-    BindBoxRequest * request = [[BindBoxRequest alloc] initWithHotelID:[DeviceManager manager].hotelID roomID:[DeviceManager manager].roomID boxID:self.model.box_id mac:self.macAddress];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    RDAlertView * alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"是否将机顶盒“%@”的Mac地址绑定为“%@”", self.model.box_name, self.macAddress]];
+    RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
         
-        NSDictionary * result = [response objectForKey:@"result"];
-        if ([result isKindOfClass:[NSDictionary class]]) {
-            if ([[result objectForKey:@"type"] integerValue] == 1) {
-                [MBProgressHUD showTextHUDWithText:@"绑定成功" inView:[UIApplication sharedApplication].keyWindow];
-            }else if ([[result objectForKey:@"type"] integerValue] == 2){
-                [MBProgressHUD showTextHUDWithText:[result objectForKey:@"err_msg"] inView:[UIApplication sharedApplication].keyWindow];
+    } bold:NO];
+    RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+        
+        [BindBoxRequest cancelRequest];
+        BindBoxRequest * request = [[BindBoxRequest alloc] initWithHotelID:[DeviceManager manager].hotelID roomID:[DeviceManager manager].roomID boxID:self.model.box_id mac:self.macAddress];
+        [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            NSDictionary * result = [response objectForKey:@"result"];
+            if ([result isKindOfClass:[NSDictionary class]]) {
+                if ([[result objectForKey:@"type"] integerValue] == 1) {
+                    [MBProgressHUD showTextHUDWithText:@"绑定成功" inView:[UIApplication sharedApplication].keyWindow];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RDBoxDidBindMacNotification object:nil];
+                    
+                }else if ([[result objectForKey:@"type"] integerValue] == 2){
+                    [MBProgressHUD showTextHUDWithText:[result objectForKey:@"err_msg"] inView:[UIApplication sharedApplication].keyWindow];
+                }
             }
-        }
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        if ([response objectForKey:@"msg"]) {
-            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:[UIApplication sharedApplication].keyWindow];
-        }else{
+            
+        } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            if ([response objectForKey:@"msg"]) {
+                [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:[UIApplication sharedApplication].keyWindow];
+            }else{
+                [MBProgressHUD showTextHUDWithText:@"绑定失败" inView:[UIApplication sharedApplication].keyWindow];
+            }
+            
+        } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+            
             [MBProgressHUD showTextHUDWithText:@"绑定失败" inView:[UIApplication sharedApplication].keyWindow];
-        }
+            
+        }];
         
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
-        [MBProgressHUD showTextHUDWithText:@"绑定失败" inView:[UIApplication sharedApplication].keyWindow];
-        
-    }];
+    } bold:YES];
+    [alertView addActions:@[action1, action2]];
+    [alertView show];
 }
 
 - (void)configWithModel:(BindDeviceModel *)model andMacAddress:(NSString *)macAddress
