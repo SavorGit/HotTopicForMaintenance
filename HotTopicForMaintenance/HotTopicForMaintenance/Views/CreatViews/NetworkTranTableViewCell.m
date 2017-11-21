@@ -76,6 +76,7 @@
             }];
             
             self.hotelBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            self.hotelBtn.titleLabel.font = [UIFont systemFontOfSize:14];
             if (isEmptyString(contenStr)) {
                 [self.hotelBtn setTitle:@"请选择酒楼" forState:UIControlStateNormal];
             }else{
@@ -117,6 +118,11 @@
                 make.centerY.mas_equalTo(self);
                 make.right.mas_equalTo(- 20);
             }];
+            if (index.row == 3) {
+                self.inPutTextField.font = [UIFont systemFontOfSize:12];
+            }else{
+                self.inPutTextField.font = [UIFont systemFontOfSize:14];
+            }
             self.inPutTextField.text = contenStr;
         }
         
