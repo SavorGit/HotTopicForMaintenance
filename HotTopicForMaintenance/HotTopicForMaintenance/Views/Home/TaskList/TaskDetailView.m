@@ -64,7 +64,14 @@
             break;
             
         case TaskStatusType_Completed:
-            height = 270.f * scale + 4;
+            
+        {
+            if (model.task_type_id == TaskType_Install) {
+                height = 300.f * scale + 3;
+            }else{
+                height = 275.f * scale + 2;
+            }
+        }
             break;
             
         case TaskStatusType_Refuse:
@@ -211,25 +218,26 @@
         make.bottom.mas_equalTo(self.bottomView.mas_top);
     }];
     
-    if (self.model.state_id == TaskStatusType_WaitHandle &&
-        self.model.task_type_id == TaskType_Install) {
+    if (self.model.state_id == TaskStatusType_WaitHandle || self.model.state_id == TaskStatusType_Completed) {
         
-        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo((79.f) * scale);
-        }];
-        
-        self.installTeamLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-        [self.bottomView addSubview:self.installTeamLabel];
-        [self.installTeamLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.contactsLabel.mas_bottom).offset(15.f * scale);
-            make.left.mas_equalTo(20 * scale);
-            make.right.mas_equalTo(-20 * scale);
-            make.height.mas_equalTo(15.f * scale + 1);
-        }];
-        if (self.model.is_lead_install == 1) {
-            self.installTeamLabel.text = @"带队安装：需要";
-        }else{
-            self.installTeamLabel.text = @"带队安装：不需要";
+        if (self.model.task_type_id == TaskType_Install) {
+            [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo((79.f) * scale);
+            }];
+            
+            self.installTeamLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+            [self.bottomView addSubview:self.installTeamLabel];
+            [self.installTeamLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.contactsLabel.mas_bottom).offset(15.f * scale);
+                make.left.mas_equalTo(20 * scale);
+                make.right.mas_equalTo(-20 * scale);
+                make.height.mas_equalTo(15.f * scale + 1);
+            }];
+            if (self.model.is_lead_install == 1) {
+                self.installTeamLabel.text = @"带队安装：需要";
+            }else{
+                self.installTeamLabel.text = @"带队安装：不需要";
+            }
         }
     }
     
