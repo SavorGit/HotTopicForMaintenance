@@ -214,12 +214,17 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        NSString * msg = [response objectForKey:@"msg"];
-        if (isEmptyString(msg)) {
-            [MBProgressHUD showTextHUDWithText:msg inView:self.view];
+        if ([response isKindOfClass:[NSDictionary class]]) {
+            NSString * msg = [response objectForKey:@"msg"];
+            if (isEmptyString(msg)) {
+                [MBProgressHUD showTextHUDWithText:msg inView:self.view];
+            }else{
+                [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+            }
         }else{
-            [MBProgressHUD showTextHUDWithText:@"获取任务失败" inView:self.view];
+               [MBProgressHUD showTextHUDWithText:@"网络出现问题了" inView:self.view];
         }
+        
         [self.tableView.mj_header endRefreshing];
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {

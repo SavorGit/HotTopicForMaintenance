@@ -770,12 +770,13 @@
             UIImageView *selectImgView = [self.view viewWithTag:self.selectImgTag];
             selectImgView.image = info[UIImagePickerControllerEditedImage];
         }else{
-            
-            RestaurantRankModel *tmpModel = [self.dConfigData objectAtIndex:self.selectImgIndex.row];
             InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:self.selectImgIndex];
             cell.instaImg.image = info[UIImagePickerControllerEditedImage];
-            tmpModel.seRepairImg = info[UIImagePickerControllerEditedImage];
-            
+            //维修类型回显的时候需要用到
+            if (self.taskListModel.task_type_id == 2) {
+                RestaurantRankModel *tmpModel = [self.dConfigData objectAtIndex:self.selectImgIndex.row];
+                tmpModel.seRepairImg = info[UIImagePickerControllerEditedImage];
+            }
             NSLog(@"");
         }
         //压缩图片
