@@ -7,6 +7,7 @@
 //
 
 #import "HomeBadgeCollectionViewCell.h"
+#import "UserManager.h"
 
 @interface HomeBadgeCollectionViewCell ()
 
@@ -44,7 +45,7 @@
 
 - (void)setBadgeNumber:(NSInteger)number
 {
-    if (number == 0) {
+    if (number == 0 || [UserManager manager].user.roletype == UserRoleType_LookTask) {
         self.badgeLabel.hidden = YES;
     }else if (number <= 9) {
         self.badgeLabel.hidden = NO;
