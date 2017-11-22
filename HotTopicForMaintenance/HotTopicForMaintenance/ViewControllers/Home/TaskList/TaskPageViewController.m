@@ -71,6 +71,10 @@
     [self setNavBackArrowWithWidth:40];
     
     self.menuView.frame = CGRectMake(0, 0, kMainBoundsWidth, 40);
+    
+    if ([UserManager manager].user.roletype == UserRoleType_HandleTask) {
+        self.selectIndex = 1;
+    }
     // Do any additional setup after loading the view.
 }
 
