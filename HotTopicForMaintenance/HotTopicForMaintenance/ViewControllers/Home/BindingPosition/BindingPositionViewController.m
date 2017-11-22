@@ -44,13 +44,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchDeviceDidEnd) name:RDSearchDeviceDidEndNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupDatas) name:RDBoxDidBindMacNotification object:nil];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleDone target:self action:@selector(reloadMyself)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleDone target:self action:@selector(setupDatas)];
     // Do any additional setup after loading the view.
-}
-
-- (void)reloadMyself
-{
-    [[DeviceManager manager] startSearchDecice];
 }
 
 //发现了酒楼环境
