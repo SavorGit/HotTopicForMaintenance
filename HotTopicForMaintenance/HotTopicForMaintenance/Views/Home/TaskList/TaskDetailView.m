@@ -335,7 +335,7 @@
             
         case TaskStatusType_WaitHandle:
         {
-            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.appoint_user];
+            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.exeuser];
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
             self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@ (%@)", model.appoint_time, model.appoint_user];
             [self.timeView addSubview:self.assignHandelLabel];
