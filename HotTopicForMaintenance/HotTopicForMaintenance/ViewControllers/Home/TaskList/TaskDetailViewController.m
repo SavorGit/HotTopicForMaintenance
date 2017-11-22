@@ -1115,7 +1115,7 @@
             } failure:^(NSError *error, NSInteger index) {
                 self.installSubBtn.userInteractionEnabled = YES;
                 [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%f张图片上传失败",index + 1.f] inView:[UIApplication sharedApplication].keyWindow];
                 return;
                 
             }];
