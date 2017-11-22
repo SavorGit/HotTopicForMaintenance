@@ -49,6 +49,7 @@
 @property (nonatomic, strong) NSMutableArray * executeSource;
 @property (nonatomic, strong) NSMutableArray * dConfigData; //版位选择信息
 @property (nonatomic, strong) NSMutableArray * subMitPosionArray; //提交维修信息
+@property (nonatomic, strong) NSMutableArray * subExictUrlArray; //提交已经存在维修信息
 @property (nonatomic, strong) TaskModel * taskListModel;
 
 @property (nonatomic, assign) BOOL hasNotification;
@@ -99,6 +100,7 @@
     self.executeSource = [[NSMutableArray alloc] init];
     self.dConfigData = [[NSMutableArray alloc] init];
     self.subMitPosionArray = [[NSMutableArray alloc] init];
+    self.subExictUrlArray = [[NSMutableArray alloc] init];
     self.currentBoxId = [[NSString alloc] init];
     [self setupDatas];
 }
@@ -349,8 +351,8 @@
 - (void)installButtonButtonDidClicked
 {
     if (self.taskListModel.tv_nums > 0) {
-        for (int i = 0; i < [self.taskListModel.tv_nums integerValue] + 1; i ++ ) {
-            if (i > self.dConfigData.count) {
+        for (int i = 0; i < [self.taskListModel.tv_nums integerValue]; i ++ ) {
+            if (i > self.dConfigData.count - 1) {
                 RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc ] init];
                 [self.dConfigData addObject:tmpModel];
             }
@@ -367,7 +369,9 @@
 //维修
 - (void)repairButtonDidClicked
 {
-    [self creatRepairListView];
+    if (![self.view viewWithTag:1888]) {
+        [self creatRepairListView];
+    }
 }
 
 //网络改造处理完成
@@ -1066,14 +1070,24 @@
 - (void)upLoadIntallImageData{
     
     [self.subMitPosionArray removeAllObjects];
+    [self.subExictUrlArray removeAllObjects];
     NSMutableArray *upImageArr = [[NSMutableArray alloc] init];
     NSMutableArray *pathArr = [[NSMutableArray alloc] init];
     UIImage *selectImg;
     __block int upCount = 0;
     for (int i = 0; i < self.totalAlertCount; i ++) {
-        
-        InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-         selectImg = cell.instaImg.image;
+        if (self.taskListModel.task_type_id == 2) {
+            RestaurantRankModel *tmpModel = [self.dConfigData objectAtIndex:i];
+            if (!isEmptyString(tmpModel.repair_img )) {
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:tmpModel.repair_img ,@"img", nil];
+                [self.subMitPosionArray addObject:tmpDic];
+            }else{
+                selectImg = tmpModel.seRepairImg;
+            }
+        }else{
+            InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            selectImg = cell.instaImg.image;
+        }
         if (selectImg != nil) {
             [upImageArr addObject:selectImg];
             
@@ -1090,11 +1104,12 @@
                 [pathArr addObject:self.taskListModel.hotel_id];
                 
                 NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:urlPath,@"img", nil];
-                [self.subMitPosionArray addObject:tmpDic];
+                [self.subExictUrlArray addObject:tmpDic];
                 
             }else{
                 [self.subMitPosionArray addObject:urlPath];
             }
+        }else{
         }
     }
     
@@ -1127,18 +1142,19 @@
         if (upImageArr.count > 0) {
             [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             } success:^(NSString *path, NSInteger index) {
-                NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
+                NSMutableDictionary *tmpDic = self.subExictUrlArray[index];
                 [tmpDic setObject:path forKey:@"img"];
                 NSLog(@"---上传成功！");
                 
                 upCount++;
                 if (upCount == upImageArr.count) {
+                    [self.subMitPosionArray addObjectsFromArray:self.subExictUrlArray];
                     [self subMitDataRequest];
                 }
                 
             } failure:^(NSError *error, NSInteger index) {
-                [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:self.view];
                 self.installSubBtn.userInteractionEnabled = YES;
                 return;
                 

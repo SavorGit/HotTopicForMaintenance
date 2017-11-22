@@ -134,6 +134,7 @@
         if (self.dataArray.count > 0) {
             RestaurantRankModel *tmpModel = self.dataArray[indexPath.row];
             [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:tmpModel];
+//            tmpModel.seRepairImg = cell.instaImg.image;
         }else{
              [cell configWithContent:@"安装流程单" andIdexPath:indexPath andDataModel:nil];
         }
