@@ -314,19 +314,12 @@
 {
     MenuModel * model = [self.dataSource objectAtIndex:indexPath.row];
     if (model.type == MenuModelType_TaskList || model.type == MenuModelType_MyTask) {
-        if ([UserManager manager].user.roletype != UserRoleType_LookTask) {
-            HomeBadgeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeBadgeCollectionViewCell" forIndexPath:indexPath];
-            [cell configWithModel:model];
-            self.badgeCell = cell;
-            [self requestTaskCount];
-            
-            return cell;
-        }else{
-            HomeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
-            [cell configWithModel:model];
-            
-            return cell;
-        }
+        HomeBadgeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeBadgeCollectionViewCell" forIndexPath:indexPath];
+        [cell configWithModel:model];
+        self.badgeCell = cell;
+        [self requestTaskCount];
+        
+        return cell;
     }else{
         HomeCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomeCollectionViewCell" forIndexPath:indexPath];
         [cell configWithModel:model];
@@ -440,9 +433,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([UserManager manager].user.roletype != UserRoleType_LookTask) {
-        [self requestTaskCount];
-    }
+    [self requestTaskCount];
 }
 
 - (void)viewDidAppear:(BOOL)animated
