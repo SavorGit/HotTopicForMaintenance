@@ -352,7 +352,10 @@
 {
     if (self.taskListModel.tv_nums > 0) {
         for (int i = 0; i < [self.taskListModel.tv_nums integerValue]; i ++ ) {
-            if (i > self.dConfigData.count - 1) {
+            if (self.dConfigData.count == 0 ) {
+                RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc ] init];
+                [self.dConfigData addObject:tmpModel];
+            }else if (i > self.dConfigData.count - 1) {
                 RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc ] init];
                 [self.dConfigData addObject:tmpModel];
             }
