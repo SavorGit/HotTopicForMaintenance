@@ -1139,6 +1139,7 @@
             }];
         }else{
             [MBProgressHUD showTextHUDWithText:@"请至少选择一张照片" inView:self.view];
+            self.installSubBtn.userInteractionEnabled = YES;
         }
         
       }else if (self.taskListModel.task_type_id == 2){
@@ -1163,7 +1164,12 @@
                 
             }];
         }else{
-            [MBProgressHUD showTextHUDWithText:@"请至少选择一张照片" inView:self.view];
+            if (self.subMitPosionArray.count > 0 && self.subExictUrlArray.count == 0) {
+                [MBProgressHUD showTextHUDWithText:@"请至少新添加一张照片" inView:self.view];
+            }else{
+                [MBProgressHUD showTextHUDWithText:@"请至少选择一张照片" inView:self.view];
+            }
+            self.installSubBtn.userInteractionEnabled = YES;
         }
         
     }else{
@@ -1182,6 +1188,7 @@
             }];
         }else{
             [MBProgressHUD showTextHUDWithText:@"请选择一张照片" inView:self.view];
+            self.installSubBtn.userInteractionEnabled = YES;
         }
     }
 }
