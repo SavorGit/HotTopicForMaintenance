@@ -80,6 +80,7 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
         }else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
             [self startSearchDecice];
         }else if (status == AFNetworkReachabilityStatusReachableViaWWAN){
+            [[NSNotificationCenter defaultCenter] postNotificationName:RDSearchDeviceDidEndNotification object:nil];
             [self stopSearchDevice];
         }else{
             [self stopSearchDevice];
