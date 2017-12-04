@@ -421,12 +421,15 @@
     self.installSubBtn = Btn;
     Btn.userInteractionEnabled = NO;
     if (self.taskListModel.task_type_id == 2) {
-        if ([self.taskListModel.hotel_id isEqualToString:self.hotelID]) {
-            [self upLoadIntallImageData];
-        }else{
-            Btn.userInteractionEnabled = YES;
-            [MBProgressHUD showTextHUDWithText:@"请连接酒楼Wifi后继续操作" inView:self.view];
-        }
+        
+        [self upLoadIntallImageData];
+        
+//        if ([self.taskListModel.hotel_id isEqualToString:self.hotelID]) {
+//            [self upLoadIntallImageData];
+//        }else{
+//            Btn.userInteractionEnabled = YES;
+//            [MBProgressHUD showTextHUDWithText:@"请连接酒楼Wifi后继续操作" inView:self.view];
+//        }
     }else{
         [self upLoadIntallImageData];
     }
