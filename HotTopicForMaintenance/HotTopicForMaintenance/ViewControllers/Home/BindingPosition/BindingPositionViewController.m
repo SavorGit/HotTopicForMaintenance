@@ -68,13 +68,19 @@
 {
     if (![DeviceManager manager].isHotel || ![DeviceManager manager].isRoom) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD showTextHUDWithText:@"请连接酒楼wifi后继续操作" inView:[UIApplication sharedApplication].keyWindow];
+        if (![MBProgressHUD HUDForView:[UIApplication sharedApplication].keyWindow]) {
+            [MBProgressHUD showTextHUDWithText:@"请连接酒楼wifi后继续操作" inView:[UIApplication sharedApplication].keyWindow];
+        }
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
 - (void)setupDatas
 {
+    if (![DeviceManager manager].isHotel || ![DeviceManager manager].isRoom) {
+        return;
+    }
+    
     if (_tableView.superview) {
         [_tableView.tableHeaderView removeAllSubviews];
         [_tableView removeFromSuperview];
