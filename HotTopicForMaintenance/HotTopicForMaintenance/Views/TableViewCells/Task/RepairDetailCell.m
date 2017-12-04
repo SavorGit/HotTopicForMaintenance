@@ -8,6 +8,7 @@
 
 #import "RepairDetailCell.h"
 #import "HotTopicTools.h"
+#import "UIView+WebCache.h"
 
 @interface RepairDetailCell ()
 
@@ -231,6 +232,16 @@
 
 - (void)configWithInfo:(NSDictionary *)info
 {
+    [self.photoImageView setImage:[UIImage new]];
+    [self.Photo1 setImage:[UIImage new]];
+    [self.Photo2 setImage:[UIImage new]];
+    [self.Photo3 setImage:[UIImage new]];
+    
+    [self.photoImageView sd_cancelCurrentImageLoad];
+    [self.Photo1 sd_cancelCurrentImageLoad];
+    [self.Photo2 sd_cancelCurrentImageLoad];
+    [self.Photo3 sd_cancelCurrentImageLoad];
+    
     self.info = info;
     NSString * userName = [info objectForKey:@"username"];
     NSString * time = [info objectForKey:@"repair_time"];
@@ -244,7 +255,6 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     if (isEmptyString(faultImageURL)) {
-        [self.photoImageView setImage:[UIImage new]];
         self.photoLabel.text = @"故障照片：无";
         [self.photoImageView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(16.f * scale);
