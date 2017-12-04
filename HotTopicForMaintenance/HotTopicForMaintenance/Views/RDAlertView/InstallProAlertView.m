@@ -162,6 +162,7 @@
 }
 
 - (void)submitClicked:(UIButton *)Btn{
+    self.alertTableView.scrollEnabled = NO;
     if ([self.delegate respondsToSelector:@selector(subMitData:)]) {
         [self.delegate subMitData:Btn];
     }
