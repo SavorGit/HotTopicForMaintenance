@@ -364,7 +364,7 @@
             
         case TaskStatusType_Completed:
         {
-            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.appoint_user];
+            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.exeuser];
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
             self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@ (%@)", model.appoint_time, model.appoint_user];
             self.completeLabel.text = [NSString stringWithFormat:@"完成时间：%@ (%@)", model.complete_time, model.exeuser];
