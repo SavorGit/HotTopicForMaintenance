@@ -1264,11 +1264,14 @@
             }
             
         } failure:^(NSError *error, NSInteger index) {
-            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
-            self.submitBtn.userInteractionEnabled = YES;
-            return;
             
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:self.view];
+                self.submitBtn.userInteractionEnabled = YES;
+                return;
+            });
         }];
     }else{
         [self subMitDataRequest];
