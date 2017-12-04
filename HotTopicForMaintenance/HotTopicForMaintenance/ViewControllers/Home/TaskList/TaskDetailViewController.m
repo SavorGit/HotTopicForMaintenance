@@ -1134,10 +1134,12 @@
                 }
                 
             } failure:^(NSError *error, NSInteger index) {
-                [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%f张图片上传失败",index + 1.f] inView:[UIApplication sharedApplication].keyWindow];
-                self.installSubBtn.userInteractionEnabled = YES;
-                return;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%f张图片上传失败",index + 1.f] inView:self.view];
+                    self.installSubBtn.userInteractionEnabled = YES;
+                    return;
+                });
                 
             }];
         }else{
@@ -1160,10 +1162,13 @@
                 }
                 
             } failure:^(NSError *error, NSInteger index) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:self.view];
-                self.installSubBtn.userInteractionEnabled = YES;
-                return;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:self.view];
+                    self.installSubBtn.userInteractionEnabled = YES;
+                    return;
+                });
                 
             }];
         }else{
@@ -1186,8 +1191,12 @@
                  [self subMitDataRequest];
                 
             } failure:^(NSError *error) {
-                [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
-                self.installSubBtn.userInteractionEnabled = YES;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
+                    self.installSubBtn.userInteractionEnabled = YES;
+                });
+                
             }];
         }else{
             [MBProgressHUD showTextHUDWithText:@"请选择一张照片" inView:self.view];
@@ -1264,11 +1273,14 @@
             }
             
         } failure:^(NSError *error, NSInteger index) {
-            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
-            self.submitBtn.userInteractionEnabled = YES;
-            return;
             
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:self.view];
+                self.submitBtn.userInteractionEnabled = YES;
+                return;
+            });
         }];
     }else{
         [self subMitDataRequest];
