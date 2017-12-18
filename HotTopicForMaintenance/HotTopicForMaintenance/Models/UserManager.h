@@ -25,4 +25,10 @@ extern NSString * const RDTaskStatusDidChangeNotification; //用户任务状态�
 
 @property (nonatomic, strong) UserNotificationModel * notificationModel;
 
+@property (nonatomic, assign) double latitude;
+
+@property (nonatomic, assign) double longitude;
+
+@property (nonatomic, copy) NSString * locationName;
+
 @end
