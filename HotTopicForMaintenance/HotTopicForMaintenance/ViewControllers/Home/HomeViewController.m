@@ -27,6 +27,7 @@
 #import "BaseNavigationController.h"
 #import "GetTaskCountRequest.h"
 
+
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) HomeUserInfoView * userInfoView;
@@ -336,6 +337,7 @@
         {
             TaskChooseTypeController * vc = [[TaskChooseTypeController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
+    
         }
             break;
             
