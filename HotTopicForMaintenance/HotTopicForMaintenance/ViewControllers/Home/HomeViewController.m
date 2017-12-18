@@ -27,6 +27,7 @@
 #import "BaseNavigationController.h"
 #import "GetTaskCountRequest.h"
 
+#import "SingleVRankInforViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -337,7 +338,7 @@
         {
             TaskChooseTypeController * vc = [[TaskChooseTypeController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
-    
+            
         }
             break;
             
@@ -350,7 +351,10 @@
             
         case MenuModelType_MyTask:
         {
-            TaskPageViewController * vc = [[TaskPageViewController alloc] init];
+//            TaskPageViewController * vc = [[TaskPageViewController alloc] init];
+//            [self.navigationController pushViewController:vc animated:YES];
+            
+            SingleVRankInforViewController * vc = [[SingleVRankInforViewController alloc] initWithDetaiID:@"50" WithHotelNam:@"鲍鱼王子南国苑（东方美爵店）"];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

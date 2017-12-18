@@ -10,7 +10,7 @@
 #import "RestaurantRankModel.h"
 #import "RepairRecordRankModel.h"
 #import "DamageUploadModel.h"
-#import "RestaurantRankCell.h"
+#import "SingleVRestaurantRankCell.h"
 #import "lookRestaurInforViewController.h"
 #import "FaultListViewController.h"
 #import "SearchHotelViewController.h"
@@ -21,7 +21,7 @@
 #import "UserManager.h"
 #import "RDFrequentlyUsed.h"
 
-@interface SingleVRankInforViewController ()
+@interface SingleVRankInforViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
@@ -29,20 +29,14 @@
 @property (nonatomic, strong) NSMutableArray * repairPData; //数据源
 @property (nonatomic, copy) NSString * cachePath;
 
-@property (nonatomic, strong) UILabel *rePlatformVerLab;
-@property (nonatomic, strong) UILabel *lastPlatformVerLab;
-@property (nonatomic, strong) UILabel *lastApkVerLab;
 @property (nonatomic, strong) UILabel *positionInforLab;
-@property (nonatomic, strong) UIImageView *lastplatDotImg;
-@property (nonatomic, strong) UIImageView *lastApkDotImg;
-@property (nonatomic, strong) UILabel *mRecordLabel;
-@property (nonatomic, strong) UILabel *mReContentLabel;
 
 @property (nonatomic, strong) UIView *mListView;
 @property (nonatomic, strong) UIImageView *sheetBgView;
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, strong) UITextView *remarkTextView;
 @property (nonatomic, strong) UILabel *mReasonLab;
+@property (nonatomic, strong) UIImageView *addImageView;
 
 @property (nonatomic, strong) UIButton *collectBtn;
 @property (nonatomic, strong) UIButton *backButton;
@@ -51,9 +45,6 @@
 @property (nonatomic, strong) RestaurantRankModel *lastSmallModel;
 
 @property (nonatomic, strong) DamageUploadModel *dUploadModel;
-
-@property (nonatomic, strong) UIButton * unResolvedBtn;
-@property (nonatomic, strong) UIButton * resolvedBtn;
 @property (nonatomic, strong) UIButton * submitBtn;
 
 @property (nonatomic, assign) BOOL isRefreh;
@@ -247,161 +238,7 @@
 
 -(void)setUpTableHeaderView{
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170)];
-    
-    self.rePlatformVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
-    self.rePlatformVerLab.backgroundColor = [UIColor clearColor];
-    self.rePlatformVerLab.font = [UIFont systemFontOfSize:13];
-    self.rePlatformVerLab.textColor = [UIColor blackColor];
-    self.rePlatformVerLab.text = [NSString stringWithFormat:@"发布小平台版本号:%@",self.lastSmallModel.neSmall];
-    [headView addSubview:self.rePlatformVerLab];
-    [self.rePlatformVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(15);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth/2 - 15);
-        make.height.mas_equalTo(20);
-    }];
-    
-    self.lastPlatformVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
-    self.lastPlatformVerLab.backgroundColor = [UIColor clearColor];
-    self.lastPlatformVerLab.font = [UIFont systemFontOfSize:14];
-    self.lastPlatformVerLab.textColor = [UIColor blackColor];
-    self.lastPlatformVerLab.text = [NSString stringWithFormat:@"最后小平台版本号:%@",self.lastSmallModel.last_small_pla];
-    [headView addSubview:self.lastPlatformVerLab];
-    [self.lastPlatformVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.rePlatformVerLab.mas_bottom).offset(15);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth - 15 - 30);
-        make.height.mas_equalTo(20);
-    }];
-    
-    //最后小平台版本号标识
-    self.lastplatDotImg = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.lastplatDotImg.backgroundColor = [UIColor grayColor];
-    self.lastplatDotImg.contentMode = UIViewContentModeScaleAspectFit;
-    self.lastplatDotImg.layer.cornerRadius = 20/2.0;
-    self.lastplatDotImg.layer.masksToBounds = YES;
-    [headView addSubview:self.lastplatDotImg];
-    [self.lastplatDotImg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(20, 20));
-        make.top.mas_equalTo(self.rePlatformVerLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(self.lastPlatformVerLab.mas_right);
-    }];
-    if (self.lastSmallModel.last_small_state == 0) {
-        self.lastplatDotImg.backgroundColor = [UIColor redColor];
-    }else{
-        self.lastplatDotImg.backgroundColor = [UIColor greenColor];
-    }
-    
-    self.lastApkVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
-    self.lastApkVerLab.backgroundColor = [UIColor clearColor];
-    self.lastApkVerLab.font = [UIFont systemFontOfSize:14];
-    self.lastApkVerLab.textColor = [UIColor blackColor];
-    self.lastApkVerLab.text = [NSString stringWithFormat:@"小平台最后心跳时间:%@",self.lastHeartTModel.ltime];
-    [headView addSubview:self.lastApkVerLab];
-    [self.lastApkVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.lastPlatformVerLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth - 15 - 30);
-        make.height.mas_equalTo(20);
-    }];
-    
-    //最后心跳时间
-    self.lastApkDotImg = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.lastApkDotImg.backgroundColor = [UIColor grayColor];
-    self.lastApkDotImg.contentMode = UIViewContentModeScaleAspectFit;
-    self.lastApkDotImg.layer.cornerRadius = 20/2.0;
-    self.lastApkDotImg.layer.masksToBounds = YES;
-    [headView addSubview:self.lastApkDotImg];
-    [self.lastApkDotImg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(20, 20));
-        make.top.mas_equalTo(self.lastPlatformVerLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(self.lastApkVerLab.mas_right);
-    }];
-    if (self.lastHeartTModel.lstate == 0) {
-        self.lastApkDotImg.backgroundColor = [UIColor redColor];
-    }else{
-        self.lastApkDotImg.backgroundColor = [UIColor greenColor];
-    }
-    
-    self.mRecordLabel = [[UILabel alloc]init];
-    self.mRecordLabel.font = [UIFont systemFontOfSize:14];
-    self.mRecordLabel.textColor = [UIColor blackColor];
-    self.mRecordLabel.textAlignment = NSTextAlignmentLeft;
-    self.mRecordLabel.text = @"维修记录:";
-    [headView addSubview:self.mRecordLabel];
-    [self.mRecordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(65, 17));
-        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(15);
-    }];
-    
-    self.mReContentLabel = [[UILabel alloc]init];
-    self.mReContentLabel.font = [UIFont systemFontOfSize:14];
-    self.mReContentLabel.textColor = [UIColor blackColor];
-    self.mReContentLabel.textAlignment = NSTextAlignmentLeft;
-    self.mReContentLabel.numberOfLines = 0;
-    self.mReContentLabel.text = @"维修记录内容";
-    [headView addSubview:self.mReContentLabel];
-    [self.mReContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 65 - 100, 17));
-        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
-        make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
-    }];
-    
-    if (self.repairPData.count > 0) {
-        
-        NSMutableString *mReConString = [[NSMutableString alloc] init];
-        for (int i = 0; i < self.repairPData.count; i ++) {
-            RepairRecordRankModel *tmpModel = [self.repairPData objectAtIndex:i];
-            [mReConString appendString:[NSString stringWithFormat:@"\n%@  (%@)",tmpModel.ctime,tmpModel.nickname]];
-        }
-        [mReConString replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
-        
-        float reConHeight;//维修记录的高度
-        //        reConHeight = self.repairPData.count *17;
-        
-        reConHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 65 - 100 title:mReConString font:[UIFont systemFontOfSize:14]];
-        [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(reConHeight);
-        }];
-        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 155 + reConHeight);
-        self.mReContentLabel.text = mReConString;
-        
-    }else{
-        [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(17);
-        }];
-        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170);
-        self.mReContentLabel.text = @"无";
-    }
-    
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"小平台维修" forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:14];
-    button.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    button.layer.borderWidth = .5f;
-    button.layer.cornerRadius = 5.f;
-    button.layer.masksToBounds = YES;
-    [button addTarget:self action:@selector(mPlatformClicked) forControlEvents:UIControlEventTouchUpInside];
-    [headView addSubview:button];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
-        make.right.mas_equalTo(-15);
-        make.width.mas_equalTo(100);
-        make.height.mas_equalTo(20);
-    }];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
-    lineView.backgroundColor = UIColorFromRGB(0xe0dad2);
-    [headView addSubview:lineView];
-    [lineView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mReContentLabel.mas_bottom).offset(15);
-        make.left.mas_equalTo(0);
-        make.width.mas_equalTo(kMainBoundsWidth);
-        make.height.mas_equalTo(1);
-    }];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 60)];
     
     self.positionInforLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
     self.positionInforLab.backgroundColor = [UIColor clearColor];
@@ -410,24 +247,13 @@
     self.positionInforLab.text = [NSString stringWithFormat:@"%@",self.lastSmallModel.banwei];
     [headView addSubview:self.positionInforLab];
     [self.positionInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lineView.mas_bottom).offset(10);
+        make.top.mas_equalTo(15);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(kMainBoundsWidth - 15);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(30);
     }];
     headView.backgroundColor = UIColorFromRGB(0xffffff);
     _tableView.tableHeaderView = headView;
-}
-
-#pragma mark - 点击小平台维修
-- (void)mPlatformClicked{
-    
-    self.dUploadModel.userid = [UserManager manager].user.userid;
-    self.dUploadModel.hotel_id = self.cid;
-    self.dUploadModel.type = @"1";
-    self.dUploadModel.box_mac = self.lastSmallModel.small_mac;
-    
-    [self creatMListView];
 }
 
 #pragma mark - 弹出维修窗口
@@ -446,7 +272,7 @@
     }];
     
     self.sheetBgView = [[UIImageView alloc] init];
-    float bgVideoHeight = [Helper autoHeightWith:320];
+    float bgVideoHeight = [Helper autoHeightWith:320 + 50];
     float bgVideoWidth = [Helper autoWidthWith:266];
     self.self.sheetBgView.frame = CGRectZero;
     self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
@@ -466,7 +292,7 @@
     mTitleLab.backgroundColor = [UIColor clearColor];
     mTitleLab.font = [UIFont systemFontOfSize:15];
     mTitleLab.textColor = [UIColor blackColor];
-    mTitleLab.text = @"维修";
+    mTitleLab.text = @"报修";
     mTitleLab.textAlignment = NSTextAlignmentCenter;
     [self.sheetBgView addSubview:mTitleLab];
     [mTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -474,40 +300,6 @@
         make.centerX.mas_equalTo(self.sheetBgView.centerX);
         make.width.mas_equalTo(bgVideoWidth);
         make.height.mas_equalTo(20);
-    }];
-    
-    self.unResolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.unResolvedBtn setTitle:@"未解决" forState:UIControlStateNormal];
-    self.unResolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.unResolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    self.unResolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    self.unResolvedBtn.layer.borderWidth = .5f;
-    self.unResolvedBtn.layer.cornerRadius = 2.f;
-    self.unResolvedBtn.layer.masksToBounds = YES;
-    [self.unResolvedBtn addTarget:self action:@selector(unResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.sheetBgView addSubview:self.unResolvedBtn];
-    [self.unResolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10);
-        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( - (10 + 40));
-        make.width.mas_equalTo(80);
-        make.height.mas_equalTo(40);
-    }];
-    
-    self.resolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.resolvedBtn setTitle:@"已解决" forState:UIControlStateNormal];
-    self.resolvedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    self.resolvedBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    [self.resolvedBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    self.resolvedBtn.layer.borderWidth = .5f;
-    self.resolvedBtn.layer.cornerRadius = 2.f;
-    self.resolvedBtn.layer.masksToBounds = YES;
-    [self.resolvedBtn addTarget:self action:@selector(ResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.sheetBgView addSubview:self.resolvedBtn];
-    [self.resolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10);
-        make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( 10 + 40);
-        make.width.mas_equalTo(80);
-        make.height.mas_equalTo(40);
     }];
     
     self.mReasonLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -523,7 +315,7 @@
     self.mReasonLab.userInteractionEnabled = YES;
     [self.sheetBgView addSubview:self.mReasonLab];
     [self.mReasonLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.unResolvedBtn.mas_bottom).offset(10);
+        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
         make.height.mas_equalTo(30);
@@ -566,6 +358,35 @@
         make.height.mas_equalTo(20);
     }];
     
+    UIButton * addImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [addImgBtn setTitle:@"选择图片" forState:UIControlStateNormal];
+    addImgBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    addImgBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [addImgBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    addImgBtn.layer.borderWidth = .5f;
+    addImgBtn.layer.cornerRadius = 2.f;
+    addImgBtn.layer.masksToBounds = YES;
+    [addImgBtn addTarget:self action:@selector(addImgClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.sheetBgView addSubview:addImgBtn];
+    [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX);
+        make.width.mas_equalTo(120);
+        make.height.mas_equalTo(30);
+    }];
+    
+    self.addImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.addImageView.backgroundColor = [UIColor grayColor];
+    self.addImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.addImageView.layer.cornerRadius = 20/2.0;
+    self.addImageView.layer.masksToBounds = YES;
+    [self.sheetBgView addSubview:self.addImageView];
+    [self.addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(80, 80));
+        make.top.mas_equalTo(addImgBtn.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self.sheetBgView.centerX);
+    }];
+    
     UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -577,7 +398,7 @@
     [cancelBtn addTarget:self action:@selector(cancelClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.addImageView.mas_bottom).offset(15);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
@@ -594,7 +415,7 @@
     [self.submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.submitBtn];
     [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.addImageView.mas_bottom).offset(15);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
@@ -612,34 +433,8 @@
     
 }
 
-- (void)ResolveClicked:(UIButton *)btn{
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        self.dUploadModel.state = @"1";
-        btn.layer.borderWidth = 2.f;
-        if (self.unResolvedBtn.selected == YES) {
-            self.unResolvedBtn.selected = NO;
-            self.unResolvedBtn.layer.borderWidth = .5f;
-        }
-    }else{
-        self.dUploadModel.state = @"";
-        btn.layer.borderWidth = .5f;
-    }
-}
-
-- (void)unResolveClicked:(UIButton *)btn{
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        self.dUploadModel.state = @"2";
-        btn.layer.borderWidth = 2.f;
-        if (self.resolvedBtn.selected == YES) {
-            self.resolvedBtn.selected = NO;
-            self.resolvedBtn.layer.borderWidth = .5f;
-        }
-    }else{
-        self.dUploadModel.state = @"";
-        btn.layer.borderWidth = .5f;
-    }
+- (void)addImgClicked{
+    
 }
 
 #pragma mark - 点击提交按钮
@@ -793,9 +588,9 @@
 {
     RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
     static NSString *cellID = @"RestaurantRankCell";
-    RestaurantRankCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    SingleVRestaurantRankCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil) {
-        cell = [[RestaurantRankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell = [[SingleVRestaurantRankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -828,7 +623,7 @@
     }else{
         reConHeight = 17;
     }
-    return 102 + reConHeight;
+    return 102 + 40 + reConHeight;
 }
 
 - (void)autoTitleButtonWith:(NSString *)title

@@ -102,6 +102,10 @@
 		88A5533C69257F91FBC76C5E /* libPods-HotTopicForMaintenance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 943310C53F8C67DA52F2D82C /* libPods-HotTopicForMaintenance.a */; };
 		9617A1851FE7B0C400199D34 /* SingleVRankInforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1841FE7B0C400199D34 /* SingleVRankInforViewController.m */; };
 		9617A1881FE7B4E900199D34 /* SingleVRestaurantRankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1871FE7B4E900199D34 /* SingleVRestaurantRankCell.m */; };
+		9617A18C1FE7CDED00199D34 /* SingleGetHotelVRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A18B1FE7CDED00199D34 /* SingleGetHotelVRequest.m */; };
+		9617A18F1FE7CE3400199D34 /* SingleRepairAndSignRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A18E1FE7CE3400199D34 /* SingleRepairAndSignRequest.m */; };
+		9617A1921FE7CE6B00199D34 /* SingleDemageListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1911FE7CE6B00199D34 /* SingleDemageListRequest.m */; };
+		9617A1951FE7CEA900199D34 /* SingleSearchHotelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1941FE7CEA900199D34 /* SingleSearchHotelRequest.m */; };
 		964B10561FB441D400DE706F /* BoxDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B10551FB441D400DE706F /* BoxDataRequest.m */; };
 		969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */; };
 		969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */; };
@@ -357,6 +361,14 @@
 		9617A1841FE7B0C400199D34 /* SingleVRankInforViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleVRankInforViewController.m; sourceTree = "<group>"; };
 		9617A1861FE7B4E900199D34 /* SingleVRestaurantRankCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleVRestaurantRankCell.h; sourceTree = "<group>"; };
 		9617A1871FE7B4E900199D34 /* SingleVRestaurantRankCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleVRestaurantRankCell.m; sourceTree = "<group>"; };
+		9617A18A1FE7CDED00199D34 /* SingleGetHotelVRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleGetHotelVRequest.h; sourceTree = "<group>"; };
+		9617A18B1FE7CDED00199D34 /* SingleGetHotelVRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleGetHotelVRequest.m; sourceTree = "<group>"; };
+		9617A18D1FE7CE3400199D34 /* SingleRepairAndSignRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleRepairAndSignRequest.h; sourceTree = "<group>"; };
+		9617A18E1FE7CE3400199D34 /* SingleRepairAndSignRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleRepairAndSignRequest.m; sourceTree = "<group>"; };
+		9617A1901FE7CE6B00199D34 /* SingleDemageListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleDemageListRequest.h; sourceTree = "<group>"; };
+		9617A1911FE7CE6B00199D34 /* SingleDemageListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleDemageListRequest.m; sourceTree = "<group>"; };
+		9617A1931FE7CEA900199D34 /* SingleSearchHotelRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleSearchHotelRequest.h; sourceTree = "<group>"; };
+		9617A1941FE7CEA900199D34 /* SingleSearchHotelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleSearchHotelRequest.m; sourceTree = "<group>"; };
 		964B10541FB441D400DE706F /* BoxDataRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxDataRequest.h; sourceTree = "<group>"; };
 		964B10551FB441D400DE706F /* BoxDataRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxDataRequest.m; sourceTree = "<group>"; };
 		969A3C2D1FA97A2B00EB95C9 /* NetworkTransforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTransforViewController.h; sourceTree = "<group>"; };
@@ -949,6 +961,7 @@
 		06ECDC821F596C1E007FBD83 /* Networks */ = {
 			isa = PBXGroup;
 			children = (
+				9617A1891FE7CD9700199D34 /* SingleVNet */,
 				06B4A6421FAD5C220081BBA7 /* Task */,
 				969A3C601FAC407C00EB95C9 /* CreateTasksNet */,
 				96AA19A11F5FC97900C06CE8 /* HotelRankNet */,
@@ -999,6 +1012,21 @@
 				9617A1841FE7B0C400199D34 /* SingleVRankInforViewController.m */,
 			);
 			path = SingleVersion;
+			sourceTree = "<group>";
+		};
+		9617A1891FE7CD9700199D34 /* SingleVNet */ = {
+			isa = PBXGroup;
+			children = (
+				9617A18A1FE7CDED00199D34 /* SingleGetHotelVRequest.h */,
+				9617A18B1FE7CDED00199D34 /* SingleGetHotelVRequest.m */,
+				9617A18D1FE7CE3400199D34 /* SingleRepairAndSignRequest.h */,
+				9617A18E1FE7CE3400199D34 /* SingleRepairAndSignRequest.m */,
+				9617A1901FE7CE6B00199D34 /* SingleDemageListRequest.h */,
+				9617A1911FE7CE6B00199D34 /* SingleDemageListRequest.m */,
+				9617A1931FE7CEA900199D34 /* SingleSearchHotelRequest.h */,
+				9617A1941FE7CEA900199D34 /* SingleSearchHotelRequest.m */,
+			);
+			path = SingleVNet;
 			sourceTree = "<group>";
 		};
 		969A3C291FA97A1A00EB95C9 /* CreatViews */ = {
@@ -1328,7 +1356,9 @@
 				96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */,
 				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
+				9617A18C1FE7CDED00199D34 /* SingleGetHotelVRequest.m in Sources */,
 				0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */,
+				9617A18F1FE7CE3400199D34 /* SingleRepairAndSignRequest.m in Sources */,
 				06C44C011FA9E1540050FDBC /* TaskDetailViewController.m in Sources */,
 				06B055DE1F5D498000A9CE68 /* UserManager.m in Sources */,
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
@@ -1423,6 +1453,8 @@
 				0626DEC11F5E860800686790 /* GetAllUserRequest.m in Sources */,
 				06B055D81F5D486800A9CE68 /* GCCGetInfo.m in Sources */,
 				065FDA1A1FB2EEF600B6DF9C /* GetBindListReuqest.m in Sources */,
+				9617A1951FE7CEA900199D34 /* SingleSearchHotelRequest.m in Sources */,
+				9617A1921FE7CE6B00199D34 /* SingleDemageListRequest.m in Sources */,
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,
 				0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */,
 				060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */,
