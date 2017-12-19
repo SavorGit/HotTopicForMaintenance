@@ -17,7 +17,6 @@ PODS:
   - AliyunOSSiOS (2.6.5)
   - BGNetwork (0.2.6):
     - AFNetworking (~> 3.0.2)
-  - BMKLocationKit (1.0.1)
   - CocoaAsyncSocket (7.6.2)
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
@@ -30,7 +29,6 @@ PODS:
 DEPENDENCIES:
   - AliyunOSSiOS (~> 2.6.3)
   - BGNetwork
-  - BMKLocationKit (~> 1.0.1)
   - CocoaAsyncSocket (~> 7.6.1)
   - Masonry (~> 1.0.2)
   - MBProgressHUD (~> 1.0.0)
@@ -42,7 +40,6 @@ SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   AliyunOSSiOS: 6d7f1f6aae0176095d147a88d60b23bbef93e0b7
   BGNetwork: 66986f143548bb5308bffd85dfb2bfd544de1450
-  BMKLocationKit: b4adffae918758c02bddec7ace8ba5487544bd69
   CocoaAsyncSocket: 3541e024f48c54b251638ef72d51dd42808de932
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
@@ -50,6 +47,6 @@ SPEC CHECKSUMS:
   SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
   WMPageController: 4c7f2c636675a71aea5eecf8fdc07a0ce86954e3
 
-PODFILE CHECKSUM: 59e1cf5a84d2aad1ce6803a2ae259592b21d4983
+PODFILE CHECKSUM: 1c7df2b5cf398e09cc8df03521378c2c02c5fd61
 
 COCOAPODS: 1.0.1
