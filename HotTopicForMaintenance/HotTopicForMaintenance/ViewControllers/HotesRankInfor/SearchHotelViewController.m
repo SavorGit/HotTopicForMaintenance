@@ -9,9 +9,12 @@
 #import "SearchHotelViewController.h"
 #import "SearchTableViewCell.h"
 #import "RestaurantRankInforViewController.h"
+#import "SingleVRankInforViewController.h"
 #import "SearchHotelRequest.h"
+#import "SingleSearchHotelRequest.h"
 #import "AutoEnableView.h"
 #import "UserManager.h"
+
 
 @interface SearchHotelViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -108,7 +111,7 @@
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在搜索" inView:self.view];
     BGNetworkRequest * request;
     if ([UserManager manager].user.roletype == UserRoleType_SingleVersion) {
-        
+        request = [[SingleSearchHotelRequest alloc] initWithHotelName:self.searchField.text];
     }else{
         request = [[SearchHotelRequest alloc] initWithHotelName:self.searchField.text];
     }
@@ -206,15 +209,24 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RestaurantRankModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
-    if (self.classType == 1) {
-        if (_backHotel) {
-            _backHotel(tmpModel);
-        }
-        [self.navigationController popViewControllerAnimated:YES];
+    
+    if ([UserManager manager].user.roletype == UserRoleType_SingleVersion){
+        
+        SingleVRankInforViewController *siVC = [[SingleVRankInforViewController alloc] initWithDetaiID:tmpModel.cid WithHotelNam:tmpModel.name];
+        [self.navigationController pushViewController:siVC animated:YES];
+        
     }else{
-        RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] initWithDetaiID:tmpModel.cid WithHotelNam:tmpModel.name];
-        [self.navigationController pushViewController:riVC animated:YES];
+        if (self.classType == 1) {
+            if (_backHotel) {
+                _backHotel(tmpModel);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            RestaurantRankInforViewController *riVC = [[RestaurantRankInforViewController alloc] initWithDetaiID:tmpModel.cid WithHotelNam:tmpModel.name];
+            [self.navigationController pushViewController:riVC animated:YES];
+        }
     }
+    
 }
 
 - (void)dealloc

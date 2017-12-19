@@ -10,6 +10,8 @@
 #import "LookHotelInforModel.h"
 #import "lookRestTableViewCell.h"
 #import "LookHotelInforRequest.h"
+#import "SingleLookHotelInforRequest.h"
+#import "UserManager.h"
 
 
 @interface lookRestaurInforViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -83,7 +85,13 @@
 - (void)dataRequest
 {
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
-    LookHotelInforRequest * request = [[LookHotelInforRequest alloc] initWithId:self.cid];
+    
+    BGNetworkRequest * request;
+    if ([UserManager manager].user.roletype == UserRoleType_SingleVersion) {
+        request = [[SingleLookHotelInforRequest alloc] initWithId:self.cid];
+    }else{
+        request = [[LookHotelInforRequest alloc] initWithId:self.cid];
+    }
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];

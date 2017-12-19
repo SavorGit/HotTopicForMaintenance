@@ -27,7 +27,7 @@
 #import "BaseNavigationController.h"
 #import "GetTaskCountRequest.h"
 
-#import "SingleVRankInforViewController.h"
+#import "SearchHotelViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -395,7 +395,7 @@
             
         case MenuModelType_SingleVersion:
         {
-            SingleVRankInforViewController * vc = [[SingleVRankInforViewController alloc] initWithDetaiID:@"50" WithHotelNam:@"鲍鱼王子南国苑（东方美爵店）"];
+            SearchHotelViewController * vc = [[SearchHotelViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

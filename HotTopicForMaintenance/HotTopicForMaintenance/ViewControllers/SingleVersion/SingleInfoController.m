@@ -7,7 +7,7 @@
 //
 
 #import "SingleInfoController.h"
-#import "h"
+
 
 @interface SingleInfoController ()
 

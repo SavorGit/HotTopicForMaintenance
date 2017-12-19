@@ -107,6 +107,7 @@
 		9617A18F1FE7CE3400199D34 /* SingleRepairAndSignRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A18E1FE7CE3400199D34 /* SingleRepairAndSignRequest.m */; };
 		9617A1921FE7CE6B00199D34 /* SingleDemageListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1911FE7CE6B00199D34 /* SingleDemageListRequest.m */; };
 		9617A1951FE7CEA900199D34 /* SingleSearchHotelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1941FE7CEA900199D34 /* SingleSearchHotelRequest.m */; };
+		9617A1981FE8A9BD00199D34 /* SingleLookHotelInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1971FE8A9BD00199D34 /* SingleLookHotelInforRequest.m */; };
 		964B10561FB441D400DE706F /* BoxDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B10551FB441D400DE706F /* BoxDataRequest.m */; };
 		969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */; };
 		969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */; };
@@ -372,6 +373,8 @@
 		9617A1911FE7CE6B00199D34 /* SingleDemageListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleDemageListRequest.m; sourceTree = "<group>"; };
 		9617A1931FE7CEA900199D34 /* SingleSearchHotelRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleSearchHotelRequest.h; sourceTree = "<group>"; };
 		9617A1941FE7CEA900199D34 /* SingleSearchHotelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleSearchHotelRequest.m; sourceTree = "<group>"; };
+		9617A1961FE8A9BD00199D34 /* SingleLookHotelInforRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleLookHotelInforRequest.h; sourceTree = "<group>"; };
+		9617A1971FE8A9BD00199D34 /* SingleLookHotelInforRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleLookHotelInforRequest.m; sourceTree = "<group>"; };
 		964B10541FB441D400DE706F /* BoxDataRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxDataRequest.h; sourceTree = "<group>"; };
 		964B10551FB441D400DE706F /* BoxDataRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxDataRequest.m; sourceTree = "<group>"; };
 		969A3C2D1FA97A2B00EB95C9 /* NetworkTransforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTransforViewController.h; sourceTree = "<group>"; };
@@ -1030,6 +1033,8 @@
 				9617A1911FE7CE6B00199D34 /* SingleDemageListRequest.m */,
 				9617A1931FE7CEA900199D34 /* SingleSearchHotelRequest.h */,
 				9617A1941FE7CEA900199D34 /* SingleSearchHotelRequest.m */,
+				9617A1961FE8A9BD00199D34 /* SingleLookHotelInforRequest.h */,
+				9617A1971FE8A9BD00199D34 /* SingleLookHotelInforRequest.m */,
 			);
 			path = SingleVNet;
 			sourceTree = "<group>";
@@ -1416,6 +1421,7 @@
 				066006211FB583B3007F94D2 /* InstallDetailCell.m in Sources */,
 				96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */,
 				065FDA141FB29AD700B6DF9C /* GetCreateTaskListRequest.m in Sources */,
+				9617A1981FE8A9BD00199D34 /* SingleLookHotelInforRequest.m in Sources */,
 				06356D381F5D7B2400242940 /* RDAlertView.m in Sources */,
 				06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */,
 				06B4A6481FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m in Sources */,
