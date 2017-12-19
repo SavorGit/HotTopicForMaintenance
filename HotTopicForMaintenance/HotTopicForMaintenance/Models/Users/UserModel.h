@@ -14,7 +14,8 @@ typedef enum : NSUInteger {
     UserRoleType_CreateTask = 1,
     UserRoleType_AssignTask = 2,
     UserRoleType_HandleTask = 3,
-    UserRoleType_LookTask = 4
+    UserRoleType_LookTask = 4,
+    UserRoleType_SingleVersion = 5
 } UserRoleType;
 
 extern NSString * const RDUserCityDidChangeNotification; //已经连接至设备

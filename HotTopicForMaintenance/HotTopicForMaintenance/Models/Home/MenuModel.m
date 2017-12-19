@@ -71,6 +71,13 @@
             
             break;
             
+        case MenuModelType_SingleVersion:
+            
+            self.title = @"更新换画";
+            self.imageName = @"ywsy_gh";
+            
+            break;
+            
         case MenuModelType_Space:
             
             self.title = @"";

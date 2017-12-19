@@ -16,6 +16,7 @@ typedef enum : NSUInteger {
     MenuModelType_ErrorReport,
     MenuModelType_RepairRecord,
     MenuModelType_BindDevice,
+    MenuModelType_SingleVersion,
     MenuModelType_Space
 } MenuModelType;
 

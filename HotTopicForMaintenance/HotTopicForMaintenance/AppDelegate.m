@@ -17,7 +17,11 @@
 #import "UserLoginViewController.h"
 #import "ErrorDetailViewController.h"
 
-@interface AppDelegate ()<UNUserNotificationCenterDelegate>
+#import <CoreLocation/CoreLocation.h>
+
+@interface AppDelegate ()<UNUserNotificationCenterDelegate, CLLocationManagerDelegate>
+
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 @end
 
@@ -40,7 +44,90 @@
     
     [self.window makeKeyAndVisible];
     
+    [self configLocation];
+    
     return YES;
+}
+
+- (void)configLocation
+{
+    if ([CLLocationManager locationServicesEnabled]) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+        if (status == kCLAuthorizationStatusNotDetermined) {
+            [self.locationManager requestWhenInUseAuthorization];
+        }else if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted){
+            NSLog(@"未打开定位权限");
+        }else{
+            [self getLocationInfo];
+        }
+    }else{
+        NSLog(@"系统定位被关闭");
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"%@", error);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
+        [self getLocationInfo];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
+{
+    CLLocation * location = [locations lastObject];
+    [UserManager manager].latitude = location.coordinate.latitude;
+    [UserManager manager].longitude = location.coordinate.longitude;
+    
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        CLPlacemark * place = [placemarks objectAtIndex:0];
+        
+        NSString * placeName = [[NSString alloc] init];
+        
+        if (place.country) {
+            placeName = [placeName stringByAppendingString:place.country];
+        }
+        if (place.administrativeArea) {
+            placeName = [placeName stringByAppendingString:place.administrativeArea];
+        }
+        if (place.subAdministrativeArea) {
+            placeName = [placeName stringByAppendingString:place.subAdministrativeArea];
+        }
+        if (place.locality && ![place.locality isEqualToString:place.administrativeArea]) {
+            placeName = [placeName stringByAppendingString:place.locality];
+        }
+        if (place.subLocality) {
+            placeName = [placeName stringByAppendingString:place.subLocality];
+        }
+        if (place.thoroughfare) {
+            placeName = [placeName stringByAppendingString:place.thoroughfare];
+        }
+        if (place.subThoroughfare) {
+            placeName = [placeName stringByAppendingString:place.subThoroughfare];
+        }
+        if (place.inlandWater) {
+            placeName = [placeName stringByAppendingString:place.inlandWater];
+        }
+        if (place.ocean) {
+            placeName = [placeName stringByAppendingString:place.ocean];
+        }
+        [UserManager manager].locationName = placeName;
+    }];
+    //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
+    [manager stopUpdatingLocation];
+}
+
+- (void)getLocationInfo
+{
+    [self.locationManager startUpdatingLocation];
 }
 
 //处理启动时候的相关事务
