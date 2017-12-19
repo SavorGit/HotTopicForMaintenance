@@ -7,7 +7,21 @@
 //
 
 #import "SingleSearchHotelRequest.h"
+#import "Helper.h"
 
 @implementation SingleSearchHotelRequest
+
+- (instancetype)initWithHotelName:(NSString *)hotelName;
+{
+    if (self = [super init]) {
+        self.methodName = [@"Tasksubcontract/hotel/searchHotel?" stringByAppendingString:[Helper getURLPublic]];
+        self.httpMethod = BGNetworkRequestHTTPPost;
+        if (!isEmptyString(hotelName)) {
+            [self setValue:hotelName forParamKey:@"hotel_name"];
+        }
+//        [self setValue:[UserManager manager].user.currentCity.cid forParamKey:@"area_id"];
+    }
+    return self;
+}
 
 @end

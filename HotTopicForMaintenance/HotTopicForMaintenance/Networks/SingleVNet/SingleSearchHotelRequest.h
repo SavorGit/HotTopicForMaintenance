@@ -10,4 +10,6 @@
 
 @interface SingleSearchHotelRequest : BGNetworkRequest
 
+- (instancetype)initWithHotelName:(NSString *)hotelName;
+
 @end

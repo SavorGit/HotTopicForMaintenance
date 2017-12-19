@@ -27,6 +27,7 @@
 #import "BaseNavigationController.h"
 #import "GetTaskCountRequest.h"
 
+#import "SearchHotelViewController.h"
 #import "SingleVRankInforViewController.h"
 #import "SingleInfoController.h"
 
@@ -398,8 +399,6 @@
         {
             SingleInfoController * info = [[SingleInfoController alloc] init];
             [self.navigationController pushViewController:info animated:YES];
-//            SingleVRankInforViewController * vc = [[SingleVRankInforViewController alloc] initWithDetaiID:@"50" WithHotelNam:@"鲍鱼王子南国苑（东方美爵店）"];
-//            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             

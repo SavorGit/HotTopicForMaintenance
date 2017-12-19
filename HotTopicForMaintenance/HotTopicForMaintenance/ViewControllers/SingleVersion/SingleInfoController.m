@@ -7,6 +7,7 @@
 //
 
 #import "SingleInfoController.h"
+
 #import "HotTopicTools.h"
 #import "UserManager.h"
 #import "SearchHotelViewController.h"
