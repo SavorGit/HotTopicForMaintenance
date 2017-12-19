@@ -9,6 +9,7 @@
 #import "SingleInfoController.h"
 #import "HotTopicTools.h"
 #import "UserManager.h"
+#import "SearchHotelViewController.h"
 
 @interface SingleInfoController ()
 
@@ -71,7 +72,8 @@
 
 - (void)searchLabelDidTap:(UITapGestureRecognizer *)tap
 {
-    
+    SearchHotelViewController * search = [[SearchHotelViewController alloc] init];
+    [self.navigationController pushViewController:search animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
