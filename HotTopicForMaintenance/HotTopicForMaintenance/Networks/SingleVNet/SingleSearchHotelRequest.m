@@ -8,6 +8,7 @@
 
 #import "SingleSearchHotelRequest.h"
 #import "Helper.h"
+#import "UserManager.h"
 
 @implementation SingleSearchHotelRequest
 
@@ -19,7 +20,7 @@
         if (!isEmptyString(hotelName)) {
             [self setValue:hotelName forParamKey:@"hotel_name"];
         }
-//        [self setValue:[UserManager manager].user.currentCity.cid forParamKey:@"area_id"];
+       [self setValue:[UserManager manager].user.currentCity.cid forParamKey:@"area_id"];
     }
     return self;
 }
