@@ -19,6 +19,9 @@ NSString * const RDTaskStatusDidChangeNotification = @"RDTaskStatusDidChangeNoti
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         manager = [[self alloc] init];
+        manager.longitude = 0.f;
+        manager.latitude = 0.f;
+        manager.locationName = @"位置获取失败";
     });
     return manager;
 }

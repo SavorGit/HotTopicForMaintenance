@@ -28,6 +28,7 @@
 #import "GetTaskCountRequest.h"
 
 #import "SingleVRankInforViewController.h"
+#import "SingleInfoController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -395,8 +396,10 @@
             
         case MenuModelType_SingleVersion:
         {
-            SingleVRankInforViewController * vc = [[SingleVRankInforViewController alloc] initWithDetaiID:@"50" WithHotelNam:@"鲍鱼王子南国苑（东方美爵店）"];
-            [self.navigationController pushViewController:vc animated:YES];
+            SingleInfoController * info = [[SingleInfoController alloc] init];
+            [self.navigationController pushViewController:info animated:YES];
+//            SingleVRankInforViewController * vc = [[SingleVRankInforViewController alloc] initWithDetaiID:@"50" WithHotelNam:@"鲍鱼王子南国苑（东方美爵店）"];
+//            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             
