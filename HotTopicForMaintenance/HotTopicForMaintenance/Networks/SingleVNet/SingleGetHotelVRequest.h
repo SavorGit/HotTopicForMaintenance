@@ -10,4 +10,6 @@
 
 @interface SingleGetHotelVRequest : BGNetworkRequest
 
+- (instancetype)initWithHotelId:(NSString *)hotelId;
+
 @end

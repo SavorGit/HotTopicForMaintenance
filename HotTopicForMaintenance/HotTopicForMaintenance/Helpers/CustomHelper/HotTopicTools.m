@@ -321,6 +321,24 @@
     }
 }
 
++ (void)uploadImage:(UIImage *)image withImageName:(NSString *)name progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *))failureBlock
+{
+    NSString * path =[NSString stringWithFormat:@"log/resource/standalone/mobile/%@/%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], name];
+    [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
+        
+        if (successBlock) {
+            successBlock(path);
+        }
+        
+    } failure:^(NSError *error) {
+        
+        if (failureBlock) {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
 + (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *path))successBlock failure:(void (^)(NSError *error))failureBlock
 {
     NSString *endpoint = AliynEndPoint;

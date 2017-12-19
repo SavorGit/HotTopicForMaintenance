@@ -7,7 +7,17 @@
 //
 
 #import "SingleDemageListRequest.h"
+#import "Helper.h"
 
 @implementation SingleDemageListRequest
+
+- (instancetype)init;
+{
+    if (self = [super init]) {
+        self.methodName = [@"Tasksubcontract/Box/getHotelBoxDamageConfig?" stringByAppendingString:[Helper getURLPublic]];
+        self.httpMethod = BGNetworkRequestHTTPPost;
+    }
+    return self;
+}
 
 @end

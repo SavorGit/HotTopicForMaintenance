@@ -15,19 +15,25 @@
 #import "FaultListViewController.h"
 #import "SearchHotelViewController.h"
 #import "Helper.h"
-#import "RestRankInforRequest.h"
-#import "DamageConfigRequest.h"
-#import "DamageUploadRequest.h"
+#import "SingleGetHotelVRequest.h"
+#import "SingleDemageListRequest.h"
+#import "SingleRepairAndSignRequest.h"
 #import "UserManager.h"
 #import "RDFrequentlyUsed.h"
+#import "HotTopicTools.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
-@interface SingleVRankInforViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UINavigationControllerDelegate>
+@interface SingleVRankInforViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+{
+    UIImagePickerController *_imagePickerController;
+}
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
 @property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
 @property (nonatomic, strong) NSMutableArray * repairPData; //数据源
 @property (nonatomic, copy) NSString * cachePath;
+@property (nonatomic, copy) NSString * imgFileName;
 
 @property (nonatomic, strong) UILabel *positionInforLab;
 
@@ -83,6 +89,7 @@
     _dConfigData = [[NSMutableArray alloc] init];
     _repairPData = [[NSMutableArray alloc] init];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
+    self.imgFileName = [[NSString alloc] init];
     self.dUploadModel = [[DamageUploadModel alloc] init];
     self.isRefreh = NO;
     
@@ -92,7 +99,7 @@
 - (void)dataRequest
 {
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在刷新" inView:self.view];
-    RestRankInforRequest * request = [[RestRankInforRequest alloc] initWithId:self.cid];
+    SingleGetHotelVRequest * request = [[SingleGetHotelVRequest alloc] initWithHotelId:self.cid];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];
@@ -102,34 +109,14 @@
         NSDictionary * dataDict = [response objectForKey:@"result"];
         NSDictionary *listDict = [dataDict objectForKey:@"list"];
         
-        NSDictionary *versionDict = [listDict objectForKey:@"version"];
-        NSDictionary *lastHeartTimeDict = [versionDict objectForKey:@"last_heart_time"];
-        NSDictionary *lastSmallDict = [versionDict objectForKey:@"last_small"];
-        self.lastHeartTModel = [[RestaurantRankModel alloc] initWithDictionary:lastHeartTimeDict];
-        self.lastSmallModel = [[RestaurantRankModel alloc] initWithDictionary:lastSmallDict];
+        self.lastSmallModel = [[RestaurantRankModel alloc] init];
         self.lastSmallModel.banwei = [listDict objectForKey:@"banwei"];
-        self.lastSmallModel.neSmall = [versionDict objectForKey:@"new_small"];
-        self.lastSmallModel.small_mac = [versionDict objectForKey:@"small_mac"];
         NSArray *boxInforArr = [listDict objectForKey:@"box_info"];
-        
-        NSArray *repair_recordArr = [versionDict objectForKey:@"repair_record"];//头部小平台维修记录
-        for (int i = 0 ; i < repair_recordArr.count; i ++) {
-            
-            RepairRecordRankModel * detailModel = [[RepairRecordRankModel alloc] initWithDictionary:[repair_recordArr objectAtIndex:i]];
-            [_repairPData addObject:detailModel];
-            
-        }
         
         for (int i = 0; i < boxInforArr.count; i ++) {
             
             NSDictionary *tmpDic = boxInforArr[i];
             RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:tmpDic];
-            NSArray * listArray = [tmpDic objectForKey:@"repair_record"];
-            tmpModel.recordList = [NSMutableArray new];
-            for (NSInteger i = 0; i < listArray.count; i++) {
-                RepairRecordRankModel * detailModel = [[RepairRecordRankModel alloc] initWithDictionary:[listArray objectAtIndex:i]];
-                [tmpModel.recordList addObject:detailModel];
-            }
             [self.dataSource addObject:tmpModel];
         }
         
@@ -159,7 +146,7 @@
 
 - (void)demageConfigRequest
 {
-    DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
+    SingleDemageListRequest * request = [[SingleDemageListRequest alloc] init];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSDictionary * dataDict = [response objectForKey:@"result"];
@@ -175,30 +162,60 @@
     }];
 }
 
+- (void)upImageData{
+    
+    if (self.addImageView.image != nil) {
+
+        [HotTopicTools uploadImage:self.addImageView.image withImageName:self.imgFileName progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+            
+        } success:^(NSString *path ) {
+            self.dUploadModel.imgUrl = path;
+            self.dUploadModel.srtype = @"2";
+            [self damageUploadRequest];
+           NSLog(@"---上传成功！");
+
+            
+        } failure:^(NSError *error) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
+            });
+        }];
+        
+    }else{
+        
+        [MBProgressHUD showTextHUDWithText:@"请选择一张照片" inView:self.view];
+        
+    }
+}
 #pragma mark -- 上传维护信息
-- (void)damageUploadRequest
+- (void)damageUploadRequest;
 {
-    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在提交" inView:self.view];
-    DamageUploadRequest * request = [[DamageUploadRequest alloc] initWithModel:self.dUploadModel];
+//    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在提交" inView:self.view];
+    SingleRepairAndSignRequest * request = [[SingleRepairAndSignRequest alloc] initWithModel:self.dUploadModel];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        [hud hideAnimated:NO];
+//        [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
         
         NSInteger code = [response[@"code"] integerValue];
         NSString *msg = response[@"msg"];
         if (code == 10000) {
-            [self dismissViewWithAnimationDuration:.3f];
+            if ([self.dUploadModel.srtype integerValue] == 1) {
+                [MBProgressHUD showTextHUDWithText:@"签到成功" inView:self.view];
+            }else{
+                [self dismissViewWithAnimationDuration:.3f];
+                [MBProgressHUD showTextHUDWithText:@"提交成功" inView:self.view];
+            }
             self.isRefreh = NO;
             [self cleanDamageModel];
-            [self dataRequest];
-            [MBProgressHUD showTextHUDWithText:@"提交成功" inView:self.view];
+            
         }else{
             [MBProgressHUD showTextHUDWithText:msg inView:self.view];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        [hud hideAnimated:NO];
+//        [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
@@ -206,7 +223,7 @@
             [MBProgressHUD showTextHUDWithText:@"提交失败" inView:self.view];
         }
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        [hud hideAnimated:NO];
+//        [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"提交失败" inView:self.view];
     }];
@@ -435,6 +452,14 @@
 
 - (void)addImgClicked{
     
+    if (!_imagePickerController) {
+        _imagePickerController = [[UIImagePickerController alloc] init];
+        _imagePickerController.delegate = self;
+        _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        _imagePickerController.allowsEditing = YES;
+    }
+    
+    [self selectImageFromAlbum];
 }
 
 #pragma mark - 点击提交按钮
@@ -447,11 +472,7 @@
         self.dUploadModel.remakr = self.remarkTextView.text;
     }
     
-    if (isEmptyString(self.dUploadModel.state)) {
-        self.submitBtn.userInteractionEnabled = YES;
-        [MBProgressHUD showTextHUDWithText:@"请选择是否解决" inView:self.view];
-        return;
-    }else if (isEmptyString(self.dUploadModel.remakr) && isEmptyString(self.dUploadModel.repair_num_str)){
+    if (isEmptyString(self.dUploadModel.remakr) && isEmptyString(self.dUploadModel.repair_num_str)){
         self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"请填写至少一项内容" inView:self.view];
         return;
@@ -461,7 +482,7 @@
         [MBProgressHUD showTextHUDWithText:@"备注文字超出100字" inView:self.view];
         return;
     }
-    [self damageUploadRequest];
+    [self upImageData];
 }
 
 #pragma mark - 点击取消按钮
@@ -471,10 +492,10 @@
 }
 
 - (void)cleanDamageModel{
-    self.dUploadModel.state = @"";
-    self.dUploadModel.type = @"";
     self.dUploadModel.remakr = @"";
     self.dUploadModel.repair_num_str = @"";
+    self.dUploadModel.srtype = @"";
+    self.dUploadModel.imgUrl = @"";
     for (int i = 0; i < self.dConfigData.count; i ++) {
         RestaurantRankModel *tmpModel = self.dConfigData[i];
         tmpModel.selectType = NO;
@@ -603,11 +624,25 @@
         
         weakSelf.dUploadModel.userid = [UserManager manager].user.userid;
         weakSelf.dUploadModel.hotel_id = self.cid;
-        weakSelf.dUploadModel.type = @"2";
         weakSelf.dUploadModel.box_mac = tmpModel.mac;
+        weakSelf.dUploadModel.bid = tmpModel.bid;
         
         [weakSelf creatMListView];
     };
+    
+    cell.singleBtnClick = ^(RestaurantRankModel *tmpModel){
+        
+        weakSelf.dUploadModel.userid = [UserManager manager].user.userid;
+        weakSelf.dUploadModel.hotel_id = self.cid;
+        weakSelf.dUploadModel.bid = tmpModel.bid;
+        weakSelf.dUploadModel.srtype = @"1";
+        weakSelf.dUploadModel.remakr = @"";
+        weakSelf.dUploadModel.imgUrl = @"";
+        weakSelf.dUploadModel.repair_num_str  = @"";
+        
+        [self damageUploadRequest];
+    };
+    
     return cell;
     
 }
@@ -680,10 +715,64 @@
     
 }
 
+
+#pragma mark 从相册获取图片或视频
+- (void)selectImageFromAlbum
+{
+    _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [_imagePickerController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self presentViewController:_imagePickerController animated:YES completion:nil];
+}
+
+#pragma mark UIImagePickerControllerDelegate
+//该代理方法仅适用于只选取图片时
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    
+    self.addImageView.image = image;
+    
+}
+
+//适用获取所有媒体资源，只需判断资源类型
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
+    //判断资源类型
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        
+        self.addImageView.image = info[UIImagePickerControllerEditedImage];
+        if (self.addImageView.image !=nil) {
+            //获取图片的名字
+            __block NSString* imageFileName;
+            NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+            ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
+            {
+                ALAssetRepresentation *representation = [myasset defaultRepresentation];
+                imageFileName = [representation filename];
+                NSArray *strArray = [imageFileName componentsSeparatedByString:@"."];
+                if (strArray.count > 0) {
+                    self.imgFileName = strArray[0];
+                }
+                
+            };
+            
+            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+
+            [assetslibrary assetForURL:imageURL
+
+                           resultBlock:resultblock
+
+                          failureBlock:nil];
+            
+        }
+
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 - (void)dealloc
 {
-    [RestRankInforRequest cancelRequest];
-    [DamageConfigRequest cancelRequest];
+    [SingleGetHotelVRequest cancelRequest];
+    [SingleDemageListRequest cancelRequest];
 }
 
 - (void)didReceiveMemoryWarning {

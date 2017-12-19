@@ -51,4 +51,9 @@
 //获取酒楼基本损坏配置表
 @property(nonatomic, copy) NSString *reason;
 
+//单机版酒楼版位信息
+@property(nonatomic, copy) NSString *bid;
+@property(nonatomic, copy) NSString *srtype;
+@property(nonatomic, copy) NSString *last_ctime;
+
 @end

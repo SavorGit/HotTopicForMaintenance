@@ -18,4 +18,9 @@
 @property(nonatomic, copy) NSString *type; //类型1小平台2机顶盒
 @property(nonatomic, copy) NSString *remakr;
 
+//运维端单机版
+@property(nonatomic, copy) NSString *imgUrl;//单机版上传图片地址
+@property(nonatomic, copy) NSString *bid;
+@property(nonatomic, copy) NSString *srtype;
+
 @end

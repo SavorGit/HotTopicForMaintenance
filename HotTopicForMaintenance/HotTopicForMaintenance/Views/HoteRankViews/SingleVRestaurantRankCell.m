@@ -196,7 +196,7 @@
 
 - (void)signButtonClicked{
     if (_singleBtnClick) {
-        _singleBtnClick(0);
+        _singleBtnClick(self.restRankModel);
     }
 }
 
@@ -212,8 +212,8 @@
     self.versionLabel.text = model.rname;
     self.macLabel.text = model.mac;
     self.stbLabel.text = model.boxname;
-    self.lastTimeLabel.text = [NSString stringWithFormat:@"最后操作状态:%@",model.last_heart_time];
-    self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后操作时间:%@",model.last_nginx];
+    self.lastTimeLabel.text = [NSString stringWithFormat:@"最后操作状态:%@",model.srtype];
+    self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后操作时间:%@",model.last_ctime];
     
     if (model.recordList.count > 0) {
         

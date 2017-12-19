@@ -7,7 +7,10 @@
 //
 
 #import <BGNetwork/BGNetwork.h>
+#import "DamageUploadModel.h"
 
 @interface SingleRepairAndSignRequest : BGNetworkRequest
+
+- (instancetype)initWithModel:(DamageUploadModel *)model;
 
 @end

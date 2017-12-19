@@ -15,7 +15,7 @@
 //    点击按钮block回调
 @property (nonatomic,copy) void(^btnClick)(RestaurantRankModel *);
 
-@property (nonatomic,copy) void(^singleBtnClick)(NSIndexPath *);
+@property (nonatomic,copy) void(^singleBtnClick)(RestaurantRankModel *);
 
 - (void)configWithModel:(RestaurantRankModel *)model;
 

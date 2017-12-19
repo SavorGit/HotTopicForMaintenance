@@ -7,7 +7,30 @@
 //
 
 #import "SingleRepairAndSignRequest.h"
+#import "Helper.h"
+#import "UserManager.h"
 
 @implementation SingleRepairAndSignRequest
+
+- (instancetype)initWithModel:(DamageUploadModel *)model{
+    
+    if (self = [super init]) {
+        self.methodName = [@"Tasksubcontract/Box/InsertBoxDamage?" stringByAppendingString:[Helper getURLPublic]];
+        self.httpMethod = BGNetworkRequestHTTPPost;
+        
+        // 必填
+        [self setValue:model.bid forParamKey:@"bid"];
+        [self setValue:model.hotel_id forParamKey:@"hotel_id"];
+        [self setValue:[UserManager manager].user.userid forParamKey:@"userid"];
+        [self setValue:model.srtype forParamKey:@"srtype"];
+        
+        // 选填
+        [self setValue:model.remakr forParamKey:@"remark"];
+        [self setValue:model.imgUrl forParamKey:@"repair_img"];
+        [self setValue:model.repair_num_str forParamKey:@"repair_type"];
+        
+    }
+    return self;
+}
 
 @end
