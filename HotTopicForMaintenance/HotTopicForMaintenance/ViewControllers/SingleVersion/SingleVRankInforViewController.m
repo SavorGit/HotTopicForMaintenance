@@ -207,6 +207,7 @@
             }
             self.isRefreh = NO;
             [self cleanDamageModel];
+            [self dataRequest];
             
         }else{
             [MBProgressHUD showTextHUDWithText:msg inView:self.view];
@@ -274,6 +275,7 @@
 #pragma mark - 弹出维修窗口
 - (void)creatMListView{
     
+    CGFloat scale = kMainBoundsWidth/375.f;
     self.mListView = [[UIView alloc] init];
     self.mListView.tag = 1888;
     self.mListView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
@@ -287,8 +289,8 @@
     }];
     
     self.sheetBgView = [[UIImageView alloc] init];
-    float bgVideoHeight = [Helper autoHeightWith:320 + 50];
-    float bgVideoWidth = [Helper autoWidthWith:266];
+    float bgVideoHeight = (320 + 90) *scale;
+    float bgVideoWidth = 266 *scale;
     self.self.sheetBgView.frame = CGRectZero;
     self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
     self.sheetBgView.backgroundColor = [UIColor whiteColor];
@@ -311,10 +313,10 @@
     mTitleLab.textAlignment = NSTextAlignmentCenter;
     [self.sheetBgView addSubview:mTitleLab];
     [mTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
+        make.top.mas_equalTo(10 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX);
         make.width.mas_equalTo(bgVideoWidth);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(20 *scale);
     }];
     
     self.mReasonLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -330,10 +332,10 @@
     self.mReasonLab.userInteractionEnabled = YES;
     [self.sheetBgView addSubview:self.mReasonLab];
     [self.mReasonLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10);
+        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10 *scale);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
@@ -352,10 +354,10 @@
     self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self.sheetBgView addSubview:self.remarkTextView];
     [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10 *scale);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
-        make.height.mas_equalTo(130);
+        make.height.mas_equalTo(130 *scale);
     }];
     
     self.countLabel = [[UILabel alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 100, CGRectGetMaxY(self.remarkTextView.frame) + 5, 60, 20)];
@@ -370,7 +372,7 @@
         make.top.mas_equalTo(self.remarkTextView.mas_bottom);
         make.right.mas_equalTo(self.remarkTextView.mas_right);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(20 *scale);
     }];
     
     UIButton * addImgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -384,10 +386,10 @@
     [addImgBtn addTarget:self action:@selector(addImgClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:addImgBtn];
     [addImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(15 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX);
         make.width.mas_equalTo(120);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     self.addImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -395,8 +397,8 @@
     self.addImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.sheetBgView addSubview:self.addImageView];
     [self.addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(80, 80));
-        make.top.mas_equalTo(addImgBtn.mas_bottom).offset(10);
+        make.size.mas_equalTo(CGSizeMake(80, 80 *scale));
+        make.top.mas_equalTo(addImgBtn.mas_bottom).offset(10 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX);
     }];
     self.addImageView.image = [UIImage imageNamed:@"zanwu"];
@@ -412,10 +414,10 @@
     [cancelBtn addTarget:self action:@selector(cancelClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.addImageView.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.addImageView.mas_bottom).offset(15 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -429,10 +431,10 @@
     [self.submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.submitBtn];
     [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.addImageView.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.addImageView.mas_bottom).offset(15 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mReasonClicked)];
