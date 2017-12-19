@@ -22,5 +22,6 @@
 @property(nonatomic, copy) NSString *imgUrl;//单机版上传图片地址
 @property(nonatomic, copy) NSString *bid;
 @property(nonatomic, copy) NSString *srtype;
+@property(nonatomic, copy) NSString *current_location;
 
 @end

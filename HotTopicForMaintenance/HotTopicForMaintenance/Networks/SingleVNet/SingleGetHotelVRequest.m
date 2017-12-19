@@ -14,7 +14,7 @@
 - (instancetype)initWithHotelId:(NSString *)hotelId{
     
     if (self = [super init]) {
-        self.methodName = [@"Tasksubcontract/Hotel/getHotelVersionById?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Tasksubcontract/Hotel/getSingleHotelVersionById?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         if (!isEmptyString(hotelId)) {
             [self setValue:hotelId forParamKey:@"hotel_id"];

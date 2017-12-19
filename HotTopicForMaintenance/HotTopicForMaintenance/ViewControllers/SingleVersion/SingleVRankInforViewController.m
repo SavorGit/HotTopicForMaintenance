@@ -171,19 +171,17 @@
         } success:^(NSString *path ) {
             self.dUploadModel.imgUrl = path;
             self.dUploadModel.srtype = @"2";
+            self.dUploadModel.current_location = [UserManager manager].locationName;
             [self damageUploadRequest];
            NSLog(@"---上传成功！");
-
-            
         } failure:^(NSError *error) {
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
-            });
+            self.submitBtn.userInteractionEnabled = YES;
+            [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
+            
         }];
-        
     }else{
-        
+        self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"请选择一张照片" inView:self.view];
         
     }
@@ -191,11 +189,11 @@
 #pragma mark -- 上传维护信息
 - (void)damageUploadRequest;
 {
-//    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在提交" inView:self.view];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在提交" inView:self.view];
     SingleRepairAndSignRequest * request = [[SingleRepairAndSignRequest alloc] initWithModel:self.dUploadModel];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-//        [hud hideAnimated:NO];
+        [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
         
         NSInteger code = [response[@"code"] integerValue];
@@ -215,7 +213,7 @@
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-//        [hud hideAnimated:NO];
+        [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
@@ -223,7 +221,7 @@
             [MBProgressHUD showTextHUDWithText:@"提交失败" inView:self.view];
         }
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-//        [hud hideAnimated:NO];
+        [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"提交失败" inView:self.view];
     }];
@@ -393,16 +391,15 @@
     }];
     
     self.addImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.addImageView.backgroundColor = [UIColor grayColor];
+    self.addImageView.backgroundColor = [UIColor clearColor];
     self.addImageView.contentMode = UIViewContentModeScaleAspectFit;
-    self.addImageView.layer.cornerRadius = 20/2.0;
-    self.addImageView.layer.masksToBounds = YES;
     [self.sheetBgView addSubview:self.addImageView];
     [self.addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(80, 80));
         make.top.mas_equalTo(addImgBtn.mas_bottom).offset(10);
         make.centerX.mas_equalTo(self.sheetBgView.centerX);
     }];
+    self.addImageView.image = [UIImage imageNamed:@"zanwu"];
     
     UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
@@ -636,6 +633,7 @@
         weakSelf.dUploadModel.hotel_id = self.cid;
         weakSelf.dUploadModel.bid = tmpModel.bid;
         weakSelf.dUploadModel.srtype = @"1";
+        weakSelf.dUploadModel.current_location = [UserManager manager].locationName;
         weakSelf.dUploadModel.remakr = @"";
         weakSelf.dUploadModel.imgUrl = @"";
         weakSelf.dUploadModel.repair_num_str  = @"";
@@ -650,15 +648,32 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RestaurantRankModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
-    //维修记录的高度
-    float reConHeight;
-    if (tmpModel.recordList.count > 0) {
-        reConHeight = tmpModel.recordList.count *17;
+   RestaurantRankModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
+//    //维修记录的高度
+//    float reConHeight;
+//    if (tmpModel.recordList.count > 0) {
+//        reConHeight = tmpModel.recordList.count *17;
+//    }else{
+//        reConHeight = 17;
+//    }
+    float reContentHeight;
+    if ([self getHeightByWidth:kMainBoundsWidth - 20 - 15 - 15 - 90 title:tmpModel.current_location font:[UIFont systemFontOfSize:14]] > 17) {
+        reContentHeight = 35;
     }else{
-        reConHeight = 17;
+        reContentHeight = 17;
     }
-    return 102 + 40 + reConHeight;
+    return 102 + 40 + reContentHeight;
+}
+
+- (CGFloat)getHeightByWidth:(CGFloat)width title:(NSString *)title font:(UIFont *)font
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, 0)];
+    label.text = title;
+    label.font = font;
+    label.numberOfLines = 0;
+    [label sizeToFit];
+    CGFloat height = label.frame.size.height;
+    return height;
 }
 
 - (void)autoTitleButtonWith:(NSString *)title

@@ -118,7 +118,7 @@
     self.mRecordLabel.text = @"最后操作位置:";
     [_bgView addSubview:self.mRecordLabel];
     [self.mRecordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 40, 17));
+        make.size.mas_equalTo(CGSizeMake(90, 17));
         make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
     }];
@@ -127,11 +127,11 @@
     self.mReContentLabel.font = [UIFont systemFontOfSize:14];
     self.mReContentLabel.textColor = UIColorFromRGB(0x434343);
     self.mReContentLabel.textAlignment = NSTextAlignmentLeft;
-    self.mReContentLabel.numberOfLines = 0;
+    self.mReContentLabel.numberOfLines = 2;
     self.mReContentLabel.text = @"位置内容";
     [_bgView addSubview:self.mReContentLabel];
     [self.mReContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 17));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 20 - 15 - 15 - 90, 17));
         make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
     }];
@@ -208,36 +208,22 @@
 
 - (void)configWithModel:(RestaurantRankModel *)model{
     self.restRankModel = model;
-    
     self.versionLabel.text = model.rname;
     self.macLabel.text = model.mac;
     self.stbLabel.text = model.boxname;
     self.lastTimeLabel.text = [NSString stringWithFormat:@"最后操作状态:%@",model.srtype];
     self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后操作时间:%@",model.last_ctime];
-    
-    if (model.recordList.count > 0) {
-        
-        NSMutableString *mReConString = [[NSMutableString alloc] init];
-        for (int i = 0; i < model.recordList.count; i ++) {
-            RepairRecordRankModel *tmpModel = [model.recordList objectAtIndex:i];
-            [mReConString appendString:[NSString stringWithFormat:@"\n%@  (%@)",tmpModel.ctime,tmpModel.nickname]];
-        }
-        [mReConString replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
-        
-        float reConHeight;//维修记录的高度
-        reConHeight = model.recordList.count *17;
+    self.mReContentLabel.text = model.current_location;
+    float reContentHeight = [self getHeightByWidth:kMainBoundsWidth - 20 - 15 - 15 - 90 title:self.mReContentLabel.text font:[UIFont systemFontOfSize:14]];
+    if (reContentHeight > 17) {
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(reConHeight);
-        }];
-        self.mReContentLabel.text = mReConString;
-        
+                        make.height.mas_equalTo(35);
+         }];
     }else{
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(17);
         }];
-        self.mReContentLabel.text = @"无";
     }
-    
 }
 
 - (CGFloat)getHeightByWidth:(CGFloat)width title:(NSString *)title font:(UIFont *)font

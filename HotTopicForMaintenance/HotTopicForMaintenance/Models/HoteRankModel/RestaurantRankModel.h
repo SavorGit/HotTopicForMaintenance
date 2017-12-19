@@ -55,5 +55,6 @@
 @property(nonatomic, copy) NSString *bid;
 @property(nonatomic, copy) NSString *srtype;
 @property(nonatomic, copy) NSString *last_ctime;
+@property(nonatomic, copy) NSString *current_location;
 
 @end

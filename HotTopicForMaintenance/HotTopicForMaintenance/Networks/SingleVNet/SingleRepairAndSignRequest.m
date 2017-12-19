@@ -15,7 +15,7 @@
 - (instancetype)initWithModel:(DamageUploadModel *)model{
     
     if (self = [super init]) {
-        self.methodName = [@"Tasksubcontract/Box/InsertBoxDamage?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Tasksubcontract/Box/insertSingleBoxDamage?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         
         // 必填
@@ -23,6 +23,7 @@
         [self setValue:model.hotel_id forParamKey:@"hotel_id"];
         [self setValue:[UserManager manager].user.userid forParamKey:@"userid"];
         [self setValue:model.srtype forParamKey:@"srtype"];
+        [self setValue:model.current_location forParamKey:@"current_location"];
         
         // 选填
         [self setValue:model.remakr forParamKey:@"remark"];

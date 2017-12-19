@@ -327,13 +327,17 @@
     [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
         
         if (successBlock) {
-            successBlock(path);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                successBlock(path);
+            });
         }
         
     } failure:^(NSError *error) {
         
         if (failureBlock) {
-            failureBlock(error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failureBlock(error);
+            });
         }
         
     }];
