@@ -397,7 +397,7 @@
     self.addImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.sheetBgView addSubview:self.addImageView];
     [self.addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(80, 80 *scale));
+        make.size.mas_equalTo(CGSizeMake(80 *scale , 80 *scale));
         make.top.mas_equalTo(addImgBtn.mas_bottom).offset(10 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX);
     }];
