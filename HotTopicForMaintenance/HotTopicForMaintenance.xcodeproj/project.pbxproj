@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06063E0C1FE8A73F0013C461 /* SingleInfoController.m */; };
 		060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C41FB1831700D2A510 /* RefuseRequest.m */; };
 		060A77C81FB1980F00D2A510 /* GetTaskCountRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C71FB1980F00D2A510 /* GetTaskCountRequest.m */; };
 		0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */; };
@@ -163,6 +164,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06063E0B1FE8A73F0013C461 /* SingleInfoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleInfoController.h; sourceTree = "<group>"; };
+		06063E0C1FE8A73F0013C461 /* SingleInfoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleInfoController.m; sourceTree = "<group>"; };
 		060A77C31FB1831700D2A510 /* RefuseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RefuseRequest.h; sourceTree = "<group>"; };
 		060A77C41FB1831700D2A510 /* RefuseRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RefuseRequest.m; sourceTree = "<group>"; };
 		060A77C61FB1980F00D2A510 /* GetTaskCountRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetTaskCountRequest.h; sourceTree = "<group>"; };
@@ -1010,6 +1013,8 @@
 			children = (
 				9617A1831FE7B0C400199D34 /* SingleVRankInforViewController.h */,
 				9617A1841FE7B0C400199D34 /* SingleVRankInforViewController.m */,
+				06063E0B1FE8A73F0013C461 /* SingleInfoController.h */,
+				06063E0C1FE8A73F0013C461 /* SingleInfoController.m */,
 			);
 			path = SingleVersion;
 			sourceTree = "<group>";
@@ -1412,6 +1417,7 @@
 				96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */,
 				065FDA141FB29AD700B6DF9C /* GetCreateTaskListRequest.m in Sources */,
 				06356D381F5D7B2400242940 /* RDAlertView.m in Sources */,
+				06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */,
 				06B4A6481FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m in Sources */,
 				06B055D11F5D46BF00A9CE68 /* UserLoginRequest.m in Sources */,
 				06ECDC4E1F5969AB007FBD83 /* main.m in Sources */,

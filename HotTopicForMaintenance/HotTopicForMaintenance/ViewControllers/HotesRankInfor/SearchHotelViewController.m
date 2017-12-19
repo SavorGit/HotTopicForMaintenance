@@ -11,6 +11,7 @@
 #import "RestaurantRankInforViewController.h"
 #import "SearchHotelRequest.h"
 #import "AutoEnableView.h"
+#import "UserManager.h"
 
 @interface SearchHotelViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -105,7 +106,12 @@
 {
 //    self.searchField.text = @"永峰";
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在搜索" inView:self.view];
-    SearchHotelRequest * request = [[SearchHotelRequest alloc] initWithHotelName:self.searchField.text];
+    BGNetworkRequest * request;
+    if ([UserManager manager].user.roletype == UserRoleType_SingleVersion) {
+        
+    }else{
+        request = [[SearchHotelRequest alloc] initWithHotelName:self.searchField.text];
+    }
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:NO];
