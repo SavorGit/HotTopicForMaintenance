@@ -28,6 +28,8 @@
 #import "GetTaskCountRequest.h"
 
 #import "SearchHotelViewController.h"
+#import "SingleVRankInforViewController.h"
+#import "SingleInfoController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -395,8 +397,8 @@
             
         case MenuModelType_SingleVersion:
         {
-            SearchHotelViewController * vc = [[SearchHotelViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
+            SingleInfoController * info = [[SingleInfoController alloc] init];
+            [self.navigationController pushViewController:info animated:YES];
         }
             break;
             
