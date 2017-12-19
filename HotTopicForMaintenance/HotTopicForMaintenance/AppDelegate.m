@@ -123,7 +123,7 @@
         [UserManager manager].locationName = placeName;
     }];
     //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
-    [manager stopUpdatingLocation];
+//    [manager stopUpdatingLocation];
 }
 
 - (void)getLocationInfo
