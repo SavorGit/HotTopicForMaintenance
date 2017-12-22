@@ -201,29 +201,27 @@
         }
     }
     
-    NSLog(@"------%@---",self.subMitPosionArray);
-    
-//    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
-//    if (upImageArr.count > 0) {
-//        [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-//        } success:^(NSString *path, NSInteger index) {
-//            NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
-//            [tmpDic setObject:path forKey:@"fault_img_url"];
-//            NSLog(@"---上传成功！");
-//
-//            upCount ++;
-//            if (upImageArr.count == upCount) {
-//                [self subMitDataRequest];
-//            }
-//        } failure:^(NSError *error, NSInteger index) {
-//
-//            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-//            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
-//            return;
-//        }];
-//    }else{
-//        [self subMitDataRequest];
-//    }
+    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
+    if (upImageArr.count > 0) {
+        [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        } success:^(NSString *path, NSInteger index) {
+            NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
+            [tmpDic setObject:path forKey:@"fault_img_url"];
+            NSLog(@"---上传成功！");
+
+            upCount ++;
+            if (upImageArr.count == upCount) {
+                [self subMitDataRequest];
+            }
+        } failure:^(NSError *error, NSInteger index) {
+
+            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+            return;
+        }];
+    }else{
+        [self subMitDataRequest];
+    }
     
 }
 
