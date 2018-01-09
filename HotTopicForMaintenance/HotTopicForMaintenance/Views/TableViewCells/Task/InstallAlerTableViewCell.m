@@ -78,9 +78,13 @@
 
     self.titlePosionLabel.text = titleString;
     if (!isEmptyString(model.repair_img)) {
-        [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img]];
+        [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img] placeholderImage:[UIImage imageNamed:@"zanwu"]];
+//        [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img]];
     }else{
         [self.instaImg setImage:model.seRepairImg];
+        if (model.seRepairImg == nil) {
+            [self.instaImg setImage:[UIImage imageNamed:@"zanwu"]];
+        }
     }
 }
 
