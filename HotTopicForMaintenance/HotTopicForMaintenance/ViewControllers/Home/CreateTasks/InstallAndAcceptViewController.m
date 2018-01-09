@@ -174,6 +174,11 @@
     __block int upCount = 0;
     for (int i = 0; i < self.otherContentArray.count; i ++) {
         RepairContentModel *tmpModel = [self.otherContentArray objectAtIndex:i];
+        if (isEmptyString(tmpModel.title)) {
+            [MBProgressHUD showTextHUDWithText:@"请填写故障现象" inView:self.navigationController.view];
+            return;
+        }
+        
         if (!isEmptyString(tmpModel.boxId)) {
             tmpModel.upImgUrl = @"";
             if (tmpModel.pubImg != nil) {
@@ -202,7 +207,15 @@
     }
     
     [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
-    if (upImageArr.count > 0) {
+    
+    bool haveLeastOne = NO;
+    for (NSString *tmpString in upImageArr) {
+        if (!isEmptyString(tmpString)) {
+            haveLeastOne = YES;
+        }
+    }
+    
+    if (haveLeastOne == YES) {
         
         NSString * title = [NSString stringWithFormat:@"正在上传图片(1/%ld)",  upImageArr.count];
         MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];

@@ -600,15 +600,25 @@
     
     for (int i = 0; i < 3; i ++) {
         
-        UIImageView *fImageView  = [[UIImageView alloc] init];
-        fImageView.tag = 1999 + i;
-        fImageView.backgroundColor = UIColorFromRGB(0xf6f2ed);
-        fImageView.userInteractionEnabled = YES;
-        [photoBgView addSubview:fImageView];
+        UIImageView *bgImgView  = [[UIImageView alloc] init];
+        bgImgView.userInteractionEnabled = YES;
+        [bgImgView setImage:[UIImage imageNamed:@"zanwu"]];
+        [photoBgView addSubview:bgImgView];
         CGFloat fWidth = (bgVideoWidth - 40 - 30)/3;
-        [fImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(mTitleLab.mas_bottom);
             make.left.mas_equalTo(10 + (i *10 + i *fWidth));
+            make.width.mas_equalTo(fWidth);
+            make.height.mas_equalTo(110 - 50);
+        }];
+        
+        UIImageView *fImageView  = [[UIImageView alloc] init];
+        fImageView.tag = 1999 + i;
+        fImageView.userInteractionEnabled = YES;
+        [bgImgView addSubview:fImageView];
+        [fImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(0);
+            make.left.mas_equalTo(0);
             make.width.mas_equalTo(fWidth);
             make.height.mas_equalTo(110 - 50);
         }];
@@ -1145,7 +1155,7 @@
                 [self cancelOSSTask];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [hud hideAnimated:YES];
-                    [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%f张图片上传失败",index + 1.f] inView:self.view];
+                    [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:self.view];
                     self.installSubBtn.userInteractionEnabled = YES;
                     return;
                 });
