@@ -635,7 +635,11 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         BOOL secondVisible = !secondView.hidden && !CGSizeEqualToSize(secondView.intrinsicContentSize, CGSizeZero);
         // Set if both views are visible or if there's a visible view on top that doesn't have padding
         // added relative to the current view yet
-        padding.constant = (firstVisible && (secondVisible || hasVisibleAncestors)) ? MBDefaultPadding : 0.f;
+        if ([firstView isKindOfClass:[MBProgressHUDRoundedButton class]]) {
+            padding.constant = (firstVisible && (secondVisible || hasVisibleAncestors)) ? MBDefaultPadding + 7.f : 0.f;
+        }else{
+            padding.constant = (firstVisible && (secondVisible || hasVisibleAncestors)) ? MBDefaultPadding : 0.f;
+        }
         hasVisibleAncestors |= secondVisible;
     }];
 }
@@ -1453,8 +1457,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)layoutSubviews {
     [super layoutSubviews];
     // Fully rounded corners
-    CGFloat height = CGRectGetHeight(self.bounds);
-    self.layer.cornerRadius = ceil(height / 2.f);
+//    CGFloat height = CGRectGetHeight(self.bounds);
+//    self.layer.cornerRadius = ceil(height / 2.f);
+    self.layer.cornerRadius = 5.f;
 }
 
 - (CGSize)intrinsicContentSize {
@@ -1463,6 +1468,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     CGSize size = [super intrinsicContentSize];
     // Add some side padding
     size.width += 20.f;
+    size.height -= 5.f;
     return size;
 }
 

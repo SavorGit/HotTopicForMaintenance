@@ -166,19 +166,33 @@
     
     if (self.addImageView.image != nil) {
 
+        NSString * title = [NSString stringWithFormat:@"上传图片%%0"];
+        MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];
+        
         [HotTopicTools uploadImage:self.addImageView.image withImageName:self.imgFileName progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                CGFloat progress = (CGFloat)totalBytesSent / (CGFloat)totalBytesExpectedToSend;
+                NSString * currentTitle = [NSString stringWithFormat:@"上传图片%%%.2f", progress];
+                hud.label.text = currentTitle;
+            });
             
         } success:^(NSString *path ) {
             self.dUploadModel.imgUrl = path;
             self.dUploadModel.srtype = @"2";
             self.dUploadModel.current_location = [UserManager manager].locationName;
             [self damageUploadRequest];
-           NSLog(@"---上传成功！");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [hud hideAnimated:YES];
+            });
+            
         } failure:^(NSError *error) {
             
-            self.submitBtn.userInteractionEnabled = YES;
-            [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
-            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.submitBtn.userInteractionEnabled = YES;
+                [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
+                [hud hideAnimated:YES];
+            });
         }];
     }else{
         self.submitBtn.userInteractionEnabled = YES;

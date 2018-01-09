@@ -18,6 +18,18 @@
     return hud;
 }
 
++ (MBProgressHUD *)showLoadingHUDWithText:(NSString *)text buttonTitle:(NSString *)buttonTitle inView:(UIView *)view target:(id)target action:(SEL)action
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.label.text = text;
+    
+    [hud.button setTitle:buttonTitle forState:UIControlStateNormal];
+    hud.button.titleLabel.font = kPingFangMedium(14);
+    [hud.button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    
+    return hud;
+}
+
 + (MBProgressHUD *)showTextHUDWithText:(NSString *)text inView:(UIView *)view
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];

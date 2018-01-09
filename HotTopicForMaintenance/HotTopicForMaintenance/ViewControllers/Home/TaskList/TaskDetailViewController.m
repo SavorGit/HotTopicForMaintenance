@@ -1121,6 +1121,9 @@
     
     if (self.taskListModel.task_type_id == 8) {
         
+        NSString * title = [NSString stringWithFormat:@"正在上传图片(1/%ld)",  upImageArr.count];
+        MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];
+        
         if (upImageArr.count > 0) {
             [HotTopicTools uploadImageArray:upImageArr withHotelIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
                 
@@ -1128,14 +1131,20 @@
                 NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
                 [tmpDic setObject:path forKey:@"img"];
                 
+                dispatch_async(dispatch_get_main_queue(), ^{
                 upCount++;
+                NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
+                hud.label.text = currentTitle;
                 if (upCount == upImageArr.count) {
+                    [hud hideAnimated:YES];
                     [self subMitDataRequest];
                 }
+                });
                 
             } failure:^(NSError *error, NSInteger index) {
+                [self cancelOSSTask];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [hud hideAnimated:YES];
                     [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%f张图片上传失败",index + 1.f] inView:self.view];
                     self.installSubBtn.userInteractionEnabled = YES;
                     return;
@@ -1148,23 +1157,34 @@
         }
         
       }else if (self.taskListModel.task_type_id == 2){
+          
         if (upImageArr.count > 0) {
+            
+            NSString * title = [NSString stringWithFormat:@"正在上传图片(1/%ld)",  upImageArr.count];
+            MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];
+            
             [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             } success:^(NSString *path, NSInteger index) {
                 NSMutableDictionary *tmpDic = self.subExictUrlArray[index];
                 [tmpDic setObject:path forKey:@"img"];
                 NSLog(@"---上传成功！");
                 
-                upCount++;
-                if (upCount == upImageArr.count) {
-                    [self.subMitPosionArray addObjectsFromArray:self.subExictUrlArray];
-                    [self subMitDataRequest];
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    upCount++;
+                    NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
+                    hud.label.text = currentTitle;
+                    if (upCount == upImageArr.count) {
+                        [MBProgressHUD hideHUDForView:self.view animated:NO];
+                        [self.subMitPosionArray addObjectsFromArray:self.subExictUrlArray];
+                        [self subMitDataRequest];
+                    }
+                });
                 
             } failure:^(NSError *error, NSInteger index) {
                 
+                [self cancelOSSTask];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [hud hideAnimated:YES];
                     [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:self.view];
                     self.installSubBtn.userInteractionEnabled = YES;
                     return;
@@ -1182,17 +1202,31 @@
         
     }else{
         if (upImageArr.count > 0) {
-            [HotTopicTools  uploadImage:selectImg withHotelID:self.taskListModel.hotel_id progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+            
+            NSString * title = [NSString stringWithFormat:@"上传图片%%0"];
+            MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];
+            
+            [HotTopicTools uploadImage:selectImg withHotelID:self.taskListModel.hotel_id progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    CGFloat progress = (CGFloat)totalBytesSent / (CGFloat)totalBytesExpectedToSend;
+                    NSString * currentTitle = [NSString stringWithFormat:@"上传图片%%%.2f", progress];
+                    hud.label.text = currentTitle;
+                });
+                
             } success:^(NSString *path) {
                 [self.subMitPosionArray removeAllObjects];
                 [self.subMitPosionArray addObject:path];
-                NSLog(@"---上传成功！");
+                [self subMitDataRequest];
                 
-                 [self subMitDataRequest];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [hud hideAnimated:YES];
+                });
                 
             } failure:^(NSError *error) {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [hud hideAnimated:YES];
                     [MBProgressHUD showTextHUDWithText:@"图片上传失败" inView:self.view];
                     self.installSubBtn.userInteractionEnabled = YES;
                 });
@@ -1262,21 +1296,31 @@
     }
     
     if (upImageArr.count > 0) {
+        
+        NSString * title = [NSString stringWithFormat:@"正在上传图片(1/%ld)",  upImageArr.count];
+        MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];
+        
         [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         } success:^(NSString *path, NSInteger index) {
             [self.subMitPosionArray addObject:path];
             NSLog(@"---上传成功！");
             
-            upCount++;
-            if (upCount == upImageArr.count) {
-                [self subMitDataRequest];
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                upCount++;
+                NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
+                hud.label.text = currentTitle;
+                if (upCount == upImageArr.count) {
+                    [hud hideAnimated:YES];
+                    [self subMitDataRequest];
+                }
+            });
             
         } failure:^(NSError *error, NSInteger index) {
             
+            [self cancelOSSTask];
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [hud hideAnimated:YES];
                 [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1] inView:self.view];
                 self.submitBtn.userInteractionEnabled = YES;
                 return;
@@ -1487,6 +1531,12 @@
 - (void)textViewDidEndEditing:(UITextView *)textView{
     [textView resignFirstResponder];
 }
+
+- (void)cancelOSSTask
+{
+    [HotTopicTools cancelOSSTask];
+}
+
 - (void)dealloc
 {
     [self removeNotification];

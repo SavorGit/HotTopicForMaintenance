@@ -12,6 +12,8 @@
 
 + (MBProgressHUD *)showLoadingHUDWithText:(NSString *)text inView:(UIView *)view;
 
++ (MBProgressHUD *)showLoadingHUDWithText:(NSString *)text buttonTitle:(NSString *)buttonTitle inView:(UIView *)view target:(id)target action:(SEL)action;
+
 + (MBProgressHUD *)showTextHUDWithText:(NSString *)text inView:(UIView *)view;
 
 @end

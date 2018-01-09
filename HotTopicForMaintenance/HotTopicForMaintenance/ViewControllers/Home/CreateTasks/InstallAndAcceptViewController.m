@@ -203,20 +203,33 @@
     
     [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
     if (upImageArr.count > 0) {
+        
+        NSString * title = [NSString stringWithFormat:@"正在上传图片(1/%ld)",  upImageArr.count];
+        MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];
+        
         [HotTopicTools uploadImageArray:upImageArr withBoxIDArray:pathArr progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         } success:^(NSString *path, NSInteger index) {
             NSMutableDictionary *tmpDic = self.subMitPosionArray[index];
             [tmpDic setObject:path forKey:@"fault_img_url"];
             NSLog(@"---上传成功！");
 
-            upCount ++;
-            if (upImageArr.count == upCount) {
-                [self subMitDataRequest];
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                upCount ++;
+                NSString * title = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
+                hud.label.text = title;
+                if (upImageArr.count == upCount) {
+                    [hud hideAnimated:YES];
+                    [self subMitDataRequest];
+                }
+            });
+            
         } failure:^(NSError *error, NSInteger index) {
-
-            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [hud hideAnimated:YES];
+                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",index + 1] inView:[UIApplication sharedApplication].keyWindow];
+            });
+            
             return;
         }];
     }else{
@@ -684,6 +697,11 @@
     frame.origin.y = 64;
     self.view.frame = frame;
     self.cuSTextFieldTagStr = @"";
+}
+
+- (void)cancelOSSTask
+{
+    [HotTopicTools cancelOSSTask];
 }
 
 - (void)didReceiveMemoryWarning {
