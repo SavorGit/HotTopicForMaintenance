@@ -251,7 +251,7 @@
         if ([image isKindOfClass:[UIImage class]]) {
             
             NSString * boxID = [boxIDArray objectAtIndex:i];
-            NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/box/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS]];
+            NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/box/%@/%@_%@%ld.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], boxID, [Helper getTimeStampMS], i];
             [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
                 
                 if (successBlock) {
@@ -260,9 +260,6 @@
                 
             } failure:^(NSError *error) {
                 
-//                [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-//                [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",i + 1] inView:[UIApplication sharedApplication].keyWindow];
-//                return;
                 if (failureBlock) {
                     failureBlock(error, i);
                 }
@@ -301,7 +298,7 @@
     for (NSInteger i = 0; i < images.count; i++) {
         UIImage * image = [images objectAtIndex:i];
         NSString * hotelID = [hotelIDArray objectAtIndex:i];
-        NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/hotel/%@/%@_%@.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], hotelID, [Helper getTimeStampMS]];
+        NSString * path =[NSString stringWithFormat:@"log/resource/operation/mobile/hotel/%@/%@_%@%ld.jpg", [Helper getCurrentTimeWithFormat:@"yyyyMMdd"], hotelID, [Helper getTimeStampMS], i];
         [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
             
             if (successBlock) {
@@ -310,9 +307,6 @@
             
         } failure:^(NSError *error) {
             
-//            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-//            [MBProgressHUD showTextHUDWithText:[NSString stringWithFormat:@"第%ld几张图片上传失败",i + 1] inView:[UIApplication sharedApplication].keyWindow];
-//            return;
             if (failureBlock) {
                 failureBlock(error, i);
             }
@@ -377,6 +371,11 @@
         }
         return nil;
     }];
+}
+
++ (void)cancelOSSTask
+{
+    [OSSTask cancelledTask];
 }
 
 @end
