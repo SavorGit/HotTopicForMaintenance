@@ -8,9 +8,10 @@
 
 #import "DeviceFaultTableViewCell.h"
 #import "HotTopicTools.h"
+#import "LookImageViewController.h"
 #import "UIImageView+WebCache.h"
 
-@interface DeviceFaultTableViewCell ()<UIScrollViewDelegate>
+@interface DeviceFaultTableViewCell ()
 
 @property (nonatomic, weak) DeviceFaultModel * model;
 
@@ -20,10 +21,6 @@
 @property (nonatomic, strong) UILabel * descLabel;
 @property (nonatomic, strong) UILabel * photoLabel;
 @property (nonatomic, strong) UIImageView * photoImageView;
-
-@property (nonatomic, strong) UIScrollView * bigScrollView;
-@property (nonatomic, strong) UIImageView * bigImageView;
-@property (nonatomic, assign) BOOL isBigPhoto;
 
 @end
 
@@ -92,75 +89,14 @@
     UITapGestureRecognizer * tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoDidClicked)];
     tap1.numberOfTapsRequired = 1;
     [self.photoImageView addGestureRecognizer:tap1];
-    
-    self.bigScrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.bigScrollView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.7f];
-    self.bigScrollView.maximumZoomScale = 3.f;
-    self.bigScrollView.minimumZoomScale = 1.f;
-    self.bigScrollView.showsVerticalScrollIndicator = NO;
-    self.bigScrollView.showsHorizontalScrollIndicator = NO;
-    self.bigScrollView.delegate = self;
-    
-    self.bigImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.bigImageView.contentMode = UIViewContentModeScaleAspectFit;
-    UITapGestureRecognizer * tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoDidClicked)];
-    tap2.numberOfTapsRequired = 1;
-    [self.bigScrollView addGestureRecognizer:tap2];
-    [self.bigScrollView addSubview:self.bigImageView];
-}
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-    return self.bigImageView;
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView
-{
-    if (scrollView == self.bigScrollView) {
-        CGSize superSize = self.bigScrollView.frame.size;
-        CGPoint center = CGPointMake(superSize.width / 2, superSize.height / 2);
-        CGSize size = self.bigImageView.frame.size;
-        if (size.width > superSize.width) {
-            center.x = size.width / 2;
-        }
-        if (size.height > superSize.height) {
-            center.y = size.height / 2;
-        }
-        self.bigImageView.center = center;
-    }
 }
 
 - (void)photoDidClicked
 {
-    if (self.isBigPhoto) {
-        self.isBigPhoto = NO;
-        [self.bigScrollView removeFromSuperview];
-        self.bigScrollView.zoomScale = 1.f;
-    }else{
-        self.isBigPhoto = YES;
-        self.bigScrollView.zoomScale = 1.f;
-        [self.bigImageView sd_setImageWithURL:[NSURL URLWithString:self.model.fault_img_url] placeholderImage:[UIImage new] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-            
-            if (image) {
-                CGFloat scale = self.bigScrollView.frame.size.width / self.bigScrollView.frame.size.height;
-                CGFloat imageScale = image.size.width / image.size.height;
-                
-                CGRect frame;
-                if (imageScale > scale) {
-                    CGFloat width = self.bigScrollView.frame.size.width;
-                    CGFloat height = self.bigScrollView.frame.size.width / image.size.width * image.size.height;
-                    frame = CGRectMake(0, 0, width, height);
-                }else{
-                    CGFloat height = self.bigScrollView.frame.size.height;
-                    CGFloat width = self.bigScrollView.frame.size.height / image.size.height * image.size.width;
-                    frame = CGRectMake(0, 0, width, height);
-                }
-                self.bigImageView.frame = frame;
-                self.bigImageView.center = self.bigScrollView.center;
-            }
-        }];
-        
-        [[UIApplication sharedApplication].keyWindow addSubview:self.bigScrollView];
+    UINavigationController * na = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    if ([na respondsToSelector:@selector(presentViewController:animated:completion:)]) {
+        LookImageViewController * imageVC = [[LookImageViewController alloc] initWithImageURL:self.model.fault_img_url];
+        [na presentViewController:imageVC animated:NO completion:nil];
     }
 }
 

@@ -40,6 +40,7 @@
 		066006211FB583B3007F94D2 /* InstallDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066006201FB583B3007F94D2 /* InstallDetailCell.m */; };
 		066278321F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */; };
 		066278341F61634600B2B8E8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278331F61634600B2B8E8 /* UserNotifications.framework */; };
+		066684102004B982005B4CAD /* LookImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0666840F2004B982005B4CAD /* LookImageViewController.m */; };
 		066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */; };
 		066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5431F5FE45B0054264C /* ErrorReportViewController.m */; };
 		066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA54A1F5FEDDD0054264C /* ErrorReportTableViewCell.m */; };
@@ -231,6 +232,8 @@
 		066278311F61632E00B2B8E8 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		066278331F61634600B2B8E8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		066278351F61637800B2B8E8 /* HotTopicForMaintenance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotTopicForMaintenance.entitlements; sourceTree = "<group>"; };
+		0666840E2004B982005B4CAD /* LookImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LookImageViewController.h; sourceTree = "<group>"; };
+		0666840F2004B982005B4CAD /* LookImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LookImageViewController.m; sourceTree = "<group>"; };
 		066EA53F1F5FCB500054264C /* RepairRecordHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordHeaderView.h; sourceTree = "<group>"; };
 		066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordHeaderView.m; sourceTree = "<group>"; };
 		066EA5421F5FE45B0054264C /* ErrorReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorReportViewController.h; sourceTree = "<group>"; };
@@ -490,6 +493,8 @@
 				066EA5531F6010830054264C /* ErrorDetailViewController.m */,
 				0650F38A1FA96ADC0086B794 /* SystemStatusController.h */,
 				0650F38B1FA96ADC0086B794 /* SystemStatusController.m */,
+				0666840E2004B982005B4CAD /* LookImageViewController.h */,
+				0666840F2004B982005B4CAD /* LookImageViewController.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -1443,6 +1448,7 @@
 				06ECDC851F596C47007FBD83 /* NetworkConfiguration.m in Sources */,
 				06B055E71F5D4A7D00A9CE68 /* JastorRuntimeHelper.m in Sources */,
 				969A3C721FAC7A1700EB95C9 /* InstallAlerTableViewCell.m in Sources */,
+				066684102004B982005B4CAD /* LookImageViewController.m in Sources */,
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
 				969A3C471FA9C9C000EB95C9 /* PosionListTableViewCell.m in Sources */,
 				969A3C4A1FA9EA6500EB95C9 /* RepairHeaderTableCell.m in Sources */,
