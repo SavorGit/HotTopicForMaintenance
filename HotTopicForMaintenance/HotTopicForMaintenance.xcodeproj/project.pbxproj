@@ -25,7 +25,6 @@
 		06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D321F5D7B2400242940 /* RDAlertAction.m */; };
 		06356D381F5D7B2400242940 /* RDAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D341F5D7B2400242940 /* RDAlertView.m */; };
 		06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D361F5D7B2400242940 /* RDTextAlertView.m */; };
-		06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */; };
 		06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D431F5D964900242940 /* HotelIndexRequest.m */; };
 		06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */; };
 		0650F38C1FA96ADC0086B794 /* SystemStatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650F38B1FA96ADC0086B794 /* SystemStatusController.m */; };
@@ -57,6 +56,10 @@
 		06844CFE1FAC12D700E7A2CD /* RDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06844CFD1FAC12D700E7A2CD /* RDTextView.m */; };
 		06844D021FAC436900E7A2CD /* DeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06844D011FAC436900E7A2CD /* DeviceManager.m */; };
 		06844D051FAC48E700E7A2CD /* HotelGetIPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06844D041FAC48E700E7A2CD /* HotelGetIPRequest.m */; };
+		068CFEFE200C896400086407 /* SystemStatusPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068CFEFD200C896400086407 /* SystemStatusPageController.m */; };
+		068CFF01200C992000086407 /* SystemStatusHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068CFF00200C992000086407 /* SystemStatusHeaderView.m */; };
+		068CFF04200CAD4E00086407 /* SystemStatusSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068CFF03200CAD4E00086407 /* SystemStatusSectionHeaderView.m */; };
+		068CFF08200CC00200086407 /* SystemStatusHotelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 068CFF07200CC00200086407 /* SystemStatusHotelCell.m */; };
 		068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 068E65C01F616B4900644CE6 /* UserNotificationModel.m */; };
 		069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C381B1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m */; };
 		069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */; };
@@ -202,8 +205,6 @@
 		06356D341F5D7B2400242940 /* RDAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAlertView.m; sourceTree = "<group>"; };
 		06356D351F5D7B2400242940 /* RDTextAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDTextAlertView.h; sourceTree = "<group>"; };
 		06356D361F5D7B2400242940 /* RDTextAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDTextAlertView.m; sourceTree = "<group>"; };
-		06356D3A1F5D7F6B00242940 /* HomeHotelInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeHotelInfoView.h; sourceTree = "<group>"; };
-		06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeHotelInfoView.m; sourceTree = "<group>"; };
 		06356D421F5D964900242940 /* HotelIndexRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelIndexRequest.h; sourceTree = "<group>"; };
 		06356D431F5D964900242940 /* HotelIndexRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelIndexRequest.m; sourceTree = "<group>"; };
 		06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelInfoTableViewCell.h; sourceTree = "<group>"; };
@@ -266,6 +267,14 @@
 		06844D011FAC436900E7A2CD /* DeviceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceManager.m; sourceTree = "<group>"; };
 		06844D031FAC48E700E7A2CD /* HotelGetIPRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotelGetIPRequest.h; sourceTree = "<group>"; };
 		06844D041FAC48E700E7A2CD /* HotelGetIPRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotelGetIPRequest.m; sourceTree = "<group>"; };
+		068CFEFC200C896400086407 /* SystemStatusPageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusPageController.h; sourceTree = "<group>"; };
+		068CFEFD200C896400086407 /* SystemStatusPageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusPageController.m; sourceTree = "<group>"; };
+		068CFEFF200C992000086407 /* SystemStatusHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusHeaderView.h; sourceTree = "<group>"; };
+		068CFF00200C992000086407 /* SystemStatusHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusHeaderView.m; sourceTree = "<group>"; };
+		068CFF02200CAD4E00086407 /* SystemStatusSectionHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusSectionHeaderView.h; sourceTree = "<group>"; };
+		068CFF03200CAD4E00086407 /* SystemStatusSectionHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusSectionHeaderView.m; sourceTree = "<group>"; };
+		068CFF06200CC00200086407 /* SystemStatusHotelCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusHotelCell.h; sourceTree = "<group>"; };
+		068CFF07200CC00200086407 /* SystemStatusHotelCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusHotelCell.m; sourceTree = "<group>"; };
 		068E65BF1F616B4900644CE6 /* UserNotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotificationModel.h; sourceTree = "<group>"; };
 		068E65C01F616B4900644CE6 /* UserNotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotificationModel.m; sourceTree = "<group>"; };
 		069C381A1FA8127A003F92EF /* HomeBadgeCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeBadgeCollectionViewCell.h; sourceTree = "<group>"; };
@@ -493,6 +502,8 @@
 				066EA5531F6010830054264C /* ErrorDetailViewController.m */,
 				0650F38A1FA96ADC0086B794 /* SystemStatusController.h */,
 				0650F38B1FA96ADC0086B794 /* SystemStatusController.m */,
+				068CFEFC200C896400086407 /* SystemStatusPageController.h */,
+				068CFEFD200C896400086407 /* SystemStatusPageController.m */,
 				0666840E2004B982005B4CAD /* LookImageViewController.h */,
 				0666840F2004B982005B4CAD /* LookImageViewController.m */,
 			);
@@ -528,6 +539,7 @@
 		06356D3D1F5D8A8E00242940 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				068CFF05200CBFD300086407 /* Systems */,
 				069C38661FA85FB6003F92EF /* Task */,
 				06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */,
 				06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */,
@@ -598,6 +610,15 @@
 				06844D011FAC436900E7A2CD /* DeviceManager.m */,
 			);
 			path = DeviceManager;
+			sourceTree = "<group>";
+		};
+		068CFF05200CBFD300086407 /* Systems */ = {
+			isa = PBXGroup;
+			children = (
+				068CFF06200CC00200086407 /* SystemStatusHotelCell.h */,
+				068CFF07200CC00200086407 /* SystemStatusHotelCell.m */,
+			);
+			path = Systems;
 			sourceTree = "<group>";
 		};
 		069C385B1FA85A59003F92EF /* CreateTasks */ = {
@@ -810,8 +831,10 @@
 				06C44C021FA9E2840050FDBC /* TaskList */,
 				06B055FA1F5D58A200A9CE68 /* HomeUserInfoView.h */,
 				06B055FB1F5D58A200A9CE68 /* HomeUserInfoView.m */,
-				06356D3A1F5D7F6B00242940 /* HomeHotelInfoView.h */,
-				06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */,
+				068CFEFF200C992000086407 /* SystemStatusHeaderView.h */,
+				068CFF00200C992000086407 /* SystemStatusHeaderView.m */,
+				068CFF02200CAD4E00086407 /* SystemStatusSectionHeaderView.h */,
+				068CFF03200CAD4E00086407 /* SystemStatusSectionHeaderView.m */,
 				06338BB31FA1B9A9003775B5 /* AutoEnableView.h */,
 				06338BB41FA1B9A9003775B5 /* AutoEnableView.m */,
 			);
@@ -1368,6 +1391,7 @@
 				066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */,
 				06C44BFB1FA9A1DF0050FDBC /* TaskListTableViewCell.m in Sources */,
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
+				068CFEFE200C896400086407 /* SystemStatusPageController.m in Sources */,
 				96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */,
 				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
@@ -1408,6 +1432,7 @@
 				969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
+				068CFF04200CAD4E00086407 /* SystemStatusSectionHeaderView.m in Sources */,
 				062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
@@ -1445,6 +1470,7 @@
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
 				06844D021FAC436900E7A2CD /* DeviceManager.m in Sources */,
+				068CFF01200C992000086407 /* SystemStatusHeaderView.m in Sources */,
 				06ECDC851F596C47007FBD83 /* NetworkConfiguration.m in Sources */,
 				06B055E71F5D4A7D00A9CE68 /* JastorRuntimeHelper.m in Sources */,
 				969A3C721FAC7A1700EB95C9 /* InstallAlerTableViewCell.m in Sources */,
@@ -1488,11 +1514,11 @@
 				96AA198F1F5FC38100C06CE8 /* SearchHotelViewController.m in Sources */,
 				96AA19991F5FC38C00C06CE8 /* FaultListTableViewCell.m in Sources */,
 				06C44C051FA9E2990050FDBC /* TaskDetailView.m in Sources */,
+				068CFF08200CC00200086407 /* SystemStatusHotelCell.m in Sources */,
 				0660061E1FB57B0D007F94D2 /* NetworkDetailCell.m in Sources */,
 				969A3C571FAB324F00EB95C9 /* BindingPositionViewController.m in Sources */,
 				06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */,
 				06B4A64E1FADC3570081BBA7 /* HandleRoleListRequest.m in Sources */,
-				06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */,
 				96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */,
 				0677AC071FAB168800D494FE /* CityModel.m in Sources */,
 				06B055D51F5D47EC00A9CE68 /* Helper.m in Sources */,

@@ -1,42 +1,31 @@
 //
-//  TaskPageViewController.m
+//  SystemStatusPageController.m
 //  HotTopicForMaintenance
 //
-//  Created by 郭春城 on 2017/10/31.
-//  Copyright © 2017年 郭春城. All rights reserved.
+//  Created by 郭春城 on 2018/1/15.
+//  Copyright © 2018年 郭春城. All rights reserved.
 //
 
-#import "TaskPageViewController.h"
-#import "TaskListViewController.h"
-#import "UserManager.h"
+#import "SystemStatusPageController.h"
+#import "SystemStatusController.h"
 
-@interface TaskPageViewController ()<WMPageControllerDataSource>
+@interface SystemStatusPageController ()
 
-@property (nonatomic, strong) NSArray * taskListTypeArray;
+@property (nonatomic, strong) NSArray * cityIDArray;
 
 @end
 
-@implementation TaskPageViewController
+@implementation SystemStatusPageController
 
 - (instancetype)init
 {
-    NSArray * vcArray = @[[TaskListViewController class],[TaskListViewController class],[TaskListViewController class], [TaskListViewController class]];
-    NSArray * titleArray = @[@"全部", @"待指派", @"待处理", @"已完成"];
+    NSArray * VCArray = @[[SystemStatusController class], [SystemStatusController class], [SystemStatusController class], [SystemStatusController class], [SystemStatusController class]];
+    NSArray * titleArray = @[@"全国", @"北京", @"上海", @"广州", @"深圳"];
     
-    if ([UserManager manager].user.roletype == UserRoleType_HandleTask) {
-        vcArray = @[[TaskListViewController class],[TaskListViewController class],[TaskListViewController class]];
-        titleArray = @[@"全部", @"待处理", @"已完成"];
-    }
-    
-    if (self = [super initWithViewControllerClasses:vcArray andTheirTitles:titleArray]) {
-        
-        if ([UserManager manager].user.roletype == UserRoleType_HandleTask) {
-            self.taskListTypeArray = @[@(TaskListType_All), @(TaskListType_WaitHandle), @(TaskListType_Completed)];
-        }else{
-            self.taskListTypeArray = @[@(TaskListType_All), @(TaskListType_WaitAssign), @(TaskListType_WaitHandle), @(TaskListType_Completed)];
-        }
+    if (self = [super initWithViewControllerClasses:VCArray andTheirTitles:titleArray]) {
         
         [self configPageController];
+        
     }
     return self;
 }
@@ -53,6 +42,7 @@
     
     self.progressColor = kNavBackGround;
     self.progressHeight = 1.5f;
+    self.progressWidth = 40 * scale;
     self.menuViewStyle = WMMenuViewStyleLine;
     self.progressViewBottomSpace = 0;
     
@@ -63,24 +53,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"任务列表";
+    self.navigationItem.title = @"系统状态";
     
     self.view.backgroundColor = UIColorFromRGB(0xffffff);
-    
-//    if (@available(iOS 11.0, *)) {
-//        
-//    }else{
-//        self.automaticallyAdjustsScrollViewInsets = NO;
-//    }
     
     [self setNavBackArrowWithWidth:40];
     
     self.menuView.frame = CGRectMake(0, 0, kMainBoundsWidth, 40);
-    
-    if ([UserManager manager].user.roletype == UserRoleType_HandleTask) {
-        self.selectIndex = 1;
-    }
-    // Do any additional setup after loading the view.
 }
 
 - (void)setNavBackArrowWithWidth:(CGFloat)width {
@@ -102,17 +81,12 @@
 
 - (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index
 {
-    TaskListType type = [[self.taskListTypeArray objectAtIndex:index] integerValue];
-    return [[TaskListViewController alloc] initWithTaskListType:type];
+    NSString * cityID = [self.cityIDArray objectAtIndex:index];
+    return [[SystemStatusController alloc] initWithCityID:cityID];
 }
 
 - (void)navBackButtonClicked:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -128,6 +102,19 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     }
+}
+
+- (NSArray *)cityIDArray
+{
+    if (!_cityIDArray) {
+        _cityIDArray = @[@"0", @"1", @"2", @"3", @"4"];
+    }
+    return _cityIDArray;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 /*
