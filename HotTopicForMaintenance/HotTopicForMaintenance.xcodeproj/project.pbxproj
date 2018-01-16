@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060490CA200DD5F10052771C /* SystemStatusBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 060490C9200DD5F10052771C /* SystemStatusBoxCell.m */; };
 		06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06063E0C1FE8A73F0013C461 /* SingleInfoController.m */; };
 		060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C41FB1831700D2A510 /* RefuseRequest.m */; };
 		060A77C81FB1980F00D2A510 /* GetTaskCountRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C71FB1980F00D2A510 /* GetTaskCountRequest.m */; };
@@ -169,6 +170,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		060490C8200DD5F10052771C /* SystemStatusBoxCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusBoxCell.h; sourceTree = "<group>"; };
+		060490C9200DD5F10052771C /* SystemStatusBoxCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusBoxCell.m; sourceTree = "<group>"; };
 		06063E0B1FE8A73F0013C461 /* SingleInfoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleInfoController.h; sourceTree = "<group>"; };
 		06063E0C1FE8A73F0013C461 /* SingleInfoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleInfoController.m; sourceTree = "<group>"; };
 		060A77C31FB1831700D2A510 /* RefuseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RefuseRequest.h; sourceTree = "<group>"; };
@@ -617,6 +620,8 @@
 			children = (
 				068CFF06200CC00200086407 /* SystemStatusHotelCell.h */,
 				068CFF07200CC00200086407 /* SystemStatusHotelCell.m */,
+				060490C8200DD5F10052771C /* SystemStatusBoxCell.h */,
+				060490C9200DD5F10052771C /* SystemStatusBoxCell.m */,
 			);
 			path = Systems;
 			sourceTree = "<group>";
@@ -1523,6 +1528,7 @@
 				0677AC071FAB168800D494FE /* CityModel.m in Sources */,
 				06B055D51F5D47EC00A9CE68 /* Helper.m in Sources */,
 				969A3C4D1FAAAF7200EB95C9 /* RepairContentTableCell.m in Sources */,
+				060490CA200DD5F10052771C /* SystemStatusBoxCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

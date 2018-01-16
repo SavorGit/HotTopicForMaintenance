@@ -9,6 +9,8 @@
 #import "SystemStatusController.h"
 #import "SystemStatusHeaderView.h"
 #import "SystemStatusSectionHeaderView.h"
+#import "SystemStatusHotelCell.h"
+#import "SystemStatusBoxCell.h"
 
 @interface SystemStatusController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -46,11 +48,27 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return 4;
+    }else if (section == 2) {
+        return 4;
+    }
+    
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0) {
+        SystemStatusHotelCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SystemStatusHotelCell" forIndexPath:indexPath];
+        
+        return cell;
+    }else if (indexPath.section == 2) {
+        SystemStatusBoxCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SystemStatusBoxCell" forIndexPath:indexPath];
+        
+        return cell;
+    }
+    
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SystemStatusCell"];
     
     return cell;
@@ -58,6 +76,20 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    if (indexPath.section == 0) {
+        if (indexPath.row == 3) {
+            return 90 * scale;
+        }
+        return 70 * scale;
+    }else if (indexPath.section == 2){
+        if (indexPath.row == 3) {
+            return 90 * scale;
+        }
+        return 70 * scale;
+    }
+    
     return 1;
 }
 
@@ -88,6 +120,8 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.backgroundColor = UIColorFromRGB(0xf5f5f5);
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[SystemStatusHotelCell class] forCellReuseIdentifier:@"SystemStatusHotelCell"];
+        [_tableView registerClass:[SystemStatusBoxCell class] forCellReuseIdentifier:@"SystemStatusBoxCell"];
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"SystemStatusCell"];
         [_tableView registerClass:[SystemStatusSectionHeaderView class] forHeaderFooterViewReuseIdentifier:@"SystemStatusSectionHeaderView"];
         _tableView.contentInset = UIEdgeInsetsMake(10 * scale, 0, 10 * scale, 0);

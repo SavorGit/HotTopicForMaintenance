@@ -1,24 +1,25 @@
 //
-//  SystemStatusHotelCell.m
+//  SystemStatusBoxCell.m
 //  HotTopicForMaintenance
 //
-//  Created by 郭春城 on 2018/1/15.
+//  Created by 郭春城 on 2018/1/16.
 //  Copyright © 2018年 郭春城. All rights reserved.
 //
 
-#import "SystemStatusHotelCell.h"
+#import "SystemStatusBoxCell.h"
 #import "HotTopicTools.h"
 
-@interface SystemStatusHotelCell ()
+@interface SystemStatusBoxCell ()
 
 @property (nonatomic, strong) UILabel * deviceNameLabel;
 @property (nonatomic, strong) UILabel * totalNumberLabel;
 @property (nonatomic, strong) UILabel * normalLabel;
+@property (nonatomic, strong) UILabel * faultLabel;
 @property (nonatomic, strong) UILabel * frozenLabel;
 
 @end
 
-@implementation SystemStatusHotelCell
+@implementation SystemStatusBoxCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -69,11 +70,29 @@
         make.height.mas_equalTo(17 * scale);
     }];
     
+    UIImageView * faultImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [faultImageView setImage:[UIImage imageNamed:@"lixian"]];
+    [self.contentView addSubview:faultImageView];
+    [faultImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(193 * scale);
+        make.top.mas_equalTo(normalImageView);
+        make.width.height.mas_equalTo(11 * scale);
+    }];
+    
+    self.faultLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
+    self.faultLabel.text = @"报损  16";
+    [self.contentView addSubview:self.faultLabel];
+    [self.faultLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.normalLabel);
+        make.left.mas_equalTo(faultImageView.mas_right).offset(5 * scale);
+        make.height.mas_equalTo(17 * scale);
+    }];
+    
     UIImageView * frozenImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [frozenImageView setImage:[UIImage imageNamed:@"dongjie"]];
     [self.contentView addSubview:frozenImageView];
     [frozenImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(238 * scale);
+        make.left.mas_equalTo(self.faultLabel.mas_right).offset(24 * scale);
         make.top.mas_equalTo(normalImageView);
         make.width.height.mas_equalTo(11 * scale);
     }];
