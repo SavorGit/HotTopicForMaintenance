@@ -244,7 +244,7 @@
     self.blackListLabel.text = @"黑名单  299";
     [self addSubview:self.blackListLabel];
     [self.blackListLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(boxLabel.mas_bottom).offset(19 * scale);
+        make.top.mas_equalTo(boxLabel.mas_bottom).offset(18 * scale);
         make.left.mas_equalTo(self.hotelOnlineLabel);
         make.height.mas_equalTo(17 * scale);
     }];

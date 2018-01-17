@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIImageView *nextImgView;
 
 @end
+
 @implementation SearchTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{

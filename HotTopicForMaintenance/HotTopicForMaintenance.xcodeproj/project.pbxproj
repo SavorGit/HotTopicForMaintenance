@@ -51,6 +51,10 @@
 		066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */; };
 		066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA55C1F6012500054264C /* ErrorDetailModel.m */; };
 		066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5631F602FBF0054264C /* CheckUpdateRequest.m */; };
+		06732F38200F1C5000187E7B /* BoxInfoTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F37200F1C5000187E7B /* BoxInfoTableHeaderView.m */; };
+		06732F3B200F35F700187E7B /* BoxInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F3A200F35F700187E7B /* BoxInfoViewController.m */; };
+		06732F3E200F3BC000187E7B /* BoxInfoPlayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F3D200F3BC000187E7B /* BoxInfoPlayCell.m */; };
+		06732F41200F4C5C00187E7B /* CheckResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F40200F4C5C00187E7B /* CheckResultView.m */; };
 		0677AC071FAB168800D494FE /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC061FAB168800D494FE /* CityModel.m */; };
 		0677AC0A1FAB169B00D494FE /* SkillModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC091FAB169B00D494FE /* SkillModel.m */; };
 		0677AC0D1FAB427200D494FE /* UserCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC0C1FAB427200D494FE /* UserCityViewController.m */; };
@@ -258,6 +262,14 @@
 		066EA55C1F6012500054264C /* ErrorDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailModel.m; sourceTree = "<group>"; };
 		066EA5621F602FBF0054264C /* CheckUpdateRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckUpdateRequest.h; sourceTree = "<group>"; };
 		066EA5631F602FBF0054264C /* CheckUpdateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUpdateRequest.m; sourceTree = "<group>"; };
+		06732F36200F1C5000187E7B /* BoxInfoTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxInfoTableHeaderView.h; sourceTree = "<group>"; };
+		06732F37200F1C5000187E7B /* BoxInfoTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxInfoTableHeaderView.m; sourceTree = "<group>"; };
+		06732F39200F35F700187E7B /* BoxInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxInfoViewController.h; sourceTree = "<group>"; };
+		06732F3A200F35F700187E7B /* BoxInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxInfoViewController.m; sourceTree = "<group>"; };
+		06732F3C200F3BC000187E7B /* BoxInfoPlayCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxInfoPlayCell.h; sourceTree = "<group>"; };
+		06732F3D200F3BC000187E7B /* BoxInfoPlayCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxInfoPlayCell.m; sourceTree = "<group>"; };
+		06732F3F200F4C5C00187E7B /* CheckResultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckResultView.h; sourceTree = "<group>"; };
+		06732F40200F4C5C00187E7B /* CheckResultView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckResultView.m; sourceTree = "<group>"; };
 		0677AC051FAB168800D494FE /* CityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CityModel.h; sourceTree = "<group>"; };
 		0677AC061FAB168800D494FE /* CityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
 		0677AC081FAB169B00D494FE /* SkillModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillModel.h; sourceTree = "<group>"; };
@@ -509,6 +521,8 @@
 				068CFEFD200C896400086407 /* SystemStatusPageController.m */,
 				0666840E2004B982005B4CAD /* LookImageViewController.h */,
 				0666840F2004B982005B4CAD /* LookImageViewController.m */,
+				06732F39200F35F700187E7B /* BoxInfoViewController.h */,
+				06732F3A200F35F700187E7B /* BoxInfoViewController.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -1144,6 +1158,12 @@
 				9617A1871FE7B4E900199D34 /* SingleVRestaurantRankCell.m */,
 				96AA19971F5FC38C00C06CE8 /* SearchTableViewCell.h */,
 				96AA19981F5FC38C00C06CE8 /* SearchTableViewCell.m */,
+				06732F36200F1C5000187E7B /* BoxInfoTableHeaderView.h */,
+				06732F37200F1C5000187E7B /* BoxInfoTableHeaderView.m */,
+				06732F3C200F3BC000187E7B /* BoxInfoPlayCell.h */,
+				06732F3D200F3BC000187E7B /* BoxInfoPlayCell.m */,
+				06732F3F200F4C5C00187E7B /* CheckResultView.h */,
+				06732F40200F4C5C00187E7B /* CheckResultView.m */,
 			);
 			path = HoteRankViews;
 			sourceTree = "<group>";
@@ -1398,6 +1418,7 @@
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
 				068CFEFE200C896400086407 /* SystemStatusPageController.m in Sources */,
 				96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */,
+				06732F41200F4C5C00187E7B /* CheckResultView.m in Sources */,
 				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
 				9617A18C1FE7CDED00199D34 /* SingleGetHotelVRequest.m in Sources */,
@@ -1460,6 +1481,7 @@
 				06356D381F5D7B2400242940 /* RDAlertView.m in Sources */,
 				06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */,
 				06B4A6481FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m in Sources */,
+				06732F38200F1C5000187E7B /* BoxInfoTableHeaderView.m in Sources */,
 				06B055D11F5D46BF00A9CE68 /* UserLoginRequest.m in Sources */,
 				06ECDC4E1F5969AB007FBD83 /* main.m in Sources */,
 				06B055FC1F5D58A200A9CE68 /* HomeUserInfoView.m in Sources */,
@@ -1474,6 +1496,8 @@
 				0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */,
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
+				06732F3E200F3BC000187E7B /* BoxInfoPlayCell.m in Sources */,
+				06732F3B200F35F700187E7B /* BoxInfoViewController.m in Sources */,
 				06844D021FAC436900E7A2CD /* DeviceManager.m in Sources */,
 				068CFF01200C992000086407 /* SystemStatusHeaderView.m in Sources */,
 				06ECDC851F596C47007FBD83 /* NetworkConfiguration.m in Sources */,

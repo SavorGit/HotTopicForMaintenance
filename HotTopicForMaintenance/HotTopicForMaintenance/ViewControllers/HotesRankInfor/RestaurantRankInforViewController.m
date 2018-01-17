@@ -20,6 +20,7 @@
 #import "DamageUploadRequest.h"
 #import "UserManager.h"
 #import "RDFrequentlyUsed.h"
+#import "BoxInfoViewController.h"
 
 @interface RestaurantRankInforViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UINavigationControllerDelegate>
 
@@ -829,6 +830,12 @@
         reConHeight = 17;
     }
     return 102 + reConHeight;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    BoxInfoViewController * info = [[BoxInfoViewController alloc] init];
+    [self.navigationController pushViewController:info animated:YES];
 }
 
 - (void)autoTitleButtonWith:(NSString *)title
