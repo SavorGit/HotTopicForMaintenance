@@ -12,4 +12,8 @@
 
 - (instancetype)initWithResult:(NSDictionary *)result;
 
+- (void)show;
+
+- (void)hidden;
+
 @end

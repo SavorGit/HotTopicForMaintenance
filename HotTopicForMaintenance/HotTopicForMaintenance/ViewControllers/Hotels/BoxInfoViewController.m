@@ -10,8 +10,10 @@
 #import "BoxInfoTableHeaderView.h"
 #import "BoxInfoPlayCell.h"
 #import "HotTopicTools.h"
+#import "DownLoadListViewController.h"
+#import "CheckResultView.h"
 
-@interface BoxInfoViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface BoxInfoViewController ()<UITableViewDelegate, UITableViewDataSource, BoxInfoTableHeaderViewDelegate>
 
 @property (nonatomic, strong) UIView * bottomView;
 @property (nonatomic, strong) UITableView * tableView;
@@ -28,7 +30,33 @@
 
 - (void)setupSubViews
 {
-    self.tableView.tableHeaderView = [[BoxInfoTableHeaderView alloc] initWithFrame:CGRectZero];
+    BoxInfoTableHeaderView * tableHeaderView = [[BoxInfoTableHeaderView alloc] initWithFrame:CGRectZero];
+    self.tableView.tableHeaderView = tableHeaderView;
+    tableHeaderView.delegate = self;
+}
+
+- (void)testButtonDidClicked
+{
+    CheckResultView * resultView = [[CheckResultView alloc] initWithResult:nil];
+    [resultView show];
+}
+
+- (void)mediaDownLoadButtonDidClicked
+{
+    DownLoadListViewController * list = [[DownLoadListViewController alloc] init];
+    [self.navigationController pushViewController:list animated:YES];
+}
+
+- (void)adDownLoadButtonDidClicked
+{
+    DownLoadListViewController * list = [[DownLoadListViewController alloc] init];
+    [self.navigationController pushViewController:list animated:YES];
+}
+
+- (void)pushListButtonDidClicked
+{
+    DownLoadListViewController * list = [[DownLoadListViewController alloc] init];
+    [self.navigationController pushViewController:list animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

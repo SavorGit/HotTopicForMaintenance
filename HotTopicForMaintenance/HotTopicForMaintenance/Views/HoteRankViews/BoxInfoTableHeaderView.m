@@ -8,6 +8,7 @@
 
 #import "BoxInfoTableHeaderView.h"
 #import "HotTopicTools.h"
+#import "DownLoadListViewController.h"
 
 @interface BoxInfoTableHeaderView ()
 
@@ -67,6 +68,7 @@
     }];
     
     UIButton * testButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x00bcee) font:kPingFangMedium(15 * scale) backgroundColor:[UIColor clearColor] title:@"一键测试" cornerRadius:3 * scale];
+    [testButton addTarget:self action:@selector(testButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     testButton.layer.borderColor = UIColorFromRGB(0x00bcee).CGColor;
     testButton.layer.borderWidth = 1 * scale;
     [self addSubview:testButton];
@@ -188,6 +190,7 @@
     self.mediaDownLoadingButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xff4d55) font:kPingFangRegular(13 * scale) backgroundColor:[UIColor clearColor] title:@"查看正在下载" cornerRadius:2 * scale];
     self.mediaDownLoadingButton.layer.borderColor = UIColorFromRGB(0xff4d55).CGColor;
     self.mediaDownLoadingButton.layer.borderWidth = .5 * scale;
+    [self.mediaDownLoadingButton addTarget:self action:@selector(lookMediaCurrentDownLoad) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.mediaDownLoadingButton];
     [self.mediaDownLoadingButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(mediaStatusTitleLabel).offset(-2 * scale);
@@ -215,6 +218,7 @@
     }];
     
     self.adDownLoadingButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xff4d55) font:kPingFangRegular(13 * scale) backgroundColor:[UIColor clearColor] title:@"查看正在下载" cornerRadius:2 * scale];
+    [self.adDownLoadingButton addTarget:self action:@selector(lookADCurrentDownLoad) forControlEvents:UIControlEventTouchUpInside];
     self.adDownLoadingButton.layer.borderColor = UIColorFromRGB(0xff4d55).CGColor;
     self.adDownLoadingButton.layer.borderWidth = .5 * scale;
     [self addSubview:self.adDownLoadingButton];
@@ -253,6 +257,7 @@
     }];
     
     self.pushListButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x00b7f5) font:kPingFangRegular(13 * scale) backgroundColor:[UIColor clearColor] title:@"发布内容列表" cornerRadius:2 * scale];
+    [self.pushListButton addTarget:self action:@selector(pushButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     self.pushListButton.layer.borderColor = UIColorFromRGB(0x00b7f5).CGColor;
     self.pushListButton.layer.borderWidth = .5 * scale;
     [self addSubview:self.pushListButton];
@@ -304,10 +309,38 @@
     [self addSubview:lineView4];
     [lineView4 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15 * scale);
-        make.right.mas_equalTo(-15 * scale);
+        make.width.mas_equalTo(kMainBoundsWidth - 30 * scale);
         make.height.mas_equalTo(.5 * scale);
         make.bottom.mas_equalTo(-10 * scale);
     }];
+}
+
+- (void)lookMediaCurrentDownLoad
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(mediaDownLoadButtonDidClicked)]) {
+        [_delegate mediaDownLoadButtonDidClicked];
+    }
+}
+
+- (void)lookADCurrentDownLoad
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(adDownLoadButtonDidClicked)]) {
+        [_delegate adDownLoadButtonDidClicked];
+    }
+}
+
+- (void)testButtonDidClicked
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(testButtonDidClicked)]) {
+        [_delegate testButtonDidClicked];
+    }
+}
+
+- (void)pushButtonDidClicked
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(pushListButtonDidClicked)]) {
+        [_delegate pushListButtonDidClicked];
+    }
 }
 
 @end

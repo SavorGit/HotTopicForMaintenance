@@ -11,6 +11,7 @@
 		06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06063E0C1FE8A73F0013C461 /* SingleInfoController.m */; };
 		060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C41FB1831700D2A510 /* RefuseRequest.m */; };
 		060A77C81FB1980F00D2A510 /* GetTaskCountRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C71FB1980F00D2A510 /* GetTaskCountRequest.m */; };
+		06239A6C201070FA0095C92D /* DownLoadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06239A6B201070FA0095C92D /* DownLoadListViewController.m */; };
 		0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */; };
 		0626137D1FB05EB700EA6AD7 /* HandleTaskListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626137C1FB05EB700EA6AD7 /* HandleTaskListRequest.m */; };
 		062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626137F1FB06F0200EA6AD7 /* AssignRequest.m */; };
@@ -182,6 +183,8 @@
 		060A77C41FB1831700D2A510 /* RefuseRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RefuseRequest.m; sourceTree = "<group>"; };
 		060A77C61FB1980F00D2A510 /* GetTaskCountRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetTaskCountRequest.h; sourceTree = "<group>"; };
 		060A77C71FB1980F00D2A510 /* GetTaskCountRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetTaskCountRequest.m; sourceTree = "<group>"; };
+		06239A6A201070FA0095C92D /* DownLoadListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownLoadListViewController.h; sourceTree = "<group>"; };
+		06239A6B201070FA0095C92D /* DownLoadListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownLoadListViewController.m; sourceTree = "<group>"; };
 		062613781FB058AA00EA6AD7 /* HandleTaskListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListCell.h; sourceTree = "<group>"; };
 		062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandleTaskListCell.m; sourceTree = "<group>"; };
 		0626137B1FB05EB700EA6AD7 /* HandleTaskListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListRequest.h; sourceTree = "<group>"; };
@@ -523,6 +526,8 @@
 				0666840F2004B982005B4CAD /* LookImageViewController.m */,
 				06732F39200F35F700187E7B /* BoxInfoViewController.h */,
 				06732F3A200F35F700187E7B /* BoxInfoViewController.m */,
+				06239A6A201070FA0095C92D /* DownLoadListViewController.h */,
+				06239A6B201070FA0095C92D /* DownLoadListViewController.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -1460,6 +1465,7 @@
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
 				068CFF04200CAD4E00086407 /* SystemStatusSectionHeaderView.m in Sources */,
 				062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */,
+				06239A6C201070FA0095C92D /* DownLoadListViewController.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
 				066006181FB5715F007F94D2 /* CheckDetailCell.m in Sources */,
