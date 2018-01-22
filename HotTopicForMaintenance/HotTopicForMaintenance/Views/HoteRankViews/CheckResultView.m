@@ -11,6 +11,7 @@
 
 @interface CheckResultView ()
 
+@property (nonatomic, copy) void (^handle)();
 @property (nonatomic, strong) UIView * resultView;
 @property (nonatomic, strong) NSDictionary * result;
 
@@ -18,10 +19,12 @@
 
 @implementation CheckResultView
 
-- (instancetype)initWithResult:(NSDictionary *)result
+- (instancetype)initWithResult:(NSDictionary *)result reCheckHandle:(void (^)())handle
 {
     if (self = [super initWithFrame:[UIScreen mainScreen].bounds]) {
         
+        self.handle = handle;
+        self.result = result;
         [self createViews];
         
     }
@@ -62,7 +65,7 @@
     }];
     
     UILabel * platformLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    platformLabel.text = @"小平台：离线";
+    platformLabel.text = [NSString stringWithFormat:@"%@：%@", [self.result objectForKey:@"small_device_name"], [self.result objectForKey:@"small_device_state"]];
     [self.resultView addSubview:platformLabel];
     [platformLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(lineView1.mas_bottom).offset(19 * scale);
@@ -71,7 +74,7 @@
     }];
     
     UILabel * boxLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    boxLabel.text = @"盐韵厅：在线 可以投屏点播";
+    boxLabel.text = [NSString stringWithFormat:@"%@：%@", [self.result objectForKey:@"box_device_name"],[self.result objectForKey:@"box_device_state"]];
     [self.resultView addSubview:boxLabel];
     [boxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(platformLabel.mas_bottom).offset(8 * scale);
@@ -88,43 +91,36 @@
         make.left.mas_equalTo(15 * scale);
     }];
     
+    NSArray * reasonList = [self.result objectForKey:@"remark"];
+    NSString * reason;
+    for (NSInteger i = 0; i < reasonList.count; i++) {
+        
+        NSString * str = [reasonList objectAtIndex:i];
+        if (i == 0) {
+            reason = str;
+        }else{
+            reason = [reason stringByAppendingString:[NSString stringWithFormat:@"\n%@", str]];
+        }
+        
+    }
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:reason];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 5 * scale; // 调整行间距
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, reason.length)];
+    
     UILabel * reasonLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    reasonLabel.text = @"离线原因（仅作为参考）";
+    reasonLabel.numberOfLines = 0;
+    reasonLabel.attributedText = attributedString;
     [self.resultView addSubview:reasonLabel];
     [reasonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(networkLabel.mas_bottom).offset(29 * scale);
         make.left.mas_equalTo(15 * scale);
-        make.height.mas_equalTo(16 * scale);
-    }];
-    
-    UILabel * reasonLabel1 = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    reasonLabel1.text = @"1、机顶盒没有开机";
-    [self.resultView addSubview:reasonLabel1];
-    [reasonLabel1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(reasonLabel.mas_bottom).offset(8 * scale);
-        make.left.mas_equalTo(15 * scale);
-        make.height.mas_equalTo(16 * scale);
-    }];
-    
-    UILabel * reasonLabel2 = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    reasonLabel2.text = @"2、局域网拥堵";
-    [self.resultView addSubview:reasonLabel2];
-    [reasonLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(reasonLabel1.mas_bottom).offset(8 * scale);
-        make.left.mas_equalTo(15 * scale);
-        make.height.mas_equalTo(16 * scale);
-    }];
-    
-    UILabel * reasonLabel3 = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    reasonLabel3.text = @"3、外网网络断开等等";
-    [self.resultView addSubview:reasonLabel3];
-    [reasonLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(reasonLabel2.mas_bottom).offset(8 * scale);
-        make.left.mas_equalTo(15 * scale);
-        make.height.mas_equalTo(16 * scale);
+        make.width.mas_equalTo(kMainBoundsWidth - 30 * scale);
     }];
     
     UIButton * reCheckButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x24afec) font:kPingFangMedium(15 * scale) backgroundColor:[UIColor clearColor] title:@"重新测试" cornerRadius:3 * scale];
+    [reCheckButton addTarget:self action:@selector(reCheckDidClicked) forControlEvents:UIControlEventTouchUpInside];
     reCheckButton.layer.borderColor = UIColorFromRGB(0x24afec).CGColor;
     reCheckButton.layer.borderWidth = 1 * scale;
     [self.resultView addSubview:reCheckButton];
@@ -146,6 +142,14 @@
         make.width.mas_equalTo(80 * scale);
         make.height.mas_equalTo(32 * scale);
     }];
+}
+
+- (void)reCheckDidClicked
+{
+    [self hidden];
+    if (self.handle) {
+        self.handle();
+    }
 }
 
 - (void)show

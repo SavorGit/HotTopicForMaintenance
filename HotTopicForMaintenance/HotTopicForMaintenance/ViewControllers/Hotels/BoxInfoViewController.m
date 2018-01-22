@@ -12,51 +12,239 @@
 #import "HotTopicTools.h"
 #import "DownLoadListViewController.h"
 #import "CheckResultView.h"
+#import "GetBoxInfoRequest.h"
+#import "OneKeyCheckRequest.h"
+#import <MJRefresh/MJRefreshNormalHeader.h>
+#import "GetDownLoadMediaRequest.h"
+#import "GetDownLoadADRequest.h"
+#import "GetPubProgramRequest.h"
 
 @interface BoxInfoViewController ()<UITableViewDelegate, UITableViewDataSource, BoxInfoTableHeaderViewDelegate>
 
+@property (nonatomic, copy) NSString * boxID;
 @property (nonatomic, strong) UIView * bottomView;
+
+@property (nonatomic, strong) BoxInfoTableHeaderView * tableHeaderView;
 @property (nonatomic, strong) UITableView * tableView;
+
+@property (nonatomic, strong) NSDictionary * dataDict;
+@property (nonatomic, strong) NSArray * dataSource;
 
 @end
 
 @implementation BoxInfoViewController
 
+- (instancetype)initWithBoxID:(NSString *)boxID title:(NSString *)title
+{
+    if (self = [super init]) {
+        self.boxID = boxID;
+        self.navigationItem.title = title;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupSubViews];
+    [self setupDatas];
 }
 
 - (void)setupSubViews
 {
-    BoxInfoTableHeaderView * tableHeaderView = [[BoxInfoTableHeaderView alloc] initWithFrame:CGRectZero];
-    self.tableView.tableHeaderView = tableHeaderView;
-    tableHeaderView.delegate = self;
+    self.tableHeaderView = [[BoxInfoTableHeaderView alloc] initWithFrame:CGRectZero];
+    self.tableHeaderView.delegate = self;
+    self.tableView.tableHeaderView = self.tableHeaderView;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(setupDatas)];
+}
+
+- (void)setupDatas
+{
+    GetBoxInfoRequest * request = [[GetBoxInfoRequest alloc] initWithBoxID:self.boxID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            self.dataDict = result;
+            
+            NSArray * program_list = [result objectForKey:@"program_list"];
+            if ([program_list isKindOfClass:[NSArray class]]) {
+                self.dataSource = program_list;
+            }else{
+                self.dataSource = [NSArray new];
+            }
+        }
+        [self reloadBoxData];
+        [self.tableView.mj_header endRefreshing];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self.tableView.mj_header endRefreshing];
+        [MBProgressHUD showTextHUDWithText:@"版位信息错误" inView:self.view];
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [self.tableView.mj_header endRefreshing];
+        [MBProgressHUD showTextHUDWithText:@"网络失去连接" inView:self.view];
+        
+    }];
+}
+
+- (void)reloadBoxData
+{
+    [self.tableHeaderView configWithDict:self.dataDict];
+    [self.tableView reloadData];
 }
 
 - (void)testButtonDidClicked
 {
-    CheckResultView * resultView = [[CheckResultView alloc] initWithResult:nil];
-    [resultView show];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"检测中..." inView:self.view];
+    
+    OneKeyCheckRequest * request = [[OneKeyCheckRequest alloc] initWithBoxID:self.boxID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            
+            __weak typeof(self) weakSelf = self;
+            CheckResultView * resultView = [[CheckResultView alloc] initWithResult:result reCheckHandle:^{
+                [weakSelf testButtonDidClicked];
+            }];
+            [resultView show];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"配置信息错误" inView:self.view];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"检测失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"网络连接失败" inView:self.view];
+        
+    }];
 }
 
 - (void)mediaDownLoadButtonDidClicked
 {
-    DownLoadListViewController * list = [[DownLoadListViewController alloc] init];
-    [self.navigationController pushViewController:list animated:YES];
+    NSString * proID = [self.dataDict objectForKey:@"pro_download_period"];
+    if (isEmptyString(proID)) {
+        [MBProgressHUD showTextHUDWithText:@"没有正在下载的节目" inView:self.view];
+        return;
+    }
+    
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载" inView:self.view];
+    GetDownLoadMediaRequest * request = [[GetDownLoadMediaRequest alloc] initWithMediaProID:proID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        NSArray * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSArray class]]) {
+            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result];
+            [list configType:DownLoadListType_Media mediaDate:proID adDate:nil];
+            [self.navigationController pushViewController:list animated:YES];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"内容信息为空" inView:self.view];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"网络连接失败" inView:self.view];
+        
+    }];
 }
 
 - (void)adDownLoadButtonDidClicked
 {
-    DownLoadListViewController * list = [[DownLoadListViewController alloc] init];
-    [self.navigationController pushViewController:list animated:YES];
+    NSString * ADID = [self.dataDict objectForKey:@"ads_download_period"];
+    if (isEmptyString(ADID)) {
+        [MBProgressHUD showTextHUDWithText:@"没有正在下载的广告" inView:self.view];
+        return;
+    }
+    
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载" inView:self.view];
+    GetDownLoadADRequest * request = [[GetDownLoadADRequest alloc] initWithMediaADID:ADID boxID:self.boxID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        NSArray * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSArray class]]) {
+            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result];
+            [list configType:DownLoadListType_ADs mediaDate:nil adDate:ADID];
+            [self.navigationController pushViewController:list animated:YES];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"内容信息为空" inView:self.view];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"网络连接失败" inView:self.view];
+        
+    }];
 }
 
 - (void)pushListButtonDidClicked
 {
-    DownLoadListViewController * list = [[DownLoadListViewController alloc] init];
-    [self.navigationController pushViewController:list animated:YES];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载" inView:self.view];
+    GetPubProgramRequest * request = [[GetPubProgramRequest alloc] initWithBoxID:self.boxID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        NSArray * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSArray class]]) {
+            NSString * proID = [self.dataDict objectForKey:@"pro_period"];
+            NSString * ADID = [self.dataDict objectForKey:@"ads_period"];
+            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result];
+            [list configType:DownLoadListType_PubProgram mediaDate:proID adDate:ADID];
+            [self.navigationController pushViewController:list animated:YES];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"内容信息为空" inView:self.view];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDWithText:@"网络连接失败" inView:self.view];
+        
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -66,12 +254,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BoxInfoPlayCell * cell = [tableView dequeueReusableCellWithIdentifier:@"BoxInfoPlayCell" forIndexPath:indexPath];
+    
+    NSDictionary * dict = [self.dataSource objectAtIndex:indexPath.row];
+    [cell configWithDict:dict];
     
     return cell;
 }
@@ -79,6 +270,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 38 * kMainBoundsWidth / 375.f;
+}
+
+- (NSArray *)dataSource
+{
+    if (!_dataSource) {
+        _dataSource = [[NSArray alloc] init];
+    }
+    return _dataSource;
 }
 
 - (UIView *)bottomView

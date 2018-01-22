@@ -13,10 +13,36 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) NSArray * dataSource;
+
+@property (nonatomic, copy) NSString * titleText;
+
+@property (nonatomic, assign) DownLoadListType type;
 
 @end
 
 @implementation DownLoadListViewController
+
+- (instancetype)initWithDataSource:(NSArray *)dataSource
+{
+    if (self = [super init]) {
+        self.dataSource = dataSource;
+    }
+    return self;
+}
+
+- (void)configType:(DownLoadListType)type mediaDate:(NSString *)mediaDate adDate:(NSString *)adDate
+{
+    self.type = type;
+    
+    if (type == DownLoadListType_Media) {
+        self.titleText = [NSString stringWithFormat:@"下载节目期号：%@", mediaDate];
+    }else if (type == DownLoadListType_ADs) {
+        self.titleText = [NSString stringWithFormat:@"下载广告期号：%@", adDate];
+    }else if (type == DownLoadListType_PubProgram) {
+        self.titleText = [NSString stringWithFormat:@"发布节目期号：%@\n发布广告期号：%@", mediaDate, adDate];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,13 +57,20 @@
     headerView.backgroundColor = [UIColor whiteColor];
     
     UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 54.f * scale, kMainBoundsWidth, .5f)];
+    
+    if (self.type == DownLoadListType_PubProgram) {
+        headerView.frame = CGRectMake(0, 0, kMainBoundsWidth, 81 * scale);
+        lineView.frame = CGRectMake(0, 70.f * scale, kMainBoundsWidth, .5f);
+    }
+    
     lineView.backgroundColor = UIColorFromRGB(0xd7d7d7);
     [headerView addSubview:lineView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.font = kPingFangMedium(15 * scale);
     self.titleLabel.textColor = UIColorFromRGB(0x333333);
-    self.titleLabel.text = @"下载节目期号：20170506103554";
+    self.titleLabel.text = self.titleText;
+    self.titleLabel.numberOfLines = 0;
     [headerView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15 * scale);
@@ -55,12 +88,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BoxInfoPlayCell * cell = [tableView dequeueReusableCellWithIdentifier:@"BoxInfoPlayCell" forIndexPath:indexPath];
+    
+    [cell configNoFlagWithDict:[self.dataSource objectAtIndex:indexPath.row]];
     
     return cell;
 }

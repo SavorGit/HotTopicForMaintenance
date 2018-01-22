@@ -36,13 +36,11 @@
     self.playeTypeLabel.backgroundColor = UIColorFromRGB(0xbbbbbb);
     self.playeTypeLabel.layer.cornerRadius = 1.5 * scale;
     self.playeTypeLabel.layer.masksToBounds = YES;
-    self.playeTypeLabel.text = @"宣传片";
     [self.contentView addSubview:self.playeTypeLabel];
     [self.playeTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
         make.left.mas_equalTo(15 * scale);
         make.height.mas_equalTo(18 * scale);
-        make.width.mas_equalTo(45 * scale);
     }];
     
     self.playStatusImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -55,7 +53,6 @@
     }];
     
     self.playTitleLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    self.playTitleLabel.text = @"OUTSIDE北海岸的冲浪者80秒";
     [self.contentView addSubview:self.playTitleLabel];
     [self.playTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
@@ -63,6 +60,56 @@
         make.height.mas_equalTo(16 * scale);
         make.right.mas_equalTo(self.playStatusImageView.mas_left).offset(-15 * scale);
     }];
+}
+
+- (void)configWithDict:(NSDictionary *)dict
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    NSString * type = [dict objectForKey:@"type"];
+    self.playeTypeLabel.text = type;
+    if (type.length == 2) {
+        [self.playeTypeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(38 * scale);
+        }];
+    }else if (type.length == 3) {
+        [self.playeTypeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(45 * scale);
+        }];
+    }else{
+        self.playeTypeLabel.text = [NSString stringWithFormat:@" %@  ", type];
+    }
+    
+    self.playTitleLabel.text = [dict objectForKey:@"name"];
+    
+    BOOL flag = [[dict objectForKey:@"flag"] boolValue];
+    if (flag) {
+        [self.playStatusImageView setImage:[UIImage imageNamed:@"dui"]];
+    }else{
+        [self.playStatusImageView setImage:[UIImage imageNamed:@"cuo"]];
+    }
+}
+
+- (void)configNoFlagWithDict:(NSDictionary *)dict
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    NSString * type = [dict objectForKey:@"type"];
+    self.playeTypeLabel.text = type;
+    if (type.length == 2) {
+        [self.playeTypeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(38 * scale);
+        }];
+    }else if (type.length == 3) {
+        [self.playeTypeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(45 * scale);
+        }];
+    }else{
+        self.playeTypeLabel.text = [NSString stringWithFormat:@" %@  ", type];
+    }
+    
+    self.playTitleLabel.text = [dict objectForKey:@"name"];
+    
+    self.playStatusImageView.hidden = YES;
 }
 
 - (void)awakeFromNib {

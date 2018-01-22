@@ -10,4 +10,8 @@
 
 @interface BoxInfoPlayCell : UITableViewCell
 
+- (void)configWithDict:(NSDictionary *)dict;
+
+- (void)configNoFlagWithDict:(NSDictionary *)dict;
+
 @end

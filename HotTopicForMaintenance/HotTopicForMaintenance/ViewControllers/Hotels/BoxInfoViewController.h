@@ -10,4 +10,6 @@
 
 @interface BoxInfoViewController : BaseViewController
 
+- (instancetype)initWithBoxID:(NSString *)boxID title:(NSString *)title;
+
 @end
