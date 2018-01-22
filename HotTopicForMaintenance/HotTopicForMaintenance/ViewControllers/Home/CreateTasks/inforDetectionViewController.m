@@ -14,7 +14,7 @@
 #import "MBProgressHUD+Custom.h"
 #import "NSArray+json.h"
 
-@interface inforDetectionViewController ()<UITableViewDelegate,UITableViewDataSource,NetworkTranDelegate>
+@interface inforDetectionViewController ()<UITableViewDelegate,UITableViewDataSource,NetworkTranDelegate,UITextViewDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
@@ -22,6 +22,7 @@
 @property (nonatomic, copy)   NSString *currHotelId;
 @property (nonatomic, assign) NSInteger segTag;
 @property (nonatomic, assign) NSInteger taskType;
+@property (nonatomic, strong) UITextView *remarkTextView;
 
 @end
 
@@ -54,6 +55,10 @@
     UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = backItem;
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tap.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tap];
+    
     self.segTag = 3;
 }
 
@@ -72,7 +77,7 @@
     self.title = @"信息检测";
     self.titleArray = [NSArray arrayWithObjects:@"选择酒楼",@"联系人",@"联系电话",@"地址",@"任务紧急程度", nil];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.backgroundColor = [UIColor clearColor];
@@ -80,6 +85,53 @@
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
+    }];
+    
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 215)];
+    footView.backgroundColor = UIColorFromRGB(0xffffff);
+    _tableView.tableFooterView = footView;
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor = UIColorFromRGB(0xc8c7cc);
+    [footView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 20 , 0.3));
+        make.left.mas_equalTo(20);
+        make.top.mas_equalTo(0);
+    }];
+    
+    UILabel *remarkTitle =[[UILabel alloc] init];
+    remarkTitle.text = @"备注 （200字内，非必填）";
+    remarkTitle.font = kPingFangRegular(14);
+    remarkTitle.textAlignment = NSTextAlignmentLeft;
+    remarkTitle.textColor = UIColorFromRGB(0x434343);
+    [footView addSubview:remarkTitle];
+    [remarkTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 , 20));
+        make.left.mas_equalTo(15);
+        make.top.mas_equalTo(15);
+    }];
+    
+    self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+    self.remarkTextView.textColor = UIColorFromRGB(0x999999);
+    self.remarkTextView.font = kPingFangRegular(14);
+    self.remarkTextView.text = @" 请输入备注信息，建议到店时间等";
+    self.remarkTextView.backgroundColor = [UIColor clearColor];
+    self.remarkTextView.textAlignment = NSTextAlignmentLeft;
+    self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.remarkTextView.layer.borderColor = UIColorFromRGB(0xc8c7cc).CGColor;
+    self.remarkTextView.layer.borderWidth = .5f;
+    self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
+    self.remarkTextView.returnKeyType = UIReturnKeyDone;
+    self.remarkTextView.scrollEnabled = YES;
+    self.remarkTextView.delegate = self;
+    self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.remarkTextView];
+    [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(remarkTitle.mas_bottom).offset(15);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
+        make.height.mas_equalTo(140);
     }];
     
 }
@@ -174,22 +226,100 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 10;
+    return 20;
+}
+
+
+#pragma mark - textView代理方法
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+//    self.currentTextView = textView;
+    return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@" 请输入备注信息，建议到店时间等"]) {
+        self.remarkTextView.textColor = [UIColor grayColor];
+        textView.text = @"";
+    }
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }else if (range.location < 100){
+        return  YES;
+    } else if (textView.text.length == 100) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    NSLog(@"%@",textView.text);
+    if ([textView.text isEqualToString:@""]) {
+        self.remarkTextView.text = @" 请输入备注信息，建议到店时间等";
+        self.remarkTextView.textColor = UIColorFromRGB(0x999999);
+    }
+//    self.dataModel.remark = textView.text;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    
+//    self.dataModel.remark = textView.text;
+    [textView resignFirstResponder];
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:)  name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification{
+    
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    float bottomY = self.view.frame.size.height - (self.remarkTextView.frame.origin.y + self.remarkTextView.frame.size.height);//得到下边框到底部的距离
+    float moveY = bottomY - keyboardFrame.size.height;
+    
+    if (moveY < 0) {
+        [self moveWithDistance:moveY];
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    //恢复到默认y为0的状态，有时候要考虑导航栏要+64
+    [self moveWithDistance:64];
+}
+
+- (void)moveWithDistance:(CGFloat )distance{
+    
+    CGRect frame = self.view.frame;
+    frame.origin.y = distance ;
+    self.view.frame = frame;
+}
+
+//点击空白处的手势要实现的方法
+-(void)viewTapped:(UITapGestureRecognizer*)tap
+{
+    [self.view endEditing:YES];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

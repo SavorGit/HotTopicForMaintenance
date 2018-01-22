@@ -26,7 +26,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface InstallAndAcceptViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate,UITextFieldDelegate,UIActionSheetDelegate>
+@interface InstallAndAcceptViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,RepairHeaderTableDelegate,RepairContentDelegate,UITextFieldDelegate,UIActionSheetDelegate,UITextViewDelegate>
 {
     UIImagePickerController *_imagePickerController;
 }
@@ -45,7 +45,8 @@
 
 @property (nonatomic, assign) TaskType taskType;
 @property (nonatomic, assign) NSInteger segTag;
-@property (nonatomic, copy) NSString *cuSTextFieldTagStr;
+@property (nonatomic, copy)   NSString *cuSTextFieldTagStr;
+@property (nonatomic, strong)   UITextView *cuTextView;
 
 @end
 
@@ -272,6 +273,7 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
 }
 
 - (void)pubBtnClicked
@@ -452,8 +454,8 @@
         }
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;  
-        cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
+        cell.remarkTextView.delegate = self;
         [cell configWithContent:self.headDataModel andPNum:[NSString stringWithFormat:@"%ld",self.otherContentArray.count]  andIdexPath:indexPath];
         return cell;
     }else {
@@ -487,7 +489,7 @@
             return 50 *3 + 10 + 84.5 *scale - 20;
         }
     }
-    return 50 *6;
+    return 50 *6 + 210;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -666,6 +668,51 @@
     tmpModel.title = textField.text;
 }
 
+#pragma mark - textView代理方法
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    self.cuTextView = textView;
+    return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@" 请输入备注信息，建议到店时间等"]) {
+       self.cuTextView.textColor = [UIColor grayColor];
+        textView.text = @"";
+    }
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }else if (range.location < 100){
+        return  YES;
+    } else if (textView.text.length == 100) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    NSLog(@"%@",textView.text);
+    if ([textView.text isEqualToString:@""]) {
+        self.cuTextView.text = @" 请输入备注信息，建议到店时间等";
+        self.cuTextView.textColor = UIColorFromRGB(0x999999);
+    }
+    //    self.dataModel.remark = textView.text;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    
+    //    self.dataModel.remark = textView.text;
+    [textView resignFirstResponder];
+    
+}
+
 //点击空白处的手势要实现的方法
 -(void)viewTapped:(UITapGestureRecognizer*)tap
 {
@@ -700,7 +747,15 @@
             frame.origin.y = transformY ;
             self.view.frame = frame;
         }
-    }else{
+    }else if (self.cuTextView != nil){
+        
+        CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        float bottomY = self.view.frame.size.height - (self.cuTextView.frame.origin.y + self.cuTextView.frame.size.height);//得到下边框到底部的距离
+        float moveY = bottomY - keyboardFrame.size.height;
+        
+        if (moveY < 0) {
+            [self moveWithDistance:moveY];
+        }
     }
 }
 
@@ -710,6 +765,13 @@
     frame.origin.y = 64;
     self.view.frame = frame;
     self.cuSTextFieldTagStr = @"";
+}
+
+- (void)moveWithDistance:(CGFloat )distance{
+    
+    CGRect frame = self.view.frame;
+    frame.origin.y = distance ;
+    self.view.frame = frame;
 }
 
 - (void)cancelOSSTask

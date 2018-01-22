@@ -9,7 +9,7 @@
 #import "RepairHeaderTableCell.h"
 #import "RepairContentModel.h"
 
-@interface RepairHeaderTableCell()<UITextFieldDelegate>
+@interface RepairHeaderTableCell()<UITextFieldDelegate,UITextViewDelegate>
 
 @property (nonatomic, strong) UILabel *insTitleLab;
 @property (nonatomic, strong) UILabel *contactTitleLab;
@@ -188,8 +188,8 @@
     countTitleLab.text = @"版位数量";
     [self addSubview:countTitleLab];
     [countTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 20));
-        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(15 + 15);
+        make.size.mas_equalTo(CGSizeMake(100, 30));
+        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(12.5 + 15);
         make.left.mas_equalTo(15);
     }];
     
@@ -199,7 +199,7 @@
     [self addSubview:self.addBtn];
     [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
-        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(10 + 15);
+        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(12.5 + 15);
         make.right.mas_equalTo(- 35);
     }];
     
@@ -210,8 +210,8 @@
     self.numLabel.text = @"1";
     [self addSubview:self.numLabel];
     [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(60, 20));
-        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(15 + 15);
+        make.size.mas_equalTo(CGSizeMake(60, 30));
+        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(12.5 + 15);
         make.right.mas_equalTo(self.addBtn.mas_left);
     }];
     
@@ -221,22 +221,65 @@
     [self addSubview:self.reduceBtn];
     [self.reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(30, 30));
-        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(10 + 15);
+        make.top.mas_equalTo(taskStateTitleLab.mas_bottom).offset(12.5 + 15);
         make.right.mas_equalTo(self.numLabel.mas_left);
     }];
     
     for (int i = 0; i < 6; i ++) {
         
         UIView *lineView = [[UIView alloc] init];
-        lineView.backgroundColor = [UIColor lightGrayColor];
+        lineView.backgroundColor = UIColorFromRGB(0xc8c7cc);
         [self addSubview:lineView];
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 1));
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 0.5));
             make.top.mas_equalTo(49 + 50 *i);
             make.left.mas_equalTo(0);
         }];
-        
     }
+    
+//    UIView *footView = [[UIView alloc] initWithFrame:CGRectZero];
+//    footView.backgroundColor = UIColorFromRGB(0xffffff);
+//    [self addSubview:footView];
+//    [footView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 210));
+//        make.top.mas_equalTo(countTitleLab.mas_bottom).offset(15);
+//        make.left.mas_equalTo(0);
+//    }];
+    
+    UILabel *remarkTitle =[[UILabel alloc] init];
+    remarkTitle.text = @"备注 （200字内，非必填）";
+    remarkTitle.font = kPingFangRegular(14);
+    remarkTitle.textAlignment = NSTextAlignmentLeft;
+    remarkTitle.textColor = UIColorFromRGB(0x434343);
+    [self addSubview:remarkTitle];
+    [remarkTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 , 20));
+        make.left.mas_equalTo(15);
+        make.top.mas_equalTo(countTitleLab.mas_bottom).offset(15 + 15);
+    }];
+    
+    self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+    self.remarkTextView.textColor = UIColorFromRGB(0x999999);
+    self.remarkTextView.font = kPingFangRegular(14);
+    self.remarkTextView.text = @" 请输入备注信息，建议到店时间等";
+    self.remarkTextView.backgroundColor = [UIColor clearColor];
+    self.remarkTextView.textAlignment = NSTextAlignmentLeft;
+    self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.remarkTextView.layer.borderColor = UIColorFromRGB(0xc8c7cc).CGColor;
+    self.remarkTextView.layer.borderWidth = .5f;
+    self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
+    self.remarkTextView.returnKeyType = UIReturnKeyDone;
+    self.remarkTextView.scrollEnabled = YES;
+//    self.remarkTextView.delegate = self;
+    self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    [self addSubview:self.remarkTextView];
+    [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(remarkTitle.mas_bottom).offset(15);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(kMainBoundsWidth - 30);
+        make.height.mas_equalTo(140);
+    }];
+    
 }
 
 - (void)configWithContent:(RepairContentModel *)model andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index{

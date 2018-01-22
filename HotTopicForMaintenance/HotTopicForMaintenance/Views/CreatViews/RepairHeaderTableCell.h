@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UIButton *hotelBtn;
 @property (nonatomic, strong) UITextField *inPutTextField;
 @property (nonatomic, strong) UILabel *numLabel;
+@property (nonatomic,strong)  UITextView *remarkTextView;
 
 - (void)configWithContent:(RepairContentModel *)model andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index;
 
