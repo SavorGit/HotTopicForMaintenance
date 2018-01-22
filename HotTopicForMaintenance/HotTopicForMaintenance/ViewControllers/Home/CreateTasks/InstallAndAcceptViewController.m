@@ -133,9 +133,9 @@
     }
     
     if (self.taskType == TaskType_Install){
-        dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",nil];
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",self.cuTextView.text,@"desc",nil];
     }else{
-       dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",nil];
+       dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",self.cuTextView.text,@"desc",nil];
     }
     
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
@@ -699,16 +699,14 @@
 - (void)textViewDidChange:(UITextView *)textView
 {
     NSLog(@"%@",textView.text);
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+
     if ([textView.text isEqualToString:@""]) {
         self.cuTextView.text = @" 请输入备注信息，建议到店时间等";
         self.cuTextView.textColor = UIColorFromRGB(0x999999);
     }
-    //    self.dataModel.remark = textView.text;
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    
-    //    self.dataModel.remark = textView.text;
     [textView resignFirstResponder];
     
 }
