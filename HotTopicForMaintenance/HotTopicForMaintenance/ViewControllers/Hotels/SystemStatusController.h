@@ -10,4 +10,6 @@
 
 @interface SystemStatusController : BaseViewController
 
+- (instancetype)initWithCityID:(NSString *)cityID;
+
 @end

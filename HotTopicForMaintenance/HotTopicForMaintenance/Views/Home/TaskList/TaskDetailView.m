@@ -38,6 +38,8 @@
 
 @property (nonatomic, strong) UILabel * contactsLabel;
 
+@property (nonatomic, strong) UILabel * detailRemarkLabel;
+
 @end
 
 @implementation TaskDetailView
@@ -218,11 +220,16 @@
         make.bottom.mas_equalTo(self.bottomView.mas_top);
     }];
     
+    self.detailRemarkLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.detailRemarkLabel.numberOfLines = 0;
+    self.detailRemarkLabel.text = @"备注：建议到店时间为周六日，一般工程部王师傅只有周六日有时间。";
+    [self.bottomView addSubview:self.detailRemarkLabel];
+    
     if (self.model.state_id == TaskStatusType_WaitHandle || self.model.state_id == TaskStatusType_Completed) {
         
         if (self.model.task_type_id == TaskType_Install) {
             [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo((79.f) * scale);
+                make.height.mas_equalTo(79 * scale);
             }];
             
             self.installTeamLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
@@ -244,7 +251,7 @@
     if (self.model.state_id == TaskStatusType_Refuse) {
         
         [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo((79.f) * scale);
+            make.height.mas_equalTo(79 * scale);
         }];
         
         self.refuseReasonLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
@@ -287,15 +294,36 @@
     self.localLabel.text = model.hotel_address;
     self.localLabel.numberOfLines = 0;
     [self.timeView addSubview:self.localLabel];
-    CGFloat height = [HotTopicTools getHeightByWidth:width title:self.localLabel.text font:self.localLabel.font];
+    CGFloat height1 = [HotTopicTools getHeightByWidth:width title:self.localLabel.text font:self.localLabel.font];
     [self.localLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.mas_equalTo(0);
-        make.height.mas_equalTo(height);
+        make.height.mas_equalTo(height1);
         make.right.mas_equalTo(-20.f * scale);
     }];
     
+    CGFloat height2 = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 40 * scale title:self.detailRemarkLabel.text font:self.detailRemarkLabel.font];
+    
+    [self.detailRemarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(20 * scale);
+        make.right.mas_equalTo(-20 * scale);
+        make.height.mas_equalTo(height2);
+        make.bottom.mas_equalTo(-15 * scale);
+    }];
+    
+    height2 += 30 * scale;
+    
+    UIView * lineView2 = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView2.backgroundColor = UIColorFromRGB(0xd7d7d7);
+    [self.bottomView addSubview:lineView2];
+    [lineView2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(-height2);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(.5f);
+    }];
+    
     CGRect frame = self.frame;
-    frame.size.height += (height + 10);
+    frame.size.height += (height1 + 10);
+    frame.size.height += height2;
     self.frame = frame;
     
     self.hotelNameLabel.text = model.hotel_name;
@@ -321,6 +349,10 @@
     switch (model.state_id) {
         case TaskStatusType_WaitAssign:
         {
+            [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(49 * scale + height2);
+            }];
+            
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
             [self.timeView addSubview:self.createLabel];
             [self.createLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -335,6 +367,16 @@
             
         case TaskStatusType_WaitHandle:
         {
+            if (self.model.task_type_id == TaskType_Install) {
+                [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(79 * scale + height2);
+                }];
+            }else{
+                [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(49 * scale + height2);
+                }];
+            }
+            
             self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.exeuser];
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
             self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@ (%@)", model.appoint_time, model.appoint_user];
@@ -364,6 +406,16 @@
             
         case TaskStatusType_Completed:
         {
+            if (self.model.task_type_id == TaskType_Install) {
+                [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(79 * scale + height2);
+                }];
+            }else{
+                [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(49 * scale + height2);
+                }];
+            }
+            
             self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.exeuser];
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
             self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@ (%@)", model.appoint_time, model.appoint_user];
@@ -400,6 +452,10 @@
             
         case TaskStatusType_Refuse:
         {
+            [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(79 * scale + height2);
+            }];
+            
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
             self.refuseLabel.text = [NSString stringWithFormat:@"拒绝时间：%@ (%@)", model.refuse_time, model.appoint_user];
             [self.timeView addSubview:self.createLabel];

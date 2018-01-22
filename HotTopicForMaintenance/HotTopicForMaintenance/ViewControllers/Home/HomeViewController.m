@@ -21,7 +21,7 @@
 #import "ErrorDetailViewController.h"
 #import "TaskChooseTypeController.h"
 #import "TaskPageViewController.h"
-#import "SystemStatusController.h"
+#import "SystemStatusPageController.h"
 #import "BindingPositionViewController.h"
 #import "UserCityViewController.h"
 #import "BaseNavigationController.h"
@@ -383,7 +383,7 @@
             
         case MenuModelType_SystemStatus:
         {
-            SystemStatusController * vc = [[SystemStatusController alloc] init];
+            SystemStatusPageController * vc = [[SystemStatusPageController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

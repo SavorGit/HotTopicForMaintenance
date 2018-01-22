@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060490CA200DD5F10052771C /* SystemStatusBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 060490C9200DD5F10052771C /* SystemStatusBoxCell.m */; };
 		06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06063E0C1FE8A73F0013C461 /* SingleInfoController.m */; };
 		060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C41FB1831700D2A510 /* RefuseRequest.m */; };
 		060A77C81FB1980F00D2A510 /* GetTaskCountRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 060A77C71FB1980F00D2A510 /* GetTaskCountRequest.m */; };
+		06239A6C201070FA0095C92D /* DownLoadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06239A6B201070FA0095C92D /* DownLoadListViewController.m */; };
 		0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */; };
 		0626137D1FB05EB700EA6AD7 /* HandleTaskListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626137C1FB05EB700EA6AD7 /* HandleTaskListRequest.m */; };
 		062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626137F1FB06F0200EA6AD7 /* AssignRequest.m */; };
@@ -25,7 +27,6 @@
 		06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D321F5D7B2400242940 /* RDAlertAction.m */; };
 		06356D381F5D7B2400242940 /* RDAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D341F5D7B2400242940 /* RDAlertView.m */; };
 		06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D361F5D7B2400242940 /* RDTextAlertView.m */; };
-		06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */; };
 		06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D431F5D964900242940 /* HotelIndexRequest.m */; };
 		06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */; };
 		0650F38C1FA96ADC0086B794 /* SystemStatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650F38B1FA96ADC0086B794 /* SystemStatusController.m */; };
@@ -40,6 +41,7 @@
 		066006211FB583B3007F94D2 /* InstallDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066006201FB583B3007F94D2 /* InstallDetailCell.m */; };
 		066278321F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */; };
 		066278341F61634600B2B8E8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278331F61634600B2B8E8 /* UserNotifications.framework */; };
+		066684102004B982005B4CAD /* LookImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0666840F2004B982005B4CAD /* LookImageViewController.m */; };
 		066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */; };
 		066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5431F5FE45B0054264C /* ErrorReportViewController.m */; };
 		066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA54A1F5FEDDD0054264C /* ErrorReportTableViewCell.m */; };
@@ -50,12 +52,20 @@
 		066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */; };
 		066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA55C1F6012500054264C /* ErrorDetailModel.m */; };
 		066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5631F602FBF0054264C /* CheckUpdateRequest.m */; };
+		06732F38200F1C5000187E7B /* BoxInfoTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F37200F1C5000187E7B /* BoxInfoTableHeaderView.m */; };
+		06732F3B200F35F700187E7B /* BoxInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F3A200F35F700187E7B /* BoxInfoViewController.m */; };
+		06732F3E200F3BC000187E7B /* BoxInfoPlayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F3D200F3BC000187E7B /* BoxInfoPlayCell.m */; };
+		06732F41200F4C5C00187E7B /* CheckResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F40200F4C5C00187E7B /* CheckResultView.m */; };
 		0677AC071FAB168800D494FE /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC061FAB168800D494FE /* CityModel.m */; };
 		0677AC0A1FAB169B00D494FE /* SkillModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC091FAB169B00D494FE /* SkillModel.m */; };
 		0677AC0D1FAB427200D494FE /* UserCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0677AC0C1FAB427200D494FE /* UserCityViewController.m */; };
 		06844CFE1FAC12D700E7A2CD /* RDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06844CFD1FAC12D700E7A2CD /* RDTextView.m */; };
 		06844D021FAC436900E7A2CD /* DeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06844D011FAC436900E7A2CD /* DeviceManager.m */; };
 		06844D051FAC48E700E7A2CD /* HotelGetIPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06844D041FAC48E700E7A2CD /* HotelGetIPRequest.m */; };
+		068CFEFE200C896400086407 /* SystemStatusPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068CFEFD200C896400086407 /* SystemStatusPageController.m */; };
+		068CFF01200C992000086407 /* SystemStatusHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068CFF00200C992000086407 /* SystemStatusHeaderView.m */; };
+		068CFF04200CAD4E00086407 /* SystemStatusSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068CFF03200CAD4E00086407 /* SystemStatusSectionHeaderView.m */; };
+		068CFF08200CC00200086407 /* SystemStatusHotelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 068CFF07200CC00200086407 /* SystemStatusHotelCell.m */; };
 		068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 068E65C01F616B4900644CE6 /* UserNotificationModel.m */; };
 		069C381C1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C381B1FA8127A003F92EF /* HomeBadgeCollectionViewCell.m */; };
 		069C38611FA85B3F003F92EF /* TaskChooseTypeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069C38601FA85B3F003F92EF /* TaskChooseTypeController.m */; };
@@ -165,12 +175,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		060490C8200DD5F10052771C /* SystemStatusBoxCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusBoxCell.h; sourceTree = "<group>"; };
+		060490C9200DD5F10052771C /* SystemStatusBoxCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusBoxCell.m; sourceTree = "<group>"; };
 		06063E0B1FE8A73F0013C461 /* SingleInfoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleInfoController.h; sourceTree = "<group>"; };
 		06063E0C1FE8A73F0013C461 /* SingleInfoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleInfoController.m; sourceTree = "<group>"; };
 		060A77C31FB1831700D2A510 /* RefuseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RefuseRequest.h; sourceTree = "<group>"; };
 		060A77C41FB1831700D2A510 /* RefuseRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RefuseRequest.m; sourceTree = "<group>"; };
 		060A77C61FB1980F00D2A510 /* GetTaskCountRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetTaskCountRequest.h; sourceTree = "<group>"; };
 		060A77C71FB1980F00D2A510 /* GetTaskCountRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetTaskCountRequest.m; sourceTree = "<group>"; };
+		06239A6A201070FA0095C92D /* DownLoadListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownLoadListViewController.h; sourceTree = "<group>"; };
+		06239A6B201070FA0095C92D /* DownLoadListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownLoadListViewController.m; sourceTree = "<group>"; };
 		062613781FB058AA00EA6AD7 /* HandleTaskListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListCell.h; sourceTree = "<group>"; };
 		062613791FB058AA00EA6AD7 /* HandleTaskListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandleTaskListCell.m; sourceTree = "<group>"; };
 		0626137B1FB05EB700EA6AD7 /* HandleTaskListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleTaskListRequest.h; sourceTree = "<group>"; };
@@ -201,8 +215,6 @@
 		06356D341F5D7B2400242940 /* RDAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAlertView.m; sourceTree = "<group>"; };
 		06356D351F5D7B2400242940 /* RDTextAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDTextAlertView.h; sourceTree = "<group>"; };
 		06356D361F5D7B2400242940 /* RDTextAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDTextAlertView.m; sourceTree = "<group>"; };
-		06356D3A1F5D7F6B00242940 /* HomeHotelInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeHotelInfoView.h; sourceTree = "<group>"; };
-		06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeHotelInfoView.m; sourceTree = "<group>"; };
 		06356D421F5D964900242940 /* HotelIndexRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelIndexRequest.h; sourceTree = "<group>"; };
 		06356D431F5D964900242940 /* HotelIndexRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelIndexRequest.m; sourceTree = "<group>"; };
 		06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelInfoTableViewCell.h; sourceTree = "<group>"; };
@@ -231,6 +243,8 @@
 		066278311F61632E00B2B8E8 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		066278331F61634600B2B8E8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		066278351F61637800B2B8E8 /* HotTopicForMaintenance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotTopicForMaintenance.entitlements; sourceTree = "<group>"; };
+		0666840E2004B982005B4CAD /* LookImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LookImageViewController.h; sourceTree = "<group>"; };
+		0666840F2004B982005B4CAD /* LookImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LookImageViewController.m; sourceTree = "<group>"; };
 		066EA53F1F5FCB500054264C /* RepairRecordHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordHeaderView.h; sourceTree = "<group>"; };
 		066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordHeaderView.m; sourceTree = "<group>"; };
 		066EA5421F5FE45B0054264C /* ErrorReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorReportViewController.h; sourceTree = "<group>"; };
@@ -251,6 +265,14 @@
 		066EA55C1F6012500054264C /* ErrorDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorDetailModel.m; sourceTree = "<group>"; };
 		066EA5621F602FBF0054264C /* CheckUpdateRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckUpdateRequest.h; sourceTree = "<group>"; };
 		066EA5631F602FBF0054264C /* CheckUpdateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUpdateRequest.m; sourceTree = "<group>"; };
+		06732F36200F1C5000187E7B /* BoxInfoTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxInfoTableHeaderView.h; sourceTree = "<group>"; };
+		06732F37200F1C5000187E7B /* BoxInfoTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxInfoTableHeaderView.m; sourceTree = "<group>"; };
+		06732F39200F35F700187E7B /* BoxInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxInfoViewController.h; sourceTree = "<group>"; };
+		06732F3A200F35F700187E7B /* BoxInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxInfoViewController.m; sourceTree = "<group>"; };
+		06732F3C200F3BC000187E7B /* BoxInfoPlayCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxInfoPlayCell.h; sourceTree = "<group>"; };
+		06732F3D200F3BC000187E7B /* BoxInfoPlayCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxInfoPlayCell.m; sourceTree = "<group>"; };
+		06732F3F200F4C5C00187E7B /* CheckResultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckResultView.h; sourceTree = "<group>"; };
+		06732F40200F4C5C00187E7B /* CheckResultView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckResultView.m; sourceTree = "<group>"; };
 		0677AC051FAB168800D494FE /* CityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CityModel.h; sourceTree = "<group>"; };
 		0677AC061FAB168800D494FE /* CityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
 		0677AC081FAB169B00D494FE /* SkillModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillModel.h; sourceTree = "<group>"; };
@@ -263,6 +285,14 @@
 		06844D011FAC436900E7A2CD /* DeviceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceManager.m; sourceTree = "<group>"; };
 		06844D031FAC48E700E7A2CD /* HotelGetIPRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotelGetIPRequest.h; sourceTree = "<group>"; };
 		06844D041FAC48E700E7A2CD /* HotelGetIPRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotelGetIPRequest.m; sourceTree = "<group>"; };
+		068CFEFC200C896400086407 /* SystemStatusPageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusPageController.h; sourceTree = "<group>"; };
+		068CFEFD200C896400086407 /* SystemStatusPageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusPageController.m; sourceTree = "<group>"; };
+		068CFEFF200C992000086407 /* SystemStatusHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusHeaderView.h; sourceTree = "<group>"; };
+		068CFF00200C992000086407 /* SystemStatusHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusHeaderView.m; sourceTree = "<group>"; };
+		068CFF02200CAD4E00086407 /* SystemStatusSectionHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusSectionHeaderView.h; sourceTree = "<group>"; };
+		068CFF03200CAD4E00086407 /* SystemStatusSectionHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusSectionHeaderView.m; sourceTree = "<group>"; };
+		068CFF06200CC00200086407 /* SystemStatusHotelCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusHotelCell.h; sourceTree = "<group>"; };
+		068CFF07200CC00200086407 /* SystemStatusHotelCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusHotelCell.m; sourceTree = "<group>"; };
 		068E65BF1F616B4900644CE6 /* UserNotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotificationModel.h; sourceTree = "<group>"; };
 		068E65C01F616B4900644CE6 /* UserNotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotificationModel.m; sourceTree = "<group>"; };
 		069C381A1FA8127A003F92EF /* HomeBadgeCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeBadgeCollectionViewCell.h; sourceTree = "<group>"; };
@@ -490,6 +520,14 @@
 				066EA5531F6010830054264C /* ErrorDetailViewController.m */,
 				0650F38A1FA96ADC0086B794 /* SystemStatusController.h */,
 				0650F38B1FA96ADC0086B794 /* SystemStatusController.m */,
+				068CFEFC200C896400086407 /* SystemStatusPageController.h */,
+				068CFEFD200C896400086407 /* SystemStatusPageController.m */,
+				0666840E2004B982005B4CAD /* LookImageViewController.h */,
+				0666840F2004B982005B4CAD /* LookImageViewController.m */,
+				06732F39200F35F700187E7B /* BoxInfoViewController.h */,
+				06732F3A200F35F700187E7B /* BoxInfoViewController.m */,
+				06239A6A201070FA0095C92D /* DownLoadListViewController.h */,
+				06239A6B201070FA0095C92D /* DownLoadListViewController.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -523,6 +561,7 @@
 		06356D3D1F5D8A8E00242940 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				068CFF05200CBFD300086407 /* Systems */,
 				069C38661FA85FB6003F92EF /* Task */,
 				06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */,
 				06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */,
@@ -593,6 +632,17 @@
 				06844D011FAC436900E7A2CD /* DeviceManager.m */,
 			);
 			path = DeviceManager;
+			sourceTree = "<group>";
+		};
+		068CFF05200CBFD300086407 /* Systems */ = {
+			isa = PBXGroup;
+			children = (
+				068CFF06200CC00200086407 /* SystemStatusHotelCell.h */,
+				068CFF07200CC00200086407 /* SystemStatusHotelCell.m */,
+				060490C8200DD5F10052771C /* SystemStatusBoxCell.h */,
+				060490C9200DD5F10052771C /* SystemStatusBoxCell.m */,
+			);
+			path = Systems;
 			sourceTree = "<group>";
 		};
 		069C385B1FA85A59003F92EF /* CreateTasks */ = {
@@ -805,8 +855,10 @@
 				06C44C021FA9E2840050FDBC /* TaskList */,
 				06B055FA1F5D58A200A9CE68 /* HomeUserInfoView.h */,
 				06B055FB1F5D58A200A9CE68 /* HomeUserInfoView.m */,
-				06356D3A1F5D7F6B00242940 /* HomeHotelInfoView.h */,
-				06356D3B1F5D7F6B00242940 /* HomeHotelInfoView.m */,
+				068CFEFF200C992000086407 /* SystemStatusHeaderView.h */,
+				068CFF00200C992000086407 /* SystemStatusHeaderView.m */,
+				068CFF02200CAD4E00086407 /* SystemStatusSectionHeaderView.h */,
+				068CFF03200CAD4E00086407 /* SystemStatusSectionHeaderView.m */,
 				06338BB31FA1B9A9003775B5 /* AutoEnableView.h */,
 				06338BB41FA1B9A9003775B5 /* AutoEnableView.m */,
 			);
@@ -1111,6 +1163,12 @@
 				9617A1871FE7B4E900199D34 /* SingleVRestaurantRankCell.m */,
 				96AA19971F5FC38C00C06CE8 /* SearchTableViewCell.h */,
 				96AA19981F5FC38C00C06CE8 /* SearchTableViewCell.m */,
+				06732F36200F1C5000187E7B /* BoxInfoTableHeaderView.h */,
+				06732F37200F1C5000187E7B /* BoxInfoTableHeaderView.m */,
+				06732F3C200F3BC000187E7B /* BoxInfoPlayCell.h */,
+				06732F3D200F3BC000187E7B /* BoxInfoPlayCell.m */,
+				06732F3F200F4C5C00187E7B /* CheckResultView.h */,
+				06732F40200F4C5C00187E7B /* CheckResultView.m */,
 			);
 			path = HoteRankViews;
 			sourceTree = "<group>";
@@ -1363,7 +1421,9 @@
 				066EA55A1F6012270054264C /* ErrorDetailTableViewCell.m in Sources */,
 				06C44BFB1FA9A1DF0050FDBC /* TaskListTableViewCell.m in Sources */,
 				0626DEBE1F5E754600686790 /* RepairRecordViewController.m in Sources */,
+				068CFEFE200C896400086407 /* SystemStatusPageController.m in Sources */,
 				96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */,
+				06732F41200F4C5C00187E7B /* CheckResultView.m in Sources */,
 				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
 				9617A18C1FE7CDED00199D34 /* SingleGetHotelVRequest.m in Sources */,
@@ -1403,7 +1463,9 @@
 				969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
+				068CFF04200CAD4E00086407 /* SystemStatusSectionHeaderView.m in Sources */,
 				062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */,
+				06239A6C201070FA0095C92D /* DownLoadListViewController.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
 				066006181FB5715F007F94D2 /* CheckDetailCell.m in Sources */,
@@ -1425,6 +1487,7 @@
 				06356D381F5D7B2400242940 /* RDAlertView.m in Sources */,
 				06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */,
 				06B4A6481FAD8C1A0081BBA7 /* CreateRoleTasklistRequest.m in Sources */,
+				06732F38200F1C5000187E7B /* BoxInfoTableHeaderView.m in Sources */,
 				06B055D11F5D46BF00A9CE68 /* UserLoginRequest.m in Sources */,
 				06ECDC4E1F5969AB007FBD83 /* main.m in Sources */,
 				06B055FC1F5D58A200A9CE68 /* HomeUserInfoView.m in Sources */,
@@ -1439,10 +1502,14 @@
 				0626137A1FB058AA00EA6AD7 /* HandleTaskListCell.m in Sources */,
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
+				06732F3E200F3BC000187E7B /* BoxInfoPlayCell.m in Sources */,
+				06732F3B200F35F700187E7B /* BoxInfoViewController.m in Sources */,
 				06844D021FAC436900E7A2CD /* DeviceManager.m in Sources */,
+				068CFF01200C992000086407 /* SystemStatusHeaderView.m in Sources */,
 				06ECDC851F596C47007FBD83 /* NetworkConfiguration.m in Sources */,
 				06B055E71F5D4A7D00A9CE68 /* JastorRuntimeHelper.m in Sources */,
 				969A3C721FAC7A1700EB95C9 /* InstallAlerTableViewCell.m in Sources */,
+				066684102004B982005B4CAD /* LookImageViewController.m in Sources */,
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
 				969A3C471FA9C9C000EB95C9 /* PosionListTableViewCell.m in Sources */,
 				969A3C4A1FA9EA6500EB95C9 /* RepairHeaderTableCell.m in Sources */,
@@ -1482,15 +1549,16 @@
 				96AA198F1F5FC38100C06CE8 /* SearchHotelViewController.m in Sources */,
 				96AA19991F5FC38C00C06CE8 /* FaultListTableViewCell.m in Sources */,
 				06C44C051FA9E2990050FDBC /* TaskDetailView.m in Sources */,
+				068CFF08200CC00200086407 /* SystemStatusHotelCell.m in Sources */,
 				0660061E1FB57B0D007F94D2 /* NetworkDetailCell.m in Sources */,
 				969A3C571FAB324F00EB95C9 /* BindingPositionViewController.m in Sources */,
 				06ECDC901F596DCD007FBD83 /* ConverUtil.m in Sources */,
 				06B4A64E1FADC3570081BBA7 /* HandleRoleListRequest.m in Sources */,
-				06356D3C1F5D7F6B00242940 /* HomeHotelInfoView.m in Sources */,
 				96AA198D1F5FC38100C06CE8 /* lookRestaurInforViewController.m in Sources */,
 				0677AC071FAB168800D494FE /* CityModel.m in Sources */,
 				06B055D51F5D47EC00A9CE68 /* Helper.m in Sources */,
 				969A3C4D1FAAAF7200EB95C9 /* RepairContentTableCell.m in Sources */,
+				060490CA200DD5F10052771C /* SystemStatusBoxCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

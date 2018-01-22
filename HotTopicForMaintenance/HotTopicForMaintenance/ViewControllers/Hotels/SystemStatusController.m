@@ -7,34 +7,133 @@
 //
 
 #import "SystemStatusController.h"
-#import "HomeHotelInfoView.h"
+#import "SystemStatusHeaderView.h"
+#import "SystemStatusSectionHeaderView.h"
+#import "SystemStatusHotelCell.h"
+#import "SystemStatusBoxCell.h"
 
-@interface SystemStatusController ()
+@interface SystemStatusController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, copy) NSString * cityID;
+@property (nonatomic, strong) UITableView * tableView;
 
 @end
 
 @implementation SystemStatusController
 
+- (instancetype)initWithCityID:(NSString *)cityID
+{
+    if (self = [super init]) {
+        self.cityID = cityID;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"系统状态";
+    [self setupSubViews];
+}
+
+- (void)setupSubViews
+{
+    self.tableView.tableHeaderView = [[SystemStatusHeaderView alloc] initWithFrame:CGRectZero];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 4;
+    }else if (section == 2) {
+        return 4;
+    }
     
-    HomeHotelInfoView * info = [[HomeHotelInfoView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:info];
-    [info mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(40);
-        make.left.mas_equalTo(15);
-        make.bottom.mas_equalTo(-40);
-        make.right.mas_equalTo(-15);
-    }];
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        SystemStatusHotelCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SystemStatusHotelCell" forIndexPath:indexPath];
+        
+        return cell;
+    }else if (indexPath.section == 2) {
+        SystemStatusBoxCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SystemStatusBoxCell" forIndexPath:indexPath];
+        
+        return cell;
+    }
     
-    UIButton * refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-    refreshButton.frame = CGRectMake(0, 0, 40, 30);
-    [refreshButton addTarget:info action:@selector(refreshData) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:refreshButton];
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SystemStatusCell"];
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    if (indexPath.section == 0) {
+        if (indexPath.row == 3) {
+            return 90 * scale;
+        }
+        return 70 * scale;
+    }else if (indexPath.section == 2){
+        if (indexPath.row == 3) {
+            return 90 * scale;
+        }
+        return 70 * scale;
+    }
+    
+    return 1;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    SystemStatusSectionHeaderView * headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SystemStatusSectionHeaderView"];
+    
+    [headerView configWithType:section];
+    
+    return headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 53 * kMainBoundsWidth / 375.f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10 * kMainBoundsWidth / 375.f;
+}
+
+- (UITableView *)tableView
+{
+    if (!_tableView) {
+        
+        CGFloat scale = kMainBoundsWidth / 375.f;
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableView.backgroundColor = UIColorFromRGB(0xf5f5f5);
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[SystemStatusHotelCell class] forCellReuseIdentifier:@"SystemStatusHotelCell"];
+        [_tableView registerClass:[SystemStatusBoxCell class] forCellReuseIdentifier:@"SystemStatusBoxCell"];
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"SystemStatusCell"];
+        [_tableView registerClass:[SystemStatusSectionHeaderView class] forHeaderFooterViewReuseIdentifier:@"SystemStatusSectionHeaderView"];
+        _tableView.contentInset = UIEdgeInsetsMake(10 * scale, 0, 10 * scale, 0);
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [self.view addSubview:_tableView];
+        [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
+        
+    }
+    return _tableView;
 }
 
 - (void)didReceiveMemoryWarning {
