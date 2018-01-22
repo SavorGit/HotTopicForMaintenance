@@ -51,6 +51,9 @@
         if (!isEmptyString([dataDic objectForKey:@"tv_nums"])) {
             [self setValue:[dataDic objectForKey:@"tv_nums"] forParamKey:@"tv_nums"];
         }
+        if (!isEmptyString([dataDic objectForKey:@"desc"])) {
+            [self setValue:[dataDic objectForKey:@"desc"] forParamKey:@"desc"];
+        }
     }
     return self;
 }
