@@ -112,8 +112,8 @@
     self.deviceNameLabel = [dict objectForKey:@"name"];
     self.totalNumberLabel.text = [NSString stringWithFormat:@"总数  %@", GetNoNullString([dict objectForKey:@"box_all_num" ])];;
     self.normalLabel.text = [NSString stringWithFormat:@"正常  %@", GetNoNullString([dict objectForKey:@"box_normal_all_num" ])];
-    self.faultLabel.text = [NSString stringWithFormat:@"报损  %@", GetNoNullString([dict objectForKey:@"box_freeze_all_num" ])];
-    self.frozenLabel.text = [NSString stringWithFormat:@"冻结  %@", GetNoNullString([dict objectForKey:@"freeze_all_num" ])];
+    self.faultLabel.text = [NSString stringWithFormat:@"报损  %@", GetNoNullString([dict objectForKey:@"box_break_all_num" ])];
+    self.frozenLabel.text = [NSString stringWithFormat:@"冻结  %@", GetNoNullString([dict objectForKey:@"box_freeze_all_num" ])];
 }
 
 - (void)awakeFromNib {

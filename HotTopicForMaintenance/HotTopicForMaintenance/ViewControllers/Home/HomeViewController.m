@@ -379,7 +379,7 @@
             
         case MenuModelType_ErrorReport:
         {
-            MyInspectViewController * vc = [[MyInspectViewController alloc] init];
+            ErrorReportViewController * vc = [[ErrorReportViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
@@ -409,6 +409,13 @@
         {
             SingleInfoController * info = [[SingleInfoController alloc] init];
             [self.navigationController pushViewController:info animated:YES];
+        }
+            break;
+            
+        case MenuModelType_Inspect:
+        {
+            MyInspectViewController * vc = [[MyInspectViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             
