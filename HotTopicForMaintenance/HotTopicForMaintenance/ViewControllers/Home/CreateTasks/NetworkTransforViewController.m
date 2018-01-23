@@ -261,16 +261,14 @@
 - (void)textViewDidChange:(UITextView *)textView
 {
     NSLog(@"%@",textView.text);
-    if ([textView.text isEqualToString:@""]) {
-        self.remarkTextView.text = @" 请输入备注信息，建议到店时间等";
-        self.remarkTextView.textColor = UIColorFromRGB(0x999999);
-    }
-    //    self.dataModel.remark = textView.text;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
-    //    self.dataModel.remark = textView.text;
+    if ([textView.text isEqualToString:@""]) {
+        self.remarkTextView.text = @" 请输入备注信息，建议到店时间等";
+        self.remarkTextView.textColor = UIColorFromRGB(0x999999);
+    }
     [textView resignFirstResponder];
     
 }
