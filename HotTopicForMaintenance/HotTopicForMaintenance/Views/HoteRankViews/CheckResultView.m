@@ -83,7 +83,7 @@
     }];
     
     UILabel * networkLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    networkLabel.text = @"网络延时：外网(30秒)  内网(200毫秒)";
+    networkLabel.text = [self.result objectForKey:@"box_net_state"];
     [self.resultView addSubview:networkLabel];
     [networkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(boxLabel.mas_bottom).offset(8 * scale);

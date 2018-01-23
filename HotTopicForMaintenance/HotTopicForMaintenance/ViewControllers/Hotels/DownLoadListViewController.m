@@ -74,7 +74,7 @@
     [headerView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15 * scale);
-        make.right.mas_equalTo(-15 * scale);
+        make.width.mas_equalTo(kMainBoundsWidth - 30 * scale);
         make.top.bottom.mas_equalTo(0);
     }];
     
