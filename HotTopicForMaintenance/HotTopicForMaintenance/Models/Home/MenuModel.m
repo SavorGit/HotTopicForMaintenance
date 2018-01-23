@@ -78,6 +78,13 @@
             
             break;
             
+        case MenuModelType_Inspect:
+            
+            self.title = @"巡检酒楼";
+            self.imageName = @"";
+            
+            break;
+            
         case MenuModelType_Space:
             
             self.title = @"";

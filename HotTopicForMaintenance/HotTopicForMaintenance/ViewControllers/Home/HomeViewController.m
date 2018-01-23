@@ -78,6 +78,7 @@
     MenuModel * systemModel = [[MenuModel alloc] initWithMenuType:MenuModelType_SystemStatus];
     MenuModel * bindDeviceModel = [[MenuModel alloc] initWithMenuType:MenuModelType_BindDevice];
     MenuModel * singleModel = [[MenuModel alloc] initWithMenuType:MenuModelType_SingleVersion];
+    MenuModel * inspectModel = [[MenuModel alloc] initWithMenuType:MenuModelType_Inspect];
     MenuModel * myTaskModel = [[MenuModel alloc] initWithMenuType:MenuModelType_MyTask];
     
     self.badgeCell = nil;
@@ -119,6 +120,14 @@
             
         {
             [self.dataSource addObjectsFromArray:@[singleModel]];
+        }
+            
+            break;
+            
+        case UserRoleType_Inspect:
+            
+        {
+            [self.dataSource addObjectsFromArray:@[inspectModel]];
         }
             
             break;
