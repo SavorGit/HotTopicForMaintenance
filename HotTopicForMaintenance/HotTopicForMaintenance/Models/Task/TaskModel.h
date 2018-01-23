@@ -64,4 +64,6 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) NSInteger is_lead_install;
 
+@property (nonatomic, copy) NSString * desc;
+
 @end
