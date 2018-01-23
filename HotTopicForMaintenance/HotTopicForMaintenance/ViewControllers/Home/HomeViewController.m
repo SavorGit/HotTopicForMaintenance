@@ -18,6 +18,7 @@
 #import "RepairRecordViewController.h"
 #import "SearchHotelViewController.h"
 #import "ErrorReportViewController.h"
+#import "MyInspectViewController.h"
 #import "ErrorDetailViewController.h"
 #import "TaskChooseTypeController.h"
 #import "TaskPageViewController.h"
@@ -369,7 +370,7 @@
             
         case MenuModelType_ErrorReport:
         {
-            ErrorReportViewController * vc = [[ErrorReportViewController alloc] init];
+            MyInspectViewController * vc = [[MyInspectViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
