@@ -26,7 +26,8 @@
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
-@property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
+@property (nonatomic, strong) NSMutableArray * dConfigData; //故障数据源
+@property (nonatomic, strong) NSMutableArray * dStateData; //故障数据源
 @property (nonatomic, strong) NSMutableArray * repairPData; //数据源
 @property (nonatomic, copy) NSString * cachePath;
 
@@ -90,8 +91,9 @@
 
 - (void)initInfo{
     
-    _dataSource = [[NSMutableArray alloc] init];
+    _dataSource  = [[NSMutableArray alloc] init];
     _dConfigData = [[NSMutableArray alloc] init];
+    _dStateData  = [[NSMutableArray alloc] init];
     _repairPData = [[NSMutableArray alloc] init];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
     self.dUploadModel = [[DamageUploadModel alloc] init];
@@ -169,6 +171,24 @@
 }
 
 - (void)demageConfigRequest
+{
+    DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * dataDict = [response objectForKey:@"result"];
+        NSArray *listArray = [dataDict objectForKey:@"list"];
+        
+        for (int i = 0; i < listArray.count; i ++) {
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
+            [self.dConfigData addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    }];
+}
+
+- (void)stateConfigRequest
 {
     DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -746,6 +766,31 @@
             self.dUploadModel.repair_num_str = @"";
         }
     };
+}
+
+- (void)mStateClicked{
+    
+    FaultListViewController *flVC = [[FaultListViewController alloc] init];
+    float version = [UIDevice currentDevice].systemVersion.floatValue;
+    if (version < 8.0) {
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    } else {;
+        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    flVC.dataSource = self.dConfigData;
+    [self presentViewController:flVC animated:YES completion:nil];
+    flVC.backDatas = ^(NSArray *backArray,NSString *damageIdString) {
+        NSLog(@"%ld",backArray.count);
+        if (backArray.count > 0) {
+            self.mReasonLab.text = [NSString stringWithFormat:@"  已选择%ld项",backArray.count];
+            self.dUploadModel.repair_num_str = damageIdString;
+        }else{
+            self.mReasonLab.text = @"  故障说明与维修记录";
+            self.dUploadModel.repair_num_str = @"";
+        }
+    };
+    
 }
 
 #pragma mark - 点击弹窗页面空白处
