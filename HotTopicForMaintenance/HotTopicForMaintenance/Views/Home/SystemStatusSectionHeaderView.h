@@ -16,6 +16,6 @@ typedef enum : NSUInteger {
 
 @interface SystemStatusSectionHeaderView : UITableViewHeaderFooterView
 
-- (void)configWithType:(SystemStatusType)type;
+- (void)configWithType:(SystemStatusType)type info:(NSDictionary *)info;
 
 @end

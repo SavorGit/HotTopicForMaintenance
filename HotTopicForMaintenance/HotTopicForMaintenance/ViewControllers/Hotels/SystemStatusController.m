@@ -11,11 +11,17 @@
 #import "SystemStatusSectionHeaderView.h"
 #import "SystemStatusHotelCell.h"
 #import "SystemStatusBoxCell.h"
+#import <MJRefresh/MJRefreshNormalHeader.h>
+#import "GetSystemStatusRequest.h"
 
 @interface SystemStatusController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, copy) NSString * cityID;
+
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) SystemStatusHeaderView * tableHeaderView;
+
+@property (nonatomic, strong) NSDictionary * dataDict;
 
 @end
 
@@ -34,11 +40,59 @@
     // Do any additional setup after loading the view.
     
     [self setupSubViews];
+    [self setupDatas];
 }
 
 - (void)setupSubViews
 {
-    self.tableView.tableHeaderView = [[SystemStatusHeaderView alloc] initWithFrame:CGRectZero];
+    self.dataDict = [NSDictionary new];
+    self.tableHeaderView = [[SystemStatusHeaderView alloc] initWithFrame:CGRectZero];
+    self.tableView.tableHeaderView = self.tableHeaderView;
+}
+
+- (void)setupDatas
+{
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载" inView:self.view];
+    GetSystemStatusRequest * request = [[GetSystemStatusRequest alloc] initWithCityID:self.cityID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        [self.tableView.mj_header endRefreshing];
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            NSDictionary * list = [result objectForKey:@"list"];
+            if ([list isKindOfClass:[NSDictionary class]]) {
+                self.dataDict = list;
+                [self reloadStatusController];
+            }
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        [self.tableView.mj_header endRefreshing];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"加载失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [self.tableView.mj_header endRefreshing];
+        [MBProgressHUD showTextHUDWithText:@"网络连接失败" inView:self.view];
+        
+    }];
+}
+
+- (void)reloadStatusController
+{
+    __weak typeof(self) weakSelf = self;
+    [self.tableHeaderView configWithDict:[self.dataDict objectForKey:@"heart"] reCheckHandle:^{
+        [weakSelf setupDatas];
+    }];
+    [self.tableView reloadData];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -49,9 +103,23 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 4;
+        NSDictionary * hotelInfo = [self.dataDict objectForKey:@"hotel"];
+        if ([hotelInfo isKindOfClass:[NSDictionary class]]) {
+            NSArray * list = [hotelInfo objectForKey:@"list"];
+            if ([list isKindOfClass:[NSArray class]]) {
+                return list.count;
+            }
+        }
+        return 0;
     }else if (section == 2) {
-        return 4;
+        NSDictionary * boxInfo = [self.dataDict objectForKey:@"box"];
+        if ([boxInfo isKindOfClass:[NSDictionary class]]) {
+            NSArray * list = [boxInfo objectForKey:@"list"];
+            if ([list isKindOfClass:[NSArray class]]) {
+                return list.count;
+            }
+        }
+        return 0;
     }
     
     return 1;
@@ -62,9 +130,25 @@
     if (indexPath.section == 0) {
         SystemStatusHotelCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SystemStatusHotelCell" forIndexPath:indexPath];
         
+        NSDictionary * hotel = [self.dataDict objectForKey:@"hotel"];
+        if ([hotel isKindOfClass:[NSDictionary class]]) {
+            NSDictionary * list = [[hotel objectForKey:@"list"] objectAtIndex:indexPath.row];
+            if ([list isKindOfClass:[NSDictionary class]]) {
+                [cell configWithDict:list];
+            }
+        }
+        
         return cell;
     }else if (indexPath.section == 2) {
         SystemStatusBoxCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SystemStatusBoxCell" forIndexPath:indexPath];
+        
+        NSDictionary * box = [self.dataDict objectForKey:@"box"];
+        if ([box isKindOfClass:[NSDictionary class]]) {
+            NSDictionary * list = [[box objectForKey:@"list"] objectAtIndex:indexPath.row];
+            if ([list isKindOfClass:[NSDictionary class]]) {
+                [cell configWithDict:list];
+            }
+        }
         
         return cell;
     }
@@ -97,7 +181,26 @@
 {
     SystemStatusSectionHeaderView * headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SystemStatusSectionHeaderView"];
     
-    [headerView configWithType:section];
+    SystemStatusType type;
+    NSDictionary * info;
+    if (section == 0) {
+        
+        type = SystemStatusType_Hotel;
+        info = [self.dataDict objectForKey:@"hotel"];
+        
+    }else if (section == 1) {
+        
+        type = SystemStatusType_Platform;
+        info = [self.dataDict objectForKey:@"small"];
+        
+    }else{
+        
+        type = SystemStatusType_Box;
+        info = [self.dataDict objectForKey:@"box"];
+        
+    }
+    
+    [headerView configWithType:type info:info];
     
     return headerView;
 }

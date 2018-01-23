@@ -27,6 +27,9 @@
 @property (nonatomic, strong) UILabel * boxFaultLabel;
 @property (nonatomic, strong) UILabel * blackListLabel;
 
+@property (nonatomic, strong) UILabel * remarkLabel;
+@property (nonatomic, copy) void (^handle)();
+
 @end
 
 @implementation SystemStatusHeaderView
@@ -57,7 +60,7 @@
     }];
     
     self.updateTimeLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(13 * scale) alignment:NSTextAlignmentLeft];
-    self.updateTimeLabel.text = @"更新时间：2017-01-08  09:30";
+    self.updateTimeLabel.text = @"";
     [self addSubview:self.updateTimeLabel];
     [self.updateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20 * scale);
@@ -67,6 +70,7 @@
     
     UIButton * refreshButton = [HotTopicTools buttonWithTitleColor:[UIColor whiteColor] font:kPingFangRegular(14 * scale) backgroundColor:[UIColor clearColor] title:@""];
     [refreshButton setBackgroundImage:[UIImage imageNamed:@"shuaxin"] forState:UIControlStateNormal];
+    [refreshButton addTarget:self action:@selector(refresButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:refreshButton];
     [refreshButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(16 * scale);
@@ -104,7 +108,7 @@
     }];
     
     self.hotelOnlineLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.hotelOnlineLabel.text = @"在线  98";
+    self.hotelOnlineLabel.text = @"在线  0";
     [self addSubview:self.hotelOnlineLabel];
     [self.hotelOnlineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(hotelLabel);
@@ -122,7 +126,7 @@
     }];
     
     self.hotelOutlineLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.hotelOutlineLabel.text = @"离线  16";
+    self.hotelOutlineLabel.text = @"离线  0";
     [self addSubview:self.hotelOutlineLabel];
     [self.hotelOutlineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(hotelLabel);
@@ -159,7 +163,7 @@
     }];
     
     self.platformNormaLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.platformNormaLabel.text = @"正常  34";
+    self.platformNormaLabel.text = @"正常  0";
     [self addSubview:self.platformNormaLabel];
     [self.platformNormaLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(platformLabel);
@@ -177,7 +181,7 @@
     }];
     
     self.platformFaultLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.platformFaultLabel.text = @"异常  70";
+    self.platformFaultLabel.text = @"异常  0";
     [self addSubview:self.platformFaultLabel];
     [self.platformFaultLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(platformLabel);
@@ -205,7 +209,7 @@
     }];
     
     self.boxNormaLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.boxNormaLabel.text = @"正常  34";
+    self.boxNormaLabel.text = @"正常  0";
     [self addSubview:self.boxNormaLabel];
     [self.boxNormaLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(boxLabel);
@@ -223,7 +227,7 @@
     }];
     
     self.boxFaultLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.boxFaultLabel.text = @"异常  94";
+    self.boxFaultLabel.text = @"异常  0";
     [self addSubview:self.boxFaultLabel];
     [self.boxFaultLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(boxLabel);
@@ -241,7 +245,7 @@
     }];
     
     self.blackListLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.blackListLabel.text = @"黑名单  299";
+    self.blackListLabel.text = @"黑名单  0";
     [self addSubview:self.blackListLabel];
     [self.blackListLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(boxLabel.mas_bottom).offset(18 * scale);
@@ -258,10 +262,10 @@
         make.height.mas_equalTo(.5f * scale);
     }];
     
-    UILabel * remarkLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(12.5 * scale) alignment:NSTextAlignmentCenter];
-    remarkLabel.text = @"(在线指10分钟以内；离线指大于10分钟；异常指大于72小时)";
-    [self addSubview:remarkLabel];
-    [remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.remarkLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(12.5 * scale) alignment:NSTextAlignmentCenter];
+    self.remarkLabel.text = @"(在线指10分钟以内；离线指大于10分钟；异常指大于72小时)";
+    [self addSubview:self.remarkLabel];
+    [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(-24 * scale);
         make.centerX.mas_equalTo(0);
         make.height.mas_equalTo(14 * scale);
@@ -274,6 +278,28 @@
         make.left.bottom.right.mas_equalTo(0);
         make.height.mas_equalTo(10 * scale);
     }];
+}
+
+- (void)configWithDict:(NSDictionary *)dict reCheckHandle:(void (^)())handle
+{
+    self.handle = handle;
+    self.updateTimeLabel.text = GetNoNullString([dict objectForKey:@"update_time"]);
+    self.hotelOnlineLabel.text = [NSString stringWithFormat:@"在线  %@", GetNoNullString([dict objectForKey:@"hotel_online"])];
+    self.hotelOutlineLabel.text = [NSString stringWithFormat:@"离线  %@", GetNoNullString([dict objectForKey:@"hotel_not_onlie"])];
+    self.hotelStatusLabel.text = GetNoNullString([dict objectForKey:@"hotel_10_72_not_onlie"]);
+    self.platformNormaLabel.text = [NSString stringWithFormat:@"正常  %@", GetNoNullString([dict objectForKey:@"small_plat_normal_num"])];
+    self.platformFaultLabel.text = [NSString stringWithFormat:@"异常  %@", GetNoNullString([dict objectForKey:@"small_plat_not_normal_num"])];
+    self.boxNormaLabel.text = [NSString stringWithFormat:@"正常  %@", GetNoNullString([dict objectForKey:@"box_normal_num"])];
+    self.boxFaultLabel.text = [NSString stringWithFormat:@"异常  %@", GetNoNullString([dict objectForKey:@"box_not_normal_num"])];
+    self.blackListLabel.text = [NSString stringWithFormat:@"黑名单  %@", GetNoNullString([dict objectForKey:@"black_box_num"])];
+    self.remarkLabel.text = GetNoNullString([dict objectForKey:@"remark"]);
+}
+
+- (void)refresButtonDidClicked
+{
+    if (self.handle) {
+        self.handle();
+    }
 }
 
 @end

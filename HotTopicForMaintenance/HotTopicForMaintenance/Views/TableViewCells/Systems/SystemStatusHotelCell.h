@@ -10,4 +10,6 @@
 
 @interface SystemStatusHotelCell : UITableViewCell
 
+- (void)configWithDict:(NSDictionary *)dict;
+
 @end

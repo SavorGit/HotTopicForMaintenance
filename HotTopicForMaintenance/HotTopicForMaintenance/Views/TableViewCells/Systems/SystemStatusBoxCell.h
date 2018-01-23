@@ -10,4 +10,6 @@
 
 @interface SystemStatusBoxCell : UITableViewCell
 
+- (void)configWithDict:(NSDictionary *)dict;
+
 @end
