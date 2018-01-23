@@ -10,4 +10,6 @@
 
 @interface SystemStatusHeaderView : UIView
 
+- (void)configWithDict:(NSDictionary *)dict reCheckHandle:(void (^)())handle;;
+
 @end

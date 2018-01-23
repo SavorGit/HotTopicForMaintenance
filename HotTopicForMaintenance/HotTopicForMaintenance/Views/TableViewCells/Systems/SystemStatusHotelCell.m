@@ -34,7 +34,7 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     self.deviceNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15 * scale) alignment:NSTextAlignmentLeft];
-    self.deviceNameLabel.text = @"一代";
+    self.deviceNameLabel.text = @"设备";
     [self.contentView addSubview:self.deviceNameLabel];
     [self.deviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15 * scale);
@@ -43,7 +43,7 @@
     }];
     
     self.totalNumberLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15 * scale) alignment:NSTextAlignmentLeft];
-    self.totalNumberLabel.text = @"总数  104";
+    self.totalNumberLabel.text = @"总数  0";
     [self.contentView addSubview:self.totalNumberLabel];
     [self.totalNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(92 * scale);
@@ -61,7 +61,7 @@
     }];
     
     self.normalLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.normalLabel.text = @"正常  98";
+    self.normalLabel.text = @"正常  0";
     [self.contentView addSubview:self.normalLabel];
     [self.normalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.totalNumberLabel.mas_bottom).offset(8 * scale);
@@ -79,13 +79,21 @@
     }];
     
     self.frozenLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.frozenLabel.text = @"冻结  16";
+    self.frozenLabel.text = @"冻结  0";
     [self.contentView addSubview:self.frozenLabel];
     [self.frozenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.normalLabel);
         make.left.mas_equalTo(frozenImageView.mas_right).offset(5 * scale);
         make.height.mas_equalTo(17 * scale);
     }];
+}
+
+- (void)configWithDict:(NSDictionary *)dict
+{
+    self.deviceNameLabel = [dict objectForKey:@"name"];
+    self.totalNumberLabel.text = [NSString stringWithFormat:@"总数  %@", GetNoNullString([dict objectForKey:@"hotel_all_nums"])];;
+    self.normalLabel.text = [NSString stringWithFormat:@"正常  %@", GetNoNullString([dict objectForKey:@"hotel_all_normal_nums" ])];
+    self.frozenLabel.text = [NSString stringWithFormat:@"冻结  %@", GetNoNullString([dict objectForKey:@"hotel_all_freeze_nums" ])];
 }
 
 - (void)awakeFromNib {

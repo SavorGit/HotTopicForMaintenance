@@ -87,7 +87,7 @@
     }];
 }
 
-- (void)configWithType:(SystemStatusType)type
+- (void)configWithType:(SystemStatusType)type info:(NSDictionary *)info
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
@@ -97,10 +97,10 @@
             self.lineView.hidden = NO;
             self.frozenLabel.hidden = YES;
             [self.logoImageView setImage:[UIImage imageNamed:@"jiulou"]];
-            self.numberLabel.text = @"3546";
+            self.numberLabel.text = GetNoNullString([info objectForKey:@"hotel_all_nums"]);
             self.numberLabel.textColor = UIColorFromRGB(0xff4d55);
-            self.normalLabel.text = @"正常 3000";
-            self.faultLabel.text = @"冻结 546";
+            self.normalLabel.text = [NSString stringWithFormat:@"正常 %@", GetNoNullString([info objectForKey:@"hotel_all_normal_nums"])];
+            self.faultLabel.text = [NSString stringWithFormat:@"冻结 %@", GetNoNullString([info objectForKey:@"hotel_all_freeze_nums"])];
             [self.faultLabel mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(238 * scale);
             }];
@@ -115,10 +115,10 @@
             self.lineView.hidden = YES;
             self.frozenLabel.hidden = YES;
             [self.logoImageView setImage:[UIImage imageNamed:@"xiaopingtai"]];
-            self.numberLabel.text = @"874";
+            self.numberLabel.text = GetNoNullString([info objectForKey:@"all_nums"]);
             self.numberLabel.textColor = UIColorFromRGB(0x3aba9a);
-            self.normalLabel.text = @"正常 734";
-            self.faultLabel.text = @"异常 140";
+            self.normalLabel.text = [NSString stringWithFormat:@"正常 %@", GetNoNullString([info objectForKey:@"normal_nums"])];
+            self.faultLabel.text = [NSString stringWithFormat:@"冻结 %@", GetNoNullString([info objectForKey:@"freeze_nums"])];
             [self.faultLabel mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(238 * scale);
             }];
@@ -135,10 +135,10 @@
             self.frozenLabel.hidden = NO;
             [self.logoImageView setImage:[UIImage imageNamed:@"jidinghe"]];
             self.numberLabel.textColor = UIColorFromRGB(0x16abe5);
-            self.numberLabel.text = @"17874";
-            self.normalLabel.text = @"正常 13957";
-            self.faultLabel.text = @"报损 546";
-            self.frozenLabel.text = @"冻结 1078";
+            self.numberLabel.text = GetNoNullString([info objectForKey:@"all_num"]);
+            self.normalLabel.text = [NSString stringWithFormat:@"正常 %@", GetNoNullString([info objectForKey:@"normal_all_num"])];
+            self.faultLabel.text = [NSString stringWithFormat:@"报损 %@", GetNoNullString([info objectForKey:@"break_all_num"])];
+            self.frozenLabel.text = [NSString stringWithFormat:@"冻结 %@", GetNoNullString([info objectForKey:@"freeze_all_num"])];
             [self.faultLabel mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(193 * scale);
             }];

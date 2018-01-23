@@ -8,9 +8,11 @@
 
 #import "SystemStatusPageController.h"
 #import "SystemStatusController.h"
+#import "GetCityListRequest.h"
 
-@interface SystemStatusPageController ()
+@interface SystemStatusPageController ()<WMPageControllerDataSource>
 
+@property (nonatomic, strong) NSArray * titleArray;
 @property (nonatomic, strong) NSArray * cityIDArray;
 
 @end
@@ -19,15 +21,53 @@
 
 - (instancetype)init
 {
-    NSArray * VCArray = @[[SystemStatusController class], [SystemStatusController class], [SystemStatusController class], [SystemStatusController class], [SystemStatusController class]];
-    NSArray * titleArray = @[@"全国", @"北京", @"上海", @"广州", @"深圳"];
-    
-    if (self = [super initWithViewControllerClasses:VCArray andTheirTitles:titleArray]) {
+    if (self = [super init]) {
         
         [self configPageController];
-        
+        [self getCityList];
+
     }
     return self;
+}
+
+- (void)getCityList
+{
+    GetCityListRequest * request = [[GetCityListRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSArray class]]) {
+            
+            NSMutableArray * vcControllers = [NSMutableArray new];
+            NSMutableArray * titleArray = [NSMutableArray new];
+            NSMutableArray * IDArray = [NSMutableArray new];
+            for (NSInteger i = 0; i < result.count; i++) {
+                NSDictionary * dict = [result objectAtIndex:i];
+                [titleArray addObject:[dict objectForKey:@"region_name"]];
+                [IDArray addObject:[dict objectForKey:@"id"]];
+                [vcControllers addObject:[SystemStatusController class]];
+            }
+            
+            self.titles = [[NSArray alloc] initWithArray:titleArray];
+            self.viewControllerClasses = [[NSArray alloc] initWithArray:vcControllers];
+            self.cityIDArray = [[NSArray alloc] initWithArray:IDArray];
+            
+            [self reloadData];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
+        }else{
+            [MBProgressHUD showTextHUDWithText:@"获取城市列表失败" inView:self.view];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDWithText:@"获取城市列表失败" inView:self.view];
+        
+    }];
 }
 
 - (void)configPageController
@@ -58,8 +98,6 @@
     self.view.backgroundColor = UIColorFromRGB(0xffffff);
     
     [self setNavBackArrowWithWidth:40];
-    
-    self.menuView.frame = CGRectMake(0, 0, kMainBoundsWidth, 40);
 }
 
 - (void)setNavBackArrowWithWidth:(CGFloat)width {
@@ -76,7 +114,8 @@
 
 - (CGRect)pageController:(WMPageController *)pageController preferredFrameForMenuView:(WMMenuView *)menuView
 {
-    return CGRectMake(0, 0, kMainBoundsWidth, 40);
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    return CGRectMake(0, 0, kMainBoundsWidth, 40 * scale);
 }
 
 - (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index
@@ -102,14 +141,6 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     }
-}
-
-- (NSArray *)cityIDArray
-{
-    if (!_cityIDArray) {
-        _cityIDArray = @[@"0", @"1", @"2", @"3", @"4"];
-    }
-    return _cityIDArray;
 }
 
 - (void)didReceiveMemoryWarning {
