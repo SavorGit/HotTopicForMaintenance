@@ -17,7 +17,6 @@
 #import "Helper.h"
 #import "RestRankInforRequest.h"
 #import "DamageConfigRequest.h"
-#import "StateConfigRequest.h"
 #import "DamageUploadRequest.h"
 #import "UserManager.h"
 #import "RDFrequentlyUsed.h"
@@ -46,7 +45,6 @@
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, strong) UITextView *remarkTextView;
 @property (nonatomic, strong) UILabel *mReasonLab;
-@property (nonatomic, strong) UILabel *mStateLab;
 
 @property (nonatomic, strong) UIButton *collectBtn;
 @property (nonatomic, strong) UIButton *backButton;
@@ -85,7 +83,6 @@
     [self initInfo];
     [self dataRequest];
     [self demageConfigRequest];
-    [self stateConfigRequest];
     
     // 设置导航控制器的代理为self
     self.navigationController.delegate = self;
@@ -183,24 +180,6 @@
         for (int i = 0; i < listArray.count; i ++) {
             RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
             [self.dConfigData addObject:tmpModel];
-        }
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-    }];
-}
-
-- (void)stateConfigRequest
-{
-    StateConfigRequest * request = [[StateConfigRequest alloc] init];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        NSArray * resultArray = [response objectForKey:@"result"];
-        
-        for (int i = 0; i < resultArray.count; i ++) {
-            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:resultArray[i]];
-            tmpModel.reason = tmpModel.name;
-            [self.dStateData addObject:tmpModel];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -470,7 +449,7 @@
     }];
     
     self.sheetBgView = [[UIImageView alloc] init];
-    float bgVideoHeight = [Helper autoHeightWith:320 + 30];
+    float bgVideoHeight = [Helper autoHeightWith:320];
     float bgVideoWidth = [Helper autoWidthWith:266];
     self.self.sheetBgView.frame = CGRectZero;
     self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
@@ -590,37 +569,6 @@
         make.height.mas_equalTo(20);
     }];
     
-    UILabel *stateTitle = [[UILabel alloc] initWithFrame:CGRectZero];
-    stateTitle.font = [UIFont systemFontOfSize:14];
-    stateTitle.textColor = [UIColor blackColor];
-    stateTitle.text = @"状态";
-    [self.sheetBgView addSubview:stateTitle];
-    [stateTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.countLabel.mas_bottom).offset(5);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
-    }];
-    
-    self.mStateLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.mStateLab.backgroundColor = [UIColor clearColor];
-    self.mStateLab.font = [UIFont systemFontOfSize:14];
-    self.mStateLab.textColor = [UIColor grayColor];
-    self.mStateLab.layer.borderWidth = .5f;
-    self.mStateLab.layer.cornerRadius = 4.f;
-    self.mStateLab.layer.masksToBounds = YES;
-    self.mStateLab.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    self.mStateLab.text = @"请选择状态";
-    self.mStateLab.textAlignment = NSTextAlignmentLeft;
-    self.mStateLab.userInteractionEnabled = YES;
-    [self.sheetBgView addSubview:self.mStateLab];
-    [self.mStateLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.countLabel.mas_bottom).offset(5);
-        make.left.mas_equalTo(15 + 40);
-        make.width.mas_equalTo(bgVideoWidth - 70);
-        make.height.mas_equalTo(30);
-    }];
-    
     UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -632,7 +580,7 @@
     [cancelBtn addTarget:self action:@selector(cancelClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mStateLab.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.countLabel.mas_bottom).offset(15);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
@@ -649,7 +597,7 @@
     [self.submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.submitBtn];
     [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mStateLab.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.countLabel.mas_bottom).offset(15);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
@@ -658,10 +606,6 @@
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mReasonClicked)];
     tap.numberOfTapsRequired = 1;
     [self.mReasonLab addGestureRecognizer:tap];
-    
-    UITapGestureRecognizer * stateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mStateClicked)];
-    stateTap.numberOfTapsRequired = 1;
-    [self.mStateLab addGestureRecognizer:stateTap];
     
     UITapGestureRecognizer * mListTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mListClicked)];
     mListTap.numberOfTapsRequired = 1;
@@ -770,31 +714,6 @@
     };
 }
 
-- (void)mStateClicked{
-    
-    FaultListViewController *flVC = [[FaultListViewController alloc] initWithIsFaultList:NO];
-    float version = [UIDevice currentDevice].systemVersion.floatValue;
-    if (version < 8.0) {
-        self.modalPresentationStyle = UIModalPresentationCurrentContext;
-    } else {;
-        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    }
-    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.dataSource = self.dStateData;
-    [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSArray *backArray,NSString *damageIdString) {
-        NSLog(@"%ld",backArray.count);
-        if (backArray.count > 0) {
-            RestaurantRankModel *tmpModel = backArray[0];
-            self.mStateLab.text = tmpModel.name;
-            self.dUploadModel.boxState = damageIdString;
-        }else{
-            self.mReasonLab.text = @" 正常";
-            self.dUploadModel.boxState = @"";
-        }
-    };
-    
-}
 
 #pragma mark - 点击弹窗页面空白处
 - (void)mListClicked{
@@ -888,17 +807,7 @@
     cell.backgroundColor = [UIColor clearColor];
     
     [cell configWithModel:model];
-    
-    __weak typeof(self) weakSelf = self;
-    cell.btnClick = ^(RestaurantRankModel *tmpModel){
-        
-        weakSelf.dUploadModel.userid = [UserManager manager].user.userid;
-        weakSelf.dUploadModel.hotel_id = self.cid;
-        weakSelf.dUploadModel.type = @"2";
-        weakSelf.dUploadModel.box_mac = tmpModel.mac;
-        
-        [weakSelf creatMListView];
-    };
+
     return cell;
    
 }
