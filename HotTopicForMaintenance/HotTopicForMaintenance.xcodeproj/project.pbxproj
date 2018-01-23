@@ -118,6 +118,10 @@
 		9617A1921FE7CE6B00199D34 /* SingleDemageListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1911FE7CE6B00199D34 /* SingleDemageListRequest.m */; };
 		9617A1951FE7CEA900199D34 /* SingleSearchHotelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1941FE7CEA900199D34 /* SingleSearchHotelRequest.m */; };
 		9617A1981FE8A9BD00199D34 /* SingleLookHotelInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1971FE8A9BD00199D34 /* SingleLookHotelInforRequest.m */; };
+		962E93E32016CC8C00F48C62 /* MyInspectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93E22016CC8C00F48C62 /* MyInspectViewController.m */; };
+		962E93E62016D15600F48C62 /* MyInspectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93E52016D15600F48C62 /* MyInspectTableViewCell.m */; };
+		962E93E92016D1AC00F48C62 /* MyInspectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93E82016D1AC00F48C62 /* MyInspectModel.m */; };
+		962E93EC2016D74900F48C62 /* MySepectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93EB2016D74900F48C62 /* MySepectRequest.m */; };
 		964B10561FB441D400DE706F /* BoxDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B10551FB441D400DE706F /* BoxDataRequest.m */; };
 		969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */; };
 		969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */; };
@@ -405,6 +409,14 @@
 		9617A1941FE7CEA900199D34 /* SingleSearchHotelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleSearchHotelRequest.m; sourceTree = "<group>"; };
 		9617A1961FE8A9BD00199D34 /* SingleLookHotelInforRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleLookHotelInforRequest.h; sourceTree = "<group>"; };
 		9617A1971FE8A9BD00199D34 /* SingleLookHotelInforRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleLookHotelInforRequest.m; sourceTree = "<group>"; };
+		962E93E12016CC8C00F48C62 /* MyInspectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyInspectViewController.h; sourceTree = "<group>"; };
+		962E93E22016CC8C00F48C62 /* MyInspectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyInspectViewController.m; sourceTree = "<group>"; };
+		962E93E42016D15500F48C62 /* MyInspectTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyInspectTableViewCell.h; sourceTree = "<group>"; };
+		962E93E52016D15600F48C62 /* MyInspectTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyInspectTableViewCell.m; sourceTree = "<group>"; };
+		962E93E72016D1AC00F48C62 /* MyInspectModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyInspectModel.h; sourceTree = "<group>"; };
+		962E93E82016D1AC00F48C62 /* MyInspectModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyInspectModel.m; sourceTree = "<group>"; };
+		962E93EA2016D74900F48C62 /* MySepectRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MySepectRequest.h; sourceTree = "<group>"; };
+		962E93EB2016D74900F48C62 /* MySepectRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MySepectRequest.m; sourceTree = "<group>"; };
 		964B10541FB441D400DE706F /* BoxDataRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxDataRequest.h; sourceTree = "<group>"; };
 		964B10551FB441D400DE706F /* BoxDataRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxDataRequest.m; sourceTree = "<group>"; };
 		969A3C2D1FA97A2B00EB95C9 /* NetworkTransforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTransforViewController.h; sourceTree = "<group>"; };
@@ -573,6 +585,8 @@
 				066EA54A1F5FEDDD0054264C /* ErrorReportTableViewCell.m */,
 				066EA5581F6012270054264C /* ErrorDetailTableViewCell.h */,
 				066EA5591F6012270054264C /* ErrorDetailTableViewCell.m */,
+				962E93E42016D15500F48C62 /* MyInspectTableViewCell.h */,
+				962E93E52016D15600F48C62 /* MyInspectTableViewCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -584,6 +598,8 @@
 				06356D431F5D964900242940 /* HotelIndexRequest.m */,
 				066EA54F1F5FEF310054264C /* ErrorReportRequest.h */,
 				066EA5501F5FEF310054264C /* ErrorReportRequest.m */,
+				962E93EA2016D74900F48C62 /* MySepectRequest.h */,
+				962E93EB2016D74900F48C62 /* MySepectRequest.m */,
 				066EA5551F6010DF0054264C /* ErrorDetailRequest.h */,
 				066EA5561F6010DF0054264C /* ErrorDetailRequest.m */,
 				06844D031FAC48E700E7A2CD /* HotelGetIPRequest.h */,
@@ -974,6 +990,7 @@
 		06ECDC7F1F596BF0007FBD83 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				962E93E02016CC2C00F48C62 /* MyInspection */,
 				9617A1821FE7ABD400199D34 /* SingleVersion */,
 				96AA19831F5FC38100C06CE8 /* HotesRankInfor */,
 				0626DEBB1F5E74FA00686790 /* Hotels */,
@@ -1091,6 +1108,15 @@
 			path = SingleVNet;
 			sourceTree = "<group>";
 		};
+		962E93E02016CC2C00F48C62 /* MyInspection */ = {
+			isa = PBXGroup;
+			children = (
+				962E93E12016CC8C00F48C62 /* MyInspectViewController.h */,
+				962E93E22016CC8C00F48C62 /* MyInspectViewController.m */,
+			);
+			path = MyInspection;
+			sourceTree = "<group>";
+		};
 		969A3C291FA97A1A00EB95C9 /* CreatViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1182,6 +1208,8 @@
 				96AA19AC1F5FDFDC00C06CE8 /* RepairRecordRankModel.m */,
 				066EA54C1F5FEE6B0054264C /* ErrorReportModel.h */,
 				066EA54D1F5FEE6B0054264C /* ErrorReportModel.m */,
+				962E93E72016D1AC00F48C62 /* MyInspectModel.h */,
+				962E93E82016D1AC00F48C62 /* MyInspectModel.m */,
 				066EA55B1F6012500054264C /* ErrorDetailModel.h */,
 				066EA55C1F6012500054264C /* ErrorDetailModel.m */,
 				96AA19B11F600C8A00C06CE8 /* LookHotelInforModel.h */,
@@ -1434,6 +1462,7 @@
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
 				9617A1851FE7B0C400199D34 /* SingleVRankInforViewController.m in Sources */,
 				068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */,
+				962E93E92016D1AC00F48C62 /* MyInspectModel.m in Sources */,
 				0677AC0D1FAB427200D494FE /* UserCityViewController.m in Sources */,
 				96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */,
 				069C38651FA85C26003F92EF /* TaskModel.m in Sources */,
@@ -1465,6 +1494,7 @@
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
 				068CFF04200CAD4E00086407 /* SystemStatusSectionHeaderView.m in Sources */,
 				062613801FB06F0200EA6AD7 /* AssignRequest.m in Sources */,
+				962E93EC2016D74900F48C62 /* MySepectRequest.m in Sources */,
 				06239A6C201070FA0095C92D /* DownLoadListViewController.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
@@ -1483,6 +1513,7 @@
 				066006211FB583B3007F94D2 /* InstallDetailCell.m in Sources */,
 				96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */,
 				065FDA141FB29AD700B6DF9C /* GetCreateTaskListRequest.m in Sources */,
+				962E93E62016D15600F48C62 /* MyInspectTableViewCell.m in Sources */,
 				9617A1981FE8A9BD00199D34 /* SingleLookHotelInforRequest.m in Sources */,
 				06356D381F5D7B2400242940 /* RDAlertView.m in Sources */,
 				06063E0D1FE8A73F0013C461 /* SingleInfoController.m in Sources */,
@@ -1537,6 +1568,7 @@
 				06B055E61F5D4A7D00A9CE68 /* Jastor.m in Sources */,
 				0626DEC71F5EBC6E00686790 /* RepairRecordTableViewCell.m in Sources */,
 				060A77C51FB1831700D2A510 /* RefuseRequest.m in Sources */,
+				962E93E32016CC8C00F48C62 /* MyInspectViewController.m in Sources */,
 				964B10561FB441D400DE706F /* BoxDataRequest.m in Sources */,
 				06B055DB1F5D48D800A9CE68 /* GCCKeyChain.m in Sources */,
 				066EA55D1F6012500054264C /* ErrorDetailModel.m in Sources */,
