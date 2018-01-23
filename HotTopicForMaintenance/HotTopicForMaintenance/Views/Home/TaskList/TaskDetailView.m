@@ -222,7 +222,7 @@
     
     self.detailRemarkLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
     self.detailRemarkLabel.numberOfLines = 0;
-    self.detailRemarkLabel.text = @"备注：建议到店时间为周六日，一般工程部王师傅只有周六日有时间。";
+    self.detailRemarkLabel.text = @"备注：无";
     [self.bottomView addSubview:self.detailRemarkLabel];
     
     if (self.model.state_id == TaskStatusType_WaitHandle || self.model.state_id == TaskStatusType_Completed) {
@@ -301,6 +301,11 @@
         make.right.mas_equalTo(-20.f * scale);
     }];
     
+    if (isEmptyString(model.desc)) {
+        self.detailRemarkLabel.text = @"备注：无";
+    }else{
+        self.detailRemarkLabel.text = [NSString stringWithFormat:@"备注：%@", model.desc];
+    }
     CGFloat height2 = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 40 * scale title:self.detailRemarkLabel.text font:self.detailRemarkLabel.font];
     
     [self.detailRemarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
