@@ -24,6 +24,7 @@
         [self setValue:model.state forParamKey:@"state"];
         [self setValue:model.repair_num_str forParamKey:@"repair_num_str"];
         [self setValue:model.remakr forParamKey:@"remark"];
+        [self setValue:model.boxState forParamKey:@"box_state"];
     }
     return self;
 }

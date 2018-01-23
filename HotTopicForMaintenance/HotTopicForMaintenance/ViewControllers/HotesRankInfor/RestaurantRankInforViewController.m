@@ -17,6 +17,7 @@
 #import "Helper.h"
 #import "RestRankInforRequest.h"
 #import "DamageConfigRequest.h"
+#import "StateConfigRequest.h"
 #import "DamageUploadRequest.h"
 #import "UserManager.h"
 #import "RDFrequentlyUsed.h"
@@ -26,7 +27,8 @@
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
-@property (nonatomic, strong) NSMutableArray * dConfigData; //数据源
+@property (nonatomic, strong) NSMutableArray * dConfigData; //故障数据源
+@property (nonatomic, strong) NSMutableArray * dStateData; //故障数据源
 @property (nonatomic, strong) NSMutableArray * repairPData; //数据源
 @property (nonatomic, copy) NSString * cachePath;
 
@@ -83,6 +85,7 @@
     [self initInfo];
     [self dataRequest];
     [self demageConfigRequest];
+    [self stateConfigRequest];
     
     // 设置导航控制器的代理为self
     self.navigationController.delegate = self;
@@ -90,8 +93,9 @@
 
 - (void)initInfo{
     
-    _dataSource = [[NSMutableArray alloc] init];
+    _dataSource  = [[NSMutableArray alloc] init];
     _dConfigData = [[NSMutableArray alloc] init];
+    _dStateData  = [[NSMutableArray alloc] init];
     _repairPData = [[NSMutableArray alloc] init];
     self.cachePath = [NSString stringWithFormat:@"%@%@.plist", FileCachePath, @"RestaurantRank"];
     self.dUploadModel = [[DamageUploadModel alloc] init];
@@ -179,6 +183,24 @@
         for (int i = 0; i < listArray.count; i ++) {
             RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
             [self.dConfigData addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    }];
+}
+
+- (void)stateConfigRequest
+{
+    StateConfigRequest * request = [[StateConfigRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray * resultArray = [response objectForKey:@"result"];
+        
+        for (int i = 0; i < resultArray.count; i ++) {
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:resultArray[i]];
+            tmpModel.reason = tmpModel.name;
+            [self.dStateData addObject:tmpModel];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -726,7 +748,7 @@
 #pragma mark - 点击故障选择
 - (void)mReasonClicked{
     
-    FaultListViewController *flVC = [[FaultListViewController alloc] init];
+    FaultListViewController *flVC = [[FaultListViewController alloc] initWithIsFaultList:YES];
     float version = [UIDevice currentDevice].systemVersion.floatValue;
     if (version < 8.0) {
         self.modalPresentationStyle = UIModalPresentationCurrentContext;
@@ -746,6 +768,32 @@
             self.dUploadModel.repair_num_str = @"";
         }
     };
+}
+
+- (void)mStateClicked{
+    
+    FaultListViewController *flVC = [[FaultListViewController alloc] initWithIsFaultList:NO];
+    float version = [UIDevice currentDevice].systemVersion.floatValue;
+    if (version < 8.0) {
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    } else {;
+        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    flVC.dataSource = self.dStateData;
+    [self presentViewController:flVC animated:YES completion:nil];
+    flVC.backDatas = ^(NSArray *backArray,NSString *damageIdString) {
+        NSLog(@"%ld",backArray.count);
+        if (backArray.count > 0) {
+            RestaurantRankModel *tmpModel = backArray[0];
+            self.mStateLab.text = tmpModel.name;
+            self.dUploadModel.boxState = damageIdString;
+        }else{
+            self.mReasonLab.text = @" 正常";
+            self.dUploadModel.boxState = @"";
+        }
+    };
+    
 }
 
 #pragma mark - 点击弹窗页面空白处
@@ -872,7 +920,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    BoxInfoViewController * info = [[BoxInfoViewController alloc] initWithBoxID:model.box_id title:model.boxname];
+    BoxInfoViewController * info = [[BoxInfoViewController alloc] initWithBoxID:model.box_id title:model.boxname hotelID:self.cid];
     [self.navigationController pushViewController:info animated:YES];
 }
 
