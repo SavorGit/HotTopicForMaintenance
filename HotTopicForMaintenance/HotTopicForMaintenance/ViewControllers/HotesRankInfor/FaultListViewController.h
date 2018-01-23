@@ -16,4 +16,6 @@ typedef void (^backData)(NSArray *array , NSString *damIdString);
 
 @property(nonatomic, copy) backData backDatas;
 
+- (instancetype)initWithIsFaultList:(BOOL)isFaultList;
+
 @end

@@ -17,6 +17,7 @@
 #import "Helper.h"
 #import "RestRankInforRequest.h"
 #import "DamageConfigRequest.h"
+#import "StateConfigRequest.h"
 #import "DamageUploadRequest.h"
 #import "UserManager.h"
 #import "RDFrequentlyUsed.h"
@@ -84,6 +85,7 @@
     [self initInfo];
     [self dataRequest];
     [self demageConfigRequest];
+    [self stateConfigRequest];
     
     // 设置导航控制器的代理为self
     self.navigationController.delegate = self;
@@ -190,15 +192,15 @@
 
 - (void)stateConfigRequest
 {
-    DamageConfigRequest * request = [[DamageConfigRequest alloc] init];
+    StateConfigRequest * request = [[StateConfigRequest alloc] init];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        NSDictionary * dataDict = [response objectForKey:@"result"];
-        NSArray *listArray = [dataDict objectForKey:@"list"];
+        NSArray * resultArray = [response objectForKey:@"result"];
         
-        for (int i = 0; i < listArray.count; i ++) {
-            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:listArray[i]];
-            [self.dConfigData addObject:tmpModel];
+        for (int i = 0; i < resultArray.count; i ++) {
+            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:resultArray[i]];
+            tmpModel.reason = tmpModel.name;
+            [self.dStateData addObject:tmpModel];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -746,7 +748,7 @@
 #pragma mark - 点击故障选择
 - (void)mReasonClicked{
     
-    FaultListViewController *flVC = [[FaultListViewController alloc] init];
+    FaultListViewController *flVC = [[FaultListViewController alloc] initWithIsFaultList:YES];
     float version = [UIDevice currentDevice].systemVersion.floatValue;
     if (version < 8.0) {
         self.modalPresentationStyle = UIModalPresentationCurrentContext;
@@ -770,7 +772,7 @@
 
 - (void)mStateClicked{
     
-    FaultListViewController *flVC = [[FaultListViewController alloc] init];
+    FaultListViewController *flVC = [[FaultListViewController alloc] initWithIsFaultList:NO];
     float version = [UIDevice currentDevice].systemVersion.floatValue;
     if (version < 8.0) {
         self.modalPresentationStyle = UIModalPresentationCurrentContext;
@@ -778,16 +780,17 @@
         flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.dataSource = self.dConfigData;
+    flVC.dataSource = self.dStateData;
     [self presentViewController:flVC animated:YES completion:nil];
     flVC.backDatas = ^(NSArray *backArray,NSString *damageIdString) {
         NSLog(@"%ld",backArray.count);
         if (backArray.count > 0) {
-            self.mReasonLab.text = [NSString stringWithFormat:@"  已选择%ld项",backArray.count];
-            self.dUploadModel.repair_num_str = damageIdString;
+            RestaurantRankModel *tmpModel = backArray[0];
+            self.mStateLab.text = tmpModel.name;
+            self.dUploadModel.boxState = damageIdString;
         }else{
-            self.mReasonLab.text = @"  故障说明与维修记录";
-            self.dUploadModel.repair_num_str = @"";
+            self.mReasonLab.text = @" 正常";
+            self.dUploadModel.boxState = @"";
         }
     };
     
@@ -917,7 +920,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    BoxInfoViewController * info = [[BoxInfoViewController alloc] initWithBoxID:model.box_id title:model.boxname];
+    BoxInfoViewController * info = [[BoxInfoViewController alloc] initWithBoxID:model.box_id title:model.boxname hotelID:self.cid];
     [self.navigationController pushViewController:info animated:YES];
 }
 

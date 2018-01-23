@@ -129,6 +129,7 @@
 		962E93E62016D15600F48C62 /* MyInspectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93E52016D15600F48C62 /* MyInspectTableViewCell.m */; };
 		962E93E92016D1AC00F48C62 /* MyInspectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93E82016D1AC00F48C62 /* MyInspectModel.m */; };
 		962E93EC2016D74900F48C62 /* MySepectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93EB2016D74900F48C62 /* MySepectRequest.m */; };
+		962E93EF20170B5800F48C62 /* StateConfigRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93EE20170B5800F48C62 /* StateConfigRequest.m */; };
 		964B10561FB441D400DE706F /* BoxDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B10551FB441D400DE706F /* BoxDataRequest.m */; };
 		969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2E1FA97A2B00EB95C9 /* InstallAndAcceptViewController.m */; };
 		969A3C321FA97A2C00EB95C9 /* NetworkTransforViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969A3C2F1FA97A2B00EB95C9 /* NetworkTransforViewController.m */; };
@@ -438,6 +439,8 @@
 		962E93E82016D1AC00F48C62 /* MyInspectModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyInspectModel.m; sourceTree = "<group>"; };
 		962E93EA2016D74900F48C62 /* MySepectRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MySepectRequest.h; sourceTree = "<group>"; };
 		962E93EB2016D74900F48C62 /* MySepectRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MySepectRequest.m; sourceTree = "<group>"; };
+		962E93ED20170B5800F48C62 /* StateConfigRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateConfigRequest.h; sourceTree = "<group>"; };
+		962E93EE20170B5800F48C62 /* StateConfigRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StateConfigRequest.m; sourceTree = "<group>"; };
 		964B10541FB441D400DE706F /* BoxDataRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxDataRequest.h; sourceTree = "<group>"; };
 		964B10551FB441D400DE706F /* BoxDataRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxDataRequest.m; sourceTree = "<group>"; };
 		969A3C2D1FA97A2B00EB95C9 /* NetworkTransforViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTransforViewController.h; sourceTree = "<group>"; };
@@ -1266,6 +1269,8 @@
 				96AA19AF1F5FF0C800C06CE8 /* LookHotelInforRequest.m */,
 				96AA19B41F6025A200C06CE8 /* DamageConfigRequest.h */,
 				96AA19B51F6025A200C06CE8 /* DamageConfigRequest.m */,
+				962E93ED20170B5800F48C62 /* StateConfigRequest.h */,
+				962E93EE20170B5800F48C62 /* StateConfigRequest.m */,
 				96AA19BA1F60E20500C06CE8 /* DamageUploadRequest.h */,
 				96AA19BB1F60E20500C06CE8 /* DamageUploadRequest.m */,
 			);
@@ -1619,6 +1624,7 @@
 				0626DECA1F5EC14500686790 /* RepairRecordModel.m in Sources */,
 				0651E07D2015D40400D4E39D /* OneKeyCheckRequest.m in Sources */,
 				0626137D1FB05EB700EA6AD7 /* HandleTaskListRequest.m in Sources */,
+				962E93EF20170B5800F48C62 /* StateConfigRequest.m in Sources */,
 				96AA198F1F5FC38100C06CE8 /* SearchHotelViewController.m in Sources */,
 				96AA19991F5FC38C00C06CE8 /* FaultListTableViewCell.m in Sources */,
 				06C44C051FA9E2990050FDBC /* TaskDetailView.m in Sources */,

@@ -16,10 +16,18 @@
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 //@property (nonatomic, strong) NSMutableArray * dataSource; //数据源
 @property (nonatomic, strong) UIView *bgView;
+@property (nonatomic, assign) BOOL isFaultList;
 
 @end
 
 @implementation FaultListViewController
+
+- (instancetype)initWithIsFaultList:(BOOL)isFaultList{
+    if (self = [super init]) {
+        self.isFaultList = isFaultList;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     
@@ -168,6 +176,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    if (!self.isFaultList) {
+        for (int i = 0; i < self.dataSource.count; i ++) {
+            RestaurantRankModel *model = self.dataSource[i];
+            model.selectType = NO;
+            NSIndexPath *tmpPath = [NSIndexPath indexPathForRow:i inSection:0];
+            FaultListTableViewCell *tmpCell = [self.tableView cellForRowAtIndexPath:tmpPath];
+            tmpCell.selectImgView.hidden = YES;
+        }
+    }
     RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
     model.selectType = !model.selectType;
     FaultListTableViewCell *tmpCell = [self.tableView cellForRowAtIndexPath:indexPath];

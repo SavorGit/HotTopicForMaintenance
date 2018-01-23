@@ -517,7 +517,7 @@
 #pragma mark - 点击故障选择
 - (void)mReasonClicked{
     
-    FaultListViewController *flVC = [[FaultListViewController alloc] init];
+    FaultListViewController *flVC = [[FaultListViewController alloc] initWithIsFaultList:YES];
     float version = [UIDevice currentDevice].systemVersion.floatValue;
     if (version < 8.0) {
         self.modalPresentationStyle = UIModalPresentationCurrentContext;
