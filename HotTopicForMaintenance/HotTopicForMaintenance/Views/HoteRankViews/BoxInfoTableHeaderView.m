@@ -9,6 +9,7 @@
 #import "BoxInfoTableHeaderView.h"
 #import "HotTopicTools.h"
 #import "DownLoadListViewController.h"
+#import "HotTopicTools.h"
 
 @interface BoxInfoTableHeaderView ()
 
@@ -25,7 +26,6 @@
 @property (nonatomic, strong) UILabel * adStatusLabel; //广告状态
 @property (nonatomic, strong) UIButton * adDownLoadingButton; //广告查看正在下载
 
-@property (nonatomic, strong) UILabel * currentPlayListLabel; //当前播放列表
 @property (nonatomic, strong) UIButton * pushListButton; //发布内容列表
 @property (nonatomic, strong) UILabel * mediaDateLabel; //节目期号
 @property (nonatomic, strong) UILabel * adDateLabel; //广告期号
@@ -50,7 +50,7 @@
     self.frame = CGRectMake(0, 0, kMainBoundsWidth, 435 * scale);
     
     self.boxNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15 * scale) alignment:NSTextAlignmentLeft];
-    self.boxNameLabel.text = @"郭春城专用";
+    self.boxNameLabel.text = @"无";
     [self addSubview:self.boxNameLabel];
     [self.boxNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(14 * scale);
@@ -59,7 +59,7 @@
     }];
     
     self.boxMaclabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.boxMaclabel.text = @"FCD5D900B7AB";
+    self.boxMaclabel.text = @"无";
     [self addSubview:self.boxMaclabel];
     [self.boxMaclabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.boxNameLabel);
@@ -116,7 +116,7 @@
     }];
     
     self.lastLogUploadTimeLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.lastLogUploadTimeLabel.text = @"2018-01-17  14:39";
+    self.lastLogUploadTimeLabel.text = @"无";
     [self addSubview:self.lastLogUploadTimeLabel];
     [self.lastLogUploadTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(lastUploadTitleLabel);
@@ -134,19 +134,20 @@
     }];
     
     self.repairListLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
+    self.repairListLabel.numberOfLines = 0;
     self.repairListLabel.text = @"无";
     [self addSubview:self.repairListLabel];
     [self.repairListLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(repairTitleLabel);
         make.left.mas_equalTo(repairTitleLabel.mas_right);
-        make.height.mas_equalTo(repairTitleLabel);
+        make.width.mas_equalTo(270 * scale);
     }];
     
     UIView * lineView2 = [[UIView alloc] initWithFrame:CGRectZero];
     lineView2.backgroundColor = UIColorFromRGB(0xf5f5f5);
     [self addSubview:lineView2];
     [lineView2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(repairTitleLabel.mas_bottom).offset(19 * scale);
+        make.top.mas_equalTo(self.repairListLabel.mas_bottom).offset(19 * scale);
         make.height.mas_equalTo(19 * scale);
         make.left.right.mas_equalTo(0);
     }];
@@ -161,7 +162,7 @@
     }];
     
     self.currentStatusLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.currentStatusLabel.text = @"失联10小时/正常";
+    self.currentStatusLabel.text = @"无";
     [self addSubview:self.currentStatusLabel];
     [self.currentStatusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(currentStatusTitleLabel);
@@ -179,7 +180,7 @@
     }];
     
     self.mediaStatusLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.mediaStatusLabel.text = @"节目不是最新";
+    self.mediaStatusLabel.text = @"无";
     [self addSubview:self.mediaStatusLabel];
     [self.mediaStatusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(mediaStatusTitleLabel);
@@ -209,7 +210,7 @@
     }];
     
     self.adStatusLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.adStatusLabel.text = @"已更新到最新";
+    self.adStatusLabel.text = @"无";
     [self addSubview:self.adStatusLabel];
     [self.adStatusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(adStatusTitleLabel);
@@ -247,15 +248,6 @@
         make.height.mas_equalTo(17 * scale);
     }];
     
-    self.currentPlayListLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15 * scale) alignment:NSTextAlignmentLeft];
-    self.currentPlayListLabel.text = @"节目（20170506）";
-    [self addSubview:self.currentPlayListLabel];
-    [self.currentPlayListLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(currentPlayTitleLabel);
-        make.left.mas_equalTo(currentPlayTitleLabel.mas_right).offset(10 * scale);
-        make.height.mas_equalTo(currentPlayTitleLabel);;
-    }];
-    
     self.pushListButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x00b7f5) font:kPingFangRegular(13 * scale) backgroundColor:[UIColor clearColor] title:@"发布内容列表" cornerRadius:2 * scale];
     [self.pushListButton addTarget:self action:@selector(pushButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     self.pushListButton.layer.borderColor = UIColorFromRGB(0x00b7f5).CGColor;
@@ -278,7 +270,7 @@
     }];
     
     self.mediaDateLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    self.mediaDateLabel.text = @"201705060950378";
+    self.mediaDateLabel.text = @"无";
     [self addSubview:self.mediaDateLabel];
     [self.mediaDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(mediaDateTitleLabel);
@@ -296,7 +288,7 @@
     }];
     
     self.adDateLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    self.adDateLabel.text = @"20180202154526";
+    self.adDateLabel.text = @"无";
     [self addSubview:self.adDateLabel];
     [self.adDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(adDateTitleLabel);
@@ -313,6 +305,40 @@
         make.height.mas_equalTo(.5 * scale);
         make.bottom.mas_equalTo(-10 * scale);
     }];
+}
+
+- (void)configWithDict:(NSDictionary *)dict
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    self.boxNameLabel.text = GetNoNullString([dict objectForKey:@"box_name"]);
+    self.boxMaclabel.text = GetNoNullString([dict objectForKey:@"box_mac"]);
+    self.lastHeartTimeLabel.text = GetNoNullString([dict objectForKey:@"last_heart_time"]);
+    self.lastLogUploadTimeLabel.text = GetNoNullString([dict objectForKey:@"log_upload_time"]);
+    self.currentStatusLabel.text = GetNoNullString([dict objectForKey:@"loss_hours"]);
+    self.mediaStatusLabel.text = GetNoNullString([dict objectForKey:@"pro_period_state"]);
+    self.adStatusLabel.text = GetNoNullString([dict objectForKey:@"ads_period_state"]);
+    self.mediaDateLabel.text = GetNoNullString([dict objectForKey:@"pro_period"]);
+    self.adDateLabel.text = GetNoNullString([dict objectForKey:@"ads_period"]);
+    
+    NSArray * repairArray = [dict objectForKey:@"repair_record"];
+    NSString * repairText;
+    if ([repairArray isKindOfClass:[NSArray class]]) {
+        for (NSDictionary * info in repairArray) {
+            
+            if (isEmptyString(repairText)) {
+                repairText = [NSString stringWithFormat:@"%@  (%@)", [info objectForKey:@"nickname"], [info objectForKey:@"ctime"]];
+            }else{
+                repairText = [repairText stringByAppendingString:[NSString stringWithFormat:@"\n%@  (%@)", [info objectForKey:@"nickname"], [info objectForKey:@"ctime"]]];
+            }
+            
+        }
+    }
+    self.repairListLabel.text = repairText;
+    
+    CGFloat height = [HotTopicTools getHeightByWidth:270 * scale title:self.repairListLabel.text font:self.repairListLabel.font];
+    CGRect frame = self.frame;
+    frame.size.height += height - 15 * scale;
+    self.frame = frame;
 }
 
 - (void)lookMediaCurrentDownLoad

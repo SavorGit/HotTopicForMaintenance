@@ -21,4 +21,6 @@
 
 @property (nonatomic, assign) id<BoxInfoTableHeaderViewDelegate> delegate;
 
+- (void)configWithDict:(NSDictionary *)dict;
+
 @end

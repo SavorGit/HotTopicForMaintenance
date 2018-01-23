@@ -871,7 +871,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BoxInfoViewController * info = [[BoxInfoViewController alloc] init];
+    RestaurantRankModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    BoxInfoViewController * info = [[BoxInfoViewController alloc] initWithBoxID:model.box_id title:model.boxname];
     [self.navigationController pushViewController:info animated:YES];
 }
 

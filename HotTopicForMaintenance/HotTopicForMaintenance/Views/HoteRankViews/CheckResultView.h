@@ -10,7 +10,7 @@
 
 @interface CheckResultView : UIView
 
-- (instancetype)initWithResult:(NSDictionary *)result;
+- (instancetype)initWithResult:(NSDictionary *)result reCheckHandle:(void (^)())handle;
 
 - (void)show;
 

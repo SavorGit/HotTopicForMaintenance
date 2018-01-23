@@ -30,6 +30,11 @@
 		06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D431F5D964900242940 /* HotelIndexRequest.m */; };
 		06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */; };
 		0650F38C1FA96ADC0086B794 /* SystemStatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650F38B1FA96ADC0086B794 /* SystemStatusController.m */; };
+		0651E07A2015861000D4E39D /* GetBoxInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651E0792015861000D4E39D /* GetBoxInfoRequest.m */; };
+		0651E07D2015D40400D4E39D /* OneKeyCheckRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651E07C2015D40400D4E39D /* OneKeyCheckRequest.m */; };
+		0651E0832015E31200D4E39D /* GetDownLoadMediaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651E0822015E31200D4E39D /* GetDownLoadMediaRequest.m */; };
+		0651E0862015E6D000D4E39D /* GetDownLoadADRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651E0852015E6D000D4E39D /* GetDownLoadADRequest.m */; };
+		0651E08C2015E82E00D4E39D /* GetPubProgramRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651E08B2015E82E00D4E39D /* GetPubProgramRequest.m */; };
 		065FDA141FB29AD700B6DF9C /* GetCreateTaskListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 065FDA131FB29AD700B6DF9C /* GetCreateTaskListRequest.m */; };
 		065FDA171FB2EE2D00B6DF9C /* BindDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 065FDA161FB2EE2D00B6DF9C /* BindDeviceModel.m */; };
 		065FDA1A1FB2EEF600B6DF9C /* GetBindListReuqest.m in Sources */ = {isa = PBXBuildFile; fileRef = 065FDA191FB2EEF600B6DF9C /* GetBindListReuqest.m */; };
@@ -225,6 +230,16 @@
 		06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelInfoTableViewCell.m; sourceTree = "<group>"; };
 		0650F38A1FA96ADC0086B794 /* SystemStatusController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusController.h; sourceTree = "<group>"; };
 		0650F38B1FA96ADC0086B794 /* SystemStatusController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusController.m; sourceTree = "<group>"; };
+		0651E0782015861000D4E39D /* GetBoxInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetBoxInfoRequest.h; sourceTree = "<group>"; };
+		0651E0792015861000D4E39D /* GetBoxInfoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetBoxInfoRequest.m; sourceTree = "<group>"; };
+		0651E07B2015D40400D4E39D /* OneKeyCheckRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneKeyCheckRequest.h; sourceTree = "<group>"; };
+		0651E07C2015D40400D4E39D /* OneKeyCheckRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneKeyCheckRequest.m; sourceTree = "<group>"; };
+		0651E0812015E31200D4E39D /* GetDownLoadMediaRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetDownLoadMediaRequest.h; sourceTree = "<group>"; };
+		0651E0822015E31200D4E39D /* GetDownLoadMediaRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetDownLoadMediaRequest.m; sourceTree = "<group>"; };
+		0651E0842015E6D000D4E39D /* GetDownLoadADRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetDownLoadADRequest.h; sourceTree = "<group>"; };
+		0651E0852015E6D000D4E39D /* GetDownLoadADRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetDownLoadADRequest.m; sourceTree = "<group>"; };
+		0651E08A2015E82E00D4E39D /* GetPubProgramRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetPubProgramRequest.h; sourceTree = "<group>"; };
+		0651E08B2015E82E00D4E39D /* GetPubProgramRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetPubProgramRequest.m; sourceTree = "<group>"; };
 		065FDA121FB29AD700B6DF9C /* GetCreateTaskListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetCreateTaskListRequest.h; sourceTree = "<group>"; };
 		065FDA131FB29AD700B6DF9C /* GetCreateTaskListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetCreateTaskListRequest.m; sourceTree = "<group>"; };
 		065FDA151FB2EE2D00B6DF9C /* BindDeviceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BindDeviceModel.h; sourceTree = "<group>"; };
@@ -608,6 +623,16 @@
 				065FDA191FB2EEF600B6DF9C /* GetBindListReuqest.m */,
 				065FDA1B1FB2F4B800B6DF9C /* BindBoxRequest.h */,
 				065FDA1C1FB2F4B800B6DF9C /* BindBoxRequest.m */,
+				0651E0782015861000D4E39D /* GetBoxInfoRequest.h */,
+				0651E0792015861000D4E39D /* GetBoxInfoRequest.m */,
+				0651E07B2015D40400D4E39D /* OneKeyCheckRequest.h */,
+				0651E07C2015D40400D4E39D /* OneKeyCheckRequest.m */,
+				0651E0812015E31200D4E39D /* GetDownLoadMediaRequest.h */,
+				0651E0822015E31200D4E39D /* GetDownLoadMediaRequest.m */,
+				0651E0842015E6D000D4E39D /* GetDownLoadADRequest.h */,
+				0651E0852015E6D000D4E39D /* GetDownLoadADRequest.m */,
+				0651E08A2015E82E00D4E39D /* GetPubProgramRequest.h */,
+				0651E08B2015E82E00D4E39D /* GetPubProgramRequest.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -1463,6 +1488,7 @@
 				9617A1851FE7B0C400199D34 /* SingleVRankInforViewController.m in Sources */,
 				068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */,
 				962E93E92016D1AC00F48C62 /* MyInspectModel.m in Sources */,
+				0651E0862015E6D000D4E39D /* GetDownLoadADRequest.m in Sources */,
 				0677AC0D1FAB427200D494FE /* UserCityViewController.m in Sources */,
 				96AA199C1F5FC38C00C06CE8 /* SearchTableViewCell.m in Sources */,
 				069C38651FA85C26003F92EF /* TaskModel.m in Sources */,
@@ -1489,6 +1515,7 @@
 				969A3C7E1FADAE1400EB95C9 /* NSArray+json.m in Sources */,
 				06B4A6511FADC4780081BBA7 /* LookRoleListRequest.m in Sources */,
 				066EA5571F6010DF0054264C /* ErrorDetailRequest.m in Sources */,
+				0651E07A2015861000D4E39D /* GetBoxInfoRequest.m in Sources */,
 				969A3C441FA9C01300EB95C9 /* PositionListViewController.m in Sources */,
 				06B055F81F5D57A700A9CE68 /* HomeViewController.m in Sources */,
 				96AA198C1F5FC38100C06CE8 /* FaultListViewController.m in Sources */,
@@ -1497,6 +1524,7 @@
 				962E93EC2016D74900F48C62 /* MySepectRequest.m in Sources */,
 				06239A6C201070FA0095C92D /* DownLoadListViewController.m in Sources */,
 				96AA19A41F5FC9A700C06CE8 /* SearchHotelRequest.m in Sources */,
+				0651E08C2015E82E00D4E39D /* GetPubProgramRequest.m in Sources */,
 				06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */,
 				066006181FB5715F007F94D2 /* CheckDetailCell.m in Sources */,
 				96AA19B31F600C8A00C06CE8 /* LookHotelInforModel.m in Sources */,
@@ -1543,6 +1571,7 @@
 				066684102004B982005B4CAD /* LookImageViewController.m in Sources */,
 				96AA198E1F5FC38100C06CE8 /* RestaurantRankInforViewController.m in Sources */,
 				969A3C471FA9C9C000EB95C9 /* PosionListTableViewCell.m in Sources */,
+				0651E0832015E31200D4E39D /* GetDownLoadMediaRequest.m in Sources */,
 				969A3C4A1FA9EA6500EB95C9 /* RepairHeaderTableCell.m in Sources */,
 				066EA5541F6010830054264C /* ErrorDetailViewController.m in Sources */,
 				06B055ED1F5D56CF00A9CE68 /* BaseNavigationController.m in Sources */,
@@ -1577,6 +1606,7 @@
 				96AA199B1F5FC38C00C06CE8 /* RestaurantRankCell.m in Sources */,
 				06338BB91FA1C702003775B5 /* MenuModel.m in Sources */,
 				0626DECA1F5EC14500686790 /* RepairRecordModel.m in Sources */,
+				0651E07D2015D40400D4E39D /* OneKeyCheckRequest.m in Sources */,
 				0626137D1FB05EB700EA6AD7 /* HandleTaskListRequest.m in Sources */,
 				96AA198F1F5FC38100C06CE8 /* SearchHotelViewController.m in Sources */,
 				96AA19991F5FC38C00C06CE8 /* FaultListTableViewCell.m in Sources */,

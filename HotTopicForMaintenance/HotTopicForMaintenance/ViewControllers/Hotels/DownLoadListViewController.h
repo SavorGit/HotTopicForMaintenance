@@ -8,6 +8,16 @@
 
 #import "BaseViewController.h"
 
+typedef enum : NSUInteger {
+    DownLoadListType_Media = 1,
+    DownLoadListType_ADs,
+    DownLoadListType_PubProgram,
+} DownLoadListType;
+
 @interface DownLoadListViewController : BaseViewController
+
+- (instancetype)initWithDataSource:(NSArray *)dataSource;
+
+- (void)configType:(DownLoadListType)type mediaDate:(NSString *)mediaDate adDate:(NSString *)adDate;
 
 @end
