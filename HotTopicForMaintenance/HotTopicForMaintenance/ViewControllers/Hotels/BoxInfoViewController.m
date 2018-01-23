@@ -423,16 +423,12 @@
         [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
         
-        NSInteger code = [response[@"code"] integerValue];
-        NSString *msg = response[@"msg"];
-        if (code == 10000) {
-            [self dismissViewWithAnimationDuration:.3f];
-            self.isRefreh = NO;
-            [self cleanDamageModel];
-            [MBProgressHUD showTextHUDWithText:@"提交成功" inView:self.view];
-        }else{
-            [MBProgressHUD showTextHUDWithText:msg inView:self.view];
-        }
+        [self dismissViewWithAnimationDuration:.3f];
+        self.isRefreh = NO;
+        [self cleanDamageModel];
+        [MBProgressHUD showTextHUDWithText:@"提交成功" inView:self.view];
+        
+        [self setupDatas];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [hud hideAnimated:NO];

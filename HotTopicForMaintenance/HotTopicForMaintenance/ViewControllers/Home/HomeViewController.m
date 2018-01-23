@@ -78,6 +78,7 @@
     MenuModel * systemModel = [[MenuModel alloc] initWithMenuType:MenuModelType_SystemStatus];
     MenuModel * bindDeviceModel = [[MenuModel alloc] initWithMenuType:MenuModelType_BindDevice];
     MenuModel * singleModel = [[MenuModel alloc] initWithMenuType:MenuModelType_SingleVersion];
+    MenuModel * inspectModel = [[MenuModel alloc] initWithMenuType:MenuModelType_Inspect];
     MenuModel * myTaskModel = [[MenuModel alloc] initWithMenuType:MenuModelType_MyTask];
     
     self.badgeCell = nil;
@@ -119,6 +120,14 @@
             
         {
             [self.dataSource addObjectsFromArray:@[singleModel]];
+        }
+            
+            break;
+            
+        case UserRoleType_Inspect:
+            
+        {
+            [self.dataSource addObjectsFromArray:@[inspectModel]];
         }
             
             break;
@@ -370,7 +379,7 @@
             
         case MenuModelType_ErrorReport:
         {
-            MyInspectViewController * vc = [[MyInspectViewController alloc] init];
+            ErrorReportViewController * vc = [[ErrorReportViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
@@ -400,6 +409,13 @@
         {
             SingleInfoController * info = [[SingleInfoController alloc] init];
             [self.navigationController pushViewController:info animated:YES];
+        }
+            break;
+            
+        case MenuModelType_Inspect:
+        {
+            MyInspectViewController * vc = [[MyInspectViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             

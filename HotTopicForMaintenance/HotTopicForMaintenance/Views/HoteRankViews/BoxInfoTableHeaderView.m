@@ -199,6 +199,7 @@
         make.width.mas_equalTo(94 * scale);
         make.height.mas_equalTo(20 * scale);
     }];
+    self.mediaDownLoadingButton.hidden = YES;
     
     UILabel * adStatusTitleLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
     adStatusTitleLabel.text = @"广告状态：";
@@ -229,6 +230,7 @@
         make.width.mas_equalTo(94 * scale);
         make.height.mas_equalTo(20 * scale);
     }];
+    self.adDownLoadingButton.hidden = YES;
     
     UIView * lineView3 = [[UIView alloc] initWithFrame:CGRectZero];
     lineView3.backgroundColor = UIColorFromRGB(0xd7d7d7);
@@ -319,6 +321,18 @@
     self.adStatusLabel.text = GetNoNullString([dict objectForKey:@"ads_period_state"]);
     self.mediaDateLabel.text = GetNoNullString([dict objectForKey:@"pro_period"]);
     self.adDateLabel.text = GetNoNullString([dict objectForKey:@"ads_period"]);
+    
+    if (isEmptyString([dict objectForKey:@"pro_download_period"])) {
+        self.mediaDownLoadingButton.hidden = YES;
+    }else{
+        self.mediaDownLoadingButton.hidden = NO;
+    }
+    
+    if (isEmptyString([dict objectForKey:@"ads_download_period"])) {
+        self.adDownLoadingButton.hidden = YES;
+    }else{
+        self.adDownLoadingButton.hidden = NO;
+    }
     
     NSArray * repairArray = [dict objectForKey:@"repair_record"];
     NSString * repairText;
