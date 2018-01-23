@@ -149,40 +149,6 @@
         make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
     }];
-    
-    UILabel * clickLabel = [[UILabel alloc] init];
-    clickLabel.text = @"维修" ;
-    clickLabel.font = [UIFont systemFontOfSize:14];
-    clickLabel.textColor = UIColorFromRGB(0x434343);
-    clickLabel.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    clickLabel.layer.borderWidth = .5f;
-    clickLabel.layer.cornerRadius = 5.f;
-    clickLabel.layer.masksToBounds = YES;
-    clickLabel.textAlignment = NSTextAlignmentCenter;
-    [_bgView addSubview:clickLabel];
-    [clickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom);
-        make.right.mas_equalTo(-15);
-        make.width.mas_equalTo(60);
-        make.height.mas_equalTo(20);
-    }];
-    
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.backgroundColor = [UIColor clearColor];
-    [button addTarget:self action:@selector(mPlatformClicked) forControlEvents:UIControlEventTouchUpInside];
-    [_bgView addSubview:button];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(clickLabel.mas_bottom);
-        make.right.mas_equalTo(0);
-        make.width.mas_equalTo(75);
-        make.height.mas_equalTo(40);
-    }];
-}
-
-- (void)mPlatformClicked{
-    if (_btnClick) {
-        _btnClick(self.restRankModel);
-    }
 }
 
 - (void)configWithModel:(RestaurantRankModel *)model{
@@ -222,8 +188,6 @@
         }];
         self.mReContentLabel.text = @"无";
     }
-    
-//    float height = [self getHeightByWidth:kMainBoundsWidth - 30 - 80 - 60 title:@"这是测试字段" font:[UIFont systemFontOfSize:14]];
     
 }
 

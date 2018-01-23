@@ -12,9 +12,6 @@
 
 @interface RestaurantRankCell : UITableViewCell
 
-//	点击按钮block回调
-@property (nonatomic,copy) void(^btnClick)(RestaurantRankModel *);
-
 - (void)configWithModel:(RestaurantRankModel *)model;
 
 @end
