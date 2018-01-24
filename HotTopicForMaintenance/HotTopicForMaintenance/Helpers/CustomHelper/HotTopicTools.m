@@ -14,6 +14,7 @@
 #import "Helper.h"
 #import "RDAlertView.h"
 #import <AliyunOSSiOS/OSSService.h>
+#import <UMMobClick/MobClick.h>
 #import "MBProgressHUD+Custom.h"
 
 @implementation HotTopicTools
@@ -29,6 +30,13 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : kNavTitleColor, NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
     
     [[UINavigationBar appearance] setTintColor:kNavTitleColor];
+    
+    //友盟统计注册
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [MobClick setAppVersion:version];
+    [UMConfigInstance setAppKey:UmengAppkey];
+    UMConfigInstance.channelId = @"App Store";
+    [MobClick startWithConfigure:UMConfigInstance];
     
     NSString* identifierNumber = [[UIDevice currentDevice].identifierForVendor UUIDString];
     if (![GCCKeyChain load:keychainID]) {

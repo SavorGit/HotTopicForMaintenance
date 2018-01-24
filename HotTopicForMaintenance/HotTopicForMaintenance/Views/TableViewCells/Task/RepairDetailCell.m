@@ -298,7 +298,7 @@
     if ([imageArray isKindOfClass:[NSArray class]]) {
         for (NSInteger i = 0; i < imageArray.count; i++) {
             UIImageView * imageView = (UIImageView *)[self.baseView viewWithTag:100+i];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:i]]];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"zanwu"]];
         }
     }
 }

@@ -24,6 +24,7 @@ PODS:
   - SDWebImage (4.1.2):
     - SDWebImage/Core (= 4.1.2)
   - SDWebImage/Core (4.1.2)
+  - UMengAnalytics-NO-IDFA (4.1.9)
   - WMPageController (2.4.3)
 
 DEPENDENCIES:
@@ -34,6 +35,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh (~> 3.1.12)
   - SDWebImage (~> 4.1.0)
+  - UMengAnalytics-NO-IDFA (~> 4.1.9)
   - WMPageController (~> 2.4.0)
 
 SPEC CHECKSUMS:
@@ -45,8 +47,9 @@ SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
+  UMengAnalytics-NO-IDFA: 985292af177111685325c90c321094172b95d2cb
   WMPageController: 4c7f2c636675a71aea5eecf8fdc07a0ce86954e3
 
-PODFILE CHECKSUM: 1c7df2b5cf398e09cc8df03521378c2c02c5fd61
+PODFILE CHECKSUM: fec57443c300aec7dac2785eaa23cdfe9515564e
 
 COCOAPODS: 1.0.1

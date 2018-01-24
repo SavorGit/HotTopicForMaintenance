@@ -116,7 +116,6 @@
     }];
     
     self.statusLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x62ad19) font:kPingFangMedium(15.f * scale) alignment:NSTextAlignmentLeft];
-    self.statusLabel.text = @"已完成";
     [self.topView addSubview:self.statusLabel];
     [self.statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
@@ -125,7 +124,6 @@
     }];
     
     self.cityLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x444444) font:kPingFangRegular(13.f * scale) alignment:NSTextAlignmentLeft];
-    self.cityLabel.text = @"(北京)";
     [self.topView addSubview:self.cityLabel];
     [self.cityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
@@ -135,7 +133,6 @@
     
     self.remarkLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(14.f * scale) alignment:NSTextAlignmentCenter];
     self.remarkLabel.backgroundColor = UIColorFromRGB(0xf54444);
-    self.remarkLabel.text = @"紧急";
     [self.topView addSubview:self.remarkLabel];
     [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(44.f * scale);
