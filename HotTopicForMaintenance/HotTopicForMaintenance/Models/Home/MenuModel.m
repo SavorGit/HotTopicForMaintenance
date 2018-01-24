@@ -81,7 +81,7 @@
         case MenuModelType_Inspect:
             
             self.title = @"巡检酒楼";
-            self.imageName = @"";
+            self.imageName = @"xunjian";
             
             break;
             
