@@ -13,6 +13,7 @@
 #import "HotTopicTools.h"
 #import "MyInspectModel.h"
 #import "RestaurantRankInforViewController.h"
+#import "UserManager.h"
 
 
 @interface MyInspectViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -88,9 +89,9 @@
 
 - (void)getErrorReportList
 {
-    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取异常报告" inView:self.view];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取巡检信息" inView:self.view];
     
-    [self requestWithID:@"176" success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    [self requestWithID:[UserManager manager].user.userid success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         if ([response objectForKey:@"result"]) {
             NSDictionary * dataDict = [response objectForKey:@"result"];
@@ -143,7 +144,7 @@
 - (void)refreshData
 {
     self.pageNum = 1;
-    [self requestWithID:@"176" success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    [self requestWithID:[UserManager manager].user.userid success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         if ([response objectForKey:@"result"]) {
             NSDictionary * dataDict = [response objectForKey:@"result"];
@@ -197,7 +198,7 @@
 - (void)getMore
 {
     self.pageNum ++;
-    [self requestWithID:@"176" success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    [self requestWithID:[UserManager manager].user.userid success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSDictionary * dataDict = [response objectForKey:@"result"];
         if (dataDict) {
