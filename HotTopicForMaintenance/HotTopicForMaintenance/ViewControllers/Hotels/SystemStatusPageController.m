@@ -32,9 +32,12 @@
 
 - (void)getCityList
 {
+    MBProgressHUD * hud = [MBProgressHUD showTextHUDWithText:@"获取城市列表" inView:self.view];
+    
     GetCityListRequest * request = [[GetCityListRequest alloc] init];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [hud hideAnimated:YES];
         NSArray * result = [response objectForKey:@"result"];
         if ([result isKindOfClass:[NSArray class]]) {
             
@@ -57,6 +60,7 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [hud hideAnimated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
         }else{
@@ -65,6 +69,7 @@
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
+        [hud hideAnimated:YES];
         [MBProgressHUD showTextHUDWithText:@"获取城市列表失败" inView:self.view];
         
     }];

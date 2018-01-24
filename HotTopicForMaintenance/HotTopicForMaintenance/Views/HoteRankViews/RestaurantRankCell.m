@@ -149,6 +149,15 @@
         make.top.mas_equalTo(self.lastUploadTimeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
     }];
+    
+    UIImageView * moreImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [moreImageView setImage:[UIImage imageNamed:@"more"]];
+    [self.contentView addSubview:moreImageView];
+    [moreImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(10);
+        make.right.mas_equalTo(-15);
+        make.width.height.mas_equalTo(13);
+    }];
 }
 
 - (void)configWithModel:(RestaurantRankModel *)model{
