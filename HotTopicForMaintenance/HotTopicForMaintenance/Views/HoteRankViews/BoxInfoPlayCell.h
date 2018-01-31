@@ -10,6 +10,8 @@
 
 @interface BoxInfoPlayCell : UITableViewCell
 
+@property (nonatomic, strong) UILabel * playTitleLabel;
+
 - (void)configWithDict:(NSDictionary *)dict;
 
 - (void)configNoFlagWithDict:(NSDictionary *)dict;
