@@ -253,15 +253,20 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:YES];
-        NSArray * result = [response objectForKey:@"result"];
-        if ([result isKindOfClass:[NSArray class]]) {
-            NSString * proID = [self.dataDict objectForKey:@"pro_period"];
-            NSString * ADID = [self.dataDict objectForKey:@"ads_period"];
-            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result];
-            [list configType:DownLoadListType_PubProgram mediaDate:proID adDate:ADID];
-            [self.navigationController pushViewController:list animated:YES];
-        }else{
-            [MBProgressHUD showTextHUDWithText:@"内容信息为空" inView:self.view];
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            
+            NSString * proID = [result objectForKey:@"menu_num"];
+            NSString * ADID = [result objectForKey:@"ads_menu_num"];
+            
+            NSArray * programList = [result objectForKey:@"program_list"];
+            if ([programList isKindOfClass:[NSArray class]]) {
+                DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:programList];
+                [list configType:DownLoadListType_PubProgram mediaDate:proID adDate:ADID];
+                [self.navigationController pushViewController:list animated:YES];
+            }else{
+                [MBProgressHUD showTextHUDWithText:@"内容信息为空" inView:self.view];
+            }
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
