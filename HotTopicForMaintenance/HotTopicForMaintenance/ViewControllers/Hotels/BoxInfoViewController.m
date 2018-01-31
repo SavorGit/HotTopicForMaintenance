@@ -29,7 +29,7 @@
 
 
 
-@interface BoxInfoViewController ()<UITableViewDelegate, UITableViewDataSource, BoxInfoTableHeaderViewDelegate>
+@interface BoxInfoViewController ()<UITableViewDelegate, UITableViewDataSource, BoxInfoTableHeaderViewDelegate,UITextViewDelegate>
 
 @property (nonatomic, copy) NSString * boxID;
 @property (nonatomic, copy) NSString * hotelID;
@@ -46,13 +46,12 @@
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, strong) UITextView *remarkTextView;
 @property (nonatomic, strong) UILabel *mReasonLab;
-@property (nonatomic, strong) UILabel *mStateLab;
 
 @property (nonatomic, strong) NSMutableArray * dConfigData; //故障数据源
-@property (nonatomic, strong) NSMutableArray * dStateData; //故障数据源
 @property (nonatomic, strong) DamageUploadModel *dUploadModel;
 @property (nonatomic, strong) UIButton * unResolvedBtn;
 @property (nonatomic, strong) UIButton * resolvedBtn;
+@property (nonatomic, strong) UIButton * repairBtn;
 @property (nonatomic, strong) UIButton * submitBtn;
 @property (nonatomic, assign) BOOL isRefreh;
 
@@ -75,13 +74,11 @@
     [super viewDidLoad];
     
     _dConfigData = [[NSMutableArray alloc] init];
-    _dStateData  = [[NSMutableArray alloc] init];
      self.dUploadModel = [[DamageUploadModel alloc] init];
     
     [self setupSubViews];
     [self setupDatas];
     [self demageConfigRequest];
-    [self stateConfigRequest];
 }
 
 - (void)setupSubViews
@@ -339,10 +336,10 @@
             make.height.mas_equalTo(.5 * scale);
         }];
         
-        self.submitBtn = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16 * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"维修" cornerRadius:5 * scale];
-        [self.submitBtn addTarget:self action:@selector(clickRepair) forControlEvents:UIControlEventTouchUpInside];
-        [_bottomView addSubview:self.submitBtn];
-        [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.repairBtn = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16 * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"维修" cornerRadius:5 * scale];
+        [self.repairBtn addTarget:self action:@selector(clickRepair) forControlEvents:UIControlEventTouchUpInside];
+        [_bottomView addSubview:self.repairBtn];
+        [self.repairBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(0);
             make.width.mas_equalTo(225 * scale);
             make.height.mas_equalTo(44 * scale);
@@ -372,14 +369,14 @@
 }
 
 - (void)clickRepair{
-    
+    self.repairBtn.userInteractionEnabled = NO;
     self.dUploadModel.userid = [UserManager manager].user.userid;
     self.dUploadModel.hotel_id = self.hotelID;
     self.dUploadModel.type = @"2";
     self.dUploadModel.box_mac = [self.dataDict objectForKey:@"box_mac"];
     
     [self creatMListView];
-    
+
 }
 
 - (void)demageConfigRequest
@@ -400,24 +397,6 @@
     }];
 }
 
-- (void)stateConfigRequest
-{
-    StateConfigRequest * request = [[StateConfigRequest alloc] init];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        NSArray * resultArray = [response objectForKey:@"result"];
-        
-        for (int i = 0; i < resultArray.count; i ++) {
-            RestaurantRankModel *tmpModel = [[RestaurantRankModel alloc] initWithDictionary:resultArray[i]];
-            tmpModel.reason = tmpModel.name;
-            [self.dStateData addObject:tmpModel];
-        }
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-    }];
-}
-
 #pragma mark -- 上传维护信息
 - (void)damageUploadRequest
 {
@@ -427,6 +406,7 @@
         
         [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
+        self.repairBtn.userInteractionEnabled = YES;
         
         [self dismissViewWithAnimationDuration:.3f];
         self.isRefreh = NO;
@@ -438,6 +418,7 @@
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
+        self.repairBtn.userInteractionEnabled = YES;
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:self.view];
         }else{
@@ -446,12 +427,15 @@
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         [hud hideAnimated:NO];
         self.submitBtn.userInteractionEnabled = YES;
+        self.repairBtn.userInteractionEnabled = YES;
         [MBProgressHUD showTextHUDWithText:@"提交失败" inView:self.view];
     }];
 }
 
 #pragma mark - 弹出维修窗口
 - (void)creatMListView{
+    
+    CGFloat scale = kMainBoundsWidth / 375.f;
     
     self.mListView = [[UIView alloc] init];
     self.mListView.tag = 1888;
@@ -466,8 +450,8 @@
     }];
     
     self.sheetBgView = [[UIImageView alloc] init];
-    float bgVideoHeight = [Helper autoHeightWith:320 + 30];
-    float bgVideoWidth = [Helper autoWidthWith:266];
+    float bgVideoHeight = 330 *scale;
+    float bgVideoWidth = 266 *scale;
     self.self.sheetBgView.frame = CGRectZero;
     self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
     self.sheetBgView.backgroundColor = [UIColor whiteColor];
@@ -490,10 +474,10 @@
     mTitleLab.textAlignment = NSTextAlignmentCenter;
     [self.sheetBgView addSubview:mTitleLab];
     [mTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
+        make.top.mas_equalTo(10 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX);
         make.width.mas_equalTo(bgVideoWidth);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(20 *scale);
     }];
     
     self.unResolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -507,10 +491,10 @@
     [self.unResolvedBtn addTarget:self action:@selector(unResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.unResolvedBtn];
     [self.unResolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10);
+        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( - (10 + 40));
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(40 *scale);
     }];
     
     self.resolvedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -524,10 +508,10 @@
     [self.resolvedBtn addTarget:self action:@selector(ResolveClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.resolvedBtn];
     [self.resolvedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10);
+        make.top.mas_equalTo(mTitleLab.mas_bottom).offset(10 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset( 10 + 40);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(40 *scale);
     }];
     
     self.mReasonLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -543,10 +527,10 @@
     self.mReasonLab.userInteractionEnabled = YES;
     [self.sheetBgView addSubview:self.mReasonLab];
     [self.mReasonLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.unResolvedBtn.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.unResolvedBtn.mas_bottom).offset(10 *scale);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
@@ -565,10 +549,10 @@
     self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self.sheetBgView addSubview:self.remarkTextView];
     [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.mReasonLab.mas_bottom).offset(10 *scale);
         make.left.mas_equalTo(15);
         make.width.mas_equalTo(bgVideoWidth - 30);
-        make.height.mas_equalTo(130);
+        make.height.mas_equalTo(130 *scale);
     }];
     
     self.countLabel = [[UILabel alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 100, CGRectGetMaxY(self.remarkTextView.frame) + 5, 60, 20)];
@@ -583,38 +567,7 @@
         make.top.mas_equalTo(self.remarkTextView.mas_bottom);
         make.right.mas_equalTo(self.remarkTextView.mas_right);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(20);
-    }];
-    
-    UILabel *stateTitle = [[UILabel alloc] initWithFrame:CGRectZero];
-    stateTitle.font = [UIFont systemFontOfSize:14];
-    stateTitle.textColor = [UIColor blackColor];
-    stateTitle.text = @"状态";
-    [self.sheetBgView addSubview:stateTitle];
-    [stateTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.countLabel.mas_bottom).offset(5);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
-    }];
-    
-    self.mStateLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.mStateLab.backgroundColor = [UIColor clearColor];
-    self.mStateLab.font = [UIFont systemFontOfSize:14];
-    self.mStateLab.textColor = [UIColor grayColor];
-    self.mStateLab.layer.borderWidth = .5f;
-    self.mStateLab.layer.cornerRadius = 4.f;
-    self.mStateLab.layer.masksToBounds = YES;
-    self.mStateLab.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    self.mStateLab.text = @" 请选择状态";
-    self.mStateLab.textAlignment = NSTextAlignmentLeft;
-    self.mStateLab.userInteractionEnabled = YES;
-    [self.sheetBgView addSubview:self.mStateLab];
-    [self.mStateLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.countLabel.mas_bottom).offset(5);
-        make.left.mas_equalTo(15 + 40);
-        make.width.mas_equalTo(bgVideoWidth - 70);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(20 *scale);
     }];
     
     UIButton * cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -628,10 +581,10 @@
     [cancelBtn addTarget:self action:@selector(cancelClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mStateLab.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.countLabel.mas_bottom).offset(5 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(- 50);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -645,19 +598,15 @@
     [self.submitBtn addTarget:self action:@selector(submitClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.sheetBgView addSubview:self.submitBtn];
     [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mStateLab.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.countLabel.mas_bottom).offset(5 *scale);
         make.centerX.mas_equalTo(self.sheetBgView.centerX).offset(50);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(30 *scale);
     }];
     
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mReasonClicked)];
     tap.numberOfTapsRequired = 1;
     [self.mReasonLab addGestureRecognizer:tap];
-    
-    UITapGestureRecognizer * stateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mStateClicked)];
-    stateTap.numberOfTapsRequired = 1;
-    [self.mStateLab addGestureRecognizer:stateTap];
     
     UITapGestureRecognizer * mListTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mListClicked)];
     mListTap.numberOfTapsRequired = 1;
@@ -726,6 +675,7 @@
 
 #pragma mark - 点击取消按钮
 - (void)cancelClicked{
+    self.repairBtn.userInteractionEnabled = YES;
     [self cleanDamageModel];
     [self dismissViewWithAnimationDuration:.3f];
 }
@@ -764,32 +714,6 @@
             self.dUploadModel.repair_num_str = @"";
         }
     };
-}
-
-- (void)mStateClicked{
-    
-    FaultListViewController *flVC = [[FaultListViewController alloc] initWithIsFaultList:NO];
-    float version = [UIDevice currentDevice].systemVersion.floatValue;
-    if (version < 8.0) {
-        self.modalPresentationStyle = UIModalPresentationCurrentContext;
-    } else {;
-        flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    }
-    flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.dataSource = self.dStateData;
-    [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(NSArray *backArray,NSString *damageIdString) {
-        NSLog(@"%ld",backArray.count);
-        if (backArray.count > 0) {
-            RestaurantRankModel *tmpModel = backArray[0];
-            self.mStateLab.text = tmpModel.name;
-            self.dUploadModel.boxState = damageIdString;
-        }else{
-            self.mReasonLab.text = @" 请选择状态";
-            self.dUploadModel.boxState = @"";
-        }
-    };
-    
 }
 
 #pragma mark - 点击弹窗页面空白处
