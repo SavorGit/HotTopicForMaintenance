@@ -12,7 +12,6 @@
 @interface BoxInfoPlayCell ()
 
 @property (nonatomic, strong) UILabel * playeTypeLabel;
-@property (nonatomic, strong) UILabel * playTitleLabel;
 @property (nonatomic, strong) UIImageView * playStatusImageView;
 
 @end

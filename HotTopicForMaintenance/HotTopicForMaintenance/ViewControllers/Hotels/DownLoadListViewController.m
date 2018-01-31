@@ -98,7 +98,11 @@
 {
     BoxInfoPlayCell * cell = [tableView dequeueReusableCellWithIdentifier:@"BoxInfoPlayCell" forIndexPath:indexPath];
     
-    [cell configNoFlagWithDict:[self.dataSource objectAtIndex:indexPath.row]];
+    NSDictionary * info = [self.dataSource objectAtIndex:indexPath.row];
+    [cell configNoFlagWithDict:info];
+    if (self.type == DownLoadListType_Media) {
+        cell.playTitleLabel.text = [info objectForKey:@"ads_name"];
+    }
     
     return cell;
 }
