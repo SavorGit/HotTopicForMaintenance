@@ -35,7 +35,7 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     self.deviceNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15 * scale) alignment:NSTextAlignmentLeft];
-    self.deviceNameLabel.text = @"设备";
+    self.deviceNameLabel.text = @"";
     [self.contentView addSubview:self.deviceNameLabel];
     [self.deviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15 * scale);
@@ -109,7 +109,7 @@
 
 - (void)configWithDict:(NSDictionary *)dict
 {
-    self.deviceNameLabel = [dict objectForKey:@"name"];
+    self.deviceNameLabel.text = [dict objectForKey:@"name"];
     self.totalNumberLabel.text = [NSString stringWithFormat:@"总数  %@", GetNoNullString([dict objectForKey:@"box_all_num" ])];;
     self.normalLabel.text = [NSString stringWithFormat:@"正常  %@", GetNoNullString([dict objectForKey:@"box_normal_all_num" ])];
     self.faultLabel.text = [NSString stringWithFormat:@"报损  %@", GetNoNullString([dict objectForKey:@"box_break_all_num" ])];

@@ -283,7 +283,7 @@
 - (void)configWithDict:(NSDictionary *)dict reCheckHandle:(void (^)())handle
 {
     self.handle = handle;
-    self.updateTimeLabel.text = GetNoNullString([dict objectForKey:@"update_time"]);
+    self.updateTimeLabel.text = [NSString stringWithFormat:@"更新时间：%@", GetNoNullString([dict objectForKey:@"update_time"])];
     self.hotelOnlineLabel.text = [NSString stringWithFormat:@"在线  %@", GetNoNullString([dict objectForKey:@"hotel_online"])];
     self.hotelOutlineLabel.text = [NSString stringWithFormat:@"离线  %@", GetNoNullString([dict objectForKey:@"hotel_not_onlie"])];
     self.hotelStatusLabel.text = GetNoNullString([dict objectForKey:@"hotel_10_72_not_onlie"]);
