@@ -47,6 +47,7 @@
 		066278321F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278301F61632E00B2B8E8 /* libUMessage_Sdk_1.5.0.a */; };
 		066278341F61634600B2B8E8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 066278331F61634600B2B8E8 /* UserNotifications.framework */; };
 		066684102004B982005B4CAD /* LookImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0666840F2004B982005B4CAD /* LookImageViewController.m */; };
+		066E5759202157F1004F1F5B /* NewErrorDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E5758202157F1004F1F5B /* NewErrorDetailRequest.m */; };
 		066EA5411F5FCB500054264C /* RepairRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */; };
 		066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5431F5FE45B0054264C /* ErrorReportViewController.m */; };
 		066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA54A1F5FEDDD0054264C /* ErrorReportTableViewCell.m */; };
@@ -267,6 +268,8 @@
 		066278351F61637800B2B8E8 /* HotTopicForMaintenance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotTopicForMaintenance.entitlements; sourceTree = "<group>"; };
 		0666840E2004B982005B4CAD /* LookImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LookImageViewController.h; sourceTree = "<group>"; };
 		0666840F2004B982005B4CAD /* LookImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LookImageViewController.m; sourceTree = "<group>"; };
+		066E5757202157F1004F1F5B /* NewErrorDetailRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewErrorDetailRequest.h; sourceTree = "<group>"; };
+		066E5758202157F1004F1F5B /* NewErrorDetailRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewErrorDetailRequest.m; sourceTree = "<group>"; };
 		066EA53F1F5FCB500054264C /* RepairRecordHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepairRecordHeaderView.h; sourceTree = "<group>"; };
 		066EA5401F5FCB500054264C /* RepairRecordHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepairRecordHeaderView.m; sourceTree = "<group>"; };
 		066EA5421F5FE45B0054264C /* ErrorReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorReportViewController.h; sourceTree = "<group>"; };
@@ -626,6 +629,8 @@
 				962E93EB2016D74900F48C62 /* MySepectRequest.m */,
 				066EA5551F6010DF0054264C /* ErrorDetailRequest.h */,
 				066EA5561F6010DF0054264C /* ErrorDetailRequest.m */,
+				066E5757202157F1004F1F5B /* NewErrorDetailRequest.h */,
+				066E5758202157F1004F1F5B /* NewErrorDetailRequest.m */,
 				06844D031FAC48E700E7A2CD /* HotelGetIPRequest.h */,
 				06844D041FAC48E700E7A2CD /* HotelGetIPRequest.m */,
 				065FDA181FB2EEF600B6DF9C /* GetBindListReuqest.h */,
@@ -1638,6 +1643,7 @@
 				0677AC071FAB168800D494FE /* CityModel.m in Sources */,
 				06B055D51F5D47EC00A9CE68 /* Helper.m in Sources */,
 				969A3C4D1FAAAF7200EB95C9 /* RepairContentTableCell.m in Sources */,
+				066E5759202157F1004F1F5B /* NewErrorDetailRequest.m in Sources */,
 				060490CA200DD5F10052771C /* SystemStatusBoxCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,7 +7,7 @@
 //
 
 #import "ErrorDetailViewController.h"
-#import "ErrorDetailRequest.h"
+#import "NewErrorDetailRequest.h"
 #import "ErrorDetailTableViewCell.h"
 #import "MJRefresh.h"
 #import "HotTopicTools.h"
@@ -23,6 +23,9 @@
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) UITableView * tableView;
 
+@property (nonatomic, assign) NSInteger pageNumber;
+@property (nonatomic, assign) NSInteger pageSize;
+
 @end
 
 @implementation ErrorDetailViewController
@@ -31,6 +34,8 @@
 {
     if (self = [super init]) {
         self.errorID = errorID;
+        self.pageNumber = 1;
+        self.pageSize = 15;
     }
     return self;
 }
@@ -261,19 +266,20 @@
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取异常详情" inView:self.view];
     
     [self extracted:hud];
-    
-    
 }
 
 - (void)requestWithDetailID:(NSString *)detailID success:(BGSuccessCompletionBlock)successCompletionBlock businessFailure:(BGBusinessFailureBlock)businessFailureBlock networkFailure:(BGNetworkFailureBlock)networkFailureBlock
 {
-    ErrorDetailRequest * request = [[ErrorDetailRequest alloc] initWithErrorID:self.errorID detailID:detailID pageSzie:@"15"];
-    [request sendRequestWithSuccess:successCompletionBlock businessFailure:businessFailureBlock networkFailure:networkFailureBlock];
+    NewErrorDetailRequest * request = [[NewErrorDetailRequest alloc] initWithErrorID:self.errorID pageNumber:self.pageNumber pageSize:self.pageSize];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        self.pageNumber++;
+        successCompletionBlock(request, response);
+    } businessFailure:businessFailureBlock networkFailure:networkFailureBlock];
 }
 
 - (void)dealloc
 {
-    [ErrorDetailRequest cancelRequest];
+    [NewErrorDetailRequest cancelRequest];
 }
 
 - (NSMutableArray *)dataSource
