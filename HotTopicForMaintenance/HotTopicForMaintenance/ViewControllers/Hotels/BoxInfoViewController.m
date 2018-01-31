@@ -35,7 +35,6 @@
 @property (nonatomic, copy) NSString * hotelID;
 @property (nonatomic, strong) UIView * bottomView;
 
-@property (nonatomic, strong) BoxInfoTableHeaderView * tableHeaderView;
 @property (nonatomic, strong) UITableView * tableView;
 
 @property (nonatomic, strong) NSDictionary * dataDict;
@@ -83,9 +82,9 @@
 
 - (void)setupSubViews
 {
-    self.tableHeaderView = [[BoxInfoTableHeaderView alloc] initWithFrame:CGRectZero];
-    self.tableHeaderView.delegate = self;
-    self.tableView.tableHeaderView = self.tableHeaderView;
+    BoxInfoTableHeaderView * tableHeaderView = [[BoxInfoTableHeaderView alloc] initWithFrame:CGRectZero];
+    tableHeaderView.delegate = self;
+    self.tableView.tableHeaderView = tableHeaderView;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(setupDatas)];
 }
 
@@ -123,7 +122,10 @@
 
 - (void)reloadBoxData
 {
-    [self.tableHeaderView configWithDict:self.dataDict];
+    BoxInfoTableHeaderView * tableHeaderView = [[BoxInfoTableHeaderView alloc] initWithFrame:CGRectZero];
+    [tableHeaderView configWithDict:self.dataDict];
+    tableHeaderView.delegate = self;
+    self.tableView.tableHeaderView = tableHeaderView;
     [self.tableView reloadData];
 }
 
