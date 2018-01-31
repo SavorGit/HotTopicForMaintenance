@@ -37,13 +37,13 @@
     
     if (type == DownLoadListType_Media) {
         self.navigationItem.title = @"节目下载列表";
-        self.titleText = [NSString stringWithFormat:@"下载节目期号：%@", mediaDate];
+        self.titleText = [NSString stringWithFormat:@"下载节目期号：%@", GetNoNullString(mediaDate)];
     }else if (type == DownLoadListType_ADs) {
         self.navigationItem.title = @"广告下载列表";
-        self.titleText = [NSString stringWithFormat:@"下载广告期号：%@", adDate];
+        self.titleText = [NSString stringWithFormat:@"下载广告期号：%@", GetNoNullString(adDate)];
     }else if (type == DownLoadListType_PubProgram) {
         self.navigationItem.title = @"发布的节目单";
-        self.titleText = [NSString stringWithFormat:@"发布节目期号：%@\n发布广告期号：%@", mediaDate, adDate];
+        self.titleText = [NSString stringWithFormat:@"发布节目期号：%@\n发布广告期号：%@", GetNoNullString(mediaDate), GetNoNullString(adDate)];
     }
 }
 
