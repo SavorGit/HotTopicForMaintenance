@@ -16,6 +16,7 @@
 #import <AliyunOSSiOS/OSSService.h>
 #import <UMMobClick/MobClick.h>
 #import "MBProgressHUD+Custom.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 @implementation HotTopicTools
 
@@ -45,11 +46,9 @@
     
     [UITableView appearance].estimatedSectionHeaderHeight = 0;
     [UITableView appearance].estimatedSectionFooterHeight = 0;
-//    if (@available(iOS 11.0, *)) {
-//        [UIScrollView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-//    } else {
-//        // Fallback on earlier versions
-//    }
+    
+    [[IQKeyboardManager sharedManager] setEnable:YES];
+    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
     
     [self checkUpdate];
 }

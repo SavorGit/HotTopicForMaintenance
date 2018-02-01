@@ -9,4 +9,5 @@ pod 'WMPageController', '~> 2.4.0'
 pod 'CocoaAsyncSocket', '~> 7.6.1'
 pod 'UMengAnalytics-NO-IDFA', '~>4.1.9'
 pod 'AliyunOSSiOS', '~> 2.6.3'
+pod 'IQKeyboardManager', '~> 5.0.7'
 end
