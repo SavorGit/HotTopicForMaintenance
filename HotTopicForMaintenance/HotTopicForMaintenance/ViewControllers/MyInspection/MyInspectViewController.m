@@ -29,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"我的巡检";
+    self.title = @"我的巡检酒楼";
     self.pageNum = 1;
     
     [self getErrorReportList];
@@ -95,6 +95,12 @@
         
         if ([response objectForKey:@"result"]) {
             NSDictionary * dataDict = [response objectForKey:@"result"];
+            if (!isEmptyString(dataDict[@"count"])) {
+                self.title = [NSString stringWithFormat:@"我的巡检酒楼 (%@个)",dataDict[@"count"]];
+            }else{
+                self.title = @"我的巡检酒楼";
+            };
+            
             if ([dataDict objectForKey:@"list"]) {
                 NSArray * array = [dataDict objectForKey:@"list"];
                 if (array && array.count > 0) {
@@ -148,6 +154,12 @@
         
         if ([response objectForKey:@"result"]) {
             NSDictionary * dataDict = [response objectForKey:@"result"];
+            if (!isEmptyString(dataDict[@"count"])) {
+                self.title = [NSString stringWithFormat:@"我的巡检酒楼 (%@个)",dataDict[@"count"]];
+            }else{
+                self.title = @"我的巡检酒楼";
+            };
+            
             if ([dataDict objectForKey:@"list"]) {
                 NSArray * array = [dataDict objectForKey:@"list"];
                 if (array && array.count > 0) {
@@ -203,6 +215,11 @@
         NSDictionary * dataDict = [response objectForKey:@"result"];
         if (dataDict) {
             NSDictionary * dataDict = [response objectForKey:@"result"];
+            if (!isEmptyString(dataDict[@"count"])) {
+                self.title = [NSString stringWithFormat:@"我的巡检酒楼 (%@个)",dataDict[@"count"]];
+            }else{
+                self.title = @"我的巡检酒楼";
+            };
             if ([dataDict objectForKey:@"list"]) {
                 NSArray * array = [dataDict objectForKey:@"list"];
                 if (array && array.count > 0) {
