@@ -273,42 +273,6 @@
     
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    
-    [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:)  name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)keyboardWillShow:(NSNotification *)notification{
-    
-    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    float bottomY = self.view.frame.size.height - (self.remarkTextView.frame.origin.y + self.remarkTextView.frame.size.height);//得到下边框到底部的距离
-    float moveY = bottomY - keyboardFrame.size.height;
-    
-    if (moveY < 0) {
-        [self moveWithDistance:moveY];
-    }
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    //恢复到默认y为0的状态，有时候要考虑导航栏要+64
-    [self moveWithDistance:64];
-}
-
-- (void)moveWithDistance:(CGFloat )distance{
-    
-    CGRect frame = self.view.frame;
-    frame.origin.y = distance ;
-    self.view.frame = frame;
-}
-
 //点击空白处的手势要实现的方法
 -(void)viewTapped:(UITapGestureRecognizer*)tap
 {

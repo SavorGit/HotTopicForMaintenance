@@ -66,15 +66,6 @@
     [self creatSubViews];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:)  name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-   [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)initInfor{
     
     self.segTag = 3;
@@ -715,61 +706,6 @@
 -(void)viewTapped:(UITapGestureRecognizer*)tap
 {
     [self.view endEditing:YES];
-}
-
-- (void)keyboardWillShow:(NSNotification *)notification{
-    
-    if (!isEmptyString(self.cuSTextFieldTagStr)) {
-        
-        CGFloat scale = kMainBoundsWidth / 375.f;
-        // 底部Cell的总高度
-        CGFloat cellTotalHeight = 0;
-        for (int i = 0; i < [self.cuSTextFieldTagStr integerValue] + 1; i ++) {
-            RepairContentModel *tmpModel = self.otherContentArray[i];
-            CGFloat tmpHeight;
-            if (tmpModel.imgHType == 0) {
-                tmpHeight = 50 *3 + 10;
-            }else{
-                tmpHeight = 50 *3 + 10 + 84.5 *scale - 20;
-            }
-            cellTotalHeight = tmpHeight + cellTotalHeight;
-        }
-        
-        CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        CGFloat height = keyboardFrame.origin.y;
-        CGFloat textField_maxY = cellTotalHeight + 50 *6;
-        CGFloat space = - self.tableView.contentOffset.y + textField_maxY;
-        CGFloat transformY = height - space;
-        if (transformY < 0) {
-            CGRect frame = self.view.frame;
-            frame.origin.y = transformY ;
-            self.view.frame = frame;
-        }
-    }else if (self.cuTextView != nil){
-        
-        CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        float bottomY = self.view.frame.size.height - (self.cuTextView.frame.origin.y + self.cuTextView.frame.size.height);//得到下边框到底部的距离
-        float moveY = bottomY - keyboardFrame.size.height;
-        
-        if (moveY < 0) {
-            [self moveWithDistance:moveY];
-        }
-    }
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    //恢复到默认y为0的状态，有时候要考虑导航栏要+64
-    CGRect frame = self.view.frame;
-    frame.origin.y = 64;
-    self.view.frame = frame;
-    self.cuSTextFieldTagStr = @"";
-}
-
-- (void)moveWithDistance:(CGFloat )distance{
-    
-    CGRect frame = self.view.frame;
-    frame.origin.y = distance ;
-    self.view.frame = frame;
 }
 
 - (void)cancelOSSTask
