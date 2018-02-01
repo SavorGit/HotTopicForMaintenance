@@ -82,6 +82,7 @@
     _tableView.delegate = self;
     _tableView.backgroundColor = [UIColor clearColor];
     _tableView.showsVerticalScrollIndicator = NO;
+    _tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
@@ -126,7 +127,7 @@
     self.remarkTextView.scrollEnabled = YES;
     self.remarkTextView.delegate = self;
     self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.remarkTextView];
+    [footView addSubview:self.remarkTextView];
     [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(remarkTitle.mas_bottom).offset(15);
         make.left.mas_equalTo(15);
@@ -223,12 +224,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
-    return 20;
-}
-
 
 #pragma mark - textView代理方法
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
