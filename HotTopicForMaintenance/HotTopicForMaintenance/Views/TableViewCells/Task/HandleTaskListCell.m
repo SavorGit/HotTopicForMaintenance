@@ -151,7 +151,7 @@
     
     self.taskID = taskID;
     self.date = date;
-    self.nameLabel.text = [info objectForKey:@"username"];
+    self.nameLabel.text = GetNoNullString([info objectForKey:@"username"]);
     self.dateLabel.text = [NSString stringWithFormat:@"%@的任务:", date];
     
     CGFloat scale = kMainBoundsWidth / 375.f;
