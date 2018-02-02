@@ -129,6 +129,8 @@
        dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",self.cuTextView.text,@"desc",nil];
     }
     
+    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
+    
     PubTaskRequest * request = [[PubTaskRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -197,8 +199,6 @@
             return;
         }
     }
-    
-    [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
     
     bool haveLeastOne = NO;
     for (NSString *tmpString in upImageArr) {
