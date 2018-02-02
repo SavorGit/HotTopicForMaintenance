@@ -125,7 +125,7 @@
     
     self.remarkLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
     self.remarkLabel.numberOfLines = 0;
-    self.remarkLabel.text = @"备注：";
+    self.remarkLabel.text = @"备注：无";
     [self.baseView addSubview:self.remarkLabel];
     [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userNameLabel.mas_bottom).offset(16.f * scale);
@@ -287,7 +287,7 @@
     }else if ([state isEqualToString:@"2"]) {
         self.stateLabel.text = @"未解决";
     }
-    self.remarkLabel.text = [NSString stringWithFormat:@"备注：%@", remark];
+    self.remarkLabel.text = [NSString stringWithFormat:@"备注：%@", GetNoNullString(remark)];
     self.handleTimeLabel.text = [NSString stringWithFormat:@"操作时间：%@", time];
     
     CGFloat height = [HotTopicTools getHeightByWidth:(kMainBoundsWidth - 54.f) * scale title:self.remarkLabel.text font:self.remarkLabel.font];
