@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) UILabel * descLabel;
 @property (nonatomic, strong) UILabel * photoLabel;
+@property (nonatomic, strong) UILabel * multiPhotoLabel;
 @property (nonatomic, strong) UIImageView * photoImageView;
 
 @property (nonatomic, strong) UILabel * userNameLabel;
@@ -144,14 +145,14 @@
         make.right.mas_equalTo(-12.f * scale);
     }];
     
-    UILabel * photoLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    [self.baseView addSubview:photoLabel];
-    [photoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.multiPhotoLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    [self.baseView addSubview:self.multiPhotoLabel];
+    [self.multiPhotoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.handleTimeLabel.mas_bottom).offset(16.f * scale);
         make.left.mas_equalTo(12.f * scale);
         make.height.mas_equalTo(15.f * scale + 1);
     }];
-    photoLabel.text = @"照片：";
+    self.multiPhotoLabel.text = @"照片：";
     
     self.Photo1 = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.Photo1.tag = 100;
@@ -159,7 +160,7 @@
     self.Photo1.contentMode = UIViewContentModeScaleAspectFill;
     [self.baseView addSubview:self.Photo1];
     [self.Photo1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(photoLabel.mas_right).offset(6.f*scale);
+        make.left.mas_equalTo(self.multiPhotoLabel.mas_right).offset(6.f*scale);
         make.top.mas_equalTo(self.handleTimeLabel.mas_bottom).offset(16.f * scale);
         make.width.mas_equalTo(80.f * scale);
         make.height.mas_equalTo(self.Photo1.mas_width).multipliedBy(17.f/30.f);
@@ -296,9 +297,14 @@
     }];
     
     if ([imageArray isKindOfClass:[NSArray class]]) {
-        for (NSInteger i = 0; i < imageArray.count; i++) {
-            UIImageView * imageView = (UIImageView *)[self.baseView viewWithTag:100+i];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"zanwu"]];
+        if (imageArray.count > 0) {
+            self.multiPhotoLabel.text = @"照片：";
+            for (NSInteger i = 0; i < imageArray.count; i++) {
+                UIImageView * imageView = (UIImageView *)[self.baseView viewWithTag:100+i];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"zanwu"]];
+            }
+        }else{
+            self.multiPhotoLabel.text = @"照片：无";
         }
     }
 }

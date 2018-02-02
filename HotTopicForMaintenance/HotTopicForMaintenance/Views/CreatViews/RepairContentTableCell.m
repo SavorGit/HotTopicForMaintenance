@@ -115,7 +115,7 @@
     self.titlePhotoLabel.font = [UIFont systemFontOfSize:14];
     self.titlePhotoLabel.textColor = UIColorFromRGB(0x434343);
     self.titlePhotoLabel.textAlignment = NSTextAlignmentLeft;
-    self.titlePhotoLabel.text = @"故障照片";
+    self.titlePhotoLabel.text = @"故障照片：无";
     [_bgView addSubview:self.titlePhotoLabel];
     [self.titlePhotoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 20));
@@ -149,7 +149,12 @@
     if (model.imgHType == 1) {
         self.addImgBtn.hidden = YES;
         
-        self.fImageView.image = model.pubImg;
+        if (nil == model.pubImg) {
+            self.titlePhotoLabel.text = @"故障照片：无";
+        }else{
+            self.titlePhotoLabel.text = @"故障照片：";
+            self.fImageView.image = model.pubImg;
+        }
         
         [self.selectBtn setTitle:model.boxName forState:UIControlStateNormal];
         if (isEmptyString(model.boxName)) {
@@ -178,6 +183,7 @@
     }else{
         self.addImgBtn.hidden = NO;
         self.fImageView.image = nil;
+        self.titlePhotoLabel.text = @"故障照片：无";
         
         [self.selectBtn setTitle:model.boxName forState:UIControlStateNormal];
         if (isEmptyString(model.boxName)) {
