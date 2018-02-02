@@ -600,14 +600,26 @@
     
     for (int i = 0; i < 3; i ++) {
         
-        UIImageView *bgImgView  = [[UIImageView alloc] init];
-        bgImgView.userInteractionEnabled = YES;
-        [bgImgView setImage:[UIImage imageNamed:@"zanwu"]];
-        [photoBgView addSubview:bgImgView];
+        UIImageView *bgView  = [[UIImageView alloc] init];
+        bgView.userInteractionEnabled = YES;
+        [bgView setImage:[UIImage imageNamed:@"zanwu"]];
+        [photoBgView addSubview:bgView];
         CGFloat fWidth = (bgVideoWidth - 40 - 30)/3;
-        [bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(mTitleLab.mas_bottom);
             make.left.mas_equalTo(10 + (i *10 + i *fWidth));
+            make.width.mas_equalTo(fWidth);
+            make.height.mas_equalTo(110 - 50);
+        }];
+        
+        UIImageView *bgImgView  = [[UIImageView alloc] init];
+        bgImgView.userInteractionEnabled = YES;
+//        [bgImgView setImage:[UIImage imageNamed:@"zanwu"]];
+        [bgView addSubview:bgImgView];
+//        CGFloat fWidth = (bgVideoWidth - 40 - 30)/3;
+        [bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(0);
+            make.left.mas_equalTo(0);
             make.width.mas_equalTo(fWidth);
             make.height.mas_equalTo(110 - 50);
         }];
@@ -748,6 +760,7 @@
         if ([title isEqualToString:@"删除"]) {
             InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:self.selectImgIndex];
             cell.instaImg.image = nil;
+            [cell.imgBgView setImage:[UIImage imageNamed:@"zanwu"]];
             NSLog(@"点击了删除按钮");
         }
         
@@ -793,6 +806,7 @@
         }else{
             InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:self.selectImgIndex];
             cell.instaImg.image = info[UIImagePickerControllerEditedImage];
+            cell.imgBgView.image = nil;
             //维修类型回显的时候需要用到
             if (self.taskListModel.task_type_id == 2) {
                 RestaurantRankModel *tmpModel = [self.dConfigData objectAtIndex:self.selectImgIndex.row];

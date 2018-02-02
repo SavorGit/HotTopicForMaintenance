@@ -20,6 +20,7 @@
 @property (nonatomic, weak) id <InstallCellDelegate> delegate;
 
 @property (nonatomic, strong) UIImageView *instaImg;
+@property (nonatomic, strong) UIImageView *imgBgView;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;

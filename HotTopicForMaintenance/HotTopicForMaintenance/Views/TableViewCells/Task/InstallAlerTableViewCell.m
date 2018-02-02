@@ -46,15 +46,27 @@
         make.left.mas_equalTo(15);
     }];
     
-    self.instaImg = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.instaImg.contentMode = UIViewContentModeScaleAspectFit;
-    [self.instaImg setBackgroundColor:[UIColor clearColor]];
-    [_bgView addSubview:self.instaImg];
+    self.imgBgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.imgBgView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.imgBgView setImage:[UIImage imageNamed:@"zanwu"]];
+    [self.imgBgView setBackgroundColor:[UIColor clearColor]];
+    [_bgView addSubview:self.imgBgView];
     CGFloat scale = kMainBoundsWidth/375.f;
-    [self.instaImg mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.imgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((bgVideoWidth - 60) *scale, 60 *scale));
         make.top.mas_equalTo(10);
         make.centerX.mas_equalTo(_bgView);
+    }];
+    
+    self.instaImg = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.instaImg.contentMode = UIViewContentModeScaleAspectFit;
+    [self.instaImg setBackgroundColor:[UIColor clearColor]];
+    [self.imgBgView addSubview:self.instaImg];
+//    CGFloat scale = kMainBoundsWidth/375.f;
+    [self.instaImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake((bgVideoWidth - 60) *scale, 60 *scale));
+        make.top.mas_equalTo(0);
+        make.left.mas_equalTo(0);
     }];
     
     self.titlePosionLabel = [[UILabel alloc]init];
@@ -78,12 +90,12 @@
 
     self.titlePosionLabel.text = titleString;
     if (!isEmptyString(model.repair_img)) {
-        [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img] placeholderImage:[UIImage imageNamed:@"zanwu"]];
+        [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img] placeholderImage:[UIImage imageNamed:@""]];
 //        [self.instaImg sd_setImageWithURL:[NSURL URLWithString:model.repair_img]];
     }else{
         [self.instaImg setImage:model.seRepairImg];
         if (model.seRepairImg == nil) {
-            [self.instaImg setImage:[UIImage imageNamed:@"zanwu"]];
+            [self.imgBgView setImage:[UIImage imageNamed:@"zanwu"]];
         }
     }
 }
