@@ -17,7 +17,7 @@
 @property (nonatomic, strong) UILabel * boxMaclabel; //机顶盒MAC地址
 
 @property (nonatomic, strong) UILabel * lastHeartTimeLabel; //最后心跳时间
-@property (nonatomic, strong) UILabel * lastLogUploadTimeLabel; //最后日志上传时间
+//@property (nonatomic, strong) UILabel * lastLogUploadTimeLabel; //最后日志上传时间
 @property (nonatomic, strong) UILabel * repairListLabel; //维修记录
 
 @property (nonatomic, strong) UILabel * currentStatusLabel; //当前状态
@@ -47,7 +47,7 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     self.backgroundColor = [UIColor whiteColor];
     
-    self.frame = CGRectMake(0, 0, kMainBoundsWidth, 435 * scale);
+    self.frame = CGRectMake(0, 0, kMainBoundsWidth, 400 * scale);
     
     self.boxNameLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15 * scale) alignment:NSTextAlignmentLeft];
     self.boxNameLabel.text = @"无";
@@ -106,31 +106,31 @@
         make.height.mas_equalTo(lastHeartTitleLabel);
     }];
     
-    UILabel * lastUploadTitleLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    lastUploadTitleLabel.text = @"最后日志上传时间：";
-    [self addSubview:lastUploadTitleLabel];
-    [lastUploadTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lastHeartTitleLabel.mas_bottom).offset(18 * scale);
-        make.left.mas_equalTo(lastHeartTitleLabel);
-        make.height.mas_equalTo(17 * scale);
-    }];
+//    UILabel * lastUploadTitleLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
+//    lastUploadTitleLabel.text = @"最后日志上传时间：";
+//    [self addSubview:lastUploadTitleLabel];
+//    [lastUploadTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(lastHeartTitleLabel.mas_bottom).offset(18 * scale);
+//        make.left.mas_equalTo(lastHeartTitleLabel);
+//        make.height.mas_equalTo(17 * scale);
+//    }];
     
-    self.lastLogUploadTimeLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.lastLogUploadTimeLabel.text = @"无";
-    [self addSubview:self.lastLogUploadTimeLabel];
-    [self.lastLogUploadTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lastUploadTitleLabel);
-        make.left.mas_equalTo(lastUploadTitleLabel.mas_right);
-        make.height.mas_equalTo(lastUploadTitleLabel);
-    }];
+//    self.lastLogUploadTimeLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
+//    self.lastLogUploadTimeLabel.text = @"无";
+//    [self addSubview:self.lastLogUploadTimeLabel];
+//    [self.lastLogUploadTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(lastUploadTitleLabel);
+//        make.left.mas_equalTo(lastUploadTitleLabel.mas_right);
+//        make.height.mas_equalTo(lastUploadTitleLabel);
+//    }];
     
     UILabel * repairTitleLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
     repairTitleLabel.text = @"维修记录：";
     [self addSubview:repairTitleLabel];
     [repairTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lastUploadTitleLabel.mas_bottom).offset(18 * scale);
+        make.top.mas_equalTo(lastHeartTitleLabel.mas_bottom).offset(18 * scale);
         make.left.mas_equalTo(lastHeartTitleLabel);
-        make.height.mas_equalTo(17 * scale);
+        make.height.mas_equalTo(21 * scale);
     }];
     
     self.repairListLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
@@ -315,7 +315,7 @@
     self.boxNameLabel.text = GetNoNullString([dict objectForKey:@"box_name"]);
     self.boxMaclabel.text = GetNoNullString([dict objectForKey:@"box_mac"]);
     self.lastHeartTimeLabel.text = GetNoNullString([dict objectForKey:@"last_heart_time"]);
-    self.lastLogUploadTimeLabel.text = GetNoNullString([dict objectForKey:@"log_upload_time"]);
+//    self.lastLogUploadTimeLabel.text = GetNoNullString([dict objectForKey:@"log_upload_time"]);
     self.currentStatusLabel.text = GetNoNullString([dict objectForKey:@"loss_hours"]);
     self.mediaStatusLabel.text = GetNoNullString([dict objectForKey:@"pro_period_state"]);
     self.adStatusLabel.text = GetNoNullString([dict objectForKey:@"ads_period_state"]);
@@ -347,7 +347,7 @@
             
         }
     }
-    self.repairListLabel.text = repairText;
+    self.repairListLabel.text = GetNoNullString(repairText);
     
     CGFloat height = [HotTopicTools getHeightByWidth:270 * scale title:self.repairListLabel.text font:self.repairListLabel.font];
     CGRect frame = self.frame;
