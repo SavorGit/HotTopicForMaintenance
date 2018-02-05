@@ -13,8 +13,9 @@
 #import "UserManager.h"
 #import "MBProgressHUD+Custom.h"
 #import "NSArray+json.h"
+#import "RDTextView.h"
 
-@interface inforDetectionViewController ()<UITableViewDelegate,UITableViewDataSource,NetworkTranDelegate,UITextViewDelegate>
+@interface inforDetectionViewController ()<UITableViewDelegate,UITableViewDataSource,NetworkTranDelegate>
 
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) NSArray * titleArray; //表项标题
@@ -22,7 +23,7 @@
 @property (nonatomic, copy)   NSString *currHotelId;
 @property (nonatomic, assign) NSInteger segTag;
 @property (nonatomic, assign) NSInteger taskType;
-@property (nonatomic, strong) UITextView *remarkTextView;
+@property (nonatomic, strong) RDTextView *remarkTextView;
 
 @end
 
@@ -113,10 +114,12 @@
         make.top.mas_equalTo(15);
     }];
     
-    self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-    self.remarkTextView.textColor = UIColorFromRGB(0x999999);
+    self.remarkTextView = [[RDTextView alloc] initWithFrame:CGRectZero];
+    self.remarkTextView.textColor = [UIColor blackColor];
     self.remarkTextView.font = kPingFangRegular(14);
-    self.remarkTextView.text = @" 请输入备注信息，建议到店时间等";
+    self.remarkTextView.placeholderLabel.font = kPingFangRegular(14);
+    self.remarkTextView.maxSize = 200;
+    self.remarkTextView.placeholder = @" 请输入备注信息，建议到店时间等";
     self.remarkTextView.backgroundColor = [UIColor clearColor];
     self.remarkTextView.textAlignment = NSTextAlignmentLeft;
     self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -125,7 +128,6 @@
     self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
     self.remarkTextView.returnKeyType = UIReturnKeyDone;
     self.remarkTextView.scrollEnabled = YES;
-    self.remarkTextView.delegate = self;
     self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [footView addSubview:self.remarkTextView];
     [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -222,49 +224,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-}
-
-#pragma mark - textView代理方法
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-//    self.currentTextView = textView;
-    return YES;
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    if ([textView.text isEqualToString:@" 请输入备注信息，建议到店时间等"]) {
-        self.remarkTextView.textColor = [UIColor grayColor];
-        textView.text = @"";
-    }
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-    }else if (range.location < 100){
-        return  YES;
-    } else if (textView.text.length == 100) {
-        return NO;
-    }
-    return YES;
-}
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-    NSLog(@"%@",textView.text);
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    
-    if ([textView.text isEqualToString:@""]) {
-        self.remarkTextView.text = @" 请输入备注信息，建议到店时间等";
-        self.remarkTextView.textColor = UIColorFromRGB(0x999999);
-    }
-    [textView resignFirstResponder];
     
 }
 

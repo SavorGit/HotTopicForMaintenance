@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RepairContentModel.h"
+#import "RDTextView.h"
 
 @protocol RepairHeaderTableDelegate<NSObject>
 
@@ -25,7 +26,7 @@
 @property (nonatomic, strong) UIButton *hotelBtn;
 @property (nonatomic, strong) UITextField *inPutTextField;
 @property (nonatomic, strong) UILabel *numLabel;
-@property (nonatomic,strong)  UITextView *remarkTextView;
+@property (nonatomic,strong)  RDTextView *remarkTextView;
 
 - (void)configWithContent:(RepairContentModel *)model andPNum:(NSString *)numStr andIdexPath:(NSIndexPath *)index;
 

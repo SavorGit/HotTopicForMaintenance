@@ -21,6 +21,7 @@
 #import "NSArray+json.h"
 #import "HotTopicTools.h"
 #import "Helper.h"
+#import "RDTextView.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -46,7 +47,6 @@
 @property (nonatomic, assign) TaskType taskType;
 @property (nonatomic, assign) NSInteger segTag;
 @property (nonatomic, copy)   NSString *cuSTextFieldTagStr;
-@property (nonatomic, strong)   UITextView *cuTextView;
 
 @end
 
@@ -123,10 +123,11 @@
         posionNumStr = @"";
     }
     
+    RepairHeaderTableCell *tmpCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     if (self.taskType == TaskType_Install){
-        dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",self.cuTextView.text,@"desc",nil];
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",tmpCell.remarkTextView.text,@"desc",nil];
     }else{
-       dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",self.cuTextView.text,@"desc",nil];
+       dic = [NSDictionary dictionaryWithObjectsAndKeys:hotelId,@"hotel_id",segTagStr,@"task_emerge",taskTypeStr,@"task_type",userIdStr,@"publish_user_id",[self.subMitPosionArray toReadableJSONString],@"repair_info",addrStr,@"addr",contractStr,@"contractor",mobileStr,@"mobile",posionNumStr,@"tv_nums",tmpCell.remarkTextView.text,@"desc",nil];
     }
     
     [MBProgressHUD showLoadingHUDWithText:@"正在发布任务" inView:self.navigationController.view];
@@ -447,7 +448,6 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;  
         cell.delegate = self;
-        cell.remarkTextView.delegate = self;
         [cell configWithContent:self.headDataModel andPNum:[NSString stringWithFormat:@"%ld",self.otherContentArray.count]  andIdexPath:indexPath];
         return cell;
     }else {
@@ -646,49 +646,6 @@
 {
     RepairContentModel *tmpModel = self.otherContentArray[textField.tag];
     tmpModel.title = textField.text;
-}
-
-#pragma mark - textView代理方法
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    self.cuTextView = textView;
-    return YES;
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    if ([textView.text isEqualToString:@" 请输入备注信息，建议到店时间等"]) {
-       self.cuTextView.textColor = [UIColor grayColor];
-        textView.text = @"";
-    }
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-    }else if (range.location < 100){
-        return  YES;
-    } else if (textView.text.length == 100) {
-        return NO;
-    }
-    return YES;
-}
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-    NSLog(@"%@",textView.text);
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView{
-
-    if ([textView.text isEqualToString:@""]) {
-        self.cuTextView.text = @" 请输入备注信息，建议到店时间等";
-        self.cuTextView.textColor = UIColorFromRGB(0x999999);
-    }
-    [textView resignFirstResponder];
-    
 }
 
 //点击空白处的手势要实现的方法

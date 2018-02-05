@@ -118,7 +118,7 @@
     self.titlePhotoLabel.text = @"故障照片：无";
     [_bgView addSubview:self.titlePhotoLabel];
     [self.titlePhotoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(60, 20));
+        make.size.mas_equalTo(CGSizeMake(90 , 20));
         make.top.mas_equalTo(self.titleFaultLabel.mas_bottom).offset(30);
         make.left.mas_equalTo(15);
     }];

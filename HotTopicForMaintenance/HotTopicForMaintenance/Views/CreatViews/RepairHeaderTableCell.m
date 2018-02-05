@@ -258,10 +258,12 @@
         make.top.mas_equalTo(countTitleLab.mas_bottom).offset(15 + 15);
     }];
     
-    self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-    self.remarkTextView.textColor = UIColorFromRGB(0x999999);
+    self.remarkTextView = [[RDTextView alloc] initWithFrame:CGRectZero];
+    self.remarkTextView.textColor = [UIColor blackColor];
     self.remarkTextView.font = kPingFangRegular(14);
-    self.remarkTextView.text = @" 请输入备注信息，建议到店时间等";
+    self.remarkTextView.placeholderLabel.font = kPingFangRegular(14);
+    self.remarkTextView.maxSize = 200;
+    self.remarkTextView.placeholder = @" 请输入备注信息，建议到店时间等";
     self.remarkTextView.backgroundColor = [UIColor clearColor];
     self.remarkTextView.textAlignment = NSTextAlignmentLeft;
     self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -270,7 +272,6 @@
     self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
     self.remarkTextView.returnKeyType = UIReturnKeyDone;
     self.remarkTextView.scrollEnabled = YES;
-//    self.remarkTextView.delegate = self;
     self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self addSubview:self.remarkTextView];
     [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
