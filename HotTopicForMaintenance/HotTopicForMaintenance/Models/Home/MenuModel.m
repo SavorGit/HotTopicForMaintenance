@@ -85,6 +85,13 @@
             
             break;
             
+        case MenuModelType_MyHotel:
+            
+            self.title = @"我的酒楼";
+            self.imageName = @"xunjian";
+            
+            break;
+            
         case MenuModelType_Space:
             
             self.title = @"";

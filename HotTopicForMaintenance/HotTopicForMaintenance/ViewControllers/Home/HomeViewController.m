@@ -79,6 +79,7 @@
     MenuModel * bindDeviceModel = [[MenuModel alloc] initWithMenuType:MenuModelType_BindDevice];
     MenuModel * singleModel = [[MenuModel alloc] initWithMenuType:MenuModelType_SingleVersion];
     MenuModel * inspectModel = [[MenuModel alloc] initWithMenuType:MenuModelType_Inspect];
+    MenuModel * myHotelModel = [[MenuModel alloc] initWithMenuType:MenuModelType_MyHotel];
     MenuModel * myTaskModel = [[MenuModel alloc] initWithMenuType:MenuModelType_MyTask];
     
     self.badgeCell = nil;
@@ -87,7 +88,7 @@
         case UserRoleType_CreateTask:
             
         {
-            [self.dataSource addObjectsFromArray:@[createModel, tasklistModel, systemModel, reportModel, repairModel]];
+            [self.dataSource addObjectsFromArray:@[createModel, tasklistModel, systemModel, reportModel, repairModel, myHotelModel]];
         }
             
             break;

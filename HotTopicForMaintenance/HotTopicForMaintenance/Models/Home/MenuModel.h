@@ -18,6 +18,7 @@ typedef enum : NSUInteger {
     MenuModelType_BindDevice,
     MenuModelType_SingleVersion,
     MenuModelType_Inspect,
+    MenuModelType_MyHotel,
     MenuModelType_Space
 } MenuModelType;
 
