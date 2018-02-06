@@ -186,11 +186,20 @@
         make.height.mas_equalTo(17 * scale);
     }];
     
+    UIImageView * bListImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [bListImageView setImage:[UIImage imageNamed:@"lixian"]];
+    [headView addSubview:bListImageView];
+    [bListImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(92 * scale);
+        make.top.mas_equalTo(boxLabel.mas_bottom).offset(10 + 3);
+        make.width.height.mas_equalTo(11 * scale);
+    }];
+    
     self.boxBListLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangMedium(15 * scale) alignment:NSTextAlignmentLeft];
     self.boxBListLabel.text = [NSString stringWithFormat:@"黑名单 %@", GetNoNullString([self.headDic objectForKey:@"black_box_num"])];
     [headView addSubview:self.boxBListLabel];
     [self.boxBListLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(92 * scale);
+        make.left.mas_equalTo(bListImageView.mas_right).offset(5);
         make.top.mas_equalTo(boxLabel.mas_bottom).offset(10);
         make.height.mas_equalTo(17 * scale);
     }];

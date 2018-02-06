@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UILabel *mRecordLabel;
 @property (nonatomic, strong) UILabel *mReContentLabel;
 @property (nonatomic, strong) UIImageView *dotImageView;
+@property (nonatomic, strong) UIImageView *bListImgView;
 
 @property (nonatomic, strong) RestaurantRankModel *restRankModel;
 
@@ -86,6 +87,18 @@
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30 - 30)/3 - 5, 20));
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(self.macLabel.mas_right);
+    }];
+    
+    self.bListImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.bListImgView.backgroundColor = [UIColor grayColor];
+    self.bListImgView.contentMode = UIViewContentModeScaleAspectFit;
+    self.bListImgView.layer.cornerRadius = 20/2.0;
+    self.bListImgView.layer.masksToBounds = YES;
+    [_bgView addSubview:self.bListImgView];
+    [self.bListImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(20, 20));
+        make.top.mas_equalTo(15);
+        make.right.mas_equalTo(self.bgView.mas_right).offset(- 28);
     }];
     
     self.dotImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
