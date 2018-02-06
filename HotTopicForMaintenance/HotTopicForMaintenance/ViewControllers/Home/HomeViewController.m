@@ -19,6 +19,7 @@
 #import "SearchHotelViewController.h"
 #import "ErrorReportViewController.h"
 #import "MyInspectViewController.h"
+#import "MyHotelViewController.h"
 #import "ErrorDetailViewController.h"
 #import "TaskChooseTypeController.h"
 #import "TaskPageViewController.h"
@@ -416,6 +417,13 @@
         case MenuModelType_Inspect:
         {
             MyInspectViewController * vc = [[MyInspectViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case MenuModelType_MyHotel:
+        {
+            MyHotelViewController * vc = [[MyHotelViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
