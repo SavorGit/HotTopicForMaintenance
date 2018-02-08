@@ -187,10 +187,10 @@
     }else{
         self.dotImageView.backgroundColor = [UIColor greenColor];
     }
-    if (model.blstate == 0) {
+    if (model.blstate == 1) {
         self.bListImgView.backgroundColor = [UIColor blackColor];
     }else{
-        self.bListImgView.backgroundColor = [UIColor greenColor];
+        self.bListImgView.backgroundColor = [UIColor clearColor];
     }
     
     if (model.recordList.count > 0) {
