@@ -32,6 +32,7 @@
 #import "SearchHotelViewController.h"
 #import "SingleVRankInforViewController.h"
 #import "SingleInfoController.h"
+#import "TaskDetailViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -67,6 +68,7 @@
         [self presentViewController:login animated:YES completion:^{
             
         }];
+        return;
     }else{
         [self cheakUserNotification];
     }
@@ -460,9 +462,18 @@
 - (void)cheakUserNotification
 {
     if ([UserManager manager].notificationModel) {
-        if (self.navigationController.topViewController == self) {
+        if ([UserManager manager].notificationModel.type == RDRemoteNotificationType_Error) {
             NSString * errorID = [UserManager manager].notificationModel.error_id;
             ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
+            [self.navigationController pushViewController:detail animated:YES];
+            [UserManager manager].notificationModel = nil;
+        }else if ([UserManager manager].notificationModel.type == RDRemoteNotificationType_Task) {
+            NSString * taskID = [UserManager manager].notificationModel.task_id;
+            
+            TaskModel * taskModel = [[TaskModel alloc] init];
+            taskModel.cid = taskID;
+            
+            TaskDetailViewController * detail = [[TaskDetailViewController alloc] initWithTaskModel:taskModel];
             [self.navigationController pushViewController:detail animated:YES];
             [UserManager manager].notificationModel = nil;
         }

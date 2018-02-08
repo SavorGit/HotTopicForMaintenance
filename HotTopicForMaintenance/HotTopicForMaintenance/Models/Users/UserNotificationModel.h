@@ -6,10 +6,18 @@
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "Jastor.h"
+#import <Foundation/Foundation.h>
 
-@interface UserNotificationModel : Jastor
+typedef enum : NSUInteger {
+    RDRemoteNotificationType_Error,
+    RDRemoteNotificationType_Task
+} RDRemoteNotificationType;
+
+@interface UserNotificationModel : NSObject
+
+@property (nonatomic, assign) RDRemoteNotificationType type;
 
 @property (nonatomic, copy) NSString * error_id;
+@property (nonatomic, copy) NSString * task_id;
 
 @end

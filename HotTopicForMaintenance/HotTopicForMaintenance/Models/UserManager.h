@@ -31,4 +31,6 @@ extern NSString * const RDTaskStatusDidChangeNotification; //用户任务状态�
 
 @property (nonatomic, copy) NSString * locationName;
 
+@property (nonatomic, copy) NSString * deviceToken;
+
 @end
