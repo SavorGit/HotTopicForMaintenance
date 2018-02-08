@@ -88,7 +88,7 @@
         case MenuModelType_MyHotel:
             
             self.title = @"我的酒楼";
-            self.imageName = @"xunjian";
+            self.imageName = @"hotel";
             
             break;
             

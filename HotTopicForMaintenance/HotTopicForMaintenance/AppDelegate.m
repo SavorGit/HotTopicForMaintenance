@@ -16,6 +16,7 @@
 
 #import "UserLoginViewController.h"
 #import "ErrorDetailViewController.h"
+#import "TaskDetailViewController.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -161,6 +162,8 @@
                          stringByReplacingOccurrencesOfString: @">" withString: @""]
                         stringByReplacingOccurrencesOfString: @" " withString: @""];
     
+    [UserManager manager].deviceToken = token;
+    
     NSLog(@"%@",token);
 }
 
@@ -190,7 +193,7 @@
 }
 
 //iOS10新增：处理后台点击通知的代理方法
--(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
 {
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     
@@ -207,6 +210,7 @@
 
 - (void)didReceiveNotificationWithInfo:(NSDictionary *)userInfo
 {
+    NSInteger type = [[userInfo objectForKey:@"type"] integerValue];
     NSString * jsonStr = [userInfo objectForKey:@"params"];
     
     if (isEmptyString(jsonStr)) {
@@ -215,42 +219,47 @@
     
     NSDictionary * data = [NSJSONSerialization JSONObjectWithData:[jsonStr dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
     
-    if ([data isKindOfClass:[NSDictionary class]] && data.count > 0) {
+    if ([data isKindOfClass:[NSDictionary class]]) {
         
-        UserNotificationModel * model = [[UserNotificationModel alloc] initWithDictionary:data];
+    }
+    
+    UserNotificationModel * model = [[UserNotificationModel alloc] init];
+    
+    BaseNavigationController * na = (BaseNavigationController *)self.window.rootViewController;
+    
+    if (type == 1) {
         
-        if (!isEmptyString(model.error_id)) {
+        model.type = RDRemoteNotificationType_Error;
+        NSString * error_id = [data objectForKey:@"error_id"];
+        if (!isEmptyString(error_id)) {
+            model.error_id = error_id;
+        }
+        
+        if ([UserManager manager].isUserLoginStatusEnable) {
+            NSString * errorID = model.error_id;
+            ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
+            [na pushViewController:detail animated:YES];
+        }else{
+            [UserManager manager].notificationModel = model;
+        }
+        
+    }else if (type == 2) {
+        
+        model.type = RDRemoteNotificationType_Task;
+        NSString * task_id = [data objectForKey:@"task_id"];
+        if (!isEmptyString(task_id)) {
+            model.task_id = task_id;
+        }
+        if ([UserManager manager].isUserLoginStatusEnable) {
+            NSString * taskID = model.task_id;
             
-            BaseNavigationController * na = (BaseNavigationController *)self.window.rootViewController;
+            TaskModel * taskModel = [[TaskModel alloc] init];
+            taskModel.cid = taskID;
             
-            if (na) {
-                
-                if ([na.topViewController isKindOfClass:[UserLoginViewController class]]) {
-                    [UserManager manager].notificationModel = model;
-                }else{
-                    NSString * errorID = model.error_id;
-                    ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
-                    [na pushViewController:detail animated:YES];
-                }
-                
-            }else{
-                
-                MBProgressHUD * hud = [MBProgressHUD showTextHUDWithText:@"正在加载" inView:self.window];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    [hud hideAnimated:YES];
-                    
-                    if ([na.topViewController isKindOfClass:[UserLoginViewController class]]) {
-                        [UserManager manager].notificationModel = model;
-                    }else{
-                        NSString * errorID = model.error_id;
-                        ErrorDetailViewController * detail = [[ErrorDetailViewController alloc] initWithErrorID:errorID];
-                        [na pushViewController:detail animated:YES];
-                    }
-                    
-                });
-            }
-            
+            TaskDetailViewController * detail = [[TaskDetailViewController alloc] initWithTaskModel:taskModel];
+            [na pushViewController:detail animated:YES];
+        }else{
+            [UserManager manager].notificationModel = model;
         }
         
     }
