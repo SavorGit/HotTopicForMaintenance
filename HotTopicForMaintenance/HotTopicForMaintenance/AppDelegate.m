@@ -45,28 +45,32 @@
     
     [self.window makeKeyAndVisible];
     
-    [self configLocation];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configLocation) name:RDUserLoginStatusDidChange object:nil];
     
     return YES;
 }
 
 - (void)configLocation
 {
-    if ([CLLocationManager locationServicesEnabled]) {
-        self.locationManager = [[CLLocationManager alloc] init];
-        self.locationManager.delegate = self;
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-        self.locationManager.distanceFilter = 100;
-        CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-        if (status == kCLAuthorizationStatusNotDetermined) {
-            [self.locationManager requestWhenInUseAuthorization];
-        }else if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted){
-            NSLog(@"未打开定位权限");
-        }else{
-            [self getLocationInfo];
+    if ([UserManager manager].isUserLoginStatusEnable) {
+        if ([UserManager manager].user.roletype == UserRoleType_SingleVersion) {
+            if ([CLLocationManager locationServicesEnabled]) {
+                self.locationManager = [[CLLocationManager alloc] init];
+                self.locationManager.delegate = self;
+                self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+                self.locationManager.distanceFilter = 100;
+                CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+                if (status == kCLAuthorizationStatusNotDetermined) {
+                    [self.locationManager requestWhenInUseAuthorization];
+                }else if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted){
+                    NSLog(@"未打开定位权限");
+                }else{
+                    [self getLocationInfo];
+                }
+            }else{
+                NSLog(@"系统定位被关闭");
+            }
         }
-    }else{
-        NSLog(@"系统定位被关闭");
     }
 }
 
