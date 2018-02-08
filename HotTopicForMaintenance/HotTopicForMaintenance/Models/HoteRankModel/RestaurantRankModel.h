@@ -35,6 +35,7 @@
 @property(nonatomic, copy) NSString *mac;
 @property(nonatomic, copy) NSString *rname;
 @property(nonatomic, assign) NSInteger ustate;
+@property(nonatomic, assign) NSInteger blstate;
 @property(nonatomic, copy) NSString *last_nginx;
 //酒楼版位信息(version)
 @property(nonatomic, assign) NSInteger lstate;

@@ -35,6 +35,7 @@
 @property (nonatomic, strong) UILabel *boxErrLabel;
 @property (nonatomic, strong) UILabel *boxBListLabel;
 @property (nonatomic, strong) UIButton *nameButton;
+@property (nonatomic, strong) NSString *publishIdStr;
 
 @end
 
@@ -46,12 +47,15 @@
     self.title = @"我的酒楼";
     self.pageNum = 1;
     [self initInfor];
-    [self getErrorReportList];
+    [self getMyHotelList];
     [self pubInforRequest];
 
 }
 
 -(void)initInfor{
+    
+    self.publishIdStr = [[NSString alloc] init];
+    self.publishIdStr = @"147";
     
     self.nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.nameButton setFrame:CGRectMake(0, 0, 150, 30)];
@@ -79,6 +83,8 @@
                 self.nameButton.titleLabel.font = kPingFangMedium(12);
             }
             [self.nameButton setTitle:model.remark forState:UIControlStateNormal];
+            self.publishIdStr = model.publish_user_id;
+            [self getMyHotelList];
         };
         BaseNavigationController * na = [[BaseNavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:na animated:YES completion:^{
@@ -187,7 +193,7 @@
     }];
     
     UIImageView * bListImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [bListImageView setImage:[UIImage imageNamed:@"lixian"]];
+    [bListImageView setImage:[UIImage imageNamed:@"hmd"]];
     [headView addSubview:bListImageView];
     [bListImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(92 * scale);
@@ -300,7 +306,7 @@
 
 - (void)pubInforRequest
 {
-    PublisherInforRequest * request = [[PublisherInforRequest alloc] initWithId:@"147"];
+    PublisherInforRequest * request = [[PublisherInforRequest alloc] initWithId:[UserManager manager].user.userid];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [self.pubInforArray removeAllObjects];
@@ -326,11 +332,11 @@
     }];
 }
 
-- (void)getErrorReportList
+- (void)getMyHotelList
 {
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取酒楼信息" inView:self.view];
     
-    [self requestWithID:@"147" success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    [self requestWithID:self.publishIdStr success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         if ([response objectForKey:@"result"]) {
             
@@ -343,6 +349,7 @@
                 
                 [self.dataSource removeAllObjects];
                 NSString *count = [dataDict objectForKey:@"count"];
+                
                 for (NSInteger i = 0; i < hotelArray.count; i++) {
                     NSDictionary * dict = [hotelArray objectAtIndex:i];
                     MyInspectModel * model = [[MyInspectModel alloc] initWithDictionary:dict];
@@ -386,7 +393,7 @@
 - (void)refreshData
 {
     self.pageNum = 1;
-    [self requestWithID:[UserManager manager].user.userid success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    [self requestWithID:self.publishIdStr success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         if ([response objectForKey:@"result"]) {
             
@@ -442,7 +449,7 @@
 - (void)getMore
 {
     self.pageNum ++;
-    [self requestWithID:[UserManager manager].user.userid success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    [self requestWithID:self.publishIdStr success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSDictionary * dataDict = [response objectForKey:@"result"];
         if (dataDict) {
