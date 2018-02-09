@@ -55,7 +55,7 @@
 -(void)initInfor{
     
     self.publishIdStr = [[NSString alloc] init];
-    self.publishIdStr = [UserManager manager].user.userid;
+    self.publishIdStr = @"147";
     
     self.nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.nameButton setFrame:CGRectMake(0, 0, 150, 30)];
@@ -138,7 +138,7 @@
     }];
     
     UIView *flineView = [[UIView alloc] initWithFrame:CGRectZero];
-    flineView.backgroundColor = UIColorFromRGB(0xe0dad2);
+    flineView.backgroundColor = [UIColor colorWithRed:245.f/255.f green:245.f/255.f blue:245.f/255.f alpha:1.0f];
     [headView addSubview:flineView];
     [flineView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.numberLabel.mas_bottom).offset(10);
@@ -211,7 +211,7 @@
     }];
     
     UIView *slineView = [[UIView alloc] initWithFrame:CGRectZero];
-    slineView.backgroundColor = UIColorFromRGB(0xe0dad2);
+    slineView.backgroundColor = [UIColor colorWithRed:245.f/255.f green:245.f/255.f blue:245.f/255.f alpha:1.0f];
     [headView addSubview:slineView];
     [slineView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.boxBListLabel.mas_bottom).offset(10);
@@ -231,7 +231,7 @@
     }];
     
     UIView *tlineView = [[UIView alloc] initWithFrame:CGRectZero];
-    tlineView.backgroundColor = UIColorFromRGB(0xe0dad2);
+    tlineView.backgroundColor = [UIColor colorWithRed:245.f/255.f green:245.f/255.f blue:245.f/255.f alpha:1.0f];
     [headView addSubview:tlineView];
     [tlineView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(explainLabel.mas_bottom).offset(10);
@@ -413,7 +413,7 @@
                     [self.dataSource addObject:model];
                 }
                 
-                [self createTableView];
+                [self.tableView reloadData];
                 [self configHeaderData];
                 
                 BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];

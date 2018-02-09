@@ -30,7 +30,7 @@
     self.hotelLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.hotelLabel.textColor = UIColorFromRGB(0x333333);
     self.hotelLabel.textAlignment = NSTextAlignmentLeft;
-    self.hotelLabel.font = kPingFangMedium(14);
+    self.hotelLabel.font = kPingFangMedium(16);
     [self.contentView addSubview:self.hotelLabel];
     [self.hotelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
@@ -58,7 +58,7 @@
     [self.contentView addSubview:moreImageView];
     [moreImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(12, 12));
-        make.centerY.mas_equalTo(0);
+        make.top.mas_equalTo(10 + 5);
         make.right.mas_equalTo(- 15);
     }];
     
