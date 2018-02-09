@@ -55,7 +55,7 @@
 -(void)initInfor{
     
     self.publishIdStr = [[NSString alloc] init];
-    self.publishIdStr = @"147";
+    self.publishIdStr = [UserManager manager].user.userid;
     
     self.nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.nameButton setFrame:CGRectMake(0, 0, 150, 30)];
