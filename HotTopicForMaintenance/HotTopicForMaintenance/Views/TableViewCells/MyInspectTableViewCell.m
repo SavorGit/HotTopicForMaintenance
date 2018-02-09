@@ -48,7 +48,7 @@
     [self.InfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.hotelLabel.mas_bottom).mas_equalTo(5);
         make.left.mas_equalTo(10);
-        make.bottom.mas_equalTo(-5);
+        make.bottom.mas_equalTo(- 10);
         make.right.mas_equalTo(-40);
     }];
     
