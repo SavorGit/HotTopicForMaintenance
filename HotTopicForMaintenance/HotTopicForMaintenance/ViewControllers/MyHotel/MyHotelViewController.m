@@ -55,13 +55,13 @@
 -(void)initInfor{
     
     self.publishIdStr = [[NSString alloc] init];
-    self.publishIdStr = @"147";
+    self.publishIdStr =[UserManager manager].user.userid;
     
     self.nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.nameButton setFrame:CGRectMake(0, 0, 150, 30)];
     [self.nameButton setTitleColor:kNavTitleColor forState:UIControlStateNormal];
     self.nameButton.titleLabel.font = kPingFangMedium(16);
-    [self.nameButton setTitle:[UserManager manager].user.username forState:UIControlStateNormal];
+    [self.nameButton setTitle:[UserManager manager].user.nickname forState:UIControlStateNormal];
     [self.nameButton setImage:[UIImage imageNamed:@"ywsy_csxl"] forState:UIControlStateNormal];
     [self.nameButton setAdjustsImageWhenHighlighted:NO];
     self.nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
