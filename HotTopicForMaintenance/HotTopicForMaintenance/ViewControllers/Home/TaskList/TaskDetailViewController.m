@@ -1155,11 +1155,12 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                 upCount++;
-                NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
-                hud.label.text = currentTitle;
                 if (upCount == upImageArr.count) {
                     [hud hideAnimated:YES];
                     [self subMitDataRequest];
+                }else{
+                    NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
+                    hud.label.text = currentTitle;
                 }
                 });
                 
@@ -1193,12 +1194,13 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     upCount++;
-                    NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
-                    hud.label.text = currentTitle;
                     if (upCount == upImageArr.count) {
                         [MBProgressHUD hideHUDForView:self.view animated:NO];
                         [self.subMitPosionArray addObjectsFromArray:self.subExictUrlArray];
                         [self subMitDataRequest];
+                    }else{
+                        NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
+                        hud.label.text = currentTitle;
                     }
                 });
                 
@@ -1329,11 +1331,12 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 upCount++;
-                NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
-                hud.label.text = currentTitle;
                 if (upCount == upImageArr.count) {
                     [hud hideAnimated:YES];
                     [self subMitDataRequest];
+                }else{
+                    NSString * currentTitle = [NSString stringWithFormat:@"正在上传图片(%d/%ld)", upCount + 1, upImageArr.count];
+                    hud.label.text = currentTitle;
                 }
             });
             
