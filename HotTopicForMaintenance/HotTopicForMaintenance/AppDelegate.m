@@ -34,6 +34,12 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
+    if ([UIScreen mainScreen].bounds.size.height == 812.f || [UIScreen mainScreen].bounds.size.width == 812.f) {
+        [UserManager manager].isIphoneX = YES;
+    }else{
+        [UserManager manager].isIphoneX = NO;
+    }
+    
     [HotTopicTools configApplication];
     
     HomeViewController * home = [[HomeViewController alloc] init];

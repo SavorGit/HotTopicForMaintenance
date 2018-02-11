@@ -98,7 +98,7 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 190)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 190 * scale)];
     headView.backgroundColor = [UIColor clearColor];
     UIImageView  *logoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [logoImageView setImage:[UIImage imageNamed:@"jiulou"]];
@@ -141,10 +141,10 @@
     flineView.backgroundColor = [UIColor colorWithRed:245.f/255.f green:245.f/255.f blue:245.f/255.f alpha:1.0f];
     [headView addSubview:flineView];
     [flineView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.numberLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.numberLabel.mas_bottom).offset(10 * scale);
         make.left.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(1 * scale);
     }];
     
     UILabel *boxLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:[UIColor blackColor] font:kPingFangMedium(16 * scale) alignment:NSTextAlignmentLeft];
@@ -152,7 +152,7 @@
     [headView addSubview:boxLabel];
     [boxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(logoImageView);
-        make.top.mas_equalTo(flineView.mas_bottom).offset(10);
+        make.top.mas_equalTo(flineView.mas_bottom).offset(10 * scale);
         make.height.mas_equalTo(19 * scale);
     }];
     
@@ -161,7 +161,7 @@
     [headView addSubview:normalImageView];
     [normalImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(92 * scale);
-        make.top.mas_equalTo(flineView.mas_bottom).offset(10 + 3);
+        make.top.mas_equalTo(flineView.mas_bottom).offset((10 + 3) * scale);
         make.width.height.mas_equalTo(11 * scale);
     }];
     
@@ -170,7 +170,7 @@
     [headView addSubview:self.boxOnLineLabel];
     [self.boxOnLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(normalImageView.mas_right).offset(5);
-        make.top.mas_equalTo(flineView.mas_bottom).offset(10);
+        make.top.mas_equalTo(flineView.mas_bottom).offset(10 * scale);
         make.height.mas_equalTo(17 * scale);
     }];
     
@@ -179,7 +179,7 @@
     [headView addSubview:faultImageView];
     [faultImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.boxOnLineLabel.mas_right).offset(50 * scale);
-        make.top.mas_equalTo(flineView.mas_bottom).offset(10 + 3);
+        make.top.mas_equalTo(flineView.mas_bottom).offset((10 + 3) * scale);
         make.width.height.mas_equalTo(11 * scale);
     }];
     
@@ -188,7 +188,7 @@
     [headView addSubview:self.boxErrLabel];
     [self.boxErrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(faultImageView.mas_right).offset(5);
-        make.top.mas_equalTo(flineView.mas_bottom).offset(10);
+        make.top.mas_equalTo(flineView.mas_bottom).offset(10 * scale);
         make.height.mas_equalTo(17 * scale);
     }];
     
@@ -197,7 +197,7 @@
     [headView addSubview:bListImageView];
     [bListImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(92 * scale);
-        make.top.mas_equalTo(boxLabel.mas_bottom).offset(10 + 3);
+        make.top.mas_equalTo(boxLabel.mas_bottom).offset((10 + 3) * scale);
         make.width.height.mas_equalTo(11 * scale);
     }];
     
@@ -206,7 +206,7 @@
     [headView addSubview:self.boxBListLabel];
     [self.boxBListLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(bListImageView.mas_right).offset(5);
-        make.top.mas_equalTo(boxLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(boxLabel.mas_bottom).offset(10 * scale);
         make.height.mas_equalTo(17 * scale);
     }];
     
@@ -214,10 +214,10 @@
     slineView.backgroundColor = [UIColor colorWithRed:245.f/255.f green:245.f/255.f blue:245.f/255.f alpha:1.0f];
     [headView addSubview:slineView];
     [slineView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.boxBListLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.boxBListLabel.mas_bottom).offset(10 * scale);
         make.left.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(1 * scale);
     }];
     
     UILabel *explainLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:[UIColor darkGrayColor] font: kPingFangLight(12 * scale) alignment:NSTextAlignmentLeft];
@@ -226,7 +226,7 @@
     [headView addSubview:explainLabel];
     [explainLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(logoImageView);
-        make.top.mas_equalTo(slineView.mas_bottom).offset(10);
+        make.top.mas_equalTo(slineView.mas_bottom).offset(10 * scale);
         make.height.mas_equalTo(35 * scale);
     }];
     
@@ -234,10 +234,10 @@
     tlineView.backgroundColor = [UIColor colorWithRed:245.f/255.f green:245.f/255.f blue:245.f/255.f alpha:1.0f];
     [headView addSubview:tlineView];
     [tlineView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(explainLabel.mas_bottom).offset(12);
+        make.top.mas_equalTo(explainLabel.mas_bottom).offset(12 * scale);
         make.left.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth);
-        make.height.mas_equalTo(10);
+        make.height.mas_equalTo(10 * scale);
     }];
     
     self.tableView.tableHeaderView = headView;

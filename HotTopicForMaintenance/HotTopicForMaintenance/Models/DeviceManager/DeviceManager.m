@@ -141,7 +141,6 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data
       fromAddress:(NSData *)address
 withFilterContext:(nullable id)filterContext{
-    
     [self getInfoWithMulticastData:data];
 }
 

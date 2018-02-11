@@ -33,4 +33,6 @@ extern NSString * const RDTaskStatusDidChangeNotification; //用户任务状态�
 
 @property (nonatomic, copy) NSString * deviceToken;
 
+@property (nonatomic, assign) BOOL isIphoneX;
+
 @end

@@ -9,6 +9,7 @@
 #import "InstallProAlertView.h"
 #import "InstallAlerTableViewCell.h"
 #import "Helper.h"
+#import "UserManager.h"
 
 @interface InstallProAlertView ()<UITableViewDelegate, UITableViewDataSource,InstallCellDelegate>
 
@@ -36,7 +37,12 @@
 - (void)creatSubViews{
     
     self.sheetBgView = [[UIImageView alloc] init];
-    float bgVideoHeight = [Helper autoHeightWith:kMainBoundsHeight - 64 - 100];
+    float bgVideoHeight = 0.f;
+    if ([UserManager manager].isIphoneX == YES) {
+        bgVideoHeight = [Helper autoHeightWith:kMainBoundsHeight - kStatusBarHeight - kNaviBarHeight - 50 - 170];
+    }else{
+        bgVideoHeight = [Helper autoHeightWith:kMainBoundsHeight - 64 - 100];
+    }
     float bgVideoWidth = [Helper autoWidthWith:266];
     self.self.sheetBgView.frame = CGRectZero;
     self.sheetBgView.image = [UIImage imageNamed:@"wj_kong"];
