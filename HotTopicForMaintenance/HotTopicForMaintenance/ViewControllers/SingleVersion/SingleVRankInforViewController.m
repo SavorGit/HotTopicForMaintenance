@@ -173,7 +173,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 CGFloat progress = (CGFloat)totalBytesSent / (CGFloat)totalBytesExpectedToSend;
-                NSString * currentTitle = [NSString stringWithFormat:@"上传图片%%%.2f", progress * 100];
+                NSString * currentTitle = [NSString stringWithFormat:@"上传图片%.2f%%", progress * 100];
                 hud.label.text = currentTitle;
             });
             
