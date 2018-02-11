@@ -410,14 +410,26 @@
     self.positionInforLab.backgroundColor = [UIColor clearColor];
     self.positionInforLab.font = [UIFont boldSystemFontOfSize:16];
     self.positionInforLab.textColor = [UIColor blackColor];
+    self.positionInforLab.numberOfLines = 0;
     self.positionInforLab.text = [NSString stringWithFormat:@"%@",self.lastSmallModel.banwei];
     [headView addSubview:self.positionInforLab];
-    [self.positionInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lineView.mas_bottom).offset(10);
-        make.left.mas_equalTo(15);
-        make.width.mas_equalTo(kMainBoundsWidth - 15);
-        make.height.mas_equalTo(20);
-    }];
+    float pInforHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 15 title:self.lastSmallModel.banwei font:[UIFont boldSystemFontOfSize:16]];
+    if (pInforHeight > 20) {
+        [self.positionInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(lineView.mas_bottom).offset(10);
+            make.left.mas_equalTo(15);
+            make.width.mas_equalTo(kMainBoundsWidth - 15);
+            make.height.mas_equalTo(40);
+        }];
+        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, headView.frame.size.height + 20) ;
+    }else{
+        [self.positionInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(lineView.mas_bottom).offset(10);
+            make.left.mas_equalTo(15);
+            make.width.mas_equalTo(kMainBoundsWidth - 15);
+            make.height.mas_equalTo(20);
+        }];
+    }
     headView.backgroundColor = UIColorFromRGB(0xffffff);
     _tableView.tableHeaderView = headView;
 }

@@ -55,13 +55,13 @@
 -(void)initInfor{
     
     self.publishIdStr = [[NSString alloc] init];
-    self.publishIdStr = [UserManager manager].user.userid;
+    self.publishIdStr =[UserManager manager].user.userid;
     
     self.nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.nameButton setFrame:CGRectMake(0, 0, 150, 30)];
     [self.nameButton setTitleColor:kNavTitleColor forState:UIControlStateNormal];
     self.nameButton.titleLabel.font = kPingFangMedium(16);
-    [self.nameButton setTitle:[UserManager manager].user.username forState:UIControlStateNormal];
+    [self.nameButton setTitle:[UserManager manager].user.nickname forState:UIControlStateNormal];
     [self.nameButton setImage:[UIImage imageNamed:@"ywsy_csxl"] forState:UIControlStateNormal];
     [self.nameButton setAdjustsImageWhenHighlighted:NO];
     self.nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
@@ -98,8 +98,8 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
-    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 190)];
+    headView.backgroundColor = [UIColor clearColor];
     UIImageView  *logoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [logoImageView setImage:[UIImage imageNamed:@"jiulou"]];
     [headView addSubview:logoImageView];
@@ -222,7 +222,7 @@
     
     UILabel *explainLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:[UIColor darkGrayColor] font: kPingFangLight(12 * scale) alignment:NSTextAlignmentLeft];
     explainLabel.numberOfLines = 2;
-    explainLabel.text = @"在线指72小时以内；异常指大于72小时;\n黑名单指连续三天失联的版位";
+    explainLabel.text = @"说明：1、在线为心跳72小时以内，异常大于72小时；2、巡检人\n员发现电视没有开机导致连续三天失联的版位则进入黑名单。";
     [headView addSubview:explainLabel];
     [explainLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(logoImageView);
@@ -234,7 +234,7 @@
     tlineView.backgroundColor = [UIColor colorWithRed:245.f/255.f green:245.f/255.f blue:245.f/255.f alpha:1.0f];
     [headView addSubview:tlineView];
     [tlineView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(explainLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(explainLabel.mas_bottom).offset(12);
         make.left.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth);
         make.height.mas_equalTo(10);
@@ -294,7 +294,7 @@
     MyInspectModel * model = [self.dataSource objectAtIndex:indexPath.row];
     NSString * info = [NSString stringWithFormat:@"%@\n%@", model.small_palt_info, model.box_info];
     CGFloat height = [HotTopicTools getHeightByWidth:kMainBoundsWidth - 50 title:info font:kPingFangRegular(14)];
-    return 41 + height;
+    return 51 + height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
