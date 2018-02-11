@@ -77,11 +77,11 @@
     if (self.pubInforArray.count >= 2) {
         UserNameViewController * vc = [[UserNameViewController alloc] initWithPubArray:self.pubInforArray];
         vc.btnClick = ^(PublisherModel *model) {
-            if (model.remark.length <= 3) {
-                self.nameButton.titleLabel.font = kPingFangMedium(16);
-            }else{
-                self.nameButton.titleLabel.font = kPingFangMedium(12);
-            }
+//            if (model.remark.length <= 3) {
+//                self.nameButton.titleLabel.font = kPingFangMedium(16);
+//            }else{
+//                self.nameButton.titleLabel.font = kPingFangMedium(12);
+//            }
             [self.nameButton setTitle:model.remark forState:UIControlStateNormal];
             self.publishIdStr = model.publish_user_id;
             [self getMyHotelList];
@@ -240,6 +240,8 @@
         make.height.mas_equalTo(10);
     }];
     
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMore)];
     self.tableView.tableHeaderView = headView;
     
 }
@@ -256,6 +258,10 @@
 
 - (void)createTableView
 {
+    if (self.tableView && self.tableView.superview) {
+        [self.tableView removeFromSuperview];
+    }
+    
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
@@ -268,8 +274,7 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
-    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMore)];
+    
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 10.f)];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, .1f)];
 }
@@ -336,6 +341,7 @@
 {
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取酒楼信息" inView:self.view];
     
+    [self.dataSource removeAllObjects];
     [self requestWithID:self.publishIdStr success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         if ([response objectForKey:@"result"]) {
@@ -347,7 +353,6 @@
             
             if (hotelArray && hotelArray.count > 0) {
                 
-                [self.dataSource removeAllObjects];
                 NSString *count = [dataDict objectForKey:@"count"];
                 
                 for (NSInteger i = 0; i < hotelArray.count; i++) {
@@ -357,18 +362,18 @@
                     [self.dataSource addObject:model];
                 }
                 
-                [self createTableView];
-                [self setUpTableHeaderView];
-                
                 BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
                 if (!isNextPage) {
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
                 }
             }
         }
+        [self createTableView];
         
         if (self.dataSource.count == 0) {
             [MBProgressHUD showTextHUDWithText:@"暂无酒楼记录" inView:self.view];
+        }else{
+            [self setUpTableHeaderView];
         }
         
         [hud hideAnimated:YES];
@@ -382,11 +387,16 @@
             [MBProgressHUD showTextHUDWithText:@"获取失败" inView:self.view];
         }
         
+        [self createTableView];
+//        [self setUpTableHeaderView];
+        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
         [hud hideAnimated:YES];
         [MBProgressHUD showTextHUDWithText:@"获取失败，网络出现问题了~" inView:self.view];
         
+        [self createTableView];
+//        [self setUpTableHeaderView];
     }];
 }
 
