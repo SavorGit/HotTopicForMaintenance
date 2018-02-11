@@ -166,7 +166,7 @@
     
     if (self.addImageView.image != nil) {
 
-        NSString * title = [NSString stringWithFormat:@"上传图片%%0"];
+        NSString * title = [NSString stringWithFormat:@"上传图片0%%"];
         MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];
         
         [HotTopicTools uploadImage:self.addImageView.image withImageName:self.imgFileName progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {

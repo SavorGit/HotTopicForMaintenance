@@ -1227,7 +1227,7 @@
     }else{
         if (upImageArr.count > 0) {
             
-            NSString * title = [NSString stringWithFormat:@"上传图片%%0"];
+            NSString * title = [NSString stringWithFormat:@"上传图片0%%"];
             MBProgressHUD * hud =  [MBProgressHUD showLoadingHUDWithText:title buttonTitle:@"取消" inView:self.view target:self action:@selector(cancelOSSTask)];
             
             [HotTopicTools uploadImage:selectImg withHotelID:self.taskListModel.hotel_id progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
