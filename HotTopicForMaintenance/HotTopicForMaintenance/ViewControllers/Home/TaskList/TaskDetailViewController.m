@@ -786,31 +786,29 @@
 }
 
 #pragma mark UIImagePickerControllerDelegate
-//该代理方法仅适用于只选取图片时
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    
-    UIImageView *selectImgView = [self.view viewWithTag:self.selectImgTag];
-    selectImgView.image = image;
-    
-}
-
 //适用获取所有媒体资源，只需判断资源类型
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
         
+        UIImage *tmpImg = [info objectForKey:UIImagePickerControllerEditedImage];
+        
+        if (nil == tmpImg) {
+            tmpImg = [info objectForKey:UIImagePickerControllerOriginalImage];
+        }
+        
         if (self.taskListModel.task_type_id == 4) {
             UIImageView *selectImgView = [self.view viewWithTag:self.selectImgTag];
-            selectImgView.image = info[UIImagePickerControllerEditedImage];
+            selectImgView.image = tmpImg;
         }else{
             InstallAlerTableViewCell *cell =  [self.inPAlertView.alertTableView cellForRowAtIndexPath:self.selectImgIndex];
-            cell.instaImg.image = info[UIImagePickerControllerEditedImage];
+            cell.instaImg.image = tmpImg;
             cell.imgBgView.image = nil;
             //维修类型回显的时候需要用到
             if (self.taskListModel.task_type_id == 2) {
                 RestaurantRankModel *tmpModel = [self.dConfigData objectAtIndex:self.selectImgIndex.row];
-                tmpModel.seRepairImg = info[UIImagePickerControllerEditedImage];
+                tmpModel.seRepairImg = tmpImg;
             }
             NSLog(@"");
         }

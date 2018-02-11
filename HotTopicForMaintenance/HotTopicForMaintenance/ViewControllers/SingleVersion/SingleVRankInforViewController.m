@@ -756,20 +756,18 @@
 }
 
 #pragma mark UIImagePickerControllerDelegate
-//该代理方法仅适用于只选取图片时
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    
-    self.addImageView.image = image;
-    
-}
-
 //适用获取所有媒体资源，只需判断资源类型
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
         
-        self.addImageView.image = info[UIImagePickerControllerEditedImage];
+        UIImage *tmpImg = [info objectForKey:UIImagePickerControllerEditedImage];
+        
+        if (nil == tmpImg) {
+            tmpImg = [info objectForKey:UIImagePickerControllerOriginalImage];
+        }
+        self.addImageView.image = tmpImg;
         if (self.addImageView.image !=nil) {
             //获取图片的名字
             __block NSString* imageFileName;

@@ -584,24 +584,21 @@
 }
 
 #pragma mark UIImagePickerControllerDelegate
-//该代理方法仅适用于只选取图片时
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    
-    RepairContentModel *tmpModel = self.otherContentArray[self.indexPath.row];
-    tmpModel.imgHType = 1;
-    [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-    RepairContentTableCell *cell = [_tableView cellForRowAtIndexPath:self.indexPath];
-    cell.fImageView.image = image;
-}
-
 //适用获取所有媒体资源，只需判断资源类型
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        
+        UIImage *tmpImg = [info objectForKey:UIImagePickerControllerEditedImage];
+        
+        if (nil == tmpImg) {
+            tmpImg = [info objectForKey:UIImagePickerControllerOriginalImage];
+        }
+        
         RepairContentModel *tmpModel = self.otherContentArray[self.indexPath.row];
         tmpModel.imgHType = 1;
-        tmpModel.pubImg = info[UIImagePickerControllerEditedImage];
+        tmpModel.pubImg = tmpImg;
         [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
         //压缩图片
 //        NSData *fileData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
