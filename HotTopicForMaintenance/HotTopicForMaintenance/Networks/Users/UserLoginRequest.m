@@ -19,10 +19,6 @@
         self.httpMethod = BGNetworkRequestHTTPPost;
         [self setValue:name forParamKey:@"username"];
         [self setValue:password forParamKey:@"password"];
-        
-        if (!isEmptyString([UserManager manager].deviceToken)) {
-            [self setValue:[UserManager manager].deviceToken forParamKey:@"device_token"];
-        }
     }
     return self;
 }

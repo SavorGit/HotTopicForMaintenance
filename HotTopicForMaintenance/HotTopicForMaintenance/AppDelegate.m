@@ -17,6 +17,7 @@
 #import "UserLoginViewController.h"
 #import "ErrorDetailViewController.h"
 #import "TaskDetailViewController.h"
+#import "RegDeviceToken.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -58,6 +59,7 @@
 
 - (void)configLocation
 {
+    [self regDeviceTokenRequest];
     if ([UserManager manager].isUserLoginStatusEnable) {
         if ([UserManager manager].user.roletype == UserRoleType_SingleVersion) {
             if ([CLLocationManager locationServicesEnabled]) {
@@ -173,8 +175,7 @@
                         stringByReplacingOccurrencesOfString: @" " withString: @""];
     
     [UserManager manager].deviceToken = token;
-    
-    NSLog(@"%@",token);
+    [self regDeviceTokenRequest];
 }
 
 //iOS10以下使用这个方法接收通知
@@ -272,6 +273,20 @@
             [UserManager manager].notificationModel = model;
         }
         
+    }
+}
+
+- (void)regDeviceTokenRequest
+{
+    if ([UserManager manager].isUserLoginStatusEnable && !isEmptyString([UserManager manager].deviceToken)) {
+        RegDeviceToken * deviceToken = [[RegDeviceToken alloc] init];
+        [deviceToken sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+        } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+        } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+            
+        }];
     }
 }
 

@@ -60,6 +60,7 @@
 		066EA5641F602FBF0054264C /* CheckUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066EA5631F602FBF0054264C /* CheckUpdateRequest.m */; };
 		0670E1A12016C9ED0099AB47 /* GetSystemStatusRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670E1A02016C9ED0099AB47 /* GetSystemStatusRequest.m */; };
 		0670E1A4201702F40099AB47 /* GetCityListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670E1A3201702F40099AB47 /* GetCityListRequest.m */; };
+		0672BA60202FEAF0007F81B9 /* RegDeviceToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 0672BA5F202FEAF0007F81B9 /* RegDeviceToken.m */; };
 		06732F38200F1C5000187E7B /* BoxInfoTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F37200F1C5000187E7B /* BoxInfoTableHeaderView.m */; };
 		06732F3B200F35F700187E7B /* BoxInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F3A200F35F700187E7B /* BoxInfoViewController.m */; };
 		06732F3E200F3BC000187E7B /* BoxInfoPlayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06732F3D200F3BC000187E7B /* BoxInfoPlayCell.m */; };
@@ -299,6 +300,8 @@
 		0670E1A02016C9ED0099AB47 /* GetSystemStatusRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetSystemStatusRequest.m; sourceTree = "<group>"; };
 		0670E1A2201702F40099AB47 /* GetCityListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetCityListRequest.h; sourceTree = "<group>"; };
 		0670E1A3201702F40099AB47 /* GetCityListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetCityListRequest.m; sourceTree = "<group>"; };
+		0672BA5E202FEAF0007F81B9 /* RegDeviceToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegDeviceToken.h; sourceTree = "<group>"; };
+		0672BA5F202FEAF0007F81B9 /* RegDeviceToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegDeviceToken.m; sourceTree = "<group>"; };
 		06732F36200F1C5000187E7B /* BoxInfoTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxInfoTableHeaderView.h; sourceTree = "<group>"; };
 		06732F37200F1C5000187E7B /* BoxInfoTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoxInfoTableHeaderView.m; sourceTree = "<group>"; };
 		06732F39200F35F700187E7B /* BoxInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxInfoViewController.h; sourceTree = "<group>"; };
@@ -858,6 +861,8 @@
 				066EA5631F602FBF0054264C /* CheckUpdateRequest.m */,
 				060A77C61FB1980F00D2A510 /* GetTaskCountRequest.h */,
 				060A77C71FB1980F00D2A510 /* GetTaskCountRequest.m */,
+				0672BA5E202FEAF0007F81B9 /* RegDeviceToken.h */,
+				0672BA5F202FEAF0007F81B9 /* RegDeviceToken.m */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -1540,6 +1545,7 @@
 				06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */,
 				9617A1851FE7B0C400199D34 /* SingleVRankInforViewController.m in Sources */,
 				068E65C11F616B4900644CE6 /* UserNotificationModel.m in Sources */,
+				0672BA60202FEAF0007F81B9 /* RegDeviceToken.m in Sources */,
 				962E93E92016D1AC00F48C62 /* MyInspectModel.m in Sources */,
 				0651E0862015E6D000D4E39D /* GetDownLoadADRequest.m in Sources */,
 				0677AC0D1FAB427200D494FE /* UserCityViewController.m in Sources */,
