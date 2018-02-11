@@ -742,7 +742,7 @@
         _imagePickerController = [[UIImagePickerController alloc] init];
         _imagePickerController.delegate = self;
         _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        _imagePickerController.allowsEditing = YES;
+        _imagePickerController.allowsEditing = NO;
     }
     
     if (0 == buttonIndex)
@@ -1236,7 +1236,7 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     CGFloat progress = (CGFloat)totalBytesSent / (CGFloat)totalBytesExpectedToSend;
-                    NSString * currentTitle = [NSString stringWithFormat:@"上传图片%%%.2f", progress];
+                    NSString * currentTitle = [NSString stringWithFormat:@"上传图片%%%.2f", progress * 100];
                     hud.label.text = currentTitle;
                 });
                 
