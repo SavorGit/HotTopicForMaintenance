@@ -1447,7 +1447,6 @@
         contenView.layer.masksToBounds = YES;
         
         self.refuseTextView = [[RDTextView alloc] initWithFrame:CGRectMake(10, 10, contenView.frame.size.width - 20, contenView.frame.size.height - 70)];
-        self.refuseTextView.placeholder = @"请输入拒绝原因(例如：已经与业务人员沟通，版位正常)";
         self.refuseTextView.font = kPingFangRegular(16);
         self.refuseTextView.textColor = UIColorFromRGB(0x333333);
         self.refuseTextView.layer.cornerRadius = 5.f;
@@ -1455,6 +1454,7 @@
         self.refuseTextView.layer.borderColor = [[UIColor grayColor] colorWithAlphaComponent:.3f].CGColor;
         self.refuseTextView.layer.borderWidth = 1.f;
         [contenView addSubview:self.refuseTextView];
+        self.refuseTextView.placeholder = @"请输入拒绝原因（例如：已经与业务人员沟通，版位正常）";
         
         UIButton * cancleButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"取消" cornerRadius:5.f];
         cancleButton.layer.borderColor = UIColorFromRGB(0x444444).CGColor;

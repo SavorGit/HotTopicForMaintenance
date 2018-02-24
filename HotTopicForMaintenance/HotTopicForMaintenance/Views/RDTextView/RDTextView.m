@@ -8,6 +8,7 @@
 
 #import "RDTextView.h"
 #import "MBProgressHUD+Custom.h"
+#import "HotTopicTools.h"
 
 @interface RDTextView ()
 
@@ -92,6 +93,9 @@
 - (UILabel *)placeholderLabel
 {
     if (!_placeholderLabel) {
+        
+        CGFloat height = [HotTopicTools getHeightByWidth:self.width - 10 title:_placeholder font:[UIFont systemFontOfSize:16]];
+        
         _placeholderLabel = [[UILabel alloc] init];
         _placeholderLabel.textColor = [UIColor lightGrayColor];
         _placeholderLabel.font = [UIFont systemFontOfSize:16];
@@ -100,8 +104,9 @@
         [_placeholderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(7);
             make.left.mas_equalTo(5);
-            make.bottom.mas_equalTo(-7);
-            make.right.mas_equalTo(-5);
+            make.height.mas_equalTo(height);
+            make.width.mas_equalTo(self.width - 10);
+
         }];
     }
     
