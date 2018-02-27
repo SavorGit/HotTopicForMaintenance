@@ -342,7 +342,9 @@
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在获取酒楼信息" inView:self.view];
     
     [self.dataSource removeAllObjects];
-    [self.tableView removeFromSuperview];
+    if (self.tableView && self.tableView.superview) {
+        [self.tableView removeFromSuperview];
+    }
     [self requestWithID:self.publishIdStr success:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         if ([response objectForKey:@"result"]) {
