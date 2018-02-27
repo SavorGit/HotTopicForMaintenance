@@ -362,18 +362,19 @@
                     [self.dataSource addObject:model];
                 }
                 
-                BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
-                if (!isNextPage) {
+                 [self createTableView];
+                
+                if (self.dataSource.count == 0) {
+                    [MBProgressHUD showTextHUDWithText:@"暂无酒楼记录" inView:self.view];
+                }else{
+                    [self setUpTableHeaderView];
+                }
+                
+                NSInteger isNextPage = [[listDic objectForKey:@"isNextPage"] integerValue];
+                if (isNextPage == 0) {
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
                 }
             }
-        }
-        [self createTableView];
-        
-        if (self.dataSource.count == 0) {
-            [MBProgressHUD showTextHUDWithText:@"暂无酒楼记录" inView:self.view];
-        }else{
-            [self setUpTableHeaderView];
         }
         
         [hud hideAnimated:YES];
@@ -426,9 +427,11 @@
                 [self.tableView reloadData];
                 [self configHeaderData];
                 
-                BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
-                if (!isNextPage) {
+                NSInteger isNextPage = [[listDic objectForKey:@"isNextPage"] integerValue];
+                if (isNextPage == 0) {
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                }else{
+                    [self.tableView.mj_footer resetNoMoreData];
                 }
             }
         }
@@ -469,7 +472,6 @@
             
             if (hotelArray && hotelArray.count > 0) {
                 
-                [self.dataSource removeAllObjects];
                 NSString *count = [dataDict objectForKey:@"count"];
                 for (NSInteger i = 0; i < hotelArray.count; i++) {
                     NSDictionary * dict = [hotelArray objectAtIndex:i];
@@ -478,23 +480,19 @@
                     [self.dataSource addObject:model];
                 }
                 
-                [self createTableView];
+                [self.tableView reloadData];
                 [self configHeaderData];
                 
-                BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
-                if (!isNextPage) {
+                NSInteger isNextPage = [[listDic objectForKey:@"isNextPage"] integerValue];
+                if (isNextPage == 0) {
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                }else{
+                    [self.tableView.mj_footer endRefreshing];
                 }
             }
         }
         
-        BOOL isNextPage = [[dataDict objectForKey:@"isNextPage"] boolValue];
-        if (isNextPage) {
-            [self.tableView.mj_footer endRefreshing];
-        }else{
-            self.pageNum --;
-            [self.tableView.mj_footer endRefreshingWithNoMoreData];
-        }
+        
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
