@@ -374,6 +374,10 @@
                 if (isNextPage == 0) {
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
                 }
+            }else{
+                if (self.dataSource.count == 0) {
+                    [MBProgressHUD showTextHUDWithText:@"暂无酒楼记录" inView:self.view];
+                }
             }
         }
         
