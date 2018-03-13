@@ -16,4 +16,6 @@
 
 - (void)configNoFlagWithDict:(NSDictionary *)dict;
 
+- (void)configIsDownLoad:(BOOL)isDownLoad;
+
 @end

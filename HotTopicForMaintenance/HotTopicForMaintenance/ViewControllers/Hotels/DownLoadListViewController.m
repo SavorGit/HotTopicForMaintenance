@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) NSArray * dataSource;
 
+@property (nonatomic, strong) UILabel * progressLabel;
+
 @property (nonatomic, copy) NSString * titleText;
 
 @property (nonatomic, assign) DownLoadListType type;
@@ -69,6 +71,19 @@
     lineView.backgroundColor = UIColorFromRGB(0xd7d7d7);
     [headerView addSubview:lineView];
     
+    self.progressLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.progressLabel.textAlignment = NSTextAlignmentRight;
+    self.progressLabel.font = kPingFangMedium(12 * scale);
+    self.progressLabel.textColor = UIColorFromRGB(0x62ad19);
+    self.progressLabel.text = @"已下载:80%";
+    [headerView addSubview:self.progressLabel];
+    [self.progressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-15 * scale);
+        make.width.mas_equalTo(75 * scale);
+        make.centerY.mas_equalTo(0);
+        make.height.mas_equalTo(16 * scale);
+    }];
+    
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.font = kPingFangMedium(15 * scale);
     self.titleLabel.textColor = UIColorFromRGB(0x333333);
@@ -77,7 +92,7 @@
     [headerView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15 * scale);
-        make.width.mas_equalTo(kMainBoundsWidth - 30 * scale);
+        make.right.mas_equalTo((kMainBoundsWidth - 100) * scale);
         make.top.bottom.mas_equalTo(0);
     }];
     
@@ -102,6 +117,14 @@
     [cell configNoFlagWithDict:info];
     if (self.type == DownLoadListType_Media) {
         cell.playTitleLabel.text = [info objectForKey:@"ads_name"];
+    }
+    
+    if (self.type == DownLoadListType_Media || self.type == DownLoadListType_ADs) {
+        if (indexPath.row / 2 == 0) {
+            [cell configIsDownLoad:YES];
+        }else{
+            [cell configIsDownLoad:NO];
+        }
     }
     
     return cell;
