@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UIButton *submitBtn;
 @property (nonatomic, strong) NSArray *dataArray;
 
+//@property (nonatomic, strong) UILabel *numLabel;
+
 @end
 
 @implementation InstallProAlertView
@@ -57,7 +59,7 @@
         make.size.mas_equalTo(CGSizeMake(bgVideoWidth,bgVideoHeight));
         make.center.mas_equalTo(self);
     }];
-    
+
     _alertTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _alertTableView.dataSource = self;
     _alertTableView.delegate = self;
@@ -71,6 +73,78 @@
         make.centerX.mas_equalTo(self.sheetBgView);
         make.top.mas_equalTo(10);
     }];
+    
+//    // 如果是弹窗类型为信息监测和网络改造
+//    if (self.titleArray != nil) {
+//
+//        [_alertTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.mas_equalTo(CGSizeMake(bgVideoWidth,bgVideoHeight - 60));
+//            make.centerX.mas_equalTo(self.sheetBgView);
+//            make.top.mas_equalTo(10);
+//        }];
+//
+//    }else{
+//        // 如果是弹窗类型为安装
+//        UIView *topView = [[UIView alloc] initWithFrame:CGRectZero];
+//        topView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+//        [self.sheetBgView addSubview:topView];
+//        [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.mas_equalTo(CGSizeMake(bgVideoWidth, 40));
+//            make.top.left.mas_equalTo(0);
+//        }];
+//
+//        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+//        textLabel.textColor = [UIColor blackColor];
+//        textLabel.font = kPingFangRegular(14);
+//        textLabel.text = @"实际安装数量";
+//        [topView addSubview:textLabel];
+//        [textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.mas_equalTo(CGSizeMake(100, 20));
+//            make.left.mas_equalTo(10);
+//            make.top.mas_equalTo(10);
+//        }];
+//
+//
+//        UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [addBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+//        [addBtn addTarget:self action:@selector(addPress) forControlEvents:UIControlEventTouchUpInside];
+//        [topView addSubview:addBtn];
+//        [addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.mas_equalTo(CGSizeMake(30, 30));
+//            make.top.mas_equalTo(5);
+//            make.right.mas_equalTo(- 10);
+//        }];
+//
+//        self.numLabel = [[UILabel alloc]init];
+//        self.numLabel.font = [UIFont systemFontOfSize:15];
+//        self.numLabel.textColor = [UIColor blackColor];
+//        self.numLabel.textAlignment = NSTextAlignmentCenter;
+//        self.numLabel.text = @"1";
+//        [topView addSubview:self.numLabel];
+//        [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.mas_equalTo(CGSizeMake(60, 30));
+//            make.top.mas_equalTo(5);
+//            make.right.mas_equalTo(addBtn.mas_left);
+//        }];
+//
+//        UIButton * reduceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [reduceBtn setImage:[UIImage imageNamed:@"reduce"] forState:UIControlStateNormal];
+//        [reduceBtn addTarget:self action:@selector(reducePress) forControlEvents:UIControlEventTouchUpInside];
+//        [topView addSubview:reduceBtn];
+//        [reduceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.mas_equalTo(CGSizeMake(30, 30));
+//            make.top.mas_equalTo(5);
+//            make.right.mas_equalTo(self.numLabel.mas_left);
+//        }];
+//
+//        [_alertTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.mas_equalTo(CGSizeMake(bgVideoWidth,bgVideoHeight - 60 - 40));
+//            make.centerX.mas_equalTo(self.sheetBgView);
+//            make.top.mas_equalTo(10 + 40);
+//        }];
+//    }
+    
+    
     
     self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     if (self.dataArray.count > 0) {
@@ -111,6 +185,18 @@
     }];
     
 }
+
+//- (void)addPress{
+//    self.numLabel.text = [NSString stringWithFormat:@"%d",[self.numLabel.text intValue] + 1];
+////    [self.delegate addNPress];
+//}
+//
+//- (void)reducePress{
+//    if (![self.numLabel.text isEqualToString:@"0"]) {
+//        self.numLabel.text = [NSString stringWithFormat:@"%d",[self.numLabel.text intValue] - 1];
+//    }
+////    [self.delegate reduceNPress];
+//}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -169,8 +255,8 @@
 
 - (void)submitClicked:(UIButton *)Btn{
     self.alertTableView.scrollEnabled = NO;
-    if ([self.delegate respondsToSelector:@selector(subMitData:)]) {
-        [self.delegate subMitData:Btn];
+    if ([self.delegate respondsToSelector:@selector(subMitData:andRankNum:)]) {
+        [self.delegate subMitData:Btn andRankNum:@""];
     }
 }
 

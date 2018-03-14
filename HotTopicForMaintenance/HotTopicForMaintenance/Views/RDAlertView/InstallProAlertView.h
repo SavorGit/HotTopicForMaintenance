@@ -12,8 +12,11 @@
 @protocol InstallProAlertDelegate<NSObject>
 
 - (void)creatPhotoOrCamaraView:(NSIndexPath *)index;
-- (void)subMitData:(UIButton *)Btn;
+- (void)subMitData:(UIButton *)Btn andRankNum:(NSString *)numString;
 - (void)cancel;
+
+//- (void)addNPress;
+//- (void)reduceNPress;
 
 @end
 
