@@ -60,7 +60,7 @@
     self.versionLabel.text = @"版位名称";
     [_bgView addSubview:self.versionLabel];
     [self.versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3 - 30, 45));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 15 - 83, 45));
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(15);
     }];
@@ -201,7 +201,7 @@
     self.versionLabel.text = model.rname;
     self.bNameLabel.text = [NSString stringWithFormat:@"机顶盒名称: %@",model.boxname];
     self.macLabel.text = [NSString stringWithFormat:@"机顶盒mac: %@",model.mac];
-    self.stbLabel.text = [NSString stringWithFormat:@"机顶盒IP: %@",GetNoNullString(model.ip)];
+    self.stbLabel.text = [NSString stringWithFormat:@"机顶盒IP: %@",GetNoNullString(model.box_ip)];
     
     self.lastTimeLabel.text = [NSString stringWithFormat:@"最后心跳时间: %@",model.last_heart_time];
     self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后上传日志时间: %@",model.last_nginx];
