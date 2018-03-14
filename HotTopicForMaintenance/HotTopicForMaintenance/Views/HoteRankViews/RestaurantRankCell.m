@@ -120,7 +120,7 @@
     [self.bListImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
         make.top.mas_equalTo(15);
-        make.right.mas_equalTo(self.bgView.mas_right).offset(- 53);
+        make.right.mas_equalTo(self.bgView.mas_right).offset(- 63);
     }];
     
     self.dotImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -132,7 +132,7 @@
     [self.dotImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
         make.top.mas_equalTo(15);
-        make.right.mas_equalTo(self.bgView.mas_right).offset(- 38);
+        make.right.mas_equalTo(self.bgView.mas_right).offset(- 33);
     }];
 
     
