@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) UILabel * playeTypeLabel;
 @property (nonatomic, strong) UIImageView * playStatusImageView;
+@property (nonatomic, strong) UILabel * downLoadLabel;
 
 @end
 
@@ -43,7 +44,7 @@
     }];
     
     self.playStatusImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [self.playStatusImageView setImage:[UIImage imageNamed:@"dui"]];
+    [self.playStatusImageView setImage:[UIImage imageNamed:@"xin"]];
     [self.contentView addSubview:self.playStatusImageView];
     [self.playStatusImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
@@ -57,7 +58,7 @@
         make.centerY.mas_equalTo(0);
         make.left.mas_equalTo(67.5 * scale);
         make.height.mas_equalTo(16 * scale);
-        make.right.mas_equalTo(self.playStatusImageView.mas_left).offset(-15 * scale);
+        make.right.mas_equalTo(-48 * scale);
     }];
 }
 
@@ -82,9 +83,9 @@
     
     BOOL flag = [[dict objectForKey:@"flag"] boolValue];
     if (flag) {
-        [self.playStatusImageView setImage:[UIImage imageNamed:@"dui"]];
+        [self.playStatusImageView setImage:[UIImage imageNamed:@"xin"]];
     }else{
-        [self.playStatusImageView setImage:[UIImage imageNamed:@"cuo"]];
+        [self.playStatusImageView setImage:[UIImage imageNamed:@"jiu"]];
     }
 }
 
@@ -109,6 +110,36 @@
     self.playTitleLabel.text = [dict objectForKey:@"name"];
     
     self.playStatusImageView.hidden = YES;
+}
+
+- (void)configIsDownLoad:(BOOL)isDownLoad
+{
+    if (isDownLoad) {
+        self.downLoadLabel.text = @"已下载";
+        self.downLoadLabel.textColor = UIColorFromRGB(0x62ad19);
+    }else{
+        self.downLoadLabel.text = @"未下载";
+        self.downLoadLabel.textColor = UIColorFromRGB(0x999999);
+    }
+}
+
+- (UILabel *)downLoadLabel
+{
+    if (!_downLoadLabel) {
+        CGFloat scale = kMainBoundsWidth / 375.f;
+        _downLoadLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangMedium(12 * scale) alignment:NSTextAlignmentRight];
+        [self.contentView addSubview:_downLoadLabel];
+        [_downLoadLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(-15 * scale);
+            make.width.mas_equalTo(60 * scale);
+            make.centerY.mas_equalTo(0);
+            make.height.mas_equalTo(16 * scale);
+        }];
+        [self.playTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(-90 * scale);
+        }];
+    }
+    return _downLoadLabel;
 }
 
 - (void)awakeFromNib {
