@@ -79,7 +79,7 @@
         self.playeTypeLabel.text = [NSString stringWithFormat:@" %@  ", type];
     }
     
-    self.playTitleLabel.text = [dict objectForKey:@"name"];
+    self.playTitleLabel.text = GetNoNullString([dict objectForKey:@"name"]);
     
     BOOL flag = [[dict objectForKey:@"flag"] boolValue];
     if (flag) {

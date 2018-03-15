@@ -15,7 +15,7 @@
 {
     if (self = [super init]) {
         
-        self.methodName = [@"Opclient20/Box/contentDetail?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Opclient20/BoxContent/contentDetail?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         [self setValue:boxID forParamKey:@"box_id"];
         

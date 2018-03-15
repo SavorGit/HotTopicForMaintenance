@@ -169,6 +169,7 @@
 
 - (void)mediaDownLoadButtonDidClicked
 {
+    NSString * box_mac = [self.dataDict objectForKey:@"box_mac"];
     NSString * proID = [self.dataDict objectForKey:@"pro_download_period"];
     if (isEmptyString(proID)) {
         [MBProgressHUD showTextHUDWithText:@"没有正在下载的节目" inView:self.view];
@@ -176,14 +177,14 @@
     }
     
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载" inView:self.view];
-    GetDownLoadMediaRequest * request = [[GetDownLoadMediaRequest alloc] initWithMediaProID:proID];
+    GetDownLoadMediaRequest * request = [[GetDownLoadMediaRequest alloc] initWithMediaBoxMac:box_mac];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:YES];
-        NSArray * result = [response objectForKey:@"result"];
-        if ([result isKindOfClass:[NSArray class]]) {
-            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result];
-            [list configType:DownLoadListType_Media mediaDate:proID adDate:nil];
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result boxID:self.boxID dataDict:self.dataDict type:DownLoadListType_Media];
+            [list configMediaDate:proID adDate:nil];
             [self.navigationController pushViewController:list animated:YES];
         }else{
             [MBProgressHUD showTextHUDWithText:@"内容信息为空" inView:self.view];
@@ -209,20 +210,21 @@
 - (void)adDownLoadButtonDidClicked
 {
     NSString * ADID = [self.dataDict objectForKey:@"ads_download_period"];
+    NSString * box_mac = [self.dataDict objectForKey:@"box_mac"];
     if (isEmptyString(ADID)) {
         [MBProgressHUD showTextHUDWithText:@"没有正在下载的广告" inView:self.view];
         return;
     }
     
     MBProgressHUD * hud = [MBProgressHUD showLoadingHUDWithText:@"正在加载" inView:self.view];
-    GetDownLoadADRequest * request = [[GetDownLoadADRequest alloc] initWithMediaADID:ADID boxID:self.boxID];
+    GetDownLoadADRequest * request = [[GetDownLoadADRequest alloc] initWithMediaADBoxMac:box_mac];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:YES];
-        NSArray * result = [response objectForKey:@"result"];
-        if ([result isKindOfClass:[NSArray class]]) {
-            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result];
-            [list configType:DownLoadListType_ADs mediaDate:nil adDate:ADID];
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result boxID:self.boxID dataDict:self.dataDict type:DownLoadListType_ADs];
+            [list configMediaDate:nil adDate:ADID];
             [self.navigationController pushViewController:list animated:YES];
         }else{
             [MBProgressHUD showTextHUDWithText:@"内容信息为空" inView:self.view];
@@ -258,14 +260,9 @@
             NSString * proID = [result objectForKey:@"menu_num"];
             NSString * ADID = [result objectForKey:@"ads_menu_num"];
             
-            NSArray * programList = [result objectForKey:@"program_list"];
-            if ([programList isKindOfClass:[NSArray class]]) {
-                DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:programList];
-                [list configType:DownLoadListType_PubProgram mediaDate:proID adDate:ADID];
-                [self.navigationController pushViewController:list animated:YES];
-            }else{
-                [MBProgressHUD showTextHUDWithText:@"内容信息为空" inView:self.view];
-            }
+            DownLoadListViewController * list = [[DownLoadListViewController alloc] initWithDataSource:result boxID:self.boxID dataDict:self.dataDict type:DownLoadListType_PubProgram];
+            [list configMediaDate:proID adDate:ADID];
+            [self.navigationController pushViewController:list animated:YES];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
