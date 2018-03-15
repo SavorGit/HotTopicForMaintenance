@@ -11,13 +11,13 @@
 
 @implementation GetDownLoadMediaRequest
 
-- (instancetype)initWithMediaProID:(NSString *)proID
+- (instancetype)initWithMediaBoxMac:(NSString *)boxMac
 {
     if (self = [super init]) {
         
-        self.methodName = [@"Opclient20/Box/getDownloadPro?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Opclient20/BoxContent/getDownloadMenu?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
-        [self setValue:proID forParamKey:@"pro_download_period"];
+        [self setValue:boxMac forParamKey:@"box_mac"];
         
     }
     return self;

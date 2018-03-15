@@ -11,14 +11,13 @@
 
 @implementation GetDownLoadADRequest
 
-- (instancetype)initWithMediaADID:(NSString *)ADID boxID:(NSString *)boxID
+- (instancetype)initWithMediaADBoxMac:(NSString *)boxMac
 {
     if (self = [super init]) {
         
-        self.methodName = [@"Opclient20/Box/getDownloadAds?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Opclient20/BoxContent/getDownloadAds?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
-        [self setValue:ADID forParamKey:@"ads_download_period"];
-        [self setValue:boxID forParamKey:@"box_id"];
+        [self setValue:boxMac forParamKey:@"box_mac"];
         
     }
     return self;

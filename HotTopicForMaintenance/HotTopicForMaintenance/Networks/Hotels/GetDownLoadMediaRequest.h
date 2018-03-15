@@ -10,6 +10,6 @@
 
 @interface GetDownLoadMediaRequest : BGNetworkRequest
 
-- (instancetype)initWithMediaProID:(NSString *)proID;
+- (instancetype)initWithMediaBoxMac:(NSString *)boxMac;
 
 @end

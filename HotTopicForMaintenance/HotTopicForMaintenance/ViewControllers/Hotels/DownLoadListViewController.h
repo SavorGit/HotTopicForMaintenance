@@ -16,8 +16,8 @@ typedef enum : NSUInteger {
 
 @interface DownLoadListViewController : BaseViewController
 
-- (instancetype)initWithDataSource:(NSArray *)dataSource;
+- (instancetype)initWithDataSource:(NSDictionary *)dataSource boxID:(NSString *)boxID dataDict:(NSDictionary *)dataDict type:(DownLoadListType)type;
 
-- (void)configType:(DownLoadListType)type mediaDate:(NSString *)mediaDate adDate:(NSString *)adDate;
+- (void)configMediaDate:(NSString *)mediaDate adDate:(NSString *)adDate;
 
 @end
