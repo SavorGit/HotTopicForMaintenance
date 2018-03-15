@@ -37,6 +37,8 @@
 @property(nonatomic, assign) NSInteger ustate;
 @property(nonatomic, assign) NSInteger blstate;
 @property(nonatomic, copy) NSString *last_nginx;
+@property(nonatomic, copy) NSString *box_ip;
+
 //酒楼版位信息(version)
 @property(nonatomic, assign) NSInteger lstate;
 @property(nonatomic, copy) NSString *ltime;

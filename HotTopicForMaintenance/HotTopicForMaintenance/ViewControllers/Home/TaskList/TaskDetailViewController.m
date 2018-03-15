@@ -68,6 +68,7 @@
 @property (nonatomic, strong) NSIndexPath *selectImgIndex;
 @property (nonatomic, assign) NSInteger totalAlertCount;
 @property (nonatomic, copy) NSString * currentBoxId;
+//@property (nonatomic, copy) NSString * actInstallNum; //实际安装数量
 
 @property (nonatomic, strong) InstallProAlertView *inPAlertView;
 
@@ -102,6 +103,7 @@
     self.subMitPosionArray = [[NSMutableArray alloc] init];
     self.subExictUrlArray = [[NSMutableArray alloc] init];
     self.currentBoxId = [[NSString alloc] init];
+//    self.actInstallNum = [[NSString alloc] init];
     [self setupDatas];
 }
 
@@ -416,9 +418,10 @@
 }
 
 #pragma mark - 提交安装验收上传照片
-- (void)subMitData:(UIButton *)Btn{
+- (void)subMitData:(UIButton *)Btn andRankNum:(NSString *)numString{
     
     self.installSubBtn = Btn;
+//    self.actInstallNum = numString;
     Btn.userInteractionEnabled = NO;
     if (self.taskListModel.task_type_id == 2) {
         

@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIView *bgView;
 
 @property (nonatomic, strong) UILabel *versionLabel;
+@property (nonatomic, strong) UILabel *bNameLabel;
 @property (nonatomic, strong) UILabel *macLabel;
 @property (nonatomic, strong) UILabel *stbLabel;
 
@@ -53,14 +54,35 @@
     }];
 
     self.versionLabel = [[UILabel alloc]init];
-    self.versionLabel.font = [UIFont systemFontOfSize:14];
-    self.versionLabel.textColor = UIColorFromRGB(0x434343);
+    self.versionLabel.font = kPingFangMedium(15);
+    self.versionLabel.textColor = UIColorFromRGB(0x222222);
     self.versionLabel.textAlignment = NSTextAlignmentLeft;
-    self.versionLabel.text = @"版本";
+    self.versionLabel.text = @"版位名称";
     [_bgView addSubview:self.versionLabel];
     [self.versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3 - 30, 20));
-        make.top.mas_equalTo(15);
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 15 - 83, 45));
+        make.top.mas_equalTo(0);
+        make.left.mas_equalTo(15);
+    }];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor = UIColorFromRGB(0xdbd9d4);
+    [_bgView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 20, 0.5));
+        make.bottom.mas_equalTo(self.versionLabel.mas_bottom).offset(1);
+        make.left.mas_equalTo(0);
+    }];
+    
+    self.bNameLabel = [[UILabel alloc]init];
+    self.bNameLabel.font = [UIFont systemFontOfSize:14];
+    self.bNameLabel.textColor = UIColorFromRGB(0x434343);
+    self.bNameLabel.textAlignment = NSTextAlignmentLeft;
+    self.bNameLabel.text = @"机顶盒名称";
+    [_bgView addSubview:self.bNameLabel];
+    [self.bNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30, 20));
+        make.top.mas_equalTo(self.versionLabel.mas_bottom).offset(15);
         make.left.mas_equalTo(15);
     }];
     
@@ -71,9 +93,9 @@
     self.macLabel.text = @"Mac";
     [_bgView addSubview:self.macLabel];
     [self.macLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30- 30)/3 + 30, 20));
-        make.top.mas_equalTo(15);
-        make.left.mas_equalTo(self.versionLabel.mas_right);
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30, 20));
+        make.top.mas_equalTo(self.bNameLabel.mas_bottom).offset(5);
+        make.left.mas_equalTo(15);
     }];
     
     self.stbLabel = [[UILabel alloc]init];
@@ -81,12 +103,12 @@
     self.stbLabel.textColor = UIColorFromRGB(0x434343);
     self.stbLabel.textAlignment = NSTextAlignmentLeft;
     self.stbLabel.backgroundColor = [UIColor clearColor];
-    self.stbLabel.text = @"机顶盒信息";
+    self.stbLabel.text = @"机顶盒ip";
     [_bgView addSubview:self.stbLabel];
     [self.stbLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30 - 30)/3 - 5, 20));
-        make.top.mas_equalTo(15);
-        make.left.mas_equalTo(self.macLabel.mas_right);
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30, 20));
+        make.top.mas_equalTo(self.macLabel.mas_bottom).offset(5);
+        make.left.mas_equalTo(15);
     }];
     
     self.bListImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -98,7 +120,7 @@
     [self.bListImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
         make.top.mas_equalTo(15);
-        make.right.mas_equalTo(self.bgView.mas_right).offset(- 28);
+        make.right.mas_equalTo(self.bgView.mas_right).offset(- 63);
     }];
     
     self.dotImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -110,7 +132,7 @@
     [self.dotImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(20, 20));
         make.top.mas_equalTo(15);
-        make.right.mas_equalTo(self.bgView.mas_right).offset(- 5);
+        make.right.mas_equalTo(self.bgView.mas_right).offset(- 33);
     }];
 
     
@@ -122,7 +144,7 @@
     [_bgView addSubview:self.lastTimeLabel];
     [self.lastTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30, 20));
-        make.top.mas_equalTo(self.versionLabel.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.stbLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
     }];
     
@@ -165,10 +187,10 @@
     
     UIImageView * moreImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [moreImageView setImage:[UIImage imageNamed:@"more"]];
-    [self.contentView addSubview:moreImageView];
+    [_bgView addSubview:moreImageView];
     [moreImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(10);
-        make.right.mas_equalTo(-15);
+        make.top.mas_equalTo(15 + 3.5);
+        make.right.mas_equalTo(- 10);
         make.width.height.mas_equalTo(13);
     }];
 }
@@ -177,10 +199,12 @@
     self.restRankModel = model;
     
     self.versionLabel.text = model.rname;
-    self.macLabel.text = model.mac;
-    self.stbLabel.text = model.boxname;
-    self.lastTimeLabel.text = [NSString stringWithFormat:@"最后心跳时间:%@",model.last_heart_time];
-    self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后上传日志时间:%@",model.last_nginx];
+    self.bNameLabel.text = [NSString stringWithFormat:@"机顶盒名称: %@",model.boxname];
+    self.macLabel.text = [NSString stringWithFormat:@"机顶盒mac: %@",model.mac];
+    self.stbLabel.text = [NSString stringWithFormat:@"机顶盒IP: %@",GetNoNullString(model.box_ip)];
+    
+    self.lastTimeLabel.text = [NSString stringWithFormat:@"最后心跳时间: %@",model.last_heart_time];
+    self.lastUploadTimeLabel.text = [NSString stringWithFormat:@"最后上传日志时间: %@",model.last_nginx];
     //0 是红灯 1 是绿灯
     if (model.ustate == 0) {
         self.dotImageView.backgroundColor = [UIColor redColor];
