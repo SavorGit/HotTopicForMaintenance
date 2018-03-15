@@ -34,6 +34,8 @@
 @property (nonatomic, strong) UILabel *rePlatformVerLab;
 @property (nonatomic, strong) UILabel *lastPlatformVerLab;
 @property (nonatomic, strong) UILabel *lastApkVerLab;
+@property (nonatomic, strong) UILabel *intranetIPLab;
+@property (nonatomic, strong) UILabel *externalIPLab;
 @property (nonatomic, strong) UILabel *positionInforLab;
 @property (nonatomic, strong) UIImageView *lastplatDotImg;
 @property (nonatomic, strong) UIImageView *lastApkDotImg;
@@ -122,6 +124,8 @@
         self.lastSmallModel.banwei = [listDict objectForKey:@"banwei"];
         self.lastSmallModel.neSmall = [versionDict objectForKey:@"new_small"];
         self.lastSmallModel.small_mac = [versionDict objectForKey:@"small_mac"];
+        self.lastSmallModel.pla_inner_ip = [versionDict objectForKey:@"pla_inner_ip"];
+        self.lastSmallModel.pla_out_ip = [versionDict objectForKey:@"pla_out_ip"];
         NSArray *boxInforArr = [listDict objectForKey:@"box_info"];
         
         NSArray *repair_recordArr = [versionDict objectForKey:@"repair_record"];//头部小平台维修记录
@@ -250,13 +254,13 @@
 
 -(void)setUpTableHeaderView{
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170 + 50)];
     
     self.rePlatformVerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
     self.rePlatformVerLab.backgroundColor = [UIColor clearColor];
     self.rePlatformVerLab.font = [UIFont systemFontOfSize:13];
     self.rePlatformVerLab.textColor = [UIColor blackColor];
-    self.rePlatformVerLab.text = [NSString stringWithFormat:@"发布小平台版本号:%@",self.lastSmallModel.neSmall];
+    self.rePlatformVerLab.text = [NSString stringWithFormat:@"发布小平台版本号: %@",self.lastSmallModel.neSmall];
     [headView addSubview:self.rePlatformVerLab];
     [self.rePlatformVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15);
@@ -269,7 +273,7 @@
     self.lastPlatformVerLab.backgroundColor = [UIColor clearColor];
     self.lastPlatformVerLab.font = [UIFont systemFontOfSize:14];
     self.lastPlatformVerLab.textColor = [UIColor blackColor];
-    self.lastPlatformVerLab.text = [NSString stringWithFormat:@"最后小平台版本号:%@",self.lastSmallModel.last_small_pla];
+    self.lastPlatformVerLab.text = [NSString stringWithFormat:@"最后小平台版本号: %@",self.lastSmallModel.last_small_pla];
     [headView addSubview:self.lastPlatformVerLab];
     [self.lastPlatformVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.rePlatformVerLab.mas_bottom).offset(15);
@@ -300,7 +304,7 @@
     self.lastApkVerLab.backgroundColor = [UIColor clearColor];
     self.lastApkVerLab.font = [UIFont systemFontOfSize:14];
     self.lastApkVerLab.textColor = [UIColor blackColor];
-    self.lastApkVerLab.text = [NSString stringWithFormat:@"小平台最后心跳时间:%@",self.lastHeartTModel.ltime];
+    self.lastApkVerLab.text = [NSString stringWithFormat:@"小平台最后心跳时间: %@",self.lastHeartTModel.ltime];
     [headView addSubview:self.lastApkVerLab];
     [self.lastApkVerLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.lastPlatformVerLab.mas_bottom).offset(5);
@@ -327,6 +331,32 @@
         self.lastApkDotImg.backgroundColor = [UIColor greenColor];
     }
     
+    self.intranetIPLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
+    self.intranetIPLab.backgroundColor = [UIColor clearColor];
+    self.intranetIPLab.font = [UIFont systemFontOfSize:14];
+    self.intranetIPLab.textColor = [UIColor blackColor];
+    self.intranetIPLab.text = [NSString stringWithFormat:@"小平台内网IP: %@",GetNoNullString(self.lastSmallModel.pla_inner_ip)];
+    [headView addSubview:self.intranetIPLab];
+    [self.intranetIPLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(kMainBoundsWidth - 15 - 30);
+        make.height.mas_equalTo(20);
+    }];
+    
+    self.externalIPLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 30, 0)];
+    self.externalIPLab.backgroundColor = [UIColor clearColor];
+    self.externalIPLab.font = [UIFont systemFontOfSize:14];
+    self.externalIPLab.textColor = [UIColor blackColor];
+    self.externalIPLab.text = [NSString stringWithFormat:@"小平台外网IP: %@",GetNoNullString(self.lastSmallModel.pla_out_ip)];
+    [headView addSubview:self.externalIPLab];
+    [self.externalIPLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.intranetIPLab.mas_bottom).offset(5);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(kMainBoundsWidth - 15 - 30);
+        make.height.mas_equalTo(20);
+    }];
+    
     self.mRecordLabel = [[UILabel alloc]init];
     self.mRecordLabel.font = [UIFont systemFontOfSize:14];
     self.mRecordLabel.textColor = [UIColor blackColor];
@@ -335,7 +365,7 @@
     [headView addSubview:self.mRecordLabel];
     [self.mRecordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(65, 17));
-        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.externalIPLab.mas_bottom).offset(5);
         make.left.mas_equalTo(15);
     }];
 
@@ -348,7 +378,7 @@
     [headView addSubview:self.mReContentLabel];
     [self.mReContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 65 - 100, 17));
-        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.externalIPLab.mas_bottom).offset(5);
         make.left.mas_equalTo(self.mRecordLabel.mas_right).offset(5);
     }];
     
@@ -368,14 +398,14 @@
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(reConHeight);
         }];
-        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 155 + reConHeight);
+        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 155 + 50 + reConHeight);
         self.mReContentLabel.text = mReConString;
         
     }else{
         [self.mReContentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(17);
         }];
-        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170);
+        headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 170 + 50);
         self.mReContentLabel.text = @"无";
     }
     
@@ -390,7 +420,7 @@
     [button addTarget:self action:@selector(mPlatformClicked) forControlEvents:UIControlEventTouchUpInside];
     [headView addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.lastApkVerLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.externalIPLab.mas_bottom).offset(5);
         make.right.mas_equalTo(-15);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(20);

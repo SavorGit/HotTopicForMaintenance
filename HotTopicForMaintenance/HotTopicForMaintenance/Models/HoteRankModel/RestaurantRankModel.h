@@ -48,6 +48,8 @@
 @property(nonatomic, copy) NSString *neSmall;
 @property(nonatomic, copy) NSString *small_mac;
 @property(nonatomic, copy) NSString *banwei;
+@property(nonatomic, copy) NSString *pla_inner_ip;
+@property(nonatomic, copy) NSString *pla_out_ip;
 
 @property (nonatomic, strong) NSMutableArray * recordList;
 
