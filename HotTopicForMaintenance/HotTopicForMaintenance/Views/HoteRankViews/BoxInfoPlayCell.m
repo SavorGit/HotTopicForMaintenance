@@ -65,7 +65,7 @@
 - (void)configWithDict:(NSDictionary *)dict
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
-    NSString * type = [dict objectForKey:@"type"];
+    NSString * type = GetNoNullString([dict objectForKey:@"type"]);
     self.playeTypeLabel.text = type;
     if (type.length == 2) {
         [self.playeTypeLabel mas_updateConstraints:^(MASConstraintMaker *make) {

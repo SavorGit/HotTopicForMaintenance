@@ -18,7 +18,6 @@
 #import "InstallProAlertView.h"
 #import "TaskListDetailRequest.h"
 #import "TaskRepairAlertModel.h"
-#import "GetBoxListRequest.h"
 #import "RestaurantRankModel.h"
 #import "PositionListViewController.h"
 #import "RefuseRequest.h"
