@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TaskAssinModel.h"
 
 @interface HandleTaskListCell : UITableViewCell
 
-- (void)configWithInfo:(NSDictionary *)info date:(NSString *)date taskID:(NSString *)taskID isInstallTeam:(NSInteger)installTeam;
+- (void)configWithInfo:(NSDictionary *)info andModel:(TaskAssinModel *)model date:(NSString *)date taskID:(NSString *)taskID isInstallTeam:(NSInteger)installTeam;
 
 @end

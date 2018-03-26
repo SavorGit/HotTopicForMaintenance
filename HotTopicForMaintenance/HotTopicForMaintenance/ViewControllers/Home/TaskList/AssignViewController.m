@@ -10,6 +10,11 @@
 #import "HotTopicTools.h"
 #import "HandleTaskListCell.h"
 #import "HandleTaskListRequest.h"
+#import "TaskAssinModel.h"
+#import "RDAlertAction.h"
+#import "RDAlertView.h"
+#import "AssignRequest.h"
+#import "UserManager.h"
 
 @interface AssignViewController ()<UITableViewDelegate, UITableViewDataSource>;
 
@@ -26,8 +31,11 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, strong) NSMutableArray * dataMoSource;
 
 @property (nonatomic, strong) UILabel * excureTotalLabel;
+
+@property (nonatomic, strong) UIView * bottomView;
 
 @end
 
@@ -46,6 +54,7 @@
     
     self.title = @"指派人员";
     [self createHeaderView];
+    [self creatBottomView];
 }
 
 - (void)createHeaderView
@@ -270,6 +279,88 @@
     }];
     
     self.tableView.tableHeaderView = self.headerView;
+    
+}
+
+- (void)creatBottomView{
+    
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    //底部操作栏
+    self.bottomView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.bottomView.backgroundColor = UIColorFromRGB(0xffffff);
+    [self.view addSubview:self.bottomView];
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.mas_equalTo(0);
+        make.height.mas_equalTo(58.f * scale);
+    }];
+    
+    UIView * tlineView = [[UIView alloc] initWithFrame:CGRectZero];
+    tlineView.backgroundColor =UIColorFromRGB(0xf5f5f5);
+    [self.bottomView addSubview:tlineView];
+    [tlineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(1.f);
+    }];
+    
+    UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"指派" cornerRadius:5.f];
+    [assignButton addTarget:self action:@selector(assignButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomView addSubview:assignButton];
+    [assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(0);
+        make.left.mas_equalTo(15.f * scale);
+        make.width.mas_equalTo(kMainBoundsWidth - 30.f * scale);
+        make.height.mas_equalTo(44.f * scale);
+    }];
+    
+}
+
+- (void)assignButtonDidClicked{
+    
+    NSMutableString *userIdStr = [NSMutableString new];
+    NSMutableString *nameStr = [NSMutableString new];
+    for (int i = 0; i < self.dataMoSource.count; i ++) {
+        TaskAssinModel *tmpModel = [self.dataMoSource objectAtIndex:i];
+        if (tmpModel.isSelect == YES) {
+            [userIdStr appendString:[NSString stringWithFormat:@",%@",tmpModel.user_id]];
+            [nameStr appendString:[NSString stringWithFormat:@",%@",tmpModel.username]];
+        }
+    }
+    NSString *uIdStr = [userIdStr substringFromIndex:1];
+    NSString *naStr = [nameStr substringFromIndex:1];
+     
+    NSString * alertStr = [NSString stringWithFormat:@"是否指派该任务给 %@", naStr];
+    RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+        
+    } bold:NO];
+    RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+        
+        AssignRequest * request = [[AssignRequest alloc] initWithDate:self.dateLabel.text assginID:[UserManager manager].user.userid handleID:uIdStr taskID:self.model.cid isInstallTeam:self.isInstallTeam];
+        [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
+            [MBProgressHUD showTextHUDWithText:@"指派成功" inView:[UIApplication sharedApplication].keyWindow];
+            
+        } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            if ([response objectForKey:@"msg"]) {
+                [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:[UIApplication sharedApplication].keyWindow];
+            }else{
+                [MBProgressHUD showTextHUDWithText:@"指派失败" inView:[UIApplication sharedApplication].keyWindow];
+            }
+            
+        } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+            
+            [MBProgressHUD showTextHUDWithText:@"指派失败" inView:[UIApplication sharedApplication].keyWindow];
+            
+        }];
+        
+    } bold:YES];
+    
+    RDAlertView * alert = [[RDAlertView alloc] initWithTitle:@"提示" message:alertStr];
+    [alert addActions:@[action1, action2]];
+    [alert show];
+    
 }
 
 - (void)refrePress{
@@ -294,6 +385,13 @@
         [hud hideAnimated:YES];
         
         if ([result isKindOfClass:[NSArray class]] && result.count > 0) {
+            
+            for (int i = 0; i < result.count; i ++) {
+                TaskAssinModel *model = [[TaskAssinModel alloc] initWithDictionary:result[i]];
+                [self.dataMoSource addObject:model];
+            }
+            
+            
             [self.dataSource addObjectsFromArray:result];
             self.excureTotalLabel.text = [NSString stringWithFormat:@"共%ld个执行者",result.count];
         }else{
@@ -318,7 +416,7 @@
 {
     HandleTaskListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"HandleTaskListCell" forIndexPath:indexPath];
     
-    [cell configWithInfo:[self.dataSource objectAtIndex:indexPath.row] date:self.dateLabel.text taskID:self.model.cid isInstallTeam:self.isInstallTeam];
+    [cell configWithInfo:[self.dataSource objectAtIndex:indexPath.row] andModel:[self.dataMoSource objectAtIndex:indexPath.row]  date:self.dateLabel.text taskID:self.model.cid isInstallTeam:self.isInstallTeam];
     
     return cell;
 }
@@ -388,6 +486,7 @@
 - (UITableView *)tableView
 {
     if (!_tableView) {
+        CGFloat scale = kMainBoundsWidth / 375.f;
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.dataSource = self;
         _tableView.delegate = self;
@@ -397,7 +496,9 @@
         [_tableView registerClass:[HandleTaskListCell class] forCellReuseIdentifier:@"HandleTaskListCell"];
         [self.view addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(0);
+            make.top.mas_equalTo(0);
+            make.left.mas_equalTo(0);
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64 - 58.f *scale));
         }];
     }
     return _tableView;
@@ -411,6 +512,13 @@
     return _dataSource;
 }
 
+- (NSMutableArray *)dataMoSource
+{
+    if (!_dataMoSource) {
+        _dataMoSource = [[NSMutableArray alloc] init];
+    }
+    return _dataMoSource;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

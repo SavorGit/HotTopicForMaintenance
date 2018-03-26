@@ -25,7 +25,9 @@
 @property (nonatomic, copy) NSString * taskID;
 @property (nonatomic, copy) NSString * date;
 @property (nonatomic, strong) NSDictionary * info;
+@property (nonatomic, strong) TaskAssinModel * model;
 @property (nonatomic, assign) NSInteger installTeam;
+@property (nonatomic, strong) UIButton * assignButton;
 
 @end
 
@@ -86,15 +88,17 @@
         make.height.mas_equalTo(15.f * scale);
     }];
     
-    UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16.f * scale) backgroundColor:kNavBackGround title:@"指派" cornerRadius:5.f];
-    [self.baseView addSubview:assignButton];
-    [assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16.f * scale) backgroundColor:[UIColor clearColor] title:@"" cornerRadius:5.f];
+    [self.assignButton setImage:[UIImage imageNamed:@"cuo"] forState:UIControlStateNormal];
+    [self.assignButton setImage:[UIImage imageNamed:@"dui"] forState:UIControlStateSelected];
+    [self.baseView addSubview:self.assignButton];
+    [self.assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(5.f * scale);
-        make.right.mas_equalTo(-15.f * scale);
+        make.right.mas_equalTo(- 5.f * scale);
         make.width.mas_equalTo(60.f * scale);
         make.height.mas_equalTo(30.f * scale);
     }];
-    [assignButton addTarget:self action:@selector(assginButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.assignButton addTarget:self action:@selector(assginButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     
     self.listView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.baseView addSubview:self.listView];
@@ -108,45 +112,57 @@
 
 - (void)assginButtonDidClicked
 {
-    NSString * handleID = [self.info objectForKey:@"user_id"];
-    NSString * handleName = [self.info objectForKey:@"username"];
-    NSString * alertStr = [NSString stringWithFormat:@"是否指派该任务给 %@", handleName];
-    RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
-        
-    } bold:NO];
-    RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
-        
-        AssignRequest * request = [[AssignRequest alloc] initWithDate:self.date assginID:[UserManager manager].user.userid handleID:handleID taskID:self.taskID isInstallTeam:self.installTeam];
-        [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
-            [MBProgressHUD showTextHUDWithText:@"指派成功" inView:[UIApplication sharedApplication].keyWindow];
-            
-        } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-            
-            if ([response objectForKey:@"msg"]) {
-                [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:[UIApplication sharedApplication].keyWindow];
-            }else{
-                [MBProgressHUD showTextHUDWithText:@"指派失败" inView:[UIApplication sharedApplication].keyWindow];
-            }
-            
-        } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-            
-            [MBProgressHUD showTextHUDWithText:@"指派失败" inView:[UIApplication sharedApplication].keyWindow];
-            
-        }];
-        
-    } bold:YES];
-    
-    RDAlertView * alert = [[RDAlertView alloc] initWithTitle:@"提示" message:alertStr];
-    [alert addActions:@[action1, action2]];
-    [alert show];
+    if (!self.model.isSelect) {
+        self.model.isSelect = YES;
+        self.assignButton.selected = YES;
+    }else{
+        self.model.isSelect = NO;
+        self.assignButton.selected = NO;
+    }
 }
 
-- (void)configWithInfo:(NSDictionary *)info date:(NSString *)date taskID:(NSString *)taskID isInstallTeam:(NSInteger)installTeam
+//- (void)assginButtonDidClicked
+//{
+//    NSString * handleID = [self.info objectForKey:@"user_id"];
+//    NSString * handleName = [self.info objectForKey:@"username"];
+//    NSString * alertStr = [NSString stringWithFormat:@"是否指派该任务给 %@", handleName];
+//    RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+//
+//    } bold:NO];
+//    RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+//
+//        AssignRequest * request = [[AssignRequest alloc] initWithDate:self.date assginID:[UserManager manager].user.userid handleID:handleID taskID:self.taskID isInstallTeam:self.installTeam];
+//        [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+//
+//            [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
+//            [MBProgressHUD showTextHUDWithText:@"指派成功" inView:[UIApplication sharedApplication].keyWindow];
+//
+//        } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+//
+//            if ([response objectForKey:@"msg"]) {
+//                [MBProgressHUD showTextHUDWithText:[response objectForKey:@"msg"] inView:[UIApplication sharedApplication].keyWindow];
+//            }else{
+//                [MBProgressHUD showTextHUDWithText:@"指派失败" inView:[UIApplication sharedApplication].keyWindow];
+//            }
+//
+//        } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+//
+//            [MBProgressHUD showTextHUDWithText:@"指派失败" inView:[UIApplication sharedApplication].keyWindow];
+//
+//        }];
+//
+//    } bold:YES];
+//
+//    RDAlertView * alert = [[RDAlertView alloc] initWithTitle:@"提示" message:alertStr];
+//    [alert addActions:@[action1, action2]];
+//    [alert show];
+//}
+
+- (void)configWithInfo:(NSDictionary *)info andModel:(TaskAssinModel *)model date:(NSString *)date taskID:(NSString *)taskID isInstallTeam:(NSInteger)installTeam
 {
     self.installTeam = installTeam;
     self.info = info;
+    self.model = model;
     [self.listView removeAllSubviews];
     
     self.taskID = taskID;

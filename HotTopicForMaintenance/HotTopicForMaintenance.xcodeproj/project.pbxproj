@@ -174,6 +174,7 @@
 		96AA19B91F60DC7B00C06CE8 /* DamageUploadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19B81F60DC7B00C06CE8 /* DamageUploadModel.m */; };
 		96AA19BC1F60E20500C06CE8 /* DamageUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19BB1F60E20500C06CE8 /* DamageUploadRequest.m */; };
 		96AA19BF1F6626B900C06CE8 /* RDFrequentlyUsed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AA19BE1F6626B900C06CE8 /* RDFrequentlyUsed.m */; };
+		96D4AE312068951100296FD9 /* TaskAssinModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D4AE302068951100296FD9 /* TaskAssinModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -536,6 +537,8 @@
 		96AA19BB1F60E20500C06CE8 /* DamageUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageUploadRequest.m; sourceTree = "<group>"; };
 		96AA19BD1F6626B900C06CE8 /* RDFrequentlyUsed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFrequentlyUsed.h; sourceTree = "<group>"; };
 		96AA19BE1F6626B900C06CE8 /* RDFrequentlyUsed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDFrequentlyUsed.m; sourceTree = "<group>"; };
+		96D4AE2F2068951100296FD9 /* TaskAssinModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskAssinModel.h; sourceTree = "<group>"; };
+		96D4AE302068951100296FD9 /* TaskAssinModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskAssinModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -750,6 +753,8 @@
 			children = (
 				069C38631FA85C26003F92EF /* TaskModel.h */,
 				069C38641FA85C26003F92EF /* TaskModel.m */,
+				96D4AE2F2068951100296FD9 /* TaskAssinModel.h */,
+				96D4AE302068951100296FD9 /* TaskAssinModel.m */,
 				969A3C821FB036C000EB95C9 /* TaskRepairAlertModel.h */,
 				969A3C831FB036C000EB95C9 /* TaskRepairAlertModel.m */,
 				06C44BFC1FA9A2A50050FDBC /* TaskListModel.h */,
@@ -1603,6 +1608,7 @@
 				066006211FB583B3007F94D2 /* InstallDetailCell.m in Sources */,
 				96AA19AD1F5FDFDC00C06CE8 /* RepairRecordRankModel.m in Sources */,
 				065FDA141FB29AD700B6DF9C /* GetCreateTaskListRequest.m in Sources */,
+				96D4AE312068951100296FD9 /* TaskAssinModel.m in Sources */,
 				962E93E62016D15600F48C62 /* MyInspectTableViewCell.m in Sources */,
 				9632FFF32029907E009B62AF /* UserNameViewController.m in Sources */,
 				9617A1981FE8A9BD00199D34 /* SingleLookHotelInforRequest.m in Sources */,
