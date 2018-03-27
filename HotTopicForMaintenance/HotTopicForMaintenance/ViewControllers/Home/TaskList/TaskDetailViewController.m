@@ -1045,6 +1045,8 @@
     // 4 为维修类型
     if (self.taskListModel.task_type_id == 4) {
         dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toJSONString],@"repair_img",textViewStr,@"remark", nil];
+    }else if (self.taskListModel.task_type_id == 2){
+        dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toJSONString],@"repair_img",textViewStr,@"remark",self.actInstallNum,@"real_tv_nums", nil];
     }else{
         dic = [NSDictionary dictionaryWithObjectsAndKeys:boxId,@"box_id",repairState,@"state",taskType,@"task_type",userId,@"user_id",taskId,@"task_id",[self.subMitPosionArray toJSONString],@"repair_img",textViewStr,@"remark", nil];
     }

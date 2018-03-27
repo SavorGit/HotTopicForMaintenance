@@ -126,19 +126,19 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     switch (model.state_id) {
-        case TaskStatusType_WaitAssign:
+        case TaskStatusType_WaitAssign://待指派
             return 134.f * scale + 1;
             break;
             
-        case TaskStatusType_WaitHandle:
+        case TaskStatusType_WaitHandle://待处理
             return 182.f * scale + 3;
             break;
             
-        case TaskStatusType_Completed:
+        case TaskStatusType_Completed://已完成
             return 206.f * scale + 4;
             break;
             
-        case TaskStatusType_Refuse:
+        case TaskStatusType_Refuse://已拒绝
             return 158.f * scale + 2;
             break;
             

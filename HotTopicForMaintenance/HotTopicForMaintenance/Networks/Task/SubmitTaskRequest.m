@@ -39,6 +39,9 @@
         if (!isEmptyString([dataDic objectForKey:@"remark"])) {
             [self setValue:[dataDic objectForKey:@"remark"] forParamKey:@"remark"];
         }
+        if (!isEmptyString([dataDic objectForKey:@"real_tv_nums"])) {
+            [self setValue:[dataDic objectForKey:@"real_tv_nums"] forParamKey:@"real_tv_nums"];
+        }
         
     }
     return self;

@@ -26,10 +26,18 @@
 @property (nonatomic, strong) UILabel * hotelNameLabel;
 
 @property (nonatomic, strong) UILabel * localLabel;
+
+@property (nonatomic, strong) UILabel * assignHandelTLabel;
 @property (nonatomic, strong) UILabel * assignHandelLabel;
+
 @property (nonatomic, strong) UILabel * createLabel;
+
+@property (nonatomic, strong) UILabel * assignTLabel;
 @property (nonatomic, strong) UILabel * assignLabel;
+
+@property (nonatomic, strong) UILabel * completeTLabel;
 @property (nonatomic, strong) UILabel * completeLabel;
+
 @property (nonatomic, strong) UILabel * refuseLabel;
 
 @property (nonatomic, strong) UILabel * installTeamLabel;
@@ -262,10 +270,20 @@
         self.refuseReasonLabel.text = [NSString stringWithFormat:@"拒绝原因：%@", self.model.refuse_desc];
     }
     
+    self.assignHandelTLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
     self.assignHandelLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
+     self.assignHandelLabel.numberOfLines = 0;
+    
     self.createLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
+    
+    self.assignTLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
     self.assignLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
+    self.assignLabel.numberOfLines = 0;
+    
+    self.completeTLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
     self.completeLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
+    self.completeLabel.numberOfLines = 0;
+    
     self.refuseLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(14.f * scale) alignment:NSTextAlignmentLeft];
 }
 
@@ -379,18 +397,31 @@
                 }];
             }
             
-            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.exeuser];
+            self.assignHandelTLabel.text = @"指派执行时间：";
+            self.assignHandelLabel.text = [NSString stringWithFormat:@"%@ (%@)", model.appoint_exe_time, model.exeuser];
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
             self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@ (%@)", model.appoint_time, model.appoint_user];
+            [self.timeView addSubview:self.assignHandelTLabel];
             [self.timeView addSubview:self.assignHandelLabel];
             [self.timeView addSubview:self.createLabel];
             [self.timeView addSubview:self.assignLabel];
             
-            [self.assignHandelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(self.localLabel.mas_bottom).offset(10);
-                make.left.right.mas_equalTo(0);
-                make.height.mas_equalTo(14.f * scale + 1);
+            [self.assignHandelTLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.localLabel.mas_bottom).offset(7);
+                make.left.mas_equalTo(0);
+                make.width.mas_equalTo(98.f *scale);
+                make.height.mas_equalTo(21.67f);
             }];
+            
+            CGFloat ahHeight = [HotTopicTools getHeightByWidth:self.width - (92.5 + 98) *scale title:self.assignHandelLabel.text font:kPingFangRegular(14.f * scale)];
+            
+            [self.assignHandelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.localLabel.mas_bottom).offset(7);
+                make.left.mas_equalTo(self.assignHandelTLabel.mas_right);
+                make.width.mas_equalTo(self.width - (92.5 + 98) *scale);
+                make.height.mas_equalTo(ahHeight);
+            }];
+            
             [self.createLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(self.assignHandelLabel.mas_bottom).offset(10);
                 make.left.right.mas_equalTo(0);
@@ -403,6 +434,7 @@
             }];
             
             self.statusLabel.textColor = UIColorFromRGB(0x26bcef);
+            self.height = self.height + ahHeight - 21.67f;
         }
             break;
             
@@ -418,37 +450,74 @@
                 }];
             }
             
-            self.assignHandelLabel.text = [NSString stringWithFormat:@"指派执行时间：%@ (%@)", model.appoint_exe_time, model.exeuser];
+            self.assignHandelTLabel.text = @"指派执行时间：";
+            self.assignHandelLabel.text = [NSString stringWithFormat:@"%@ (%@)", model.appoint_exe_time, model.exeuser];
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
-            self.assignLabel.text = [NSString stringWithFormat:@"指派时间：%@ (%@)", model.appoint_time, model.appoint_user];
-            self.completeLabel.text = [NSString stringWithFormat:@"完成时间：%@ (%@)", model.complete_time, model.exeuser];
+            self.assignTLabel.text = @"指派时间：";
+            self.assignLabel.text = [NSString stringWithFormat:@"%@ (%@)", model.appoint_time, model.appoint_user];
+            
+            self.completeTLabel.text = @"完成时间：";
+            self.completeLabel.text = [NSString stringWithFormat:@"%@ (%@)", model.complete_time, model.exeuser];
+            [self.timeView addSubview:self.assignHandelTLabel];
             [self.timeView addSubview:self.assignHandelLabel];
             [self.timeView addSubview:self.createLabel];
+            [self.timeView addSubview:self.assignTLabel];
             [self.timeView addSubview:self.assignLabel];
+            [self.timeView addSubview:self.completeTLabel];
             [self.timeView addSubview:self.completeLabel];
             
-            [self.assignHandelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(self.localLabel.mas_bottom).offset(10);
-                make.left.right.mas_equalTo(0);
-                make.height.mas_equalTo(14.f * scale + 1);
+            [self.assignHandelTLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.localLabel.mas_bottom).offset(7);
+                make.left.mas_equalTo(0);
+                make.width.mas_equalTo(98.f *scale);
+                make.height.mas_equalTo(21.67f);
             }];
+            
+            CGFloat ahHeight = [HotTopicTools getHeightByWidth:self.width - (92.5 + 98) *scale title:self.assignHandelLabel.text font:kPingFangRegular(14.f * scale)];
+            
+            [self.assignHandelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.localLabel.mas_bottom).offset(7);
+                make.left.mas_equalTo(self.assignHandelTLabel.mas_right);
+                make.width.mas_equalTo(self.width - (92.5 + 98) *scale);
+                make.height.mas_equalTo(ahHeight);
+            }];
+            
             [self.createLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(self.assignHandelLabel.mas_bottom).offset(10);
                 make.left.right.mas_equalTo(0);
                 make.height.mas_equalTo(14.f * scale + 1);
             }];
-            [self.assignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(self.createLabel.mas_bottom).offset(10);
-                make.left.right.mas_equalTo(0);
-                make.height.mas_equalTo(14.f * scale + 1);
+            [self.assignTLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.createLabel.mas_bottom).offset(7);
+                make.left.mas_equalTo(0);
+                make.width.mas_equalTo(70.f *scale);
+                make.height.mas_equalTo(21.67f);
             }];
+            
+            CGFloat asHeight = [HotTopicTools getHeightByWidth:self.width - (92.5 + 70) *scale title:self.assignLabel.text font:kPingFangRegular(14.f * scale)];
+            [self.assignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.createLabel.mas_bottom).offset(7);
+                make.left.mas_equalTo(self.assignTLabel.mas_right);
+                make.width.mas_equalTo(self.width - (92.5 + 70) *scale);
+                make.height.mas_equalTo(asHeight);
+            }];
+            
+            [self.completeTLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.assignLabel.mas_bottom).offset(7);
+                make.left.mas_equalTo(0);
+                make.width.mas_equalTo(70.f *scale);
+                make.height.mas_equalTo(21.67f);
+            }];
+            CGFloat cpHeight = [HotTopicTools getHeightByWidth:self.width - (92.5 + 70) *scale title:self.completeLabel.text font:kPingFangRegular(14.f * scale)];
             [self.completeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(self.assignLabel.mas_bottom).offset(10);
-                make.left.right.mas_equalTo(0);
-                make.height.mas_equalTo(14.f * scale + 1);
+                make.top.mas_equalTo(self.assignLabel.mas_bottom).offset(7);
+                make.left.mas_equalTo(self.completeTLabel.mas_right);
+                make.width.mas_equalTo(self.width - (92.5 + 70) *scale);
+                make.height.mas_equalTo(cpHeight);
             }];
             
             self.statusLabel.textColor = UIColorFromRGB(0x62ad19);
+            self.height = self.height + ahHeight - 21.67f + asHeight - 21.67f + cpHeight - 21.67f;
         }
             break;
             
