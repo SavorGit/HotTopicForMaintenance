@@ -65,5 +65,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) NSInteger is_lead_install;
 
 @property (nonatomic, copy) NSString * desc;
+@property (nonatomic, copy) NSString * real_tv_nums;//实际完成版位数量
 
 @end

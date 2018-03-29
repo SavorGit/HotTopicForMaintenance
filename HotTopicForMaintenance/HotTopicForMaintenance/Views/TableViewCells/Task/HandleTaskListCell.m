@@ -27,7 +27,7 @@
 @property (nonatomic, strong) NSDictionary * info;
 @property (nonatomic, strong) TaskAssinModel * model;
 @property (nonatomic, assign) NSInteger installTeam;
-@property (nonatomic, strong) UIButton * assignButton;
+@property (nonatomic, strong) UIImageView * assignView;
 
 @end
 
@@ -88,17 +88,19 @@
         make.height.mas_equalTo(15.f * scale);
     }];
     
-    self.assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16.f * scale) backgroundColor:[UIColor clearColor] title:@"" cornerRadius:5.f];
-    [self.assignButton setImage:[UIImage imageNamed:@"cuo"] forState:UIControlStateNormal];
-    [self.assignButton setImage:[UIImage imageNamed:@"dui"] forState:UIControlStateSelected];
-    [self.baseView addSubview:self.assignButton];
-    [self.assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.assignView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.baseView addSubview:self.assignView];
+    [self.assignView setImage:[UIImage imageNamed:@"yes"]];
+    [self.assignView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(5.f * scale);
-        make.right.mas_equalTo(- 5.f * scale);
-        make.width.mas_equalTo(60.f * scale);
-        make.height.mas_equalTo(30.f * scale);
+        make.right.mas_equalTo(- 15.f * scale);
+        make.width.mas_equalTo(20.f * scale);
+        make.height.mas_equalTo(20.f * scale);
     }];
-    [self.assignButton addTarget:self action:@selector(assginButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(assginButtonDidClicked:)];
+    tap.numberOfTapsRequired = 1;
+    [self.baseView  addGestureRecognizer:tap];
     
     self.listView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.baseView addSubview:self.listView];
@@ -110,14 +112,18 @@
     }];
 }
 
-- (void)assginButtonDidClicked
+- (void)assginButtonDidClicked:(UIGestureRecognizer *)gesture
 {
     if (!self.model.isSelect) {
         self.model.isSelect = YES;
-        self.assignButton.selected = YES;
+        [self.assignView setImage:[UIImage imageNamed:@"yes_gl"]];
     }else{
         self.model.isSelect = NO;
-        self.assignButton.selected = NO;
+        [self.assignView setImage:[UIImage imageNamed:@"yes"]];
+    }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(assignBtnClicked)]) {
+        [_delegate assignBtnClicked];
     }
 }
 

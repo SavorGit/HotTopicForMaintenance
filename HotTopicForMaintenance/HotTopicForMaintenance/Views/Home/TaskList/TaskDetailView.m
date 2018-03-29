@@ -44,9 +44,13 @@
 
 @property (nonatomic, strong) UILabel * refuseReasonLabel;
 
+@property (nonatomic, strong) UILabel * contactsTLabel;
+
 @property (nonatomic, strong) UILabel * contactsLabel;
 
 @property (nonatomic, strong) UILabel * detailRemarkLabel;
+
+@property (nonatomic, strong) UILabel * actInstallNumLabel;
 
 @end
 
@@ -207,12 +211,23 @@
     contactButton.layer.borderWidth = 1.f;
     [contactButton addTarget:self action:@selector(contactButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     
-    self.contactsLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
-    [self.bottomView addSubview:self.contactsLabel];
-    [self.contactsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.contactsTLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.contactsTLabel.text = @"联系方式：";
+    [self.bottomView addSubview:self.contactsTLabel];
+    [self.contactsTLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(bottomLine.mas_bottom).offset(15.f * scale);
         make.left.mas_equalTo(20 * scale);
-        make.right.mas_equalTo(-20 * scale);
+        make.width.mas_equalTo(75 * scale);
+        make.height.mas_equalTo(15.f * scale + 1);
+    }];
+    
+    self.contactsLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    [self.bottomView addSubview:self.contactsLabel];
+    self.contactsLabel.numberOfLines = 0;
+    [self.contactsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(bottomLine.mas_bottom).offset(15.f * scale);
+        make.left.mas_equalTo(self.contactsTLabel.mas_right);
+        make.width.mas_equalTo(200 * scale);
         make.height.mas_equalTo(15.f * scale + 1);
     }];
     
@@ -229,6 +244,11 @@
     self.detailRemarkLabel.numberOfLines = 0;
     self.detailRemarkLabel.text = @"备注：无";
     [self.bottomView addSubview:self.detailRemarkLabel];
+    
+    self.actInstallNumLabel = [HotTopicTools labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15.f * scale) alignment:NSTextAlignmentLeft];
+    self.actInstallNumLabel.numberOfLines = 0;
+    self.actInstallNumLabel.text = @"实际安装数量：无";
+    [self.bottomView addSubview:self.actInstallNumLabel];
     
     if (self.model.state_id == TaskStatusType_WaitHandle || self.model.state_id == TaskStatusType_Completed) {
         
@@ -327,10 +347,24 @@
         make.left.mas_equalTo(20 * scale);
         make.right.mas_equalTo(-20 * scale);
         make.height.mas_equalTo(height2);
-        make.bottom.mas_equalTo(-15 * scale);
+        make.bottom.mas_equalTo(- 15 * scale);
     }];
     
     height2 += 30 * scale;
+    
+    if (isEmptyString(model.real_tv_nums)) {
+        self.actInstallNumLabel.hidden = YES;
+    }else{
+        self.actInstallNumLabel.hidden = NO;
+        self.actInstallNumLabel.text = [NSString stringWithFormat:@"实际安装数量：%@", model.real_tv_nums];
+        [self.actInstallNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(20 * scale);
+            make.right.mas_equalTo(-20 * scale);
+            make.height.mas_equalTo(20 *scale);
+            make.bottom.mas_equalTo(self.detailRemarkLabel.mas_top).offset(- 5 *scale);
+        }];
+        height2 += 25 * scale;
+    }
     
     UIView * lineView2 = [[UIView alloc] initWithFrame:CGRectZero];
     lineView2.backgroundColor = UIColorFromRGB(0xd7d7d7);
@@ -341,8 +375,29 @@
         make.height.mas_equalTo(.5f);
     }];
     
+    CGFloat newContactHeight = 0.f;
+    NSString *actContactStr = [NSString stringWithFormat:@"%@  %@", model.hotel_linkman, model.hotel_linkman_tel];
+    CGFloat actContactheight = [HotTopicTools getHeightByWidth:50 *scale title:actContactStr font:kPingFangRegular(15.f * scale)];
+    if (actContactheight > 24.f) {
+        newContactHeight = 30.f;
+        self.contactsLabel.text = [NSString stringWithFormat:@"%@\n%@", model.hotel_linkman, model.hotel_linkman_tel];
+    }else{
+        newContactHeight = 0.f;
+        self.contactsLabel.text = [NSString stringWithFormat:@"%@  %@", model.hotel_linkman, model.hotel_linkman_tel];
+    }
+    [self.contactsTLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(20 * scale);
+        make.width.mas_equalTo(75 * scale);
+        make.height.mas_equalTo(15 * scale + newContactHeight + 1);
+    }];
+    [self.contactsLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.contactsTLabel.mas_right);
+        make.width.mas_equalTo(200 * scale);
+        make.height.mas_equalTo(15 * scale + newContactHeight + 1);
+    }];
+    
     CGRect frame = self.frame;
-    frame.size.height += (height1 + 10);
+    frame.size.height += (height1 + 10 + newContactHeight);
     frame.size.height += height2;
     self.frame = frame;
     
@@ -350,7 +405,6 @@
     self.handleLabel.text = model.task_type_desc;
     self.statusLabel.text = model.state;
     self.cityLabel.text = [NSString stringWithFormat:@"(%@)", model.region_name];
-    self.contactsLabel.text = [NSString stringWithFormat:@"联系方式：%@   %@", model.hotel_linkman, model.hotel_linkman_tel];
     
     if (isEmptyString(model.tv_nums)) {
         self.deviceNumLabel.hidden = YES;
@@ -370,7 +424,7 @@
         case TaskStatusType_WaitAssign:
         {
             [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(49 * scale + height2);
+                make.height.mas_equalTo(49 * scale + height2 + newContactHeight);
             }];
             
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];
@@ -389,11 +443,11 @@
         {
             if (self.model.task_type_id == TaskType_Install) {
                 [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.height.mas_equalTo(79 * scale + height2);
+                    make.height.mas_equalTo(79 * scale + height2 + newContactHeight);
                 }];
             }else{
                 [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.height.mas_equalTo(49 * scale + height2);
+                    make.height.mas_equalTo(49 * scale + height2 + newContactHeight);
                 }];
             }
             
@@ -442,11 +496,11 @@
         {
             if (self.model.task_type_id == TaskType_Install) {
                 [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.height.mas_equalTo(79 * scale + height2);
+                    make.height.mas_equalTo(79 * scale + height2 + newContactHeight);
                 }];
             }else{
                 [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.height.mas_equalTo(49 * scale + height2);
+                    make.height.mas_equalTo(49 * scale + height2 + newContactHeight);
                 }];
             }
             
@@ -524,7 +578,7 @@
         case TaskStatusType_Refuse:
         {
             [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(79 * scale + height2);
+                make.height.mas_equalTo(79 * scale + height2 + newContactHeight);
             }];
             
             self.createLabel.text = [NSString stringWithFormat:@"发布时间：%@ (%@)", model.create_time, model.publish_user];

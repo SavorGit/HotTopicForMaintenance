@@ -45,14 +45,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    if (![model.cid isEqualToString:[UserManager manager].user.currentCity.cid]) {
+//        [UserManager manager].user.currentCity = model;
+//        [[NSNotificationCenter defaultCenter] postNotificationName:RDUserCityDidChangeNotification object:nil];
+//        [self dismissViewControllerAnimated:NO completion:^{
+//
+//        }];
+//    }
+    
     CityModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    if (![model.cid isEqualToString:[UserManager manager].user.currentCity.cid]) {
-        [UserManager manager].user.currentCity = model;
-        [[NSNotificationCenter defaultCenter] postNotificationName:RDUserCityDidChangeNotification object:nil];
-        [self dismissViewControllerAnimated:NO completion:^{
-            
-        }];
-    }
+    [UserManager manager].user.currentCity = model;
+    [[NSNotificationCenter defaultCenter] postNotificationName:RDUserCityDidChangeNotification object:nil];
+    [self dismissViewControllerAnimated:NO completion:^{
+        
+    }];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

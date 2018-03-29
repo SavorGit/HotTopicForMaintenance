@@ -84,6 +84,7 @@
 //            }
             [self.nameButton setTitle:model.remark forState:UIControlStateNormal];
             self.publishIdStr = model.publish_user_id;
+            self.pageNum = 1;
             [self getMyHotelList];
         };
         BaseNavigationController * na = [[BaseNavigationController alloc] initWithRootViewController:vc];

@@ -16,7 +16,7 @@
 #import "AssignRequest.h"
 #import "UserManager.h"
 
-@interface AssignViewController ()<UITableViewDelegate, UITableViewDataSource>;
+@interface AssignViewController ()<UITableViewDelegate, UITableViewDataSource,HandleTaskListCellDelegate>;
 
 @property (nonatomic, strong) UIView * headerView;
 @property (nonatomic, strong) UILabel * dateLabel;
@@ -36,6 +36,7 @@
 @property (nonatomic, strong) UILabel * excureTotalLabel;
 
 @property (nonatomic, strong) UIView * bottomView;
+@property (nonatomic, strong) UIButton * assignButton;
 
 @end
 
@@ -303,10 +304,11 @@
         make.height.mas_equalTo(1.f);
     }];
     
-    UIButton * assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:UIColorFromRGB(0x00bcee) title:@"指派" cornerRadius:5.f];
-    [assignButton addTarget:self action:@selector(assignButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.bottomView addSubview:assignButton];
-    [assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.assignButton = [HotTopicTools buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16.f * scale) backgroundColor:[UIColor lightGrayColor] title:@"指派" cornerRadius:5.f];
+    [self.assignButton addTarget:self action:@selector(assignButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    self.assignButton.userInteractionEnabled = NO;
+    [self.bottomView addSubview:self.assignButton];
+    [self.assignButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
         make.left.mas_equalTo(15.f * scale);
         make.width.mas_equalTo(kMainBoundsWidth - 30.f * scale);
@@ -415,6 +417,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HandleTaskListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"HandleTaskListCell" forIndexPath:indexPath];
+    cell.delegate = self;
     
     [cell configWithInfo:[self.dataSource objectAtIndex:indexPath.row] andModel:[self.dataMoSource objectAtIndex:indexPath.row]  date:self.dateLabel.text taskID:self.model.cid isInstallTeam:self.isInstallTeam];
     
@@ -441,6 +444,27 @@
     CGFloat height = 80.f * scale + lineHeight * list.count;
     
     return height;
+}
+
+#pragma mark - 指派者被点击
+- (void)assignBtnClicked{
+    
+    BOOL isAtLeastOne = NO;
+    for (int i = 0 ; i < self.dataMoSource.count ; i ++) {
+        TaskAssinModel *tmpModel = self.dataMoSource[i];
+        if (tmpModel.isSelect == 1) {
+            isAtLeastOne = YES;
+            break;
+        }
+    }
+    
+    if (isAtLeastOne) {
+        [self.assignButton setBackgroundColor:UIColorFromRGB(0x00bcee)];
+        self.assignButton.userInteractionEnabled = YES;
+    }else{
+        [self.assignButton setBackgroundColor:[UIColor lightGrayColor]];
+        self.assignButton.userInteractionEnabled = NO;
+    }
 }
 
 - (void)installViewDidTap
