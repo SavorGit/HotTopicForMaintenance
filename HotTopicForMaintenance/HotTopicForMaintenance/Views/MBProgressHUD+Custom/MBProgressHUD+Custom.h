@@ -16,4 +16,6 @@
 
 + (MBProgressHUD *)showTextHUDWithText:(NSString *)text inView:(UIView *)view;
 
++ (MBProgressHUD *)showTextHUDWithText:(NSString *)text inView:(UIView *)view andFont:(NSUInteger)font;
+
 @end

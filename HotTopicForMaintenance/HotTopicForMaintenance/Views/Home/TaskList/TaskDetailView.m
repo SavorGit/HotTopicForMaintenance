@@ -377,7 +377,7 @@
     
     CGFloat newContactHeight = 0.f;
     NSString *actContactStr = [NSString stringWithFormat:@"%@  %@", model.hotel_linkman, model.hotel_linkman_tel];
-    CGFloat actContactheight = [HotTopicTools getHeightByWidth:50 *scale title:actContactStr font:kPingFangRegular(15.f * scale)];
+    CGFloat actContactheight = [HotTopicTools getHeightByWidth:200 *scale title:actContactStr font:kPingFangRegular(15.f * scale)];
     if (actContactheight > 24.f) {
         newContactHeight = 30.f;
         self.contactsLabel.text = [NSString stringWithFormat:@"%@\n%@", model.hotel_linkman, model.hotel_linkman_tel];

@@ -1069,7 +1069,7 @@
             NSDictionary *resuDic = dadaDic[@"result"];
             if (resuDic[@"state"]) {
                 if ([resuDic[@"state"] intValue] == 4) {
-                    [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+                    [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view andFont:12.f];
                     [[NSNotificationCenter defaultCenter] postNotificationName:RDTaskStatusDidChangeNotification object:nil];
                     if (self.taskListModel.task_type_id == 4){
                         [self dismissViewWithAnimationDuration:0.3];
@@ -1077,7 +1077,7 @@
                         [self dismissInstallAlertViewWithDuration:0.3];
                     }
                 }else{
-                    [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+                    [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view andFont:12.f];
                     if (self.taskListModel.task_type_id == 4){
                         [self dismissViewWithAnimationDuration:0.3];
                     }else{
@@ -1092,7 +1092,7 @@
         self.submitBtn.userInteractionEnabled = YES;
         self.installSubBtn.userInteractionEnabled = YES;
         NSDictionary *dadaDic = [NSDictionary dictionaryWithDictionary:response];
-        [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view];
+        [MBProgressHUD showTextHUDWithText:[dadaDic objectForKey:@"msg"] inView:self.view andFont:12.f];
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         self.submitBtn.userInteractionEnabled = YES;

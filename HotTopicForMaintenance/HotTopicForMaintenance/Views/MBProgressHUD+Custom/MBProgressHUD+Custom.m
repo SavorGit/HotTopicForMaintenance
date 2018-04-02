@@ -30,16 +30,31 @@
     return hud;
 }
 
-+ (MBProgressHUD *)showTextHUDWithText:(NSString *)text inView:(UIView *)view
++ (MBProgressHUD *)showTextHUDWithText:(NSString *)text inView:(UIView *)view andFont:(NSUInteger)font
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
     // Set the text mode to show only text.
     hud.mode = MBProgressHUDModeText;
     hud.label.text = text;
+    hud.label.font = [UIFont systemFontOfSize:font];
     // Move to bottm center.
     hud.offset = CGPointMake(0.f, 0.f);
     
+    [hud hideAnimated:YES afterDelay:1.f];
+    return hud;
+}
+
++ (MBProgressHUD *)showTextHUDWithText:(NSString *)text inView:(UIView *)view
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+
+    // Set the text mode to show only text.
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = text;
+    // Move to bottm center.
+    hud.offset = CGPointMake(0.f, 0.f);
+
     [hud hideAnimated:YES afterDelay:1.f];
     return hud;
 }
