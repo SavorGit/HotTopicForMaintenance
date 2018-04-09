@@ -36,7 +36,7 @@
 #define AliyunAccessKeyID @"LTAI6QZ3c2qBvmjs"
 #define AliyunAccessKeySecret @"bvE6fELl7Dgiyb5z2rP4tuYWZrQGzM"
 
-#define kVersionCode 2018032101
+#define kVersionCode 2018040901
 
 #define keychainID @"HotTopicsForMaintenanceKeychainID"
 
