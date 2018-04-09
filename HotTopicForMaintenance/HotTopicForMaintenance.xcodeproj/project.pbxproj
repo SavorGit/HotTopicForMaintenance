@@ -1868,8 +1868,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.maintenance;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2f622f24-db22-41e1-9aca-b8a6a52d39fe";
-				PROVISIONING_PROFILE_SPECIFIER = "Maintenance-ADHoc";
+				PROVISIONING_PROFILE = "182979bd-00e4-4b3a-90f5-9c77c395e8ac";
+				PROVISIONING_PROFILE_SPECIFIER = Maintenance_Distribution;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
