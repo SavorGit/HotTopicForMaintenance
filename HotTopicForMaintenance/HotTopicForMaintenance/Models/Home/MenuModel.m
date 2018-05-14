@@ -92,6 +92,13 @@
             
             break;
             
+        case MenuModelType_Rankings:
+            
+            self.title = @"排行";
+            self.imageName = @"rank";
+            
+            break;
+            
         case MenuModelType_Space:
             
             self.title = @"";

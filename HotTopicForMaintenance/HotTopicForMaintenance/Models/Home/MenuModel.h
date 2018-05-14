@@ -19,7 +19,8 @@ typedef enum : NSUInteger {
     MenuModelType_SingleVersion,
     MenuModelType_Inspect,
     MenuModelType_MyHotel,
-    MenuModelType_Space
+    MenuModelType_Space,
+    MenuModelType_Rankings
 } MenuModelType;
 
 @interface MenuModel : NSObject

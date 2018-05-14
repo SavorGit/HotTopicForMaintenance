@@ -33,6 +33,7 @@
 #import "SingleVRankInforViewController.h"
 #import "SingleInfoController.h"
 #import "TaskDetailViewController.h"
+#import "RankViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -84,6 +85,7 @@
     MenuModel * inspectModel = [[MenuModel alloc] initWithMenuType:MenuModelType_Inspect];
     MenuModel * myHotelModel = [[MenuModel alloc] initWithMenuType:MenuModelType_MyHotel];
     MenuModel * myTaskModel = [[MenuModel alloc] initWithMenuType:MenuModelType_MyTask];
+    MenuModel * rankModel = [[MenuModel alloc] initWithMenuType:MenuModelType_Rankings];
     
     self.badgeCell = nil;
     [self.dataSource removeAllObjects];
@@ -91,7 +93,7 @@
         case UserRoleType_CreateTask:
             
         {
-            [self.dataSource addObjectsFromArray:@[createModel, tasklistModel, systemModel, reportModel, repairModel, myHotelModel]];
+            [self.dataSource addObjectsFromArray:@[createModel, tasklistModel, systemModel, reportModel, repairModel, myHotelModel, rankModel]];
         }
             
             break;
@@ -99,7 +101,7 @@
         case UserRoleType_AssignTask:
             
         {
-            [self.dataSource addObjectsFromArray:@[tasklistModel, systemModel, reportModel, repairModel]];
+            [self.dataSource addObjectsFromArray:@[tasklistModel, systemModel, reportModel, repairModel, rankModel]];
         }
             
             break;
@@ -107,7 +109,7 @@
         case UserRoleType_HandleTask:
             
         {
-            [self.dataSource addObjectsFromArray:@[myTaskModel, systemModel, reportModel, repairModel, bindDeviceModel]];
+            [self.dataSource addObjectsFromArray:@[myTaskModel, systemModel, reportModel, repairModel, bindDeviceModel, rankModel]];
         }
             
             break;
@@ -115,7 +117,7 @@
         case UserRoleType_LookTask:
             
         {
-            [self.dataSource addObjectsFromArray:@[tasklistModel, systemModel, reportModel, repairModel]];
+            [self.dataSource addObjectsFromArray:@[tasklistModel, systemModel, reportModel, repairModel, rankModel]];
         }
             
             break;
@@ -123,7 +125,7 @@
         case UserRoleType_SingleVersion:
             
         {
-            [self.dataSource addObjectsFromArray:@[singleModel]];
+            [self.dataSource addObjectsFromArray:@[singleModel, rankModel]];
         }
             
             break;
@@ -131,7 +133,7 @@
         case UserRoleType_Inspect:
             
         {
-            [self.dataSource addObjectsFromArray:@[inspectModel]];
+            [self.dataSource addObjectsFromArray:@[inspectModel, rankModel]];
         }
             
             break;
@@ -427,6 +429,13 @@
         {
             MyHotelViewController * vc = [[MyHotelViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case MenuModelType_Rankings:
+        {
+            RankViewController * rank = [[RankViewController alloc] init];
+            [self.navigationController pushViewController:rank animated:YES];
         }
             break;
             

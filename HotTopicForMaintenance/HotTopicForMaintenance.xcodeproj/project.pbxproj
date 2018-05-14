@@ -29,6 +29,9 @@
 		06356D391F5D7B2400242940 /* RDTextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D361F5D7B2400242940 /* RDTextAlertView.m */; };
 		06356D441F5D964900242940 /* HotelIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D431F5D964900242940 /* HotelIndexRequest.m */; };
 		06356D471F5D99C500242940 /* HotelInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */; };
+		064B34A320A9397E00B7D0E4 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064B34A220A9397E00B7D0E4 /* RankViewController.m */; };
+		064B34A920A93A5000B7D0E4 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 064B34A620A93A5000B7D0E4 /* NJKWebViewProgress.m */; };
+		064B34AA20A93A5000B7D0E4 /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 064B34A820A93A5000B7D0E4 /* NJKWebViewProgressView.m */; };
 		0650F38C1FA96ADC0086B794 /* SystemStatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650F38B1FA96ADC0086B794 /* SystemStatusController.m */; };
 		0651E07A2015861000D4E39D /* GetBoxInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651E0792015861000D4E39D /* GetBoxInfoRequest.m */; };
 		0651E07D2015D40400D4E39D /* OneKeyCheckRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651E07C2015D40400D4E39D /* OneKeyCheckRequest.m */; };
@@ -239,6 +242,12 @@
 		06356D431F5D964900242940 /* HotelIndexRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelIndexRequest.m; sourceTree = "<group>"; };
 		06356D451F5D99C500242940 /* HotelInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelInfoTableViewCell.h; sourceTree = "<group>"; };
 		06356D461F5D99C500242940 /* HotelInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelInfoTableViewCell.m; sourceTree = "<group>"; };
+		064B34A120A9397E00B7D0E4 /* RankViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
+		064B34A220A9397E00B7D0E4 /* RankViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RankViewController.m; sourceTree = "<group>"; };
+		064B34A520A93A5000B7D0E4 /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgressView.h; sourceTree = "<group>"; };
+		064B34A620A93A5000B7D0E4 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
+		064B34A720A93A5000B7D0E4 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgress.h; sourceTree = "<group>"; };
+		064B34A820A93A5000B7D0E4 /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgressView.m; sourceTree = "<group>"; };
 		0650F38A1FA96ADC0086B794 /* SystemStatusController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemStatusController.h; sourceTree = "<group>"; };
 		0650F38B1FA96ADC0086B794 /* SystemStatusController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SystemStatusController.m; sourceTree = "<group>"; };
 		0651E0782015861000D4E39D /* GetBoxInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetBoxInfoRequest.h; sourceTree = "<group>"; };
@@ -588,6 +597,8 @@
 				06732F3A200F35F700187E7B /* BoxInfoViewController.m */,
 				06239A6A201070FA0095C92D /* DownLoadListViewController.h */,
 				06239A6B201070FA0095C92D /* DownLoadListViewController.m */,
+				064B34A120A9397E00B7D0E4 /* RankViewController.h */,
+				064B34A220A9397E00B7D0E4 /* RankViewController.m */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -678,6 +689,17 @@
 				0670E1A3201702F40099AB47 /* GetCityListRequest.m */,
 			);
 			path = Hotels;
+			sourceTree = "<group>";
+		};
+		064B34A420A93A5000B7D0E4 /* NJKWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				064B34A520A93A5000B7D0E4 /* NJKWebViewProgressView.h */,
+				064B34A620A93A5000B7D0E4 /* NJKWebViewProgress.m */,
+				064B34A720A93A5000B7D0E4 /* NJKWebViewProgress.h */,
+				064B34A820A93A5000B7D0E4 /* NJKWebViewProgressView.m */,
+			);
+			path = NJKWebViewProgress;
 			sourceTree = "<group>";
 		};
 		0662782F1F61632E00B2B8E8 /* UMessage_Sdk_1.5.0 */ = {
@@ -1128,6 +1150,7 @@
 		06ECDC8A1F596DCD007FBD83 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				064B34A420A93A5000B7D0E4 /* NJKWebViewProgress */,
 				0662782F1F61632E00B2B8E8 /* UMessage_Sdk_1.5.0 */,
 				06B055EE1F5D572500A9CE68 /* Additional */,
 				06B055D21F5D47DE00A9CE68 /* CustomHelper */,
@@ -1542,6 +1565,7 @@
 				06732F41200F4C5C00187E7B /* CheckResultView.m in Sources */,
 				96AA19B61F6025A200C06CE8 /* DamageConfigRequest.m in Sources */,
 				06356D371F5D7B2400242940 /* RDAlertAction.m in Sources */,
+				064B34A320A9397E00B7D0E4 /* RankViewController.m in Sources */,
 				9617A18C1FE7CDED00199D34 /* SingleGetHotelVRequest.m in Sources */,
 				0626DECD1F5EC99F00686790 /* RepairRecordDetailModel.m in Sources */,
 				9617A18F1FE7CE3400199D34 /* SingleRepairAndSignRequest.m in Sources */,
@@ -1623,6 +1647,7 @@
 				06B055EA1F5D4AAC00A9CE68 /* UserModel.m in Sources */,
 				06B055CD1F5D414200A9CE68 /* MBProgressHUD+Custom.m in Sources */,
 				0627850B1FAAEC1C0014BD5F /* AssignViewController.m in Sources */,
+				064B34AA20A93A5000B7D0E4 /* NJKWebViewProgressView.m in Sources */,
 				06338BB51FA1B9A9003775B5 /* AutoEnableView.m in Sources */,
 				066EA5441F5FE45B0054264C /* ErrorReportViewController.m in Sources */,
 				969A3C311FA97A2C00EB95C9 /* InstallAndAcceptViewController.m in Sources */,
@@ -1632,6 +1657,7 @@
 				066EA54B1F5FEDDD0054264C /* ErrorReportTableViewCell.m in Sources */,
 				06B055C91F5D1C4E00A9CE68 /* UserLoginViewController.m in Sources */,
 				06732F3E200F3BC000187E7B /* BoxInfoPlayCell.m in Sources */,
+				064B34A920A93A5000B7D0E4 /* NJKWebViewProgress.m in Sources */,
 				06732F3B200F35F700187E7B /* BoxInfoViewController.m in Sources */,
 				06844D021FAC436900E7A2CD /* DeviceManager.m in Sources */,
 				068CFF01200C992000086407 /* SystemStatusHeaderView.m in Sources */,
@@ -1868,8 +1894,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.maintenance;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "182979bd-00e4-4b3a-90f5-9c77c395e8ac";
-				PROVISIONING_PROFILE_SPECIFIER = Maintenance_Distribution;
+				PROVISIONING_PROFILE = "2f622f24-db22-41e1-9aca-b8a6a52d39fe";
+				PROVISIONING_PROFILE_SPECIFIER = "Maintenance-ADHoc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -275,6 +275,11 @@
         if (self.taskType == TaskType_Install) {
             [self subMitDataRequest];
         }else{
+            if (isEmptyString(self.headDataModel.mobile)) {
+                [MBProgressHUD showTextHUDWithText:@"请填写联系电话" inView:self.view];
+                return;
+            }
+            
             [self upLoadImageData];
         }
     }else{
