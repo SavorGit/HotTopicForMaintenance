@@ -278,6 +278,9 @@
             if (isEmptyString(self.headDataModel.mobile)) {
                 [MBProgressHUD showTextHUDWithText:@"请填写联系电话" inView:self.view];
                 return;
+            }else if (self.headDataModel.mobile.length != 11){
+                [MBProgressHUD showTextHUDWithText:@"请填写11位的联系电话" inView:self.view];
+                return;
             }
             
             [self upLoadImageData];

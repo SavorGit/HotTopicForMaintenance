@@ -107,6 +107,7 @@
         make.top.mas_equalTo(insTitleLab.mas_bottom).offset(15 + 15);
         make.right.mas_equalTo(- 20);
     }];
+    [self.contactField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     UILabel *phoneTitleLab = [[UILabel alloc]init];
     phoneTitleLab.font = [UIFont systemFontOfSize:14];
@@ -124,6 +125,7 @@
     self.phoneField.text = @"俏江南";
     self.phoneField.tag = 6001;
     self.phoneField.delegate = self;
+    self.phoneField.keyboardType = UIKeyboardTypeNumberPad;
     self.phoneField.font = [UIFont systemFontOfSize:14];
     self.phoneField.textAlignment = NSTextAlignmentRight;
     [self addSubview:self.phoneField];
@@ -132,6 +134,7 @@
         make.top.mas_equalTo(contactTitleLab.mas_bottom).offset(15 + 15);
         make.right.mas_equalTo(- 20);
     }];
+    [self.phoneField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     UILabel *addressTitleLab = [[UILabel alloc]init];
     addressTitleLab.font = [UIFont systemFontOfSize:14];
@@ -157,6 +160,7 @@
         make.top.mas_equalTo(phoneTitleLab.mas_bottom).offset(15 + 15);
         make.right.mas_equalTo(- 20);
     }];
+    [self.addressField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     UILabel *taskStateTitleLab = [[UILabel alloc]init];
     taskStateTitleLab.font = [UIFont systemFontOfSize:14];
@@ -343,6 +347,17 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.tag == 6000) {
+        self.repairModel.contractor = textField.text;
+    }else if (textField.tag == 6001){
+        self.repairModel.mobile = textField.text;
+    }else if (textField.tag == 6002){
+        self.repairModel.addr = textField.text;
+    }
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
 {
     if (textField.tag == 6000) {
         self.repairModel.contractor = textField.text;
